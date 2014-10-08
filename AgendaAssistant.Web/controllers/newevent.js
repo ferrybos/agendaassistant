@@ -1,9 +1,12 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, eventService) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, stationsFactory, eventService, flightService) {
     $scope.constants = Constants;
-       
+    $scope.homeStations = stationsFactory.homeStations;
+    $scope.departureStations = stationsFactory.departureStations;
+    
     // Participants
     $scope.newParticipantName = "";
     $scope.newParticipantEmail = "";
+    $scope.outboundFlights = null;
     
     getNewEvent();
 
@@ -14,6 +17,9 @@
             .success(function (data) {
                 $log.log("Event = " + JSON.stringify(data));
                 $scope.event = data;
+
+                $scope.event.OutboundFlightSearch.BeginDate = new Date();
+                $scope.event.OutboundFlightSearch.EndDate = new Date();
             })
             .error(function (error) {
                 $scope.status = 'Unable to create new event: ' + error.message;
@@ -52,8 +58,40 @@
     };
 
     $scope.AddParticipantInternal = function(name, email) {
-        $log.log("Add participant: name=" + name + ", email=" + email);
         $scope.event.Participants.push({ name: name, email: email });
-        $log.log("Participants = " + JSON.stringify($scope.event.Participants));
     };
+    
+    $scope.SearchOutboundFlights = function () {
+        $log.log("Search: " + $scope.event.OutboundFlightSearch.DepartureStation + "-" + $scope.event.OutboundFlightSearch.ArrivalStation + " " + $scope.event.OutboundFlightSearch.BeginDate + " " + $scope.event.OutboundFlightSearch.EndDate);
+        getOutboundFlights();
+    };
+    
+    function getOutboundFlights() {
+        $log.log('NewEventCtrl: getOutboundFlights');
+
+        flightService.getFlights()
+            .success(function (data) {
+                $log.log("Outbound flights = " + JSON.stringify(data));
+                $scope.outboundFlights = data;
+            })
+            .error(function (error) {
+                $scope.status = 'Unable to retrieve flights: ' + error.message;
+                $scope.outboundFlights = null;
+            });
+    }
+
+    // DatePicker stuff
+    $scope.open = function ($event, opened) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        $scope[opened] = true;
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+    };
+
+    $scope.format = 'dd-MMM-yyyy';
 });

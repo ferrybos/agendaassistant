@@ -4,7 +4,6 @@
     var urlBase = '/api/event';
 
     this.getNewEvent = function () {
-        console.log('eventService.getNewEvent');
         return $http.get(urlBase + '/0');
     };
 

@@ -99,6 +99,14 @@ div#contentFooter {
     margin-right: 0px;
 }
 
+.glyphicon-arrow-left, .glyphicon-search, .glyphicon-plus, .glyphicon-ok {
+    margin-right: 4px;
+}
+
+.glyphicon-arrow-right {
+    margin-left: 4px;
+}
+
 /* Large desktop */
 @media (min-width: 1200px) {
 
