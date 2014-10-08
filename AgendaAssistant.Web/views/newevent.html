@@ -1,0 +1,109 @@
+﻿<div id="wrapper">
+    <h1 class="page-header">{{constants.newEventTitle}}</h1>
+    <div id="content">
+        <ul id="step_headers">
+            <li id="step_event" ng-class="{active: CurrentStepIndex == 1}" ng-click="SelectStep(1)">1. Afspraak</li>
+            <li id="step_participants" ng-class="{active: CurrentStepIndex == 2}" ng-click="SelectStep(2)" ng-disabled="eventForm.$invalid">2. Deelnemers</li>
+            <li id="step_outbound" ng-class="{active: CurrentStepIndex == 3}" ng-click="SelectStep(3)">3. Heen</li>
+            <li id="step_inbound" ng-class="{active: CurrentStepIndex == 4}" ng-click="SelectStep(4)">4. Terug</li>
+        </ul>
+
+        <div id="steps">
+            <div id="content_step_event" ng-show="CurrentStepIndex == 1">
+                <form name="eventForm" novalidate="novalidate">
+                    <!--<label class="control-label" for="evn_title">Titel</label>-->
+                    <input type="text" name="evn_title" id="evt_title" maxlength="50" autocomplete="off" class="form-control" placeholder="Titel" style="width: 100%" ng-model="event.Title" required />
+                    <!--<label class="control-label" for="evn_description">Omschrijving</label>-->
+                    <textarea name="evn_description" id="evn_description" style="width: 100%" rows="4" class="form-control" placeholder="Omschrijving" ng-model="event.Description"></textarea>
+                    <h4>Organisator</h4>
+                    <input type="email" name="evn_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Uw emailadres" style="width: 100%" ng-model="event.Organizer.Email" required />
+                    <input type="text" name="evn_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Uw naam" style="width: 100%" ng-model="event.Organizer.Name" required />
+                    <div class="tab_navigation">
+                        <button type="button" class="btn btn-lg btn-link" style="float: left" id="cancelButton" ng-click="CancelNewEvent()">Annuleren</button>
+                        <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(2)" ng-disabled="eventForm.$invalid">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
+                <form name="participantsForm" novalidate="novalidate">
+                    <input type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" ng-model="newParticipantName" required />
+                    <input type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" ng-model="newParticipantEmail" required />
+                    <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="AddParticipant()"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
+                </form>
+                <h4>Deelnemers ({{event.Participants.length}})</h4>
+                <div class="list-group">
+                    <a ng-repeat="participant in event.Participants" class="list-group-item animated" style="cursor: pointer">
+                        <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right"><span class="glyphicon glyphicon-minus"></span></button>
+                        <h4 class="list-group-item-heading">{{participant.name}}</h4>
+                        <p class="list-group-item-text">{{participant.email}}</p>
+                    </a>
+                </div>
+                <div class="tab_navigation">
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(1)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige2</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(3)" ng-disabled="event.Participants.length == 0">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
+
+            <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
+                <h4>Selecteer vluchten</h4>
+                <div class="row" id="outboundOriginDestination">
+                    <div class="col-xs-6" style="padding-left: 0px;">
+                        <label class="control-label" for="outbound_departurestation">Vertrek</label>
+                        <select id="outbound_departurestation" class="form-control" ng-model="event.OutboundFlightSearch.DepartureStation">
+                            <option value="ams">Amsterdam (AMS)</option>
+                            <option value="rtm">Rotterdam (RTM)</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6" style="padding-right: 0px">
+                        <label class="control-label" for="outbound_arrivalstation">Aankomst</label>
+                        <select id="outbound_arrivalstation" class="form-control" ng-model="event.OutboundFlightSearch.ArrivalStation">
+                            <option value="aga">Agadir (AGA)</option>
+                            <option value="bcn">Barcelona (BCN)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" id="outboundBeginEndDate">
+                    <div class="col-xs-6" style="padding-left: 0px;">
+                        <label class="control-label" for="outbound_begindate">Begin datum</label>
+                        <div ng-controller="DatepickerDemoCtrl">
+                            <div class="input-group">
+                                <input type="text" id="outbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" style="padding-right: 0px">
+                        <label class="control-label" for="outbound_begindate">Eind datum</label>
+                        <div ng-controller="DatepickerDemoCtrl">
+                            <div class="input-group">
+                                <input type="text" id="outbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchFlights()"><span class="glyphicon glyphicon-search" style="margin-right: 4px"></span>Zoek vluchten</button>
+
+                <div class="tab_navigation">
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(2)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(4)">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
+
+            <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
+                Flights
+                <div class="tab_navigation">
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(3)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

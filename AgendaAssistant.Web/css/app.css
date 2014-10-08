@@ -1,0 +1,124 @@
+﻿body {
+}
+
+ul {
+    list-style: none;
+    padding: 0px;
+}
+
+h1, h4 {
+    color: #84b70b;
+}
+
+.page-header {
+    margin-top: 20px;
+    /*color: #84b70b;*/
+}
+
+.tab_navigation {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.form-control {
+    margin-top: 4px;
+}
+
+.control-label {
+    margin-top: 4px;
+    font-weight: normal;
+    color: #555;
+}
+
+div#wrapper {
+    padding: 4px;
+}
+
+#cancelButton {
+    color: gray;
+}
+
+div#contentFooter {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+/*NewEvent*/
+#step_headers {
+    overflow: hidden;
+}
+
+#step_headers li {
+    float: left;
+    margin-right: 4px;
+    /*font-size: 14px;*/
+    cursor: pointer;
+    color: rgb(153, 153, 153);
+
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 4px 10px 4px 10px;
+}
+
+#step_headers li:last-child {
+    margin-right: 0px;
+}
+
+#step_headers li.active {
+    /*color: #0397D6;*/
+    color: rgb(70, 136, 71);
+    border: 1px solid rgb(214, 233, 198);
+    background-color: rgb(223, 240, 216);
+}
+
+.list-group-item {
+    -webkit-transition: color 0.6s, background-color 0.3s;
+    -moz-transition: color 0.6s, background-color 0.3s;
+    -ms-transition: color 0.6s, background-color 0.3s;
+    transition: color 0.6s, background-color 0.3s;
+}
+
+.list-group-item.ng-enter {
+    -webkit-animation: fadeIn 0.5s;
+    -moz-animation: fadeIn 0.5s;
+    -ms-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+  }
+
+.list-group-item.ng-leave {
+    -webkit-animation: fadeOut 0.3s;
+    -moz-animation: fadeOut 0.3s;
+    -ms-animation: fadeOut 0.3s;
+    animation: fadeOut 0.3s;
+  }
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+
+
+}
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+
+
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+
+}
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+    #step_headers li {
+        padding: 4px 8px 4px 8px;
+    }
+}

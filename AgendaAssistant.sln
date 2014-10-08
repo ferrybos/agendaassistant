@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Web", "AgendaAssistant.Web\AgendaAssistant.Web.csproj", "{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Entities", "AgendaAssistant.Entities\AgendaAssistant.Entities.csproj", "{CA95586A-1C6D-457F-BAE4-C0707D603633}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Services", "AgendaAssistant.Services\AgendaAssistant.Services.csproj", "{54C07956-CC9D-4B6B-9BAB-7496F48630BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Repositories", "AgendaAssistant.Repositories\AgendaAssistant.Repositories.csproj", "{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfsat.dev.transavia.com/tfs/transaviadcc
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = AgendaAssistant.Web\\AgendaAssistant.Web.csproj
+		SccProjectName1 = AgendaAssistant.Web
+		SccLocalPath1 = AgendaAssistant.Web
+		SccProjectUniqueName2 = AgendaAssistant.Entities\\AgendaAssistant.Entities.csproj
+		SccProjectName2 = AgendaAssistant.Entities
+		SccLocalPath2 = AgendaAssistant.Entities
+		SccProjectUniqueName3 = AgendaAssistant.Services\\AgendaAssistant.Services.csproj
+		SccProjectName3 = AgendaAssistant.Services
+		SccLocalPath3 = AgendaAssistant.Services
+		SccProjectUniqueName4 = AgendaAssistant.Repositories\\AgendaAssistant.Repositories.csproj
+		SccProjectName4 = AgendaAssistant.Repositories
+		SccLocalPath4 = AgendaAssistant.Repositories
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA95586A-1C6D-457F-BAE4-C0707D603633}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA95586A-1C6D-457F-BAE4-C0707D603633}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA95586A-1C6D-457F-BAE4-C0707D603633}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA95586A-1C6D-457F-BAE4-C0707D603633}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54C07956-CC9D-4B6B-9BAB-7496F48630BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54C07956-CC9D-4B6B-9BAB-7496F48630BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54C07956-CC9D-4B6B-9BAB-7496F48630BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54C07956-CC9D-4B6B-9BAB-7496F48630BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
