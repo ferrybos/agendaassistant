@@ -7,19 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgendaAssistant.Repositories
+namespace AgendaAssistant.DB
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Availability
+    public partial class Comment
     {
+        public long ID { get; set; }
+        public long EventID { get; set; }
         public long PersonID { get; set; }
-        public long FlightID { get; set; }
-        public short Value { get; set; }
-        public string Comment { get; set; }
+        public System.DateTime CreatedUtc { get; set; }
+        public string Comment1 { get; set; }
     
-        public virtual Flight Flight { get; set; }
+        public virtual Event Event { get; set; }
         public virtual Person Person { get; set; }
     }
 }

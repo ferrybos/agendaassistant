@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
-using Newtonsoft.Json.Serialization;
+using AgendaAssistant.Web.Startup;
 
 namespace AgendaAssistant.Web
 {
@@ -17,18 +17,8 @@ namespace AgendaAssistant.Web
     {
         protected void Application_Start(object sender, EventArgs e)
         {
-            GlobalConfiguration.Configure(config =>
-            {
-                // Enable http attribute routes
-                config.MapHttpAttributeRoutes();
-
-                // Remove xml formatter, we only support json
-                config.Formatters.Clear();
-                config.Formatters.Add(new JsonMediaTypeFormatter());
-
-                // Setup json formatter to use camelcasing even when responses are pascal cased
-                config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            });
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            StructureMapConfig.Register();
         }
     }
 }

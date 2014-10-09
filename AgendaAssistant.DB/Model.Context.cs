@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgendaAssistant.Repositories
+namespace AgendaAssistant.DB
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AgendaAssistantEntities : DbContext
+    public partial class AgendaAssistantDevEntities : DbContext
     {
-        public AgendaAssistantEntities()
-            : base("name=AgendaAssistantEntities")
+        public AgendaAssistantDevEntities()
+            : base("name=AgendaAssistantDevEntities")
         {
         }
     

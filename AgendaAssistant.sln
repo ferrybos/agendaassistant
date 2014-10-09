@@ -9,25 +9,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Services", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Repositories", "AgendaAssistant.Repositories\AgendaAssistant.Repositories.csproj", "{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9C8F87B5-0E9A-4800-BD71-CF1483F6461D}"
+	ProjectSection(SolutionItems) = preProject
+		Common\ESB_API_34.dll = Common\ESB_API_34.dll
+		Common\HVUtil.dll = Common\HVUtil.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Tests", "AgendaAssistant.Tests\AgendaAssistant.Tests.csproj", "{49D97F65-12AB-414F-A494-A31E6E9E5980}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.DB", "AgendaAssistant.DB\AgendaAssistant.DB.csproj", "{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfsat.dev.transavia.com/tfs/transaviadcc
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AgendaAssistant.Web\\AgendaAssistant.Web.csproj
-		SccProjectName1 = AgendaAssistant.Web
-		SccLocalPath1 = AgendaAssistant.Web
-		SccProjectUniqueName2 = AgendaAssistant.Entities\\AgendaAssistant.Entities.csproj
-		SccProjectName2 = AgendaAssistant.Entities
-		SccLocalPath2 = AgendaAssistant.Entities
-		SccProjectUniqueName3 = AgendaAssistant.Services\\AgendaAssistant.Services.csproj
-		SccProjectName3 = AgendaAssistant.Services
-		SccLocalPath3 = AgendaAssistant.Services
-		SccProjectUniqueName4 = AgendaAssistant.Repositories\\AgendaAssistant.Repositories.csproj
-		SccProjectName4 = AgendaAssistant.Repositories
-		SccLocalPath4 = AgendaAssistant.Repositories
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -49,6 +41,14 @@ Global
 		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49D97F65-12AB-414F-A494-A31E6E9E5980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49D97F65-12AB-414F-A494-A31E6E9E5980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49D97F65-12AB-414F-A494-A31E6E9E5980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49D97F65-12AB-414F-A494-A31E6E9E5980}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

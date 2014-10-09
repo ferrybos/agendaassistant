@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgendaAssistant.Repositories
+namespace AgendaAssistant.DB
 {
     using System;
     using System.Collections.Generic;

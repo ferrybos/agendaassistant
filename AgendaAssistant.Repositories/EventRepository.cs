@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace AgendaAssistant.Repositories
 {
-    public class EventRepository
+    public interface IEventRepository
+    {
+    }
+
+    public class EventRepository : IEventRepository
     {
     }
 }

@@ -256,7 +256,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AgendaAssistantModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="AgendaAssistantEntities" p1:LazyLoadingEnabled="true">
+        <EntityContainer Name="AgendaAssistantDevEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Availabilities" EntityType="AgendaAssistantModel.Availability" />
           <EntitySet Name="Comments" EntityType="AgendaAssistantModel.Comment" />
           <EntitySet Name="Events" EntityType="AgendaAssistantModel.Event" />
@@ -492,7 +492,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AgendaAssistantModelStoreContainer" CdmEntityContainer="AgendaAssistantEntities">
+        <EntityContainerMapping StorageEntityContainer="AgendaAssistantModelStoreContainer" CdmEntityContainer="AgendaAssistantDevEntities">
           <EntitySetMapping Name="Availabilities">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Availability">
               <MappingFragment StoreEntitySet="Availability">

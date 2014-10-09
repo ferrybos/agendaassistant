@@ -3,17 +3,16 @@
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
     
-    // Participants
+    // Participants default
     $scope.newParticipantName = "";
     $scope.newParticipantEmail = "";
+    // Flights default
     $scope.outboundFlights = null;
     $scope.inboundFlights = null;
     
     getNewEvent();
 
     function getNewEvent() {
-        $log.log('NewEventCtrl: getNewEvent');
-
         eventService.getNewEvent()
             .success(function (data) {
                 $log.log("Event = " + JSON.stringify(data));
