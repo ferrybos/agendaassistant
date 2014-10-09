@@ -7,6 +7,7 @@
     $scope.newParticipantName = "";
     $scope.newParticipantEmail = "";
     $scope.outboundFlights = null;
+    $scope.inboundFlights = null;
     
     getNewEvent();
 
@@ -18,8 +19,14 @@
                 $log.log("Event = " + JSON.stringify(data));
                 $scope.event = data;
 
-                $scope.event.OutboundFlightSearch.BeginDate = new Date();
-                $scope.event.OutboundFlightSearch.EndDate = new Date();
+                $scope.event.outboundFlightSearch.departureStation = "AMS";
+                $scope.event.outboundFlightSearch.arrivalStation = "BCN";
+                $scope.event.outboundFlightSearch.beginDate = new Date();
+                $scope.event.outboundFlightSearch.endDate = new Date();
+                $scope.event.inboundFlightSearch.departureStation = "BCN";
+                $scope.event.inboundFlightSearch.arrivalStation = "AMS";
+                $scope.event.inboundFlightSearch.beginDate = new Date();
+                $scope.event.inboundFlightSearch.endDate = new Date();
             })
             .error(function (error) {
                 $scope.status = 'Unable to create new event: ' + error.message;
@@ -28,7 +35,7 @@
     }
 
     $scope.CreateEvent = function () {
-        $log.log("Create event: " + $scope.event.Title);
+        $log.log("Create event: " + $scope.event.title);
         $location.path("/event/1");
     };
 
@@ -41,7 +48,7 @@
     $scope.SelectStep = function (stepIndex) {
         if (stepIndex == 2 && !$scope.isOrganizerAddedToParticipants) {           
             // Add organizer to participants list           
-            $scope.AddParticipantInternal($scope.event.Organizer.Name, $scope.event.Organizer.Email);
+            $scope.AddParticipantInternal($scope.event.organizer.name, $scope.event.organizer.email);
             $scope.isOrganizerAddedToParticipants = true;
         }
 
@@ -54,29 +61,48 @@
     };
 
     $scope.DeleteParticipant = function(index) {
-        $scope.event.Participants.splice(index, 1);
+        $scope.event.participants.splice(index, 1);
     };
 
     $scope.AddParticipantInternal = function(name, email) {
-        $scope.event.Participants.push({ name: name, email: email });
+        $scope.event.participants.push({ name: name, email: email });
     };
     
     $scope.SearchOutboundFlights = function () {
-        $log.log("Search: " + $scope.event.OutboundFlightSearch.DepartureStation + "-" + $scope.event.OutboundFlightSearch.ArrivalStation + " " + $scope.event.OutboundFlightSearch.BeginDate + " " + $scope.event.OutboundFlightSearch.EndDate);
-        getOutboundFlights();
+        $log.log("Search: " + JSON.stringify($scope.event.outboundFlightSearch));
+        getOutboundFlights($scope.event.outboundFlightSearch);
     };
     
-    function getOutboundFlights() {
+    $scope.SearchInboundFlights = function () {
+        $log.log("Search: " + JSON.stringify($scope.event.inboundFlightSearch));
+        getInboundFlights($scope.event.inboundFlightSearch);
+    };
+    
+    function getOutboundFlights(flightSearch) {
         $log.log('NewEventCtrl: getOutboundFlights');
 
-        flightService.getFlights()
+        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate)
             .success(function (data) {
-                $log.log("Outbound flights = " + JSON.stringify(data));
+                $log.log("Flights = " + JSON.stringify(data));
                 $scope.outboundFlights = data;
             })
             .error(function (error) {
                 $scope.status = 'Unable to retrieve flights: ' + error.message;
                 $scope.outboundFlights = null;
+            });
+    }
+    
+    function getInboundFlights(flightSearch) {
+        $log.log('NewEventCtrl: getInboundFlights');
+
+        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate)
+            .success(function (data) {
+                $log.log("Flights = " + JSON.stringify(data));
+                $scope.inboundFlights = data;
+            })
+            .error(function (error) {
+                $scope.status = 'Unable to retrieve flights: ' + error.message;
+                $scope.inboundFlights = null;
             });
     }
 

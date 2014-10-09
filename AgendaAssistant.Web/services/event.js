@@ -1,5 +1,5 @@
-﻿app.service('eventService', ['$http', function ($http) {
-    console.log('eventService');
+﻿app.service('eventService', ['$http', '$log', function ($http, $log) {
+    $log.log('eventService');
 
     var urlBase = '/api/event';
 

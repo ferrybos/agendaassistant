@@ -12,12 +12,12 @@
             <div id="content_step_event" ng-show="CurrentStepIndex == 1">
                 <form name="eventForm" novalidate="novalidate">
                     <!--<label class="control-label" for="evn_title">Titel</label>-->
-                    <input type="text" name="evn_title" id="evt_title" maxlength="50" autocomplete="off" class="form-control" placeholder="Titel" style="width: 100%" ng-model="event.Title" required />
+                    <input type="text" name="evn_title" id="evt_title" maxlength="50" autocomplete="off" class="form-control" placeholder="Titel" style="width: 100%" ng-model="event.title" required />
                     <!--<label class="control-label" for="evn_description">Omschrijving</label>-->
-                    <textarea name="evn_description" id="evn_description" style="width: 100%" rows="4" class="form-control" placeholder="Omschrijving" ng-model="event.Description"></textarea>
+                    <textarea name="evn_description" id="evn_description" style="width: 100%" rows="4" class="form-control" placeholder="Omschrijving" ng-model="event.description"></textarea>
                     <h4>Organisator</h4>
-                    <input type="email" name="evn_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Uw emailadres" style="width: 100%" ng-model="event.Organizer.Email" required />
-                    <input type="text" name="evn_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Uw naam" style="width: 100%" ng-model="event.Organizer.Name" required />
+                    <input type="email" name="evn_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Uw emailadres" style="width: 100%" ng-model="event.organizer.email" required />
+                    <input type="text" name="evn_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Uw naam" style="width: 100%" ng-model="event.organizer.name" required />
                     <div class="tab_navigation">
                         <button type="button" class="btn btn-lg btn-link" style="float: left" id="cancelButton" ng-click="CancelNewEvent()">Annuleren</button>
                         <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(2)" ng-disabled="eventForm.$invalid">Volgende <span class="glyphicon glyphicon-arrow-right" style="margin-left:4px"></span></button>
@@ -31,9 +31,9 @@
                     <input type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" ng-model="newParticipantEmail" required />
                     <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="AddParticipant()"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
                 </form>
-                <h4>Deelnemers ({{event.Participants.length}})</h4>
+                <h4>Deelnemers ({{event.participants.length}})</h4>
                 <div class="list-group">
-                    <a ng-repeat="participant in event.Participants" class="list-group-item animated" style="cursor: pointer">
+                    <a ng-repeat="participant in event.participants" class="list-group-item animated" style="cursor: pointer">
                         <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right"><span class="glyphicon glyphicon-minus"></span></button>
                         <h4 class="list-group-item-heading">{{participant.name}}</h4>
                         <p class="list-group-item-text">{{participant.email}}</p>
@@ -50,13 +50,13 @@
                 <div class="row" id="outboundOriginDestination">
                     <div class="col-xs-6" style="padding-left: 0px;">
                         <label class="control-label" for="outbound_departurestation">Vertrek</label>
-                        <select id="outbound_departurestation" class="form-control" ng-model="event.OutboundFlightSearch.DepartureStation">
+                        <select id="outbound_departurestation" class="form-control" ng-model="event.outboundFlightSearch.departureStation">
                             <option ng-repeat="station in homeStations" value="{{station.code}}">{{station.name}}</option>
                         </select>
                     </div>
                     <div class="col-xs-6" style="padding-right: 0px">
                         <label class="control-label" for="outbound_arrivalstation">Aankomst</label>
-                        <select id="outbound_arrivalstation" class="form-control" ng-model="event.OutboundFlightSearch.ArrivalStation">
+                        <select id="outbound_arrivalstation" class="form-control" ng-model="event.outboundFlightSearch.arrivalStation">
                             <option ng-repeat="station in departureStations" value="{{station.code}}">{{station.name}}</option>
                         </select>
                     </div>
@@ -67,7 +67,7 @@
                         <label class="control-label" for="outbound_begindate">Begin datum</label>
                         <div>
                             <div class="input-group">
-                                <input type="text" id="outbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.OutboundFlightSearch.BeginDate" is-open="outbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                <input type="text" id="outbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.beginDate" is-open="outbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event,'outbound_begindate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -78,7 +78,7 @@
                         <label class="control-label" for="outbound_begindate">Eind datum</label>
                         <div>
                             <div class="input-group">
-                                <input type="text" id="outbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.OutboundFlightSearch.EndDate" is-open="outbound_enddate_opened" min-date="{{event.OutboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
+                                <input type="text" id="outbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.endDate" is-open="outbound_enddate_opened" min-date="{{event.outboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event, 'outbound_enddate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -93,8 +93,8 @@
 
                 <div class="list-group">
                     <a ng-repeat="flight in outboundFlights" class="list-group-item animated" style="cursor: pointer">
-                        <h4 class="list-group-item-heading">{{flight.CarrierCode}}{{flight.FlightNumber}} {{flight.Price}} EUR</h4>
-                        <p class="list-group-item-text">{{flight.STD}}-{{flight.STA}}</p>
+                        <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                        <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
                     </a>
                 </div>
 
@@ -103,9 +103,61 @@
                     <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(4)">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
                 </div>
             </div>
-
+            
+            <!--Step 4: Inbound flight search-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
-                Flights
+                <h4>Selecteer vluchten</h4>
+                <div class="row" id="inboundOriginDestination">
+                    <div class="col-xs-6" style="padding-left: 0px;">
+                        <label class="control-label" for="inbound_departurestation">Vertrek</label>
+                        <select id="inbound_departurestation" class="form-control" ng-model="event.inboundFlightSearch.departureStation">
+                            <option ng-repeat="station in departureStations" value="{{station.code}}">{{station.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-6" style="padding-right: 0px">
+                        <label class="control-label" for="inbound_arrivalstation">Aankomst</label>
+                        <select id="inbound_arrivalstation" class="form-control" ng-model="event.inboundFlightSearch.arrivalStation">
+                            <option ng-repeat="station in homeStations" value="{{station.code}}">{{station.name}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row" id="inboundBeginEndDate">
+                    <div class="col-xs-6" style="padding-left: 0px;">
+                        <label class="control-label" for="inbound_begindate">Begin datum</label>
+                        <div>
+                            <div class="input-group">
+                                <input type="text" id="inbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.beginDate" is-open="inbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event,'inbound_begindate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" style="padding-right: 0px">
+                        <label class="control-label" for="inbound_enddate">Eind datum</label>
+                        <div>
+                            <div class="input-group">
+                                <input type="text" id="inbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.endDate" is-open="inbound_enddate_opened" min-date="{{event.inboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event, 'inbound_enddate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchInboundFlights()"><span class="glyphicon glyphicon-search"></span>Zoek vluchten</button>
+                
+                <h4>Beschikbare vluchten</h4>
+
+                <div class="list-group">
+                    <a ng-repeat="flight in inboundFlights" class="list-group-item animated" style="cursor: pointer">
+                        <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                        <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
+                    </a>
+                </div>
+                
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(3)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>

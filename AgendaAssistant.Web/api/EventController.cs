@@ -8,15 +8,11 @@ using AgendaAssistant.Entities;
 
 namespace AgendaAssistant.Web.api
 {
+    [RoutePrefix("api/event")]
     public class EventController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/<controller>/5
+        [Route("{id}")]
         public Event Get(int id)
         {
             if (id == 0)
