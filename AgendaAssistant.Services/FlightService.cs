@@ -10,7 +10,7 @@ namespace AgendaAssistant.Services
 {
     public interface IFlightService
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate);
+        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount);
     }
 
     public class FlightService : IFlightService
@@ -22,9 +22,9 @@ namespace AgendaAssistant.Services
             _repository = repository;
         }
 
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate)
+        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount)
         {
-            return _repository.Search(departureStation, arrivalStation, beginDate, endDate);
+            return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount);
         }
     }
 }

@@ -77,10 +77,14 @@
         getInboundFlights($scope.event.inboundFlightSearch);
     };
     
+    function paxCount() {
+        return $scope.event.participants.length;
+    }
+
     function getOutboundFlights(flightSearch) {
         $log.log('NewEventCtrl: getOutboundFlights');
 
-        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate)
+        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
             .success(function (data) {
                 $log.log("Flights = " + JSON.stringify(data));
                 $scope.outboundFlights = data;
@@ -94,7 +98,7 @@
     function getInboundFlights(flightSearch) {
         $log.log('NewEventCtrl: getInboundFlights');
 
-        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate)
+        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
             .success(function (data) {
                 $log.log("Flights = " + JSON.stringify(data));
                 $scope.inboundFlights = data;

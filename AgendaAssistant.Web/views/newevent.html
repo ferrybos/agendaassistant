@@ -20,7 +20,7 @@
                     <input type="text" name="evn_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Uw naam" style="width: 100%" ng-model="event.organizer.name" required />
                     <div class="tab_navigation">
                         <button type="button" class="btn btn-lg btn-link" style="float: left" id="cancelButton" ng-click="CancelNewEvent()">Annuleren</button>
-                        <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(2)" ng-disabled="eventForm.$invalid">Volgende <span class="glyphicon glyphicon-arrow-right" style="margin-left:4px"></span></button>
+                        <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(2)" ng-disabled="eventForm.$invalid">Volgende <span class="glyphicon glyphicon-arrow-right" style="margin-left: 4px"></span></button>
                     </div>
                 </form>
             </div>
@@ -67,7 +67,7 @@
                         <label class="control-label" for="outbound_begindate">Begin datum</label>
                         <div>
                             <div class="input-group">
-                                <input type="text" id="outbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.beginDate" is-open="outbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                <input type="date" id="outbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.beginDate" is-open="outbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event,'outbound_begindate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -78,7 +78,7 @@
                         <label class="control-label" for="outbound_begindate">Eind datum</label>
                         <div>
                             <div class="input-group">
-                                <input type="text" id="outbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.endDate" is-open="outbound_enddate_opened" min-date="{{event.outboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
+                                <input type="date" id="outbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.endDate" is-open="outbound_enddate_opened" min-date="{{event.outboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event, 'outbound_enddate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -88,7 +88,7 @@
                 </div>
 
                 <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights()"><span class="glyphicon glyphicon-search"></span>Zoek vluchten</button>
-                
+
                 <h4>Beschikbare vluchten</h4>
 
                 <div class="list-group">
@@ -103,7 +103,7 @@
                     <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(4)">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
                 </div>
             </div>
-            
+
             <!--Step 4: Inbound flight search-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
                 <h4>Selecteer vluchten</h4>
@@ -127,7 +127,7 @@
                         <label class="control-label" for="inbound_begindate">Begin datum</label>
                         <div>
                             <div class="input-group">
-                                <input type="text" id="inbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.beginDate" is-open="inbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                                <input type="date" id="inbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.beginDate" is-open="inbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event,'inbound_begindate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -138,7 +138,7 @@
                         <label class="control-label" for="inbound_enddate">Eind datum</label>
                         <div>
                             <div class="input-group">
-                                <input type="text" id="inbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.endDate" is-open="inbound_enddate_opened" min-date="{{event.inboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
+                                <input type="date" id="inbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.endDate" is-open="inbound_enddate_opened" min-date="{{event.inboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="open($event, 'inbound_enddate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -148,16 +148,19 @@
                 </div>
 
                 <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchInboundFlights()"><span class="glyphicon glyphicon-search"></span>Zoek vluchten</button>
-                
-                <h4>Beschikbare vluchten</h4>
 
-                <div class="list-group">
-                    <a ng-repeat="flight in inboundFlights" class="list-group-item animated" style="cursor: pointer">
-                        <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                        <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
-                    </a>
-                </div>
+                <h4>Beschikbare vluchten</h4>
                 
+                <div class="panel panel-default">
+                    <div class="panel-heading">Departure date</div>
+                    <div class="list-group">
+                        <a ng-repeat="flight in inboundFlights" class="list-group-item animated" style="cursor: pointer">
+                            <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                            <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
+                        </a>
+                    </div>
+                </div>
+
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(3)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>

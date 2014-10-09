@@ -21,10 +21,10 @@ namespace AgendaAssistant.Web.api
 
         // Required field should be included in the route
         // Optional fields should be added as query string parameters, for example carrier code or max price
-        [Route("{departureStation}/{arrivalStation}/{beginDate:DateTime}/{endDate:DateTime}")]
-        public List<Flight> Get(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate)
+        [Route("{departureStation}/{arrivalStation}/{beginDate:DateTime}/{endDate:DateTime}/{paxCount}")]
+        public List<Flight> Get(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount)
         {
-            return _service.Search(departureStation, arrivalStation, beginDate, endDate);
+            return _service.Search(departureStation, arrivalStation, beginDate, endDate, paxCount);
         }
     }
 }

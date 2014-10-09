@@ -4,30 +4,63 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.Entities;
+using ESB_API_34;
+using ESB_API_34.API34;
+using ESB_API_34.API34.BookingManager;
 
 namespace AgendaAssistant.Repositories
 {
     public interface IFlightRepository
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate);
+        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount);
     }
 
     public class FlightRepository : IFlightRepository
     {
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate)
+        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount)
         {
-            // todo: call ESB
-            var result = new List<Flight>();
-
-            var totalDays = (endDate - beginDate).TotalDays + 1; // including endDate
-            for (int dayIndex = 0; dayIndex < totalDays; dayIndex++)
+            var esbClient = new EsbApi34();
+            
+            esbClient.LogOn();
+            try
             {
-                var date = beginDate.AddDays(dayIndex);
-                result.Add(new Flight() { DepartureStation = departureStation, ArrivalStation = arrivalStation, CarrierCode = "HV", FlightNumber = 5131, STD = date.AddHours(1), STA = date.AddHours(2), Price = 100 });
-                result.Add(new Flight() { DepartureStation = departureStation, ArrivalStation = arrivalStation, CarrierCode = "HV", FlightNumber = 5135, STD = date.AddHours(5), STA = date.AddHours(6), Price = 120 });
-            }
+                var availabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(departureStation, arrivalStation, beginDate, endDate,
+                                                               carrierCode: null, paxCount: paxCount);
+                var availabilityResponse =
+                    esbClient.BookingManager.GetAvailability(new TripAvailabilityRequest()
+                        {
+                            AvailabilityRequests = new [] {availabilityRequest}
+                        });
 
-            return result; 
+                var journeys = availabilityResponse.Journeys();
+
+                var result = new List<Flight>();
+                foreach (var journey in journeys)
+                {
+                    var availableFare = (AvailableFare)journey.Fares().FirstOrDefault();
+
+                    if (availableFare != null)
+                    {
+                        var segment = journey.Segments[0];
+                        result.Add(new Flight()
+                        {
+                            DepartureStation = segment.DepartureStation,
+                            ArrivalStation = segment.ArrivalStation,
+                            CarrierCode = segment.FlightDesignator.CarrierCode,
+                            FlightNumber = short.Parse(segment.FlightDesignator.FlightNumber),
+                            STD = segment.STD,
+                            STA = segment.STA,
+                            Price = availableFare.SumOfAmount(ChargeType.FarePrice) + availableFare.SumOfAmount(ChargeType.Tax) - availableFare.SumOfAmount(ChargeType.Discount)
+                        });
+                    }
+                }
+
+                return result;
+            }
+            finally
+            {
+                esbClient.LogOut();
+            }
         }
     }
 }
