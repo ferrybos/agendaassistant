@@ -2,14 +2,14 @@
     $scope.constants = Constants;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
-    
+
     // Participants default
     clearParticipantInput();
-    
+
     // Flights default
     $scope.outboundFlights = null;
     $scope.inboundFlights = null;
-    
+
     getNewEvent();
 
     function getNewEvent() {
@@ -48,7 +48,7 @@
         if (stepIndex == 2) {
             $scope.$broadcast('focusParticipantName');
         }
-        if (stepIndex == 2 && !$scope.isOrganizerAddedToParticipants) {           
+        if (stepIndex == 2 && !$scope.isOrganizerAddedToParticipants) {
             // Add organizer to participants list           
             addParticipantInternal($scope.event.organizer.name, $scope.event.organizer.email);
             $scope.isOrganizerAddedToParticipants = true;
@@ -58,20 +58,20 @@
         $log.log("Event = " + JSON.stringify($scope.event));
     };
 
-    $scope.AddParticipant = function() {
+    $scope.AddParticipant = function () {
         addParticipantInternal($scope.newParticipantName, $scope.newParticipantEmail);
         clearParticipantInput();
         $scope.$broadcast('focusParticipantName');
     };
 
-    $scope.DeleteParticipant = function(index) {
+    $scope.DeleteParticipant = function (index) {
         $scope.event.participants.splice(index, 1);
     };
 
     function addParticipantInternal(name, email) {
         $scope.event.participants.push({ name: name, email: email });
     };
-    
+
     function clearParticipantInput() {
         $scope.newParticipantName = "";
         $scope.newParticipantEmail = "";
@@ -81,12 +81,12 @@
         $log.log("Search: " + JSON.stringify($scope.event.outboundFlightSearch));
         getOutboundFlights($scope.event.outboundFlightSearch);
     };
-    
+
     $scope.SearchInboundFlights = function () {
         $log.log("Search: " + JSON.stringify($scope.event.inboundFlightSearch));
         getInboundFlights($scope.event.inboundFlightSearch);
     };
-    
+
     function paxCount() {
         return $scope.event.participants.length;
     }
@@ -104,7 +104,7 @@
                 $scope.outboundFlights = null;
             });
     }
-    
+
     function getInboundFlights(flightSearch) {
         $log.log('NewEventCtrl: getInboundFlights');
 
@@ -119,12 +119,23 @@
             });
     }
 
-    $scope.EnterTestEvent = function() {
+    $scope.EnterTestEvent = function () {
         $scope.event.title = "Weekendje Barcelona";
         $scope.event.description = "Dit is een test";
         $scope.event.organizer.name = "Ferry Bos";
         $scope.event.organizer.email = "ferry.bos@transavia.com";
-    }
+    };
+
+    $scope.IsEventStepValid = function () {
+        return $scope.event != undefined
+            && $scope.event.title != undefined && $scope.event.title != null
+            && $scope.event.organizer.name != undefined && $scope.event.organizer.name != null
+            && $scope.event.organizer.email != undefined && $scope.event.organizer.email != null;
+    };
+
+    $scope.IsParticipantsStepValid = function() {
+        return $scope.event != undefined && $scope.event.participants.length > 0;
+    };
 
     // DatePicker stuff
     $scope.open = function ($event, opened) {

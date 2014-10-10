@@ -94,6 +94,14 @@ div#contentFooter {
     animation: fadeOut 0.3s;
   }
 
+.form-group .help-block {
+  display: none;
+}
+ 
+.form-group.has-error .help-block {
+  display: block;
+}
+
 .row {
     margin-left: 0px;
     margin-right: 0px;
