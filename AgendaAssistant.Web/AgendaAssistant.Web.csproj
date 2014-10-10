@@ -89,6 +89,7 @@
     <Content Include="controllers\newevent.js" />
     <Content Include="css\app.css" />
     <Content Include="Global.asax" />
+    <Content Include="img\ajax-loader.gif" />
     <Content Include="img\delete.png" />
     <Content Include="img\hvlogo.png" />
     <Content Include="js\app.js" />

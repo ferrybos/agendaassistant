@@ -2,6 +2,7 @@
     $scope.constants = Constants;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
+    $scope.isDataLoaded = true;
 
     // Participants default
     clearParticipantInput();
@@ -92,30 +93,33 @@
     }
 
     function getOutboundFlights(flightSearch) {
-        $log.log('NewEventCtrl: getOutboundFlights');
-
+        $scope.isDataLoaded = false;
         flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
             .success(function (data) {
                 $log.log("Flights = " + JSON.stringify(data));
                 $scope.outboundFlights = data;
+                $scope.isDataLoaded = true;
             })
             .error(function (error) {
                 $scope.status = 'Unable to retrieve flights: ' + error.message;
                 $scope.outboundFlights = null;
+                $scope.isDataLoaded = true;
             });
     }
 
     function getInboundFlights(flightSearch) {
-        $log.log('NewEventCtrl: getInboundFlights');
+        $scope.isDataLoaded = false;
 
         flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
             .success(function (data) {
                 $log.log("Flights = " + JSON.stringify(data));
                 $scope.inboundFlights = data;
+                $scope.isDataLoaded = true;
             })
             .error(function (error) {
                 $scope.status = 'Unable to retrieve flights: ' + error.message;
                 $scope.inboundFlights = null;
+                $scope.isDataLoaded = true;
             });
     }
 
