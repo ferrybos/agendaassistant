@@ -1,6 +1,4 @@
 ﻿app.service('flightService', ['$http', '$log', function ($http, $log) {
-    $log.log('flightService');
-
     var urlBase = '/api/flight';
 
     function yyyymmdd(dateIn) {

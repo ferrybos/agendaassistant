@@ -94,6 +94,7 @@
     <Content Include="js\app.js" />
     <Content Include="index.html" />
     <Content Include="js\DatepickerDemoCtrl.js" />
+    <Content Include="js\directives.js" />
     <Content Include="services\constants.js" />
     <Content Include="services\flight.js" />
     <Content Include="services\event.js" />

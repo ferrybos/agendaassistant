@@ -1,6 +1,4 @@
 ﻿app.service('eventService', ['$http', '$log', function ($http, $log) {
-    $log.log('eventService');
-
     var urlBase = '/api/event';
 
     this.getNewEvent = function () {

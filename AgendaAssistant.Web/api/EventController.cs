@@ -19,10 +19,6 @@ namespace AgendaAssistant.Web.api
             {
                 // new event
                 var newEvent = EventFactory.NewEvent();
-                newEvent.Title = "Weekendje Barcelona";
-                newEvent.Description = "Dit is een test";
-                newEvent.Organizer.Name = "Ferry Bos";
-                newEvent.Organizer.Email = "ferry.bos@transavia.com";
                 return newEvent;
             }
             else
