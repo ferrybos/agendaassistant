@@ -1,6 +1,6 @@
-﻿<div style="background: black; opacity: 0.5; top: 0; bottom: 0; right: 0; left: 0; position: absolute; z-index: 1031" ng-if="isDataLoaded !== true">
+﻿<!--<div style="background: black; opacity: 0.5; top: 0; bottom: 0; right: 0; left: 0; position: absolute; z-index: 1031" ng-if="isDataLoaded !== true">
     <img src="img/ajax-loader.gif" alt="" id="loader" />
-</div>
+</div>-->
 <div id="wrapper">
     <h1 class="page-header">{{constants.newEventTitle}}</h1>
     <div id="content">
@@ -107,11 +107,14 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights()"><span class="glyphicon glyphicon-search"></span>Zoek vluchten</button>
-
+                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights()" ng-disabled="isLoading === true">
+                    <span class="glyphicon glyphicon-search"></span>Zoek vluchten
+                </button>
+                
                 <h4>Beschikbare vluchten</h4>
+                <img src="img/ajax-loader.gif" alt="" id="loader" ng-if="isLoading === true" />
 
-                <div class="list-group" ng-if="isDataLoaded === true">
+                <div class="list-group" ng-if="isLoading !== true">
                     <a ng-repeat="flight in outboundFlights" class="list-group-item animated" style="cursor: pointer">
                         <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
                         <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
@@ -167,11 +170,14 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchInboundFlights()"><span class="glyphicon glyphicon-search"></span>Zoek vluchten</button>
+                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchInboundFlights()" ng-disabled="isLoading === true">
+                    <span class="glyphicon glyphicon-search"></span>Zoek vluchten
+                </button>
 
                 <h4>Beschikbare vluchten</h4>
+                <img src="img/ajax-loader.gif" alt="" id="Img1" ng-if="isLoading === true" />
 
-                <div class="panel panel-default" ng-if="isDataLoaded === true">
+                <div class="panel panel-default" ng-if="isLoading !== true">
                     <!--<div class="panel-heading">Departure date</div>-->
                     <div class="list-group">
                         <a ng-repeat="flight in inboundFlights" class="list-group-item animated" style="cursor: pointer">

@@ -111,6 +111,11 @@ div#contentFooter {
     margin-right: 4px;
 }
 
+.loading {
+    margin-right: 4px;
+    background-image: url('../img/ajax-loader.gif'); 
+}
+
 .glyphicon-arrow-right {
     margin-left: 4px;
 }
