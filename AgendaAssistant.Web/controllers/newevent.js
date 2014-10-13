@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, stationsFactory, eventService, eventFactory, flightService) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, stationsFactory, eventFactory, flightService) {
     $scope.constants = Constants;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
@@ -16,7 +16,7 @@
     function getNewEvent() {
         var newEvent = eventFactory.get({ id: 0 }, function () {
             $scope.event = newEvent;
-            
+
             $scope.event.outboundFlightSearch.departureStation = "AMS";
             $scope.event.outboundFlightSearch.arrivalStation = "BCN";
             $scope.event.outboundFlightSearch.beginDate = new Date();
@@ -28,31 +28,16 @@
 
             $log.log("Event = " + JSON.stringify($scope.event));
         });
-        
-        //eventService.getNewEvent()
-        //    .success(function (data) {
-        //        $log.log("Event = " + JSON.stringify(data));
-        //        $scope.event = data;
 
-        //        $scope.event.outboundFlightSearch.departureStation = "AMS";
-        //        $scope.event.outboundFlightSearch.arrivalStation = "BCN";
-        //        $scope.event.outboundFlightSearch.beginDate = new Date();
-        //        $scope.event.outboundFlightSearch.endDate = new Date();
-        //        $scope.event.inboundFlightSearch.departureStation = "BCN";
-        //        $scope.event.inboundFlightSearch.arrivalStation = "AMS";
-        //        $scope.event.inboundFlightSearch.beginDate = new Date();
-        //        $scope.event.inboundFlightSearch.endDate = new Date();
-        //    })
-        //    .error(function (error) {
-        //        $scope.status = 'Unable to create new event: ' + error.message;
-        //        $scope.event = null;
-        //    });
     }
 
     $scope.CreateEvent = function () {
         $log.log("Create event: " + $scope.event.title);
-        $scope.event.$save();
-        $location.path("/event/1");
+        $scope.event.$save(function (newEvent) {
+            // Success
+            //$log.log("save success: " + JSON.stringify(newEvent));
+            $location.path("/event/" + newEvent.eventId);
+        });
     };
 
     $scope.CancelNewEvent = function () {
@@ -72,7 +57,7 @@
         }
 
         $scope.CurrentStepIndex = stepIndex;
-        $log.log("Event = " + JSON.stringify($scope.event));
+        //$log.log("Event = " + JSON.stringify($scope.event));
     };
 
     $scope.AddParticipant = function () {
@@ -153,7 +138,7 @@
             && $scope.event.organizer.email != undefined && $scope.event.organizer.email != null;
     };
 
-    $scope.IsParticipantsStepValid = function() {
+    $scope.IsParticipantsStepValid = function () {
         return $scope.event != undefined && $scope.event.participants.length > 0;
     };
 

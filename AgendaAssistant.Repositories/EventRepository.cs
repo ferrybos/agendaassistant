@@ -24,6 +24,7 @@ namespace AgendaAssistant.Repositories
                 organizerPerson.Email = value.Organizer.Email;
                 db.People.Add(organizerPerson);
 
+                // todo: create unique hashcode to use in email links
                 var dbEvent = db.Events.Create();
                 dbEvent.CreatedUtc = DateTime.UtcNow;
                 dbEvent.Title = value.Title;
@@ -33,10 +34,18 @@ namespace AgendaAssistant.Repositories
                 dbEvent.Person = organizerPerson;
                 db.Events.Add(dbEvent);
 
+                foreach (var participant in value.Participants)
+                {
+                    
+                }
+
                 db.SaveChanges();
+
+                // todo: map dbEvent to Event
+                value.EventId = dbEvent.ID;
             }
 
-            return null;
+            return value;
         }
     }
 }

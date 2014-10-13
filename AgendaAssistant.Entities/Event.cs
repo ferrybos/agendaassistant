@@ -23,7 +23,7 @@ namespace AgendaAssistant.Entities
 
     public class Event
     {
-        public int EventId { get; set; }
+        public long EventId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public Person Organizer { get; set; }
