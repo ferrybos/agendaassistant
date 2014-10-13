@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, stationsFactory, eventService, flightService) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, stationsFactory, eventService, eventFactory, flightService) {
     $scope.constants = Constants;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
@@ -14,28 +14,44 @@
     getNewEvent();
 
     function getNewEvent() {
-        eventService.getNewEvent()
-            .success(function (data) {
-                $log.log("Event = " + JSON.stringify(data));
-                $scope.event = data;
+        var newEvent = eventFactory.get({ id: 0 }, function () {
+            $scope.event = newEvent;
+            
+            $scope.event.outboundFlightSearch.departureStation = "AMS";
+            $scope.event.outboundFlightSearch.arrivalStation = "BCN";
+            $scope.event.outboundFlightSearch.beginDate = new Date();
+            $scope.event.outboundFlightSearch.endDate = new Date();
+            $scope.event.inboundFlightSearch.departureStation = "BCN";
+            $scope.event.inboundFlightSearch.arrivalStation = "AMS";
+            $scope.event.inboundFlightSearch.beginDate = new Date();
+            $scope.event.inboundFlightSearch.endDate = new Date();
 
-                $scope.event.outboundFlightSearch.departureStation = "AMS";
-                $scope.event.outboundFlightSearch.arrivalStation = "BCN";
-                $scope.event.outboundFlightSearch.beginDate = new Date();
-                $scope.event.outboundFlightSearch.endDate = new Date();
-                $scope.event.inboundFlightSearch.departureStation = "BCN";
-                $scope.event.inboundFlightSearch.arrivalStation = "AMS";
-                $scope.event.inboundFlightSearch.beginDate = new Date();
-                $scope.event.inboundFlightSearch.endDate = new Date();
-            })
-            .error(function (error) {
-                $scope.status = 'Unable to create new event: ' + error.message;
-                $scope.event = null;
-            });
+            $log.log("Event = " + JSON.stringify($scope.event));
+        });
+        
+        //eventService.getNewEvent()
+        //    .success(function (data) {
+        //        $log.log("Event = " + JSON.stringify(data));
+        //        $scope.event = data;
+
+        //        $scope.event.outboundFlightSearch.departureStation = "AMS";
+        //        $scope.event.outboundFlightSearch.arrivalStation = "BCN";
+        //        $scope.event.outboundFlightSearch.beginDate = new Date();
+        //        $scope.event.outboundFlightSearch.endDate = new Date();
+        //        $scope.event.inboundFlightSearch.departureStation = "BCN";
+        //        $scope.event.inboundFlightSearch.arrivalStation = "AMS";
+        //        $scope.event.inboundFlightSearch.beginDate = new Date();
+        //        $scope.event.inboundFlightSearch.endDate = new Date();
+        //    })
+        //    .error(function (error) {
+        //        $scope.status = 'Unable to create new event: ' + error.message;
+        //        $scope.event = null;
+        //    });
     }
 
     $scope.CreateEvent = function () {
         $log.log("Create event: " + $scope.event.title);
+        $scope.event.$save();
         $location.path("/event/1");
     };
 

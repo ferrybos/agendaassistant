@@ -10,3 +10,7 @@
         return $http.get(urlBase + '/' + id);
     };
 }]);
+
+app.factory("eventFactory", function ($resource) {
+    return $resource("/api/event/:id");
+});

@@ -13,10 +13,10 @@ namespace AgendaAssistant.DB
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AgendaAssistantDevEntities : DbContext
+    public partial class AgendaAssistantEntities : DbContext
     {
-        public AgendaAssistantDevEntities()
-            : base("name=AgendaAssistantDevEntities")
+        public AgendaAssistantEntities()
+            : base("name=AgendaAssistantEntities")
         {
         }
     

@@ -24,6 +24,8 @@ namespace AgendaAssistant.Web.Startup
                 {
                     c.For<IFlightService>().Use<FlightService>();
                     c.For<IFlightRepository>().Use<FlightRepository>();
+                    c.For<IEventService>().Use<EventService>();
+                    c.For<IEventRepository>().Use<EventRepository>();
                 });
 
             return container;
