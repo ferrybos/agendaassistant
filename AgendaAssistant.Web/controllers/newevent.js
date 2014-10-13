@@ -33,10 +33,10 @@
 
     $scope.CreateEvent = function () {
         $log.log("Create event: " + $scope.event.title);
-        $scope.event.$save(function (newEvent) {
+        $scope.event.$save(function (responseData) {
             // Success
-            //$log.log("save success: " + JSON.stringify(newEvent));
-            $location.path("/event/" + newEvent.eventId);
+            $log.log("save success: " + JSON.stringify(responseData));
+            $location.path("/event/" + responseData.id);
         });
     };
 

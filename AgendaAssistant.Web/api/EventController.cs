@@ -39,15 +39,12 @@ namespace AgendaAssistant.Web.api
         // POST api/<controller>
         [Route("")]
         [HttpPost]
-        public Event CreateNew([FromBody]Event value)
+        public IHttpActionResult CreateNew([FromBody]Event value)
         {
-            //IHttpActionResult
             // create new event
             var createdEvent = _service.CreateNew(value);
 
-            return createdEvent;
-
-            //return Created(string.Format("api/event/{0}", createdEvent.EventId), createdEvent.EventId);
+            return Created(string.Format("api/event/{0}", createdEvent.EventId), Json(new { Id = createdEvent.EventId }).Content);
         }
 
         // PUT api/<controller>/5
