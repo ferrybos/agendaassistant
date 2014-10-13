@@ -32,7 +32,8 @@ namespace AgendaAssistant.Web.api
             else
             {
                 // fetch existing event
-                throw new NotImplementedException();
+                var evt = _service.Get(id);
+                return evt;
             }
         }
 

@@ -21,10 +21,16 @@ namespace AgendaAssistant.Services
         {
             return _repository.CreateNew(value);
         }
+
+        public Event Get(long id)
+        {
+            return _repository.Get(id);
+        }
     }
 
     public interface IEventService
     {
         Event CreateNew(Event value);
+        Event Get(long id);
     }
 }

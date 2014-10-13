@@ -1,3 +1,7 @@
 ﻿<div id="wrapper">
-    <h1 class="page-header">{{Title}}</h1>
+    <h1 class="page-header">{{event.title}}</h1>
+    <p>Georganiseerd door {{event.organizer.name}} ({{event.status}})</p>
+    <div ng-if="!event.isConfirmed">
+        Controleer uw mailbox
+    </div>
 </div>

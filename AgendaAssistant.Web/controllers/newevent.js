@@ -26,16 +26,15 @@
             $scope.event.inboundFlightSearch.beginDate = new Date();
             $scope.event.inboundFlightSearch.endDate = new Date();
 
-            $log.log("Event = " + JSON.stringify($scope.event));
+            //$log.log("Event = " + JSON.stringify($scope.event));
         });
 
-    }
+    };
 
     $scope.CreateEvent = function () {
-        $log.log("Create event: " + $scope.event.title);
         $scope.event.$save(function (responseData) {
             // Success
-            $log.log("save success: " + JSON.stringify(responseData));
+            //$log.log("save success: " + JSON.stringify(responseData));
             $location.path("/event/" + responseData.id);
         });
     };
@@ -139,7 +138,7 @@
     };
 
     $scope.IsParticipantsStepValid = function () {
-        return $scope.event != undefined && $scope.event.participants.length > 0;
+        return $scope.event != undefined && $scope.event.participants != undefined && $scope.event.participants.length > 0;
     };
 
     // DatePicker stuff
