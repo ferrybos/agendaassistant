@@ -15,8 +15,8 @@ namespace AgendaAssistant.Entities
                     EventId = 0,
                     Organizer = PersonFactory.NewPerson(),
                     Participants = new List<Participant>(),
-                    OutboundFlightSearch = new FlightSearch(),
-                    InboundFlightSearch = new FlightSearch()
+                    OutboundFlightSearch = new FlightSearch() {Flights = new List<Flight>()},
+                    InboundFlightSearch = new FlightSearch() {Flights = new List<Flight>()}
                 };
         }
     }

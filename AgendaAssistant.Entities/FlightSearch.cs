@@ -9,9 +9,12 @@ namespace AgendaAssistant.Entities
     public class FlightSearch
     {
         public int Id { get; set; }
+
         public string DepartureStation { get; set; }
         public string ArrivalStation { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
+
+        public List<Flight> Flights { get; set; }
     }
 }

@@ -26,13 +26,23 @@
             $scope.event.inboundFlightSearch.beginDate = new Date();
             $scope.event.inboundFlightSearch.endDate = new Date();
 
-            //$log.log("Event = " + JSON.stringify($scope.event));
+            $log.log("Event = " + JSON.stringify($scope.event));
         });
 
     };
 
     $scope.CreateEvent = function () {
-        $log.log("Create:in " + JSON.stringify($scope.event));
+        // add selected flights to the event object to be sent to the server
+        angular.forEach($scope.outboundFlights, function(flight) {
+            this.push(flight);
+        }, $scope.event.outboundFlightSearch.flights);
+        
+        angular.forEach($scope.inboundFlights, function (flight) {
+            this.push(flight);
+        }, $scope.event.inboundFlightSearch.flights);
+        
+        $log.log("Event = " + JSON.stringify($scope.event));
+        
         $scope.event.$save(function (responseData) {
             // Success
             $log.log("save success: " + JSON.stringify(responseData));

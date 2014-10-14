@@ -8,8 +8,11 @@ namespace AgendaAssistant.Entities
 {
     public class Flight
     {
+        public int Id { get; set; }
+
         public string DepartureStation { get; set; }
         public string ArrivalStation { get; set; }
+        public DateTime DepartureDate { get; set; }
         public DateTime STD { get; set; }
         public DateTime STA { get; set; }
         public string CarrierCode { get; set; }
