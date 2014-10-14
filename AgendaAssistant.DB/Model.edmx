@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="AgendaAssistantModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AgendaAssistantModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="AgendaAssistantModelStoreContainer">
           <EntitySet Name="Availability" EntityType="AgendaAssistantModel.Store.Availability" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Comment" EntityType="AgendaAssistantModel.Store.Comment" store:Type="Tables" Schema="dbo" />
@@ -20,10 +20,6 @@
           <AssociationSet Name="FK_Availability_Person" Association="AgendaAssistantModel.Store.FK_Availability_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Availability" EntitySet="Availability" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comment_Event" Association="AgendaAssistantModel.Store.FK_Comment_Event">
-            <End Role="Event" EntitySet="Event" />
-            <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
           <AssociationSet Name="FK_Comment_Person" Association="AgendaAssistantModel.Store.FK_Comment_Person">
             <End Role="Person" EntitySet="Person" />
@@ -44,10 +40,6 @@
           <AssociationSet Name="FK_Flight_FlightSearch" Association="AgendaAssistantModel.Store.FK_Flight_FlightSearch">
             <End Role="FlightSearch" EntitySet="FlightSearch" />
             <End Role="Flight" EntitySet="Flight" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Participant_Event" Association="AgendaAssistantModel.Store.FK_Participant_Event">
-            <End Role="Event" EntitySet="Event" />
-            <End Role="Participant" EntitySet="Participant" />
           </AssociationSet>
           <AssociationSet Name="FK_Participant_Person" Association="AgendaAssistantModel.Store.FK_Participant_Person">
             <End Role="Person" EntitySet="Person" />
@@ -87,6 +79,7 @@
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
           <Property Name="OutboundFlightSearchID" Type="bigint" />
           <Property Name="InboundFlightSearchID" Type="bigint" />
+          <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -155,18 +148,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Comment_Event">
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="1" />
-          <End Role="Comment" Type="AgendaAssistantModel.Store.Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Event">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="EventID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Comment_Person">
           <End Role="Person" Type="AgendaAssistantModel.Store.Person" Multiplicity="1" />
           <End Role="Comment" Type="AgendaAssistantModel.Store.Comment" Multiplicity="*" />
@@ -227,18 +208,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Participant_Event">
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="1" />
-          <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Event">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Participant">
-              <PropertyRef Name="EventID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Participant_Person">
           <End Role="Person" Type="AgendaAssistantModel.Store.Person" Multiplicity="1" />
           <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="*" />
@@ -251,8 +220,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AgendaAssistantModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -262,13 +230,13 @@
           <EntitySet Name="Events" EntityType="AgendaAssistantModel.Event" />
           <EntitySet Name="Flights" EntityType="AgendaAssistantModel.Flight" />
           <EntitySet Name="FlightSearches" EntityType="AgendaAssistantModel.FlightSearch" />
-          <EntitySet Name="People" EntityType="AgendaAssistantModel.Person" />
+          <EntitySet Name="Persons" EntityType="AgendaAssistantModel.Person" />
           <AssociationSet Name="FK_Availability_Flight" Association="AgendaAssistantModel.FK_Availability_Flight">
             <End Role="Flight" EntitySet="Flights" />
             <End Role="Availability" EntitySet="Availabilities" />
           </AssociationSet>
           <AssociationSet Name="FK_Availability_Person" Association="AgendaAssistantModel.FK_Availability_Person">
-            <End Role="Person" EntitySet="People" />
+            <End Role="Person" EntitySet="Persons" />
             <End Role="Availability" EntitySet="Availabilities" />
           </AssociationSet>
           <AssociationSet Name="FK_Comment_Event" Association="AgendaAssistantModel.FK_Comment_Event">
@@ -276,7 +244,7 @@
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK_Comment_Person" Association="AgendaAssistantModel.FK_Comment_Person">
-            <End Role="Person" EntitySet="People" />
+            <End Role="Person" EntitySet="Persons" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_INboundFLightSearch" Association="AgendaAssistantModel.FK_Event_INboundFLightSearch">
@@ -284,7 +252,7 @@
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_Organizer" Association="AgendaAssistantModel.FK_Event_Organizer">
-            <End Role="Person" EntitySet="People" />
+            <End Role="Person" EntitySet="Persons" />
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_OutboundFlightSearch" Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch">
@@ -297,7 +265,7 @@
           </AssociationSet>
           <AssociationSet Name="Participant" Association="AgendaAssistantModel.Participant">
             <End Role="Event" EntitySet="Events" />
-            <End Role="Person" EntitySet="People" />
+            <End Role="Person" EntitySet="Persons" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Availability">
@@ -338,10 +306,11 @@
           <Property Name="OutboundFlightSearchID" Type="Int64" />
           <Property Name="InboundFlightSearchID" Type="Int64" />
           <NavigationProperty Name="Comments" Relationship="AgendaAssistantModel.FK_Comment_Event" FromRole="Event" ToRole="Comment" />
-          <NavigationProperty Name="FlightSearch" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="Event" ToRole="FlightSearch" />
-          <NavigationProperty Name="Person" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
-          <NavigationProperty Name="FlightSearch1" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
-          <NavigationProperty Name="People" Relationship="AgendaAssistantModel.Participant" FromRole="Event" ToRole="Person" />
+          <NavigationProperty Name="InboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="Event" ToRole="FlightSearch" />
+          <NavigationProperty Name="Organizer" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
+          <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
+          <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.Participant" FromRole="Event" ToRole="Person" />
+          <Property Type="Guid" Name="EventID" Nullable="false" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -517,6 +486,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -554,7 +524,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="People">
+          <EntitySetMapping Name="Persons">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Person">
               <MappingFragment StoreEntitySet="Person">
                 <ScalarProperty Name="ID" ColumnName="ID" />

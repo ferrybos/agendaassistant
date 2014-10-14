@@ -53,6 +53,12 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgendaAssistant.Repositories\AgendaAssistant.Repositories.csproj">
+      <Project>{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}</Project>
+      <Name>AgendaAssistant.Repositories</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

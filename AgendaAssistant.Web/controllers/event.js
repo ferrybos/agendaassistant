@@ -12,4 +12,13 @@
             $log.log("Event = " + JSON.stringify($scope.event));
         });
     };
+    
+    $scope.ConfirmEvent = function () {
+        $log.log("Confirm event");
+        $scope.event.$confirm({ code: $scope.event.code }, function () {
+            // Success
+            $log.log("Event confirmed");
+            getEvent(); //refresh event
+        });
+    };
 });

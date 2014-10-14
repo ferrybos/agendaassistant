@@ -10,13 +10,13 @@ namespace AgendaAssistant.Entities
     {
         public static Person NewPerson()
         {
-            return new Person() { PersonId = 0 };
+            return new Person() { Id = 0 };
         }
     }
 
     public class Person
     {
-        public long PersonId { get; set; }
+        public long Id { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
     }

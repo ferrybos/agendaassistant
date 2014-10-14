@@ -4,17 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{54C07956-CC9D-4B6B-9BAB-7496F48630BD}</ProjectGuid>
+    <ProjectGuid>{9FBF6799-25E8-461A-80B4-940E8730607C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgendaAssistant.Services</RootNamespace>
-    <AssemblyName>AgendaAssistant.Services</AssemblyName>
+    <RootNamespace>AgendaAssistant.Shared</RootNamespace>
+    <AssemblyName>AgendaAssistant.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,23 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventService.cs" />
-    <Compile Include="FlightService.cs" />
+    <Compile Include="FormattedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.Entities\AgendaAssistant.Entities.csproj">
-      <Project>{ca95586a-1c6d-457f-bae4-c0707d603633}</Project>
-      <Name>AgendaAssistant.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Repositories\AgendaAssistant.Repositories.csproj">
-      <Project>{3059cb2f-61ae-48a6-9c87-6febe53d3de3}</Project>
-      <Name>AgendaAssistant.Repositories</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
-      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
-      <Name>AgendaAssistant.Shared</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

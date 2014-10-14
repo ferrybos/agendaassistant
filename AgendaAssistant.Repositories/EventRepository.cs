@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.DB;
+using AgendaAssistant.DB.Repositories;
 using AgendaAssistant.Entities;
+using AgendaAssistant.Extensions;
+using AutoMapper;
 using Event = AgendaAssistant.Entities.Event;
 using Person = AgendaAssistant.Entities.Person;
 
@@ -12,63 +15,67 @@ namespace AgendaAssistant.Repositories
 {
     public interface IEventRepository
     {
-        Event CreateNew(Event value);
-        Event Get(long id);
+        Event Save(Event value);
+        Event Get(string code);
+        void Confirm(string code);
     }
 
+    /// <summary>
+    /// Contains all logic to interface with data(base)
+    /// </summary>
     public class EventRepository : IEventRepository
     {
-        public Event CreateNew(Event value)
+        private AgendaAssistantEntities _db;
+
+        public EventRepository()
         {
-            using (var db = new AgendaAssistantEntities())
-            {
-                var organizerPerson = db.People.Create();
-                organizerPerson.Name = value.Organizer.Name;
-                organizerPerson.Email = value.Organizer.Email;
-                db.People.Add(organizerPerson);
-
-                // todo: create unique hashcode to use in email links
-                var dbEvent = db.Events.Create();
-                dbEvent.CreatedUtc = DateTime.UtcNow;
-                dbEvent.Title = value.Title;
-                dbEvent.Description = value.Description;
-                dbEvent.Status = "";
-                dbEvent.IsConfirmed = false;
-                dbEvent.Person = organizerPerson;
-                db.Events.Add(dbEvent);
-
-                foreach (var participant in value.Participants)
-                {
-                    
-                }
-
-                db.SaveChanges();
-
-                // todo: map dbEvent to Event
-                value.EventId = dbEvent.ID;
-            }
-
-            return value;
+            _db = DbContextFactory.New();
         }
 
-        public Event Get(long id)
+        public Event Save(Event value)
         {
-            using (var db = new AgendaAssistantEntities())
+            var dbPersonRepository = new DbPersonRepository(_db);
+            var dbEventRepository = new DbEventRepository(_db);
+
+            var organizerPerson = dbPersonRepository.AddPerson(value.Organizer.Name, value.Organizer.Email);
+            var dbEvent = dbEventRepository.AddEvent(value.Title, value.Description, organizerPerson, "Niet bevestigd", false);
+
+            // add participants
+            foreach (var participant in value.Participants)
             {
-                var result = db.Events.SingleOrDefault(e => e.ID == id);
+                var person = value.Organizer.Matches(participant.Name, participant.Email)
+                                    ? organizerPerson
+                                    : dbPersonRepository.AddPerson(participant.Name, participant.Email);
 
-                if (result == null)
-                {
-                    throw new ApplicationException(string.Format("Event not found with ID {0}", id));
-                }
-
-                // todo: AutoMapper
-                return new Event
-                    {
-                        EventId = result.ID, Title = result.Title, Description = result.Description, Status = result.Status, IsConfirmed = result.IsConfirmed,
-                        Organizer = new Person() { PersonId = result.Person.ID, Name = result.Person.Name, Email = result.Person.Email}
-                    };
+                dbEventRepository.AddParticipant(dbEvent, person);
             }
+
+            _db.SaveChanges();
+
+            return EntityMapper.Map(dbEvent);
+        }
+
+        public void Confirm(string code)
+        {
+            var dbEvent = GetDbEvent(code);
+
+            if (!dbEvent.IsConfirmed)
+            {
+                dbEvent.IsConfirmed = true;
+                _db.SaveChanges();
+            }
+        }
+
+        public Event Get(string code)
+        {
+            var dbEvent = GetDbEvent(code);
+
+            return EntityMapper.Map(dbEvent);
+        }
+
+        private DB.Event GetDbEvent(string code)
+        {
+            return new DbEventRepository(_db).Get(CodeString.CodeStringToGuid(code));
         }
     }
 }

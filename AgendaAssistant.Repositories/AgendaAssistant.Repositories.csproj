@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -57,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeString.cs" />
+    <Compile Include="EntityMapper.cs" />
     <Compile Include="EventRepository.cs" />
     <Compile Include="FlightRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,8 +85,17 @@
       <Project>{ca95586a-1c6d-457f-bae4-c0707d603633}</Project>
       <Name>AgendaAssistant.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Extensions\AgendaAssistant.Extensions.csproj">
+      <Project>{21283148-9AD7-49FD-BF0D-A7027F2C7551}</Project>
+      <Name>AgendaAssistant.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
+      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
+      <Name>AgendaAssistant.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

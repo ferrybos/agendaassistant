@@ -14,7 +14,7 @@
     getNewEvent();
 
     function getNewEvent() {
-        var newEvent = eventFactory.get({ id: 0 }, function () {
+        var newEvent = eventFactory.get({ id: "new" }, function () {
             $scope.event = newEvent;
 
             $scope.event.outboundFlightSearch.departureStation = "AMS";
@@ -32,10 +32,11 @@
     };
 
     $scope.CreateEvent = function () {
+        $log.log("Create:in " + JSON.stringify($scope.event));
         $scope.event.$save(function (responseData) {
             // Success
-            //$log.log("save success: " + JSON.stringify(responseData));
-            $location.path("/event/" + responseData.id);
+            $log.log("save success: " + JSON.stringify(responseData));
+            $location.path("/event/" + responseData.code);
         });
     };
 

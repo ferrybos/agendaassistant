@@ -4,7 +4,8 @@
         {id: "@id"},
         {
             save: { method: 'POST', isArray: false },
-            update: {method: "PUT"}
+            update: { method: "PUT" },
+            confirm: { method: "POST", url: 'api/event/confirm', isArray: false }
         }
     );
 });

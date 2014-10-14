@@ -30,6 +30,6 @@ namespace AgendaAssistant.DB
         public DbSet<Event> Events { get; set; }
         public DbSet<Flight> Flights { get; set; }
         public DbSet<FlightSearch> FlightSearches { get; set; }
-        public DbSet<Person> People { get; set; }
+        public DbSet<Person> Persons { get; set; }
     }
 }

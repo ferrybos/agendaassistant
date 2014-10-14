@@ -21,37 +21,49 @@ namespace AgendaAssistant.Web.api
 
         // GET api/<controller>/5
         [Route("{id}")]
-        public Event Get(int id)
+        public Event Get(string id)
         {
-            if (id == 0)
+            if (id == "new")
             {
                 // new event
                 var newEvent = EventFactory.NewEvent();
                 return newEvent;
             }
-            else
-            {
-                // fetch existing event
-                var evt = _service.Get(id);
-                return evt;
-            }
+            
+            // fetch existing event
+            return _service.Get(id);
         }
 
         // POST api/<controller>
         [Route("")]
         [HttpPost]
-        public IHttpActionResult CreateNew([FromBody]Event value)
+        public IHttpActionResult Post([FromBody]Event value)
         {
             // create new event
             var createdEvent = _service.CreateNew(value);
 
-            return Created(string.Format("api/event/{0}", createdEvent.EventId), Json(new { Id = createdEvent.EventId }).Content);
+            return Created(string.Format("api/event/{0}", createdEvent.EventId), Json(new { Code = createdEvent.Code }).Content);
+        }
+
+        [Route("confirm")]
+        [HttpPost]
+        public IHttpActionResult Confirm(string code)
+        {
+            try
+            {
+                _service.Confirm(code);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]Event value)
-        {
-        }
+        //public void Put(int id, [FromBody]Event value)
+        //{
+        //}
 
         // DELETE api/<controller>/5
         public void Delete(int id)

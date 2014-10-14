@@ -17,7 +17,7 @@ namespace AgendaAssistant.DB
         public Event()
         {
             this.Comments = new HashSet<Comment>();
-            this.People = new HashSet<Person>();
+            this.Participants = new HashSet<Person>();
         }
     
         public long ID { get; set; }
@@ -29,11 +29,12 @@ namespace AgendaAssistant.DB
         public bool IsConfirmed { get; set; }
         public Nullable<long> OutboundFlightSearchID { get; set; }
         public Nullable<long> InboundFlightSearchID { get; set; }
+        public System.Guid EventID { get; set; }
     
         public virtual ICollection<Comment> Comments { get; set; }
-        public virtual FlightSearch FlightSearch { get; set; }
-        public virtual Person Person { get; set; }
-        public virtual FlightSearch FlightSearch1 { get; set; }
-        public virtual ICollection<Person> People { get; set; }
+        public virtual FlightSearch InboundFlightSearch { get; set; }
+        public virtual Person Organizer { get; set; }
+        public virtual FlightSearch OutboundFlightSearch { get; set; }
+        public virtual ICollection<Person> Participants { get; set; }
     }
 }
