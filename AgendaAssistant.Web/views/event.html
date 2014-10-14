@@ -1,6 +1,5 @@
 ﻿<div id="wrapper">
     <h1 class="page-header">{{event.title}}</h1>
-    <p>Georganiseerd door {{event.organizer.name}} ({{event.status}})</p>
     <div ng-if="!event.isConfirmed">
         <h4>Controleer uw mailbox</h4>
         <p>Er is een email gestuurd naar {{event.organizer.email}}.</p>
@@ -9,6 +8,6 @@
         <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="ConfirmEvent()">Afspraak is bevestigd</button>
     </div>
     <div ng-if="event.isConfirmed">
-        Todo
+        <p>Georganiseerd door {{event.organizer.name}} ({{event.status}})</p>
     </div>
 </div>

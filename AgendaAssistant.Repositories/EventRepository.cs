@@ -38,7 +38,7 @@ namespace AgendaAssistant.Repositories
             var dbEventRepository = new DbEventRepository(_db);
 
             var organizerPerson = dbPersonRepository.AddPerson(value.Organizer.Name, value.Organizer.Email);
-            var dbEvent = dbEventRepository.AddEvent(value.Title, value.Description, organizerPerson, "Niet bevestigd", false);
+            var dbEvent = dbEventRepository.AddEvent(value.Title, value.Description, organizerPerson, "", false);
 
             // add participants
             foreach (var participant in value.Participants)
