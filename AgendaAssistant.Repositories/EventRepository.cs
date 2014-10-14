@@ -62,6 +62,7 @@ namespace AgendaAssistant.Repositories
             if (!dbEvent.IsConfirmed)
             {
                 dbEvent.IsConfirmed = true;
+                dbEvent.Status = "Uitnodigingen verstuurd";
                 _db.SaveChanges();
             }
         }
