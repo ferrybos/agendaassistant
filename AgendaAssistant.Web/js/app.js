@@ -1,4 +1,13 @@
-﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap']);
+﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'mgcrea.ngStrap']);
+
+app.config(function($datepickerProvider) {
+    angular.extend($datepickerProvider.defaults, {
+        dateFormat: 'dd-MMM-yyyy',
+        useNative: true,
+        autoClose: true,
+        startWeek: 1
+    });
+});
 
 // Configure routes
 app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {

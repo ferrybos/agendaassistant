@@ -3,7 +3,8 @@
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
     $scope.isLoading = false;
-
+    $scope.format = 'dd-MMM-yyyy';
+    
     // Participants default
     clearParticipantInput();
 
@@ -16,16 +17,6 @@
     function getNewEvent() {
         var newEvent = eventFactory.get({ id: "new" }, function () {
             $scope.event = newEvent;
-
-            $scope.event.outboundFlightSearch.departureStation = "AMS";
-            $scope.event.outboundFlightSearch.arrivalStation = "BCN";
-            $scope.event.outboundFlightSearch.beginDate = new Date();
-            $scope.event.outboundFlightSearch.endDate = new Date();
-            $scope.event.inboundFlightSearch.departureStation = "BCN";
-            $scope.event.inboundFlightSearch.arrivalStation = "AMS";
-            $scope.event.inboundFlightSearch.beginDate = new Date();
-            $scope.event.inboundFlightSearch.endDate = new Date();
-
             $log.log("Event = " + JSON.stringify($scope.event));
         });
 
@@ -69,6 +60,52 @@
         $scope.CurrentStepIndex = stepIndex;
         //$log.log("Event = " + JSON.stringify($scope.event));
     };
+    
+    $scope.SelectStepEvent = function() {
+        $scope.$broadcast('focusEventTitle');
+        $scope.CurrentStepIndex = 1;
+    };
+
+    $scope.SelectStepParticipants = function() {
+        $scope.$broadcast('focusParticipantName');
+
+        if (!$scope.isOrganizerAddedToParticipants) {
+            // Add organizer to participants list           
+            addParticipantInternal($scope.event.organizer.name, $scope.event.organizer.email);
+            $scope.isOrganizerAddedToParticipants = true;
+        }
+
+        $scope.CurrentStepIndex = 2;
+    };
+
+    $scope.areOutboundDefaultsSet = false;
+    $scope.SelectStepOutbound = function() {
+        if (!$scope.areOutboundDefaultsSet) {
+            // set defaults on first hit
+            $scope.event.outboundFlightSearch.departureStation = "AMS";
+            $scope.event.outboundFlightSearch.arrivalStation = "BCN";
+            var myDate = new Date();
+            var x = myDate.setDate(myDate.getDate() + 1);
+            var y = myDate.setDate(myDate.getDate() + 8);
+            $scope.event.outboundFlightSearch.beginDate = x;
+            $scope.event.outboundFlightSearch.endDate = y;
+        }
+        
+        $scope.CurrentStepIndex = 3;
+    };
+    
+    $scope.areInboundDefaultsSet = false;
+    $scope.SelectStepInbound = function () {
+        if (!$scope.areInboundDefaultsSet) {
+            // set defaults on first hit
+            $scope.event.inboundFlightSearch.departureStation = $scope.event.outboundFlightSearch.arrivalStation;
+            $scope.event.inboundFlightSearch.arrivalStation = $scope.event.outboundFlightSearch.departureStation;
+            $scope.event.inboundFlightSearch.beginDate = $scope.event.outboundFlightSearch.beginDate;
+            $scope.event.inboundFlightSearch.endDate = $scope.event.outboundFlightSearch.endDate;
+        }
+        
+        $scope.CurrentStepIndex = 4;
+    };
 
     $scope.AddParticipant = function () {
         addParticipantInternal($scope.newParticipantName, $scope.newParticipantEmail);
@@ -104,10 +141,13 @@
     }
 
     function getOutboundFlights(flightSearch) {
+        $log.log("Flights = " + JSON.stringify(flightSearch));
+        //$log.log("Test: " + Object.prototype.toString.call(flightSearch)
         $scope.isLoading = true;
         flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
             .success(function (data) {
                 $log.log("Flights = " + JSON.stringify(data));
+                
                 $scope.outboundFlights = data;
                 $scope.isLoading = false;
             })
@@ -153,17 +193,15 @@
     };
 
     // DatePicker stuff
-    $scope.open = function ($event, opened) {
-        $event.preventDefault();
-        $event.stopPropagation();
+    //$scope.open = function ($event, opened) {
+    //    $event.preventDefault();
+    //    $event.stopPropagation();
 
-        $scope[opened] = true;
-    };
+    //    $scope[opened] = true;
+    //};
 
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        startingDay: 1
-    };
-
-    $scope.format = 'dd-MMM-yyyy';
+    //$scope.dateOptions = {
+    //    formatYear: 'yy',
+    //    startingDay: 1
+    //};
 });

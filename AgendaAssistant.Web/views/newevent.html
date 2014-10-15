@@ -5,20 +5,20 @@
     <h1 class="page-header">{{constants.newEventTitle}}</h1>
     <div id="content">
         <ul id="step_headers">
-            <li id="step_event" ng-class="{active: CurrentStepIndex == 1}" ng-click="SelectStep(1)">1. Afspraak</li>
-            <li id="step_participants" ng-class="{active: CurrentStepIndex == 2}" ng-click="IsEventStepValid() ? SelectStep(2) : null">2. Deelnemers</li>
-            <li id="step_outbound" ng-class="{active: CurrentStepIndex == 3}" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStep(3) : null">3. Heen</li>
-            <li id="step_inbound" ng-class="{active: CurrentStepIndex == 4}" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStep(4) : null">4. Terug</li>
+            <li id="step_event" ng-class="{active: CurrentStepIndex == 1}" ng-click="SelectStepEvent()">1. Afspraak</li>
+            <li id="step_participants" ng-class="{active: CurrentStepIndex == 2}" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">2. Deelnemers</li>
+            <li id="step_outbound" ng-class="{active: CurrentStepIndex == 3}" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">3. Heen</li>
+            <li id="step_inbound" ng-class="{active: CurrentStepIndex == 4}" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepInbound() : null">4. Terug</li>
         </ul>
 
         <div id="steps">
             <!--Step 1: Event-->
             <div id="content_step_event" ng-show="CurrentStepIndex == 1">
                 <a ng-click="EnterTestEvent()">Enter test data</a><br />
-                <form name="eventForm" novalidate ng-submit="SelectStep(2)">
+                <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
                     <!--Title-->
                     <div class="form-group" show-errors='{showSuccess: true}'>
-                        <input type="text" class="form-control" name="title" ng-model="event.title" required autofocus placeholder="Titel" maxlength="50" autocomplete="off" style="width: 100%" />
+                        <input type="text" class="form-control" name="title" ng-model="event.title" focus-on="focusEventTitle" required autofocus placeholder="Titel" maxlength="50" autocomplete="off" style="width: 100%" />
                         <p class="help-block" ng-if="eventForm.title.$error.required">De titel is verplicht</p>
                     </div>
                     <!--Description-->
@@ -59,8 +59,8 @@
                     </a>
                 </div>
                 <div class="tab_navigation">
-                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(1)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(3)" ng-disabled="!IsParticipantsStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepEvent()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepOutbound()" ng-disabled="!IsParticipantsStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
                 </div>
             </div>
 
@@ -85,34 +85,20 @@
                 <div class="row" id="outboundBeginEndDate">
                     <div class="col-xs-6" style="padding-left: 0px;">
                         <label class="control-label" for="outbound_begindate">Begin datum</label>
-                        <div>
-                            <div class="input-group">
-                                <input type="text" id="outbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.beginDate" is-open="outbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event,'outbound_begindate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                        </div>
+                        <input type="text" id="outbound_begindate" class="form-control" ng-model="event.outboundFlightSearch.beginDate" data-min-date="today" data-max-date="{{event.outboundFlightSearch.endDate}}" name="outbound_begindate" bs-datepicker ng-required="true">
                     </div>
                     <div class="col-xs-6" style="padding-right: 0px">
                         <label class="control-label" for="outbound_begindate">Eind datum</label>
-                        <div>
-                            <div class="input-group">
-                                <input type="text" id="outbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.outboundFlightSearch.endDate" is-open="outbound_enddate_opened" min-date="{{event.outboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event, 'outbound_enddate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                        </div>
+                        <input type="text" id="outbound_enddate" class="form-control" ng-model="event.outboundFlightSearch.endDate" data-min-date="{{event.outboundFlightSearch.beginDate}}" name="outbound_enddate" bs-datepicker ng-required="true">
                     </div>
                 </div>
-                
+
                 <div id="outboundWeekDays">Weekday buttons incl ALL</div>
 
                 <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights()" ng-disabled="isLoading === true">
                     <span class="glyphicon glyphicon-search"></span>Zoek vluchten
                 </button>
-                
+
                 <h4>Beschikbare vluchten</h4>
                 <img src="img/ajax-loader.gif" alt="" id="loader" ng-if="isLoading === true" />
 
@@ -124,8 +110,8 @@
                 </div>
 
                 <div class="tab_navigation">
-                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(2)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStep(4)">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
                 </div>
             </div>
 
@@ -150,25 +136,11 @@
                 <div class="row" id="inboundBeginEndDate">
                     <div class="col-xs-6" style="padding-left: 0px;">
                         <label class="control-label" for="inbound_begindate">Begin datum</label>
-                        <div>
-                            <div class="input-group">
-                                <input type="text" id="inbound_begindate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.beginDate" is-open="inbound_begindate_opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event,'inbound_begindate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                        </div>
+                        <input type="text" id="inbound_begindate" class="form-control" ng-model="event.inboundFlightSearch.beginDate" data-min-date="today" data-max-date="{{event.inboundFlightSearch.endDate}}" name="inbound_begindate" bs-datepicker ng-required="true" placeholder="Begin">
                     </div>
                     <div class="col-xs-6" style="padding-right: 0px">
                         <label class="control-label" for="inbound_enddate">Eind datum</label>
-                        <div>
-                            <div class="input-group">
-                                <input type="text" id="inbound_enddate" class="form-control" datepicker-popup="{{format}}" ng-model="event.inboundFlightSearch.endDate" is-open="inbound_enddate_opened" min-date="{{event.inboundFlightSearch.BeginDate}}" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" language="nl" />
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event, 'inbound_enddate_opened')"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </div>
-                        </div>
+                        <input type="text" id="inbound_enddate" class="form-control" ng-model="event.inboundFlightSearch.endDate" data-min-date="{{event.inboundFlightSearch.beginDate}}" name="inbound_enddate" bs-datepicker ng-required="true" placeholder="Eind">
                     </div>
                 </div>
 
@@ -190,7 +162,7 @@
                 </div>
 
                 <div class="tab_navigation">
-                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStep(3)"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
