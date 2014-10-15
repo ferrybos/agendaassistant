@@ -1,15 +1,16 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, Constants, stationsFactory, eventFactory, flightService) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, stationsFactory, eventFactory, flightService) {
     $scope.constants = Constants;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
     $scope.isLoading = false;
     $scope.format = 'dd-MMM-yyyy';
-    
+
     // Participants default
     clearParticipantInput();
 
     // Flights default
     $scope.outboundFlights = null;
+    $scope.playersFiltered = null;
     $scope.inboundFlights = null;
 
     getNewEvent();
@@ -24,16 +25,16 @@
 
     $scope.CreateEvent = function () {
         // add selected flights to the event object to be sent to the server
-        angular.forEach($scope.outboundFlights, function(flight) {
+        angular.forEach($scope.outboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.outboundFlightSearch.flights);
-        
+
         angular.forEach($scope.inboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.inboundFlightSearch.flights);
-        
+
         $log.log("Event = " + JSON.stringify($scope.event));
-        
+
         $scope.event.$save(function (responseData) {
             // Success
             $log.log("save success: " + JSON.stringify(responseData));
@@ -60,13 +61,13 @@
         $scope.CurrentStepIndex = stepIndex;
         //$log.log("Event = " + JSON.stringify($scope.event));
     };
-    
-    $scope.SelectStepEvent = function() {
+
+    $scope.SelectStepEvent = function () {
         $scope.$broadcast('focusEventTitle');
         $scope.CurrentStepIndex = 1;
     };
 
-    $scope.SelectStepParticipants = function() {
+    $scope.SelectStepParticipants = function () {
         $scope.$broadcast('focusParticipantName');
 
         if (!$scope.isOrganizerAddedToParticipants) {
@@ -79,7 +80,7 @@
     };
 
     $scope.areOutboundDefaultsSet = false;
-    $scope.SelectStepOutbound = function() {
+    $scope.SelectStepOutbound = function () {
         if (!$scope.areOutboundDefaultsSet) {
             // set defaults on first hit
             $scope.event.outboundFlightSearch.departureStation = "AMS";
@@ -90,10 +91,10 @@
             $scope.event.outboundFlightSearch.beginDate = x;
             $scope.event.outboundFlightSearch.endDate = y;
         }
-        
+
         $scope.CurrentStepIndex = 3;
     };
-    
+
     $scope.areInboundDefaultsSet = false;
     $scope.SelectStepInbound = function () {
         if (!$scope.areInboundDefaultsSet) {
@@ -103,7 +104,7 @@
             $scope.event.inboundFlightSearch.beginDate = $scope.event.outboundFlightSearch.beginDate;
             $scope.event.inboundFlightSearch.endDate = $scope.event.outboundFlightSearch.endDate;
         }
-        
+
         $scope.CurrentStepIndex = 4;
     };
 
@@ -140,6 +141,28 @@
         return $scope.event.participants.length;
     }
 
+    $scope.toggleIsSelected = function (flight) {
+        flight.IsSelected = flight.IsSelected === true ? false : true;
+        $log.log("Select: " + flight.IsSelected);
+    };
+
+    $scope.selectAllOutboundFlights = function () {
+        angular.forEach($scope.inboundFlights, function (value) {
+            value.IsSelected = true;
+        });
+    };
+
+    $scope.deselectAllOutboundFlights = function () {
+        angular.forEach($scope.inboundFlights, function (value) {
+            value.IsSelected = false;
+        });
+    };
+
+    $scope.getSelectedOutboundFlights = function () {
+        var selectedFlights = $filter('filter')($scope.inboundFlights, { IsSelected: true }, true);
+        return selectedFlights;
+    };
+
     function getOutboundFlights(flightSearch) {
         $log.log("Flights = " + JSON.stringify(flightSearch));
         //$log.log("Test: " + Object.prototype.toString.call(flightSearch)
@@ -147,7 +170,6 @@
         flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
             .success(function (data) {
                 $log.log("Flights = " + JSON.stringify(data));
-                
                 $scope.outboundFlights = data;
                 $scope.isLoading = false;
             })

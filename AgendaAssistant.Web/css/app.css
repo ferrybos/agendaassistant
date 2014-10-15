@@ -120,6 +120,10 @@ div#contentFooter {
     margin-left: 4px;
 }
 
+.panel-heading {
+    font-weight: bold;
+}
+
 /* Large desktop */
 @media (min-width: 1200px) {
 

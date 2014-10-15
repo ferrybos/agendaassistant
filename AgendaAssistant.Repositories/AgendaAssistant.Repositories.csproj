@@ -67,6 +67,7 @@
     <Compile Include="EntityMapper.cs" />
     <Compile Include="EventRepository.cs" />
     <Compile Include="FlightRepository.cs" />
+    <Compile Include="Mocks\MockFlightRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

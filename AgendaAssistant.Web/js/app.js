@@ -1,4 +1,4 @@
-﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'mgcrea.ngStrap']);
+﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'mgcrea.ngStrap', 'angular.filter']);
 
 app.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {
@@ -19,5 +19,3 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
         when('/event/:id', { templateUrl: 'views/event.html', controller: 'EventCtrl' }).
         otherwise({ redirectTo: '/' });
 }]);
-
-

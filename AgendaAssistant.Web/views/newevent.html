@@ -102,11 +102,23 @@
                 <h4>Beschikbare vluchten</h4>
                 <img src="img/ajax-loader.gif" alt="" id="loader" ng-if="isLoading === true" />
 
+                <!-- <ul ng-repeat="(key, value) in outboundFlights | groupBy: 'departureDate'">
+                    {{ key | date : 'dd-MMM' }}
+                  <li ng-repeat="flight in value">Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}
+                  </li>
+                </ul>-->
+
                 <div class="list-group" ng-if="isLoading !== true">
-                    <a ng-repeat="flight in outboundFlights" class="list-group-item animated" style="cursor: pointer">
-                        <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                        <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
-                    </a>
+                    <div class="panel panel-default" ng-repeat="(key, value) in outboundFlights | groupBy: 'departureDate'">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">{{ key | date : 'dd-MMM' }}</div>
+                        <div class="panel-body">
+                                <a class="list-group-item animated" ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
+                                <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                                <p class="list-group-item-text">Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="tab_navigation">
