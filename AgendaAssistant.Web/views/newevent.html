@@ -4,12 +4,19 @@
 <div id="wrapper">
     <h1 class="page-header">{{constants.newEventTitle}}</h1>
     <div id="content">
-        <ul id="step_headers">
+        <div class="btn-group btn-group-justified">
+            <a role="button" class="btn" ng-class="CurrentStepIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="SelectStepEvent()">1. Afspraak</a>
+            <a role="button" class="btn" ng-class="CurrentStepIndex == 2 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">2. Deelnemers</a>
+            <a role="button" class="btn" ng-class="CurrentStepIndex == 3 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">3. Heen</a>
+            <a role="button" class="btn" ng-class="CurrentStepIndex == 4 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepInbound() : null">4. Terug</a>
+        </div>
+
+        <!--<ul id="step_headers">
             <li id="step_event" ng-class="{active: CurrentStepIndex == 1}" ng-click="SelectStepEvent()">1. Afspraak</li>
             <li id="step_participants" ng-class="{active: CurrentStepIndex == 2}" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">2. Deelnemers</li>
             <li id="step_outbound" ng-class="{active: CurrentStepIndex == 3}" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">3. Heen</li>
             <li id="step_inbound" ng-class="{active: CurrentStepIndex == 4}" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepInbound() : null">4. Terug</li>
-        </ul>
+        </ul>-->
 
         <div id="steps">
             <!--Step 1: Event-->
@@ -93,7 +100,7 @@
                     </div>
                 </div>
 
-                <div id="outboundWeekDays">TODO: Weekday buttons incl ALL</div>
+                <!--<div id="outboundWeekDays">TODO: Weekday buttons incl ALL</div>-->
 
                 <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights(event.outboundFlightSearch)" ng-disabled="isLoading === true">
                     <span class="glyphicon glyphicon-search"></span>Zoek vluchten
@@ -116,7 +123,7 @@
 
                     <div class="panel panel-default" ng-repeat="(key, value) in outboundFlights | groupBy: 'departureDate'">
                         <!-- Default panel contents -->
-                        <div class="panel-heading" style="cursor: pointer">{{ key | date : 'dd-MMM' }}</div>
+                        <div class="panel-heading" style="cursor: pointer">{{ key | date : 'EEE dd-MMM' }}</div>
                         <div class="panel-body" style="padding: 0">
                             <table id="outboundflights-table" class="table table-condensed table-hover">
                                 <tbody>
@@ -188,7 +195,7 @@
 
                     <div class="panel panel-default" ng-repeat="(key, value) in inboundFlights | groupBy: 'departureDate'">
                         <!-- Default panel contents -->
-                        <div class="panel-heading" style="cursor: pointer">{{ key | date : 'dd-MMM' }}</div>
+                        <div class="panel-heading" style="cursor: pointer">{{ key | date : 'EEE dd-MMM' }}</div>
                         <div class="panel-body" style="padding: 0">
                             <table id="Table1" class="table table-condensed table-hover">
                                 <tbody>

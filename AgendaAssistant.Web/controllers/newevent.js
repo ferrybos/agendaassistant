@@ -3,7 +3,6 @@
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
     $scope.isLoading = false;
-    $scope.format = 'dd-MMM-yyyy';
 
     // Participants default
     clearParticipantInput();
@@ -24,11 +23,13 @@
 
     $scope.CreateEvent = function () {
         // add selected flights to the event object to be sent to the server
-        angular.forEach(getSelectedFlights($scope.outboundFlights), function (flight) {
+        var selectedOutboundFlights = $scope.getSelectedOutboundFlights();
+        angular.forEach(selectedOutboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.outboundFlightSearch.flights);
 
-        angular.forEach(getSelectedFlights($scope.inboundFlights), function (flight) {
+        var selectedInboundFlights = $scope.getSelectedInboundFlights();
+        angular.forEach(selectedInboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.inboundFlightSearch.flights);
 
@@ -45,27 +46,15 @@
         $location.path("/");
     };
 
-    $scope.isOrganizerAddedToParticipants = false;
+    
     $scope.CurrentStepIndex = 1;
-    $scope.SelectStep = function (stepIndex) {
-        if (stepIndex == 2) {
-            $scope.$broadcast('focusParticipantName');
-        }
-        if (stepIndex == 2 && !$scope.isOrganizerAddedToParticipants) {
-            // Add organizer to participants list           
-            addParticipantInternal($scope.event.organizer.name, $scope.event.organizer.email);
-            $scope.isOrganizerAddedToParticipants = true;
-        }
-
-        $scope.CurrentStepIndex = stepIndex;
-        //$log.log("Event = " + JSON.stringify($scope.event));
-    };
 
     $scope.SelectStepEvent = function () {
         $scope.$broadcast('focusEventTitle');
         $scope.CurrentStepIndex = 1;
     };
 
+    $scope.isOrganizerAddedToParticipants = false;
     $scope.SelectStepParticipants = function () {
         $scope.$broadcast('focusParticipantName');
 
@@ -141,10 +130,14 @@
         });
     };
 
-    $scope.getSelectedFlights = function (flights) {
-        return $filter('filter')(flights, { IsSelected: true }, true);
+    $scope.getSelectedOutboundFlights = function () {
+        return $filter('filter')($scope.outboundFlights, { IsSelected: true }, true);
     };
     
+    $scope.getSelectedInboundFlights = function () {
+        return $filter('filter')($scope.inboundFlights, { IsSelected: true }, true);
+    };
+
     $scope.SearchOutboundFlights = function (flightSearch) {
         //$log.log("Search: " + JSON.stringify($scope.event.outboundFlightSearch));
         getOutboundFlights(flightSearch);

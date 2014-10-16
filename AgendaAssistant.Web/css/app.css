@@ -3,9 +3,13 @@
     background-color: #eee;
 }
 
+.table {
+    margin-bottom: 0;
+}
+
 ul {
     list-style: none;
-    padding: 0px;
+    padding: 0;
 }
 
 h1, h4 {
@@ -45,34 +49,6 @@ div#contentFooter {
     border-top: 1px solid #eee;
     margin-top: 10px;
     padding-top: 10px;
-}
-
-/*NewEvent*/
-#step_headers {
-    overflow: hidden;
-}
-
-#step_headers li {
-    float: left;
-    margin-right: 4px;
-    /*font-size: 14px;*/
-    cursor: pointer;
-    color: rgb(153, 153, 153);
-
-    border: 1px solid #eee;
-    border-radius: 4px;
-    padding: 4px 10px 4px 10px;
-}
-
-#step_headers li:last-child {
-    margin-right: 0px;
-}
-
-#step_headers li.active {
-    /*color: #0397D6;*/
-    color: rgb(70, 136, 71);
-    border: 1px solid rgb(214, 233, 198);
-    background-color: rgb(223, 240, 216);
 }
 
 .list-group-item {
