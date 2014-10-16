@@ -11,16 +11,15 @@
     <div ng-if="event.isConfirmed">
         <p>Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
 
-        <div class="btn-group btn-group-justified">
+        <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
             <a role="button" class="btn" ng-class="activeFlightTabIndex == 0 ? 'btn-primary' : 'btn-default'" ng-click="activeFlightTabIndex = 0">Heen</a>
             <a role="button" class="btn" ng-class="activeFlightTabIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="activeFlightTabIndex = 1">Terug</a>
         </div>
 
         <div ng-if="activeFlightTabIndex == 0">
-            <h4>Heen</h4>
             <div class="list-group">
-                <div class="panel panel-default" ng-repeat="(key, value) in event.outboundFlightSearch.flights | groupBy: 'departureDate'">
-                    <div class="panel-heading" style="cursor: pointer">{{ key | date : 'EEE dd-MMM' }}</div>
+                <div class="panel panel-default" ng-repeat="(key, value) in ::event.outboundFlightSearch.flights | groupBy: 'departureDate'">
+                    <div class="panel-heading">{{ key | date : 'EEE dd-MMM' }}</div>
                     <div class="panel-body" style="padding: 0">
                         <table id="outboundflights-table" class="table table-condensed">
                             <tbody>
@@ -38,16 +37,16 @@
         </div>
 
         <div ng-if="activeFlightTabIndex == 1">
-            <h4>Terug</h4>
             <div class="list-group">
-                <div class="panel panel-default" ng-repeat="(key, value) in event.inboundFlightSearch.flights | groupBy: 'departureDate'">
-                    <div class="panel-heading" style="cursor: pointer">{{ key | date : 'EEE dd-MMM' }}</div>
+                <div class="panel panel-default" ng-repeat="(key, value) in ::event.inboundFlightSearch.flights | groupBy: 'departureDate'">
+                    <div class="panel-heading">{{ key | date : 'EEE dd-MMM' }}</div>
                     <div class="panel-body" style="padding: 0">
                         <table id="Table1" class="table table-condensed">
                             <tbody>
                                 <tr ng-repeat="flight in value">
                                     <td class="animated">
-                                        <p>{{flight.std | date : 'hh:mm'}} - {{flight.sta | date : 'hh:mm'}} {{flight.price}} EUR</p>
+                                        <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                                        <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
                                     </td>
                                 </tr>
                             </tbody>
