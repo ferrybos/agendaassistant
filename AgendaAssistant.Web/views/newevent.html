@@ -93,30 +93,41 @@
                     </div>
                 </div>
 
-                <div id="outboundWeekDays">Weekday buttons incl ALL</div>
+                <div id="outboundWeekDays">TODO: Weekday buttons incl ALL</div>
 
-                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights()" ng-disabled="isLoading === true">
+                <button type="button" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px" ng-click="SearchOutboundFlights(event.outboundFlightSearch)" ng-disabled="isLoading === true">
                     <span class="glyphicon glyphicon-search"></span>Zoek vluchten
                 </button>
 
                 <h4>Beschikbare vluchten</h4>
                 <img src="img/ajax-loader.gif" alt="" id="loader" ng-if="isLoading === true" />
 
-                <!-- <ul ng-repeat="(key, value) in outboundFlights | groupBy: 'departureDate'">
-                    {{ key | date : 'dd-MMM' }}
-                  <li ng-repeat="flight in value">Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}
-                  </li>
-                </ul>-->
-
                 <div class="list-group" ng-if="isLoading !== true">
+                    <div>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="selectAllFlights(outboundFlights, true)">
+                            <span class="glyphicon glyphicon-check"></span>
+                            Alles selecteren
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="selectAllFlights(outboundFlights, false)">
+                            <span class="glyphicon glyphicon-unchecked"></span>
+                            Alles deselecteren
+                        </button>
+                    </div>
+
                     <div class="panel panel-default" ng-repeat="(key, value) in outboundFlights | groupBy: 'departureDate'">
                         <!-- Default panel contents -->
-                        <div class="panel-heading">{{ key | date : 'dd-MMM' }}</div>
-                        <div class="panel-body">
-                                <a class="list-group-item animated" ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
-                                <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                                <p class="list-group-item-text">Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
-                            </a>
+                        <div class="panel-heading" style="cursor: pointer">{{ key | date : 'dd-MMM' }}</div>
+                        <div class="panel-body" style="padding: 0">
+                            <table id="outboundflights-table" class="table table-condensed table-hover">
+                                <tbody>
+                                    <tr ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
+                                        <td class="animated">
+                                            <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                                            <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -163,13 +174,33 @@
                 <h4>Beschikbare vluchten</h4>
                 <img src="img/ajax-loader.gif" alt="" id="Img1" ng-if="isLoading === true" />
 
-                <div class="panel panel-default" ng-if="isLoading !== true">
-                    <!--<div class="panel-heading">Departure date</div>-->
-                    <div class="list-group">
-                        <a ng-repeat="flight in inboundFlights" class="list-group-item animated" style="cursor: pointer">
-                            <h4 class="list-group-item-heading">{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                            <p class="list-group-item-text">{{flight.std}}-{{flight.sta}}</p>
-                        </a>
+                <div class="list-group" ng-if="isLoading !== true">
+                    <div>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="selectAllFlights(inboundFlights, true)">
+                            <span class="glyphicon glyphicon-check"></span>
+                            Alles selecteren
+                        </button>
+                        <button type="button" class="btn btn-default btn-xs" ng-click="selectAllFlights(inboundFlights, false)">
+                            <span class="glyphicon glyphicon-unchecked"></span>
+                            Alles deselecteren
+                        </button>
+                    </div>
+
+                    <div class="panel panel-default" ng-repeat="(key, value) in inboundFlights | groupBy: 'departureDate'">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading" style="cursor: pointer">{{ key | date : 'dd-MMM' }}</div>
+                        <div class="panel-body" style="padding: 0">
+                            <table id="Table1" class="table table-condensed table-hover">
+                                <tbody>
+                                    <tr ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
+                                        <td class="animated">
+                                            <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
+                                            <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

@@ -10,7 +10,6 @@
 
     // Flights default
     $scope.outboundFlights = null;
-    $scope.playersFiltered = null;
     $scope.inboundFlights = null;
 
     getNewEvent();
@@ -18,18 +17,18 @@
     function getNewEvent() {
         var newEvent = eventFactory.get({ id: "new" }, function () {
             $scope.event = newEvent;
-            $log.log("Event = " + JSON.stringify($scope.event));
+            //$log.log("Event = " + angular.ToJSON($scope.event));
         });
 
     };
 
     $scope.CreateEvent = function () {
         // add selected flights to the event object to be sent to the server
-        angular.forEach($scope.outboundFlights, function (flight) {
+        angular.forEach(getSelectedFlights($scope.outboundFlights), function (flight) {
             this.push(flight);
         }, $scope.event.outboundFlightSearch.flights);
 
-        angular.forEach($scope.inboundFlights, function (flight) {
+        angular.forEach(getSelectedFlights($scope.inboundFlights), function (flight) {
             this.push(flight);
         }, $scope.event.inboundFlightSearch.flights);
 
@@ -127,40 +126,33 @@
         $scope.newParticipantEmail = "";
     };
 
-    $scope.SearchOutboundFlights = function () {
-        $log.log("Search: " + JSON.stringify($scope.event.outboundFlightSearch));
-        getOutboundFlights($scope.event.outboundFlightSearch);
-    };
-
-    $scope.SearchInboundFlights = function () {
-        $log.log("Search: " + JSON.stringify($scope.event.inboundFlightSearch));
-        getInboundFlights($scope.event.inboundFlightSearch);
-    };
-
     function paxCount() {
         return $scope.event.participants.length;
     }
 
     $scope.toggleIsSelected = function (flight) {
         flight.IsSelected = flight.IsSelected === true ? false : true;
-        $log.log("Select: " + flight.IsSelected);
     };
 
-    $scope.selectAllOutboundFlights = function () {
-        angular.forEach($scope.inboundFlights, function (value) {
-            value.IsSelected = true;
+    $scope.selectAllFlights = function (flights, value) {
+        angular.forEach(flights, function (flight) {
+            //$log.log("Select: " + angular.toJson(flight));
+            flight.IsSelected = value;
         });
     };
 
-    $scope.deselectAllOutboundFlights = function () {
-        angular.forEach($scope.inboundFlights, function (value) {
-            value.IsSelected = false;
-        });
+    $scope.getSelectedFlights = function (flights) {
+        return $filter('filter')(flights, { IsSelected: true }, true);
+    };
+    
+    $scope.SearchOutboundFlights = function (flightSearch) {
+        //$log.log("Search: " + JSON.stringify($scope.event.outboundFlightSearch));
+        getOutboundFlights(flightSearch);
     };
 
-    $scope.getSelectedOutboundFlights = function () {
-        var selectedFlights = $filter('filter')($scope.inboundFlights, { IsSelected: true }, true);
-        return selectedFlights;
+    $scope.SearchInboundFlights = function () {
+        //$log.log("Search: " + JSON.stringify($scope.event.inboundFlightSearch));
+        getInboundFlights($scope.event.inboundFlightSearch);
     };
 
     function getOutboundFlights(flightSearch) {
@@ -213,17 +205,4 @@
     $scope.IsParticipantsStepValid = function () {
         return $scope.event != undefined && $scope.event.participants != undefined && $scope.event.participants.length > 0;
     };
-
-    // DatePicker stuff
-    //$scope.open = function ($event, opened) {
-    //    $event.preventDefault();
-    //    $event.stopPropagation();
-
-    //    $scope[opened] = true;
-    //};
-
-    //$scope.dateOptions = {
-    //    formatYear: 'yy',
-    //    startingDay: 1
-    //};
 });
