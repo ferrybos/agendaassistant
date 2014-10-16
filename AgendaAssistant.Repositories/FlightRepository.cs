@@ -46,6 +46,7 @@ namespace AgendaAssistant.Repositories
                         {
                             DepartureStation = segment.DepartureStation,
                             ArrivalStation = segment.ArrivalStation,
+                            DepartureDate = segment.STD.Date, // todo: DepartureDate?
                             CarrierCode = segment.FlightDesignator.CarrierCode,
                             FlightNumber = short.Parse(segment.FlightDesignator.FlightNumber),
                             STD = segment.STD,
