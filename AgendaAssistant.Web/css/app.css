@@ -121,7 +121,7 @@ div#contentFooter {
 
 /* Landscape phones and down */
 @media (max-width: 480px) {
-    #step_headers li {
-        padding: 4px 8px 4px 8px;
+    input.form-control, select.form-control {
+        height: 46px;
     }
 }
