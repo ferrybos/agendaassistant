@@ -18,5 +18,7 @@ namespace AgendaAssistant.Entities
         public string CarrierCode { get; set; }
         public short FlightNumber { get; set; }
         public decimal Price { get; set; }
+
+        public List<Availability> Availabilities { get; set; }
     }
 }

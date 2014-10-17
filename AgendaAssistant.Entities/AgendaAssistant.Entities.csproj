@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Availability.cs" />
+    <Compile Include="Participant.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Flight.cs" />
     <Compile Include="FlightSearch.cs" />

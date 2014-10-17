@@ -74,5 +74,14 @@ namespace AgendaAssistant.Repositories
                     Price = dbFlight.Price / 100M
                 };
         }
+
+        public static Availability Map(DB.Availability dbAvailability)
+        {
+            return new Availability
+            {
+                Value = dbAvailability.Value,
+                CommentText = dbAvailability.Comment
+            };
+        }
     }
 }

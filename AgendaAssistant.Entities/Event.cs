@@ -34,10 +34,4 @@ namespace AgendaAssistant.Entities
         public FlightSearch OutboundFlightSearch { get; set; }
         public FlightSearch InboundFlightSearch { get; set; }
     }
-
-    public class Participant
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
 }
