@@ -7,11 +7,11 @@ using AgendaAssistant.Entities;
 
 namespace AgendaAssistant.Repositories.Mocks
 {
-    public class MockAvailabilityRepository : IAvailabilityRepository
-    {
-        public List<Availability> Get(long flightSearchId, long personId)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    //public class MockAvailabilityRepository : IAvailabilityRepository
+    //{
+    //    public List<Availability> Get(long flightSearchId, long personId)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

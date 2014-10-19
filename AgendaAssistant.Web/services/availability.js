@@ -7,3 +7,12 @@
         }
     );
 });
+
+app.service('availabilityService', ['$http', '$log', '$filter', function ($http, $log, $filter) {
+    var urlBase = '/api/availability';
+
+    this.update = function (availability) {
+        console.log("Saving availability...");
+        return $http.post(urlBase, availability);
+    };
+}]);

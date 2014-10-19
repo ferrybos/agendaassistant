@@ -25,10 +25,16 @@ namespace AgendaAssistant.Services
         {
             return _repository.Get(flightSearchId, personId);
         }
+
+        public void Update(Availability availability)
+        {
+            _repository.Update(availability);
+        }
     }
 
     public interface IAvailabilityService
     {
         List<Availability> Get(long flightSearchId, long personId);
+        void Update(Availability availability);
     }
 }

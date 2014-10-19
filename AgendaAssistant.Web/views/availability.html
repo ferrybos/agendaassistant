@@ -15,17 +15,18 @@
                 <div class="panel-body" style="padding: 0">
                     <table id="outboundflights-table" class="table table-condensed">
                         <tbody>
-                            <tr ng-repeat="flight in value">
+                            <tr ng-repeat="flight in value" ng-controller="AvailabilityItemCtrl">
                                 <td class="animated">
                                     <div>
                                         <div style="float:right;margin-bottom:4px">
-                                            <button type="button" class="btn btn-lg btn-success">Ja</button>
-                                            <button type="button" class="btn btn-lg btn-warning">?</button>
-                                            <button type="button" class="btn btn-lg btn-danger">Nee</button>
+                                            <button type="button" class="btn btn-lg btn-success" ng-click="flight.availabilities[0].value = 100">Ja</button>
+                                            <button type="button" class="btn btn-lg btn-warning" ng-click="flight.availabilities[0].value = 50">?</button>
+                                            <button type="button" class="btn btn-lg btn-danger" ng-click="flight.availabilities[0].value = 0">Nee</button>
                                         </div>
                                         <div style="float:left"><h4>{{flight.std | date : 'hh:mm'}}   {{flight.price}} EUR</h4></div>
                                     </div>
-                                    <textarea class="form-control" name="comment" rows="4" placeholder="Opmerking" style="width: 100%"></textarea>
+                                    <input type="text" ng-model="flight.availabilities[0].value"/>
+                                    <textarea class="form-control" name="comment" rows="4" ng-model="flight.availabilities[0].commentText" placeholder="Opmerking" style="width: 100%"></textarea>
                                 </td>
                             </tr>
                         </tbody>
@@ -42,7 +43,7 @@
                 <div class="panel-body" style="padding: 0">
                     <table id="Table1" class="table table-condensed">
                         <tbody>
-                            <tr ng-repeat="flight in value">
+                            <tr ng-repeat="flight in value" ng-controller="AvailabilityItemCtrl">
                                 <td class="animated">
                                     <div>
                                         <div style="float:right;margin-bottom:4px">

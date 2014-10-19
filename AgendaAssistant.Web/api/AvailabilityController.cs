@@ -49,5 +49,14 @@ namespace AgendaAssistant.Web.api
                     Event = evn
                 };
         }
+
+        [Route("")]
+        [HttpPost]
+        public IHttpActionResult Post([FromBody] Availability availability)
+        {
+            // update av
+            _availabilityService.Update(availability);
+            return Ok();
+        }
     }
 }
