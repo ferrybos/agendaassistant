@@ -41,7 +41,11 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $log,
             timeout = $timeout(saveUpdates, 500);
         }
     };
-    
+
+    $scope.toggleComment = function(flight) {
+        flight.isCommentExpanded = !flight.isCommentExpanded;
+    };
+
     $scope.$watch('flight.availabilities[0].value', debounceUpdate);
     $scope.$watch('flight.availabilities[0].commentText', debounceUpdate);
 });
