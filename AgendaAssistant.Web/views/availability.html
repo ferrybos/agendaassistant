@@ -1,7 +1,7 @@
 ﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="event == null" />
 <div id="wrapper" ng-show="event != null">
     <h1 class="page-header">{{::event.title}}</h1>
-    <p>Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
+    <p style="margin-bottom: 20px">Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
 
     <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
         <a role="button" class="btn" ng-class="activeFlightTabIndex == 0 ? 'btn-primary' : 'btn-default'" ng-click="activeFlightTabIndex = 0">Heen</a>

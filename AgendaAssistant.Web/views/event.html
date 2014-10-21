@@ -9,7 +9,16 @@
         <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="ConfirmEvent()">Afspraak is bevestigd</button>
     </div>
     <div ng-if="event.isConfirmed">
-        <p>Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
+        <p style="margin-bottom: 20px">Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
+        
+        <div class="panel panel-primary">
+            <div class="panel-heading" ng-click="isActionsExpanded = !isActionsExpanded" style="cursor: pointer">
+                <span ng-class="isActionsExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Acties
+            </div>
+            <div class="panel-body" ng-show="isActionsExpanded">
+                <a href="{{::availabilityUrl}}"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid invullen</a>
+            </div>
+        </div>
 
         <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
             <a role="button" class="btn" ng-class="activeFlightTabIndex == 0 ? 'btn-primary' : 'btn-default'" ng-click="activeFlightTabIndex = 0">Heen</a>

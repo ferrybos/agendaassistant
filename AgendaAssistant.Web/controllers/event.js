@@ -2,6 +2,8 @@
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
+    $scope.availabilityUrl = null;
+    $scope.isActionsExpanded = false;
     
     getEvent();
     
@@ -9,7 +11,8 @@
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
-            //$log.log("Event = " + JSON.stringify($scope.event));
+            $scope.availabilityUrl = "#/availability/" + $routeParams.id + "/" + $scope.event.organizer.id;
+            $log.log("Event = " + JSON.stringify($scope.event));
         });
     };
     
