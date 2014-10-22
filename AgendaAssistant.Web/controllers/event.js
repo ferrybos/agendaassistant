@@ -11,7 +11,7 @@
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
-            $scope.availabilityUrl = "#/availability/" + $routeParams.id + "/" + $scope.event.organizer.id;
+            $scope.availabilityUrl = "#/availability/" + $routeParams.id;
             $log.log("Event = " + JSON.stringify($scope.event));
         });
     };

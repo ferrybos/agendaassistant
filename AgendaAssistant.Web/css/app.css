@@ -102,6 +102,11 @@ div#contentFooter {
     font-weight: bold;
 }
 
+.flighttime {
+    font-size: 18px;
+    color: #84b70b;
+}
+
 /* Large desktop */
 @media (min-width: 1200px) {
 

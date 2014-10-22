@@ -13,5 +13,8 @@ namespace AgendaAssistant.Entities
 
         public long PersonId { get; set; }
         public long FlightId { get; set; }
+
+        // Display properties
+        public string Name { get; set; }
     }
 }

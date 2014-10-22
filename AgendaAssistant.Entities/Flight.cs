@@ -19,6 +19,7 @@ namespace AgendaAssistant.Entities
         public short FlightNumber { get; set; }
         public decimal Price { get; set; }
 
+        public short AvailabilityPercentage { get; set; }
         public List<Availability> Availabilities { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace AgendaAssistant.Repositories
     public interface IAvailabilityRepository
     {
         List<Availability> Get(long flightSearchId, long personId);
+        List<Availability> Get(long flightSearchId);
         void Update(Availability availability);
     }
 
@@ -39,6 +40,30 @@ namespace AgendaAssistant.Repositories
             dbAvailability.Comment = availability.CommentText;
 
             _db.SaveChanges();
+        }
+
+        public List<Availability> Get(long flightSearchId)
+        {
+            var result = new List<Availability>();
+            var dbFlightSearch = _db.FlightSearches.Single(fs => fs.ID == flightSearchId);
+            var dbAvailabilities =
+                _db.Availabilities.Where(a => a.Flight.FlightSearchID == flightSearchId)
+                   .ToList();
+
+            foreach (var dbFlight in dbFlightSearch.Flights)
+            {
+                var flight = dbFlight;
+                foreach (var dbAvailability in dbAvailabilities.Where(a => a.FlightID == flight.ID))
+                {
+                    var availability = EntityMapper.Map(dbAvailability);
+                    availability.FlightId = dbFlight.ID;
+                    availability.PersonId = dbAvailability.PersonID;
+                    availability.Name = dbAvailability.Person.Name;
+                    result.Add(availability);
+                }
+            }
+
+            return result;
         }
 
         public List<Availability> Get(long flightSearchId, long personId)

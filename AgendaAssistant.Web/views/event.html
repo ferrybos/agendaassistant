@@ -10,13 +10,13 @@
     </div>
     <div ng-if="event.isConfirmed">
         <p style="margin-bottom: 20px">Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
-        
+
         <div class="panel panel-primary">
             <div class="panel-heading" ng-click="isActionsExpanded = !isActionsExpanded" style="cursor: pointer">
                 <span ng-class="isActionsExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Acties
             </div>
             <div class="panel-body" ng-show="isActionsExpanded">
-                <a href="{{::availabilityUrl}}"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid invullen</a>
+                <a href="{{::availabilityUrl}}/{{::event.organizer.id}}"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid invullen</a>
             </div>
         </div>
 
@@ -33,9 +33,25 @@
                         <table id="outboundflights-table" class="table table-condensed">
                             <tbody>
                                 <tr ng-repeat="flight in value">
-                                    <td class="animated">
-                                        <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                                        <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
+                                    <td>
+                                        <div style="padding: 5px;margin-bottom: 5px">
+                                            <span class="flighttime">{{flight.std | date : 'hh:mm'}}</span>
+                                            <span class="badge" style="line-height: 18px; margin-left: 5px">{{flight.price}} EUR</span>
+                                        </div>
+
+                                        <div class="progress">
+                                            <div class="progress-bar" ng-class="flight.availabilityPercentage == 100 ? 'progress-bar-success' : flight.availabilityPercentage < 50 ? 'progress-bar-danger' : flight.availabilityPercentage < 75 ? 'progress-bar-warning' : 'progress-bar-info'" role="progressbar" aria-valuenow="{{flight.availabilityPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{flight.availabilityPercentage}}%;">
+                                                {{flight.availabilityPercentage}}%
+                                            </div>
+                                        </div>
+
+                                        <table id="Table2" class="table table-condensed">
+                                            <tbody>
+                                                <tr ng-repeat="availability in flight.availabilities">
+                                                    <td><a href="{{::availabilityUrl}}/{{::availability.personId}}">{{::availability.name}}</a>: {{::availability.value}}<td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                             </tbody>
@@ -53,9 +69,25 @@
                         <table id="Table1" class="table table-condensed">
                             <tbody>
                                 <tr ng-repeat="flight in value">
-                                    <td class="animated">
-                                        <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                                        <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
+                                    <td>
+                                        <div style="padding: 5px;margin-bottom: 5px">
+                                            <span class="flighttime">{{flight.std | date : 'hh:mm'}}</span>
+                                            <span class="badge" style="line-height: 18px; margin-left: 5px">{{flight.price}} EUR</span>
+                                        </div>
+
+                                        <div class="progress">
+                                            <div class="progress-bar" ng-class="flight.availabilityPercentage == 100 ? 'progress-bar-success' : flight.availabilityPercentage < 50 ? 'progress-bar-danger' : flight.availabilityPercentage < 75 ? 'progress-bar-warning' : 'progress-bar-info'" role="progressbar" aria-valuenow="{{flight.availabilityPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{flight.availabilityPercentage}}%;">
+                                                {{flight.availabilityPercentage}}%
+                                            </div>
+                                        </div>
+
+                                        <table id="Table3" class="table table-condensed">
+                                            <tbody>
+                                                <tr ng-repeat="availability in flight.availabilities">
+                                                    <td><a href="{{::availabilityUrl}}/{{::availability.personId}}">{{::availability.name}}</a>: {{::availability.value}}<td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                             </tbody>

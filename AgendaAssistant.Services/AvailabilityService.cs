@@ -21,6 +21,16 @@ namespace AgendaAssistant.Services
             _repository = repository;
         }
 
+        public short CalculateAvailabilityPercentage(Flight flight)
+        {
+            return flight.Availabilities.Count == 0 ? (short) 0 : (short) (flight.Availabilities.Average(a => a.Value));
+        }
+
+        public List<Availability> Get(long flightSearchId)
+        {
+            return _repository.Get(flightSearchId);            
+        }
+
         public List<Availability> Get(long flightSearchId, long personId)
         {
             return _repository.Get(flightSearchId, personId);
@@ -35,6 +45,8 @@ namespace AgendaAssistant.Services
     public interface IAvailabilityService
     {
         List<Availability> Get(long flightSearchId, long personId);
+        List<Availability> Get(long flightSearchId);
+        short CalculateAvailabilityPercentage(Flight flight);
         void Update(Availability availability);
     }
 }

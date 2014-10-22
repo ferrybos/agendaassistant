@@ -13,10 +13,12 @@ namespace AgendaAssistant.Web.api
     public class EventController : ApiController
     {
         private readonly IEventService _service;
+        private readonly IAvailabilityService _availabilityService;
 
-        public EventController(IEventService eventService)
+        public EventController(IEventService eventService, IAvailabilityService availabilityService)
         {
             _service = eventService;
+            _availabilityService = availabilityService;
         }
 
         // GET api/<controller>/5
@@ -31,7 +33,26 @@ namespace AgendaAssistant.Web.api
             }
             
             // fetch existing event
-            return _service.Get(id);
+            // todo: remove duplicate code from AvailabilityController
+            var evn = _service.Get(id);
+
+            var outboundAvailabilities = _availabilityService.Get(evn.OutboundFlightSearch.Id);
+            foreach (var flight in evn.OutboundFlightSearch.Flights)
+            {
+                flight.Availabilities = new List<Availability>();
+                flight.Availabilities.AddRange(outboundAvailabilities.Where(a => a.FlightId == flight.Id));
+                flight.AvailabilityPercentage = _availabilityService.CalculateAvailabilityPercentage(flight);
+            }
+
+            var inboundAvailabilities = _availabilityService.Get(evn.InboundFlightSearch.Id);
+            foreach (var flight in evn.InboundFlightSearch.Flights)
+            {
+                flight.Availabilities = new List<Availability>();
+                flight.Availabilities.AddRange(inboundAvailabilities.Where(a => a.FlightId == flight.Id));
+                flight.AvailabilityPercentage = _availabilityService.CalculateAvailabilityPercentage(flight);
+            }
+
+            return evn;
         }
 
         // POST api/<controller>
