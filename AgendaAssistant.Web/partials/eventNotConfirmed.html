@@ -1,0 +1,7 @@
+﻿<div ng-if="!event.isConfirmed">
+    <h4>Controleer uw mailbox</h4>
+    <p>Er is een email naar jou gestuurd op {{::event.organizer.email}}.</p>
+    <p>Klik op de link in de e-mail om de afspraak te bevestigen en de uitnodigingen te versturen.</p>
+    <p style="font-style: italic; margin-top: 10px">Geen email ontvangen? Controleer het e-mailadres en uw mailbox op ongewenste e-mail (spam)</p>
+    <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="ConfirmEvent()" ng-disabled="isConfirming">Afspraak is bevestigd</button>
+</div>

@@ -1,0 +1,67 @@
+﻿<div id="content_step_outbound">
+    <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
+    <form name="outboundFlightsForm" novalidate>
+        <div class="row" id="outboundOriginDestination">
+            <div class="col-xs-6" style="padding-left: 0;">
+                <label class="control-label" for="outbound_departurestation">Vertrek</label>
+                <select id="outbound_departurestation" class="form-control" ng-model="event.outboundFlightSearch.departureStation" ng-required="true">
+                    <option ng-repeat="station in homeStations" value="{{station.code}}">{{station.name}}</option>
+                </select>
+            </div>
+            <div class="col-xs-6" style="padding-right: 0">
+                <label class="control-label" for="outbound_arrivalstation">Aankomst</label>
+                <select id="outbound_arrivalstation" class="form-control" ng-model="event.outboundFlightSearch.arrivalStation" ng-required="true">
+                    <option ng-repeat="station in departureStations" value="{{station.code}}">{{station.name}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row" id="outboundBeginEndDate">
+            <div class="col-xs-6" style="padding-left: 0;">
+                <label class="control-label" for="outbound_begindate">Begin datum</label>
+                <input type="text" id="outbound_begindate" class="form-control" ng-model="event.outboundFlightSearch.beginDate" data-min-date="today" data-max-date="{{event.outboundFlightSearch.endDate}}" name="outbound_begindate" bs-datepicker ng-required="true">
+            </div>
+            <div class="col-xs-6" style="padding-right: 0">
+                <label class="control-label" for="outbound_begindate">Eind datum (max 30 dagen)</label>
+                <input type="text" id="outbound_enddate" class="form-control" ng-model="event.outboundFlightSearch.endDate" data-min-date="{{event.outboundFlightSearch.beginDate}}" name="outbound_enddate" bs-datepicker ng-required="true">
+            </div>
+        </div>
+
+        <!--<div id="outboundWeekDays">TODO: Weekday buttons incl ALL</div>-->
+
+        <button type="button" class="btn btn-sm btn-primary" ng-disabled="isLoading === true" ng-click="SearchOutboundFlights(event.outboundFlightSearch)" style="width: 100%; margin-top: 10px">
+            <span class="glyphicon glyphicon-search"></span>Zoek vluchten
+        </button>
+    </form>
+
+    <div ng-if="isLoading === true">
+        <p class="help-block">Vlucht informatie wordt opgehaald...</p>
+        <ng-include src="'partials/loader.html'"></ng-include>
+    </div>
+
+    <div ng-show="outboundFlights != null && isLoading !== true">
+        <h4>Beschikbare vluchten</h4>
+
+        <div class="list-group" ng-if="isLoading !== true">
+            <div>
+                <button type="button" class="btn btn-default btn-xs" ng-click="selectAllFlights(outboundFlights, true)">
+                    <span class="glyphicon glyphicon-check"></span>
+                    Alles selecteren
+                </button>
+                <button type="button" class="btn btn-default btn-xs" ng-click="selectAllFlights(outboundFlights, false)">
+                    <span class="glyphicon glyphicon-unchecked"></span>
+                    Alles deselecteren
+                </button>
+            </div>
+
+            <div class="panel panel-default" ng-repeat="(key, value) in outboundFlights | groupBy: 'departureDate'">
+                <ng-include src="'partials/flightFromApi.html'"></ng-include>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab_navigation">
+        <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+        <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="!IsOutboundStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+﻿<div class="panel panel-primary" style="margin-bottom: 0">
+    <div class="panel-heading" ng-click="isActionsExpanded = !isActionsExpanded" style="cursor: pointer">
+        <span ng-class="isActionsExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Acties
+    </div>
+    <div class="panel-body" ng-show="isActionsExpanded">
+        <a href="{{::availabilityUrl}}/{{::event.organizer.id}}"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid invullen</a>
+    </div>
+</div>

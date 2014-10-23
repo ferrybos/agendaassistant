@@ -1,0 +1,30 @@
+﻿<div id="content_step_event">
+    <p class="help-block">Vul hier uw afspraak gegevens in.</p>
+    <a ng-click="EnterTestEvent()" style="cursor: pointer">Test</a><br />
+    <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
+        <!--Title-->
+        <div class="form-group" show-errors='{showSuccess: true}'>
+            <input type="text" class="form-control" name="title" ng-model="event.title" focus-on="focusEventTitle" required autofocus placeholder="Titel" maxlength="50" autocomplete="off" style="width: 100%" />
+            <p class="help-block" ng-if="eventForm.title.$error.required">De titel is verplicht</p>
+        </div>
+        <!--Description-->
+        <textarea class="form-control" name="description" ng-model="event.description" rows="4" placeholder="Omschrijving" style="width: 100%"></textarea>
+        <h4>Organisator</h4>
+        <!--Naam-->
+        <div class="form-group" show-errors='{showSuccess: true}'>
+            <input type="text" class="form-control" name="name" ng-model="event.organizer.name" required autofocus placeholder="Uw naam" style="width: 100%" />
+            <p class="help-block" ng-if="eventForm.name.$error.required">De organisator's naam is verplicht</p>
+        </div>
+        <!--Email-->
+        <div class="form-group" show-errors='{showSuccess: true}'>
+            <input type="text" class="form-control" name="email" ng-model="event.organizer.email" required autofocus placeholder="Uw emailadres" style="width: 100%" />
+            <p class="help-block" ng-if="eventForm.email.$error.required">De organisator's email adres is verplicht</p>
+            <p class="help-block" ng-if="eventForm.email.$error.email">De organisator's email adres is onjuist</p>
+        </div>
+        <!--Buttons-->
+        <div class="tab_navigation">
+            <button type="button" class="btn btn-lg btn-link" style="float: left" id="cancelButton" ng-click="CancelNewEvent()">Annuleren</button>
+            <button type="submit" class="btn btn-lg btn-primary" style="float: right" ng-disabled="eventForm.$invalid">Volgende <span class="glyphicon glyphicon-arrow-right" style="margin-left: 4px"></span></button>
+        </div>
+    </form>
+</div>

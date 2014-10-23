@@ -82,6 +82,7 @@
             $scope.areOutboundDefaultsSet = true;
         }
 
+        $scope.$apply();
         $scope.CurrentStepIndex = 3;
     };
 
@@ -97,6 +98,7 @@
             $scope.areInboundDefaultsSet = true;
         }
 
+        $scope.$apply();
         $scope.CurrentStepIndex = 4;
     };
 
