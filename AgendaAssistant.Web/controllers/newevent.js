@@ -2,6 +2,7 @@
     $scope.constants = Constants;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.departureStations = stationsFactory.departureStations;
+    $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
 
     // Participants default
@@ -22,6 +23,8 @@
     };
 
     $scope.CreateEvent = function () {
+        $scope.CurrentStepIndex = 9; //saving event
+        
         // add selected flights to the event object to be sent to the server
         var selectedOutboundFlights = $scope.getSelectedOutboundFlights();
         angular.forEach(selectedOutboundFlights, function (flight) {
@@ -33,11 +36,11 @@
             this.push(flight);
         }, $scope.event.inboundFlightSearch.flights);
 
-        $log.log("Event = " + JSON.stringify($scope.event));
+        //$log.log("Event = " + JSON.stringify($scope.event));
 
         $scope.event.$save(function (responseData) {
             // Success
-            $log.log("save success: " + JSON.stringify(responseData));
+            //$log.log("save success: " + JSON.stringify(responseData));
             $location.path("/event/" + responseData.code);
         });
     };
@@ -45,9 +48,6 @@
     $scope.CancelNewEvent = function () {
         $location.path("/");
     };
-
-    
-    $scope.CurrentStepIndex = 1;
 
     $scope.SelectStepEvent = function () {
         $scope.$broadcast('focusEventTitle');
@@ -78,6 +78,8 @@
             var y = myDate.setDate(myDate.getDate() + 8);
             $scope.event.outboundFlightSearch.beginDate = x;
             $scope.event.outboundFlightSearch.endDate = y;
+
+            $scope.areOutboundDefaultsSet = true;
         }
 
         $scope.CurrentStepIndex = 3;
@@ -91,6 +93,8 @@
             $scope.event.inboundFlightSearch.arrivalStation = $scope.event.outboundFlightSearch.departureStation;
             $scope.event.inboundFlightSearch.beginDate = $scope.event.outboundFlightSearch.beginDate;
             $scope.event.inboundFlightSearch.endDate = $scope.event.outboundFlightSearch.endDate;
+            
+            $scope.areInboundDefaultsSet = true;
         }
 
         $scope.CurrentStepIndex = 4;
@@ -197,5 +201,13 @@
 
     $scope.IsParticipantsStepValid = function () {
         return $scope.event != undefined && $scope.event.participants != undefined && $scope.event.participants.length > 0;
+    };
+    
+    $scope.IsOutboundStepValid = function () {
+        return $scope.event != undefined && $scope.outboundFlights != null && $scope.getSelectedOutboundFlights().length > 0;
+    };
+    
+    $scope.IsInboundStepValid = function () {
+        return $scope.event != undefined && $scope.inboundFlights != null && $scope.getSelectedInboundFlights().length > 0;
     };
 });

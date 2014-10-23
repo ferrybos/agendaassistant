@@ -4,17 +4,18 @@
 <div id="wrapper">
     <h1 class="page-header">{{constants.newEventTitle}}</h1>
     <div id="content">
-        <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
+        <div class="btn-group btn-group-justified" style="margin-bottom: 20px" ng-show="CurrentStepIndex != 9">
             <a role="button" class="btn" ng-class="CurrentStepIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="SelectStepEvent()">Afspraak</a>
             <a role="button" class="btn" ng-class="CurrentStepIndex == 2 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">Deelnemers</a>
             <a role="button" class="btn" ng-class="CurrentStepIndex == 3 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">Heen</a>
-            <a role="button" class="btn" ng-class="CurrentStepIndex == 4 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepInbound() : null">Terug</a>
+            <a role="button" class="btn" ng-class="CurrentStepIndex == 4 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() && IsOutboundStepValid() ? SelectStepInbound() : null">Terug</a>
         </div>
 
         <div id="steps">
             <!--Step 1: Event-->
             <div id="content_step_event" ng-show="CurrentStepIndex == 1">
-                <a ng-click="EnterTestEvent()" style="cursor: pointer">Vul in</a><br />
+                <p class="help-block">Vul hier uw afspraak gegevens in.</p>
+                <a ng-click="EnterTestEvent()" style="cursor: pointer">Test</a><br />
                 <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
                     <!--Title-->
                     <div class="form-group" show-errors='{showSuccess: true}'>
@@ -45,6 +46,7 @@
 
             <!--Step 2: Participants-->
             <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
+                <p class="help-block">Zul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen.</p>
                 <form ng-submit="AddParticipant()" name="participantsForm" novalidate>
                     <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
                     <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
@@ -53,7 +55,7 @@
                 <h4>Deelnemers ({{event.participants.length}})</h4>
                 <div class="list-group">
                     <a ng-repeat="participant in event.participants" class="list-group-item animated" style="cursor: pointer">
-                        <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right"><span class="glyphicon glyphicon-minus"></span></button>
+                        <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px"><span class="glyphicon glyphicon-minus"></span></button>
                         <h4 class="list-group-item-heading">{{participant.name}}</h4>
                         <p class="list-group-item-text">{{participant.email}}</p>
                     </a>
@@ -66,8 +68,8 @@
 
             <!--Step 3: Outbound flight search-->
             <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
+                <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
                 <form name="outboundFlightsForm" novalidate>
-                    <h4>Selecteer vluchten</h4>
                     <div class="row" id="outboundOriginDestination">
                         <div class="col-xs-6" style="padding-left: 0;">
                             <label class="control-label" for="outbound_departurestation">Vertrek</label>
@@ -138,14 +140,14 @@
 
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="outboundFlights == null || getSelectedOutboundFlights().length == 0">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="!IsOutboundStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
                 </div>
             </div>
 
             <!--Step 4: Inbound flight search-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
+                <p class="help-block">Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
                 <form name="inboundFlightsForm" novalidate>
-                    <h4>Selecteer vluchten</h4>
                     <div class="row" id="inboundOriginDestination">
                         <div class="col-xs-6" style="padding-left: 0;">
                             <label class="control-label" for="inbound_departurestation">Vertrek</label>
@@ -213,8 +215,13 @@
 
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="inboundFlights == null || getSelectedInboundFlights().length == 0">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="!IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
+            </div>
+
+            <div id="creatingEventDiv" ng-if="CurrentStepIndex == 9">
+                <p class="help-block">Afspraak wordt nu aangemaakt. Even geduld aub...</p>
+                <img src="img/ajax-loader.gif" alt="" id="Img2" />
             </div>
         </div>
     </div>

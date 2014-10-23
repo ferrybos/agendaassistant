@@ -27,7 +27,7 @@ namespace AgendaAssistant.Repositories
                 };
 
             dbEvent.Participants.ToList()
-                   .ForEach(p => evn.Participants.Add(new Participant() {Name = p.Name, Email = p.Email}));
+                   .ForEach(p => evn.Participants.Add(new Participant() { PersonId = p.ID, Name = p.Name, Email = p.Email}));
 
             return evn;
         }

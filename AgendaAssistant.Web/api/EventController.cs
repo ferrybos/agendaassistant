@@ -52,6 +52,13 @@ namespace AgendaAssistant.Web.api
                 flight.AvailabilityPercentage = _availabilityService.CalculateAvailabilityPercentage(flight);
             }
 
+            // used to show participants that have not reacted yet (clicked the link in the confirmation email)
+            foreach (var participant in evn.Participants)
+            {
+                participant.HasConfirmed = outboundAvailabilities.Any(a => a.PersonId == participant.PersonId) ||
+                                           inboundAvailabilities.Any(a => a.PersonId == participant.PersonId);
+            }
+
             return evn;
         }
 
