@@ -58,26 +58,26 @@ div#contentFooter {
     transition: color 0.6s, background-color 0.3s;
 }
 
-.list-group-item.ng-enter {
-    -webkit-animation: fadeIn 0.5s;
-    -moz-animation: fadeIn 0.5s;
-    -ms-animation: fadeIn 0.5s;
-    animation: fadeIn 0.5s;
-  }
+    .list-group-item.ng-enter {
+        -webkit-animation: fadeIn 0.5s;
+        -moz-animation: fadeIn 0.5s;
+        -ms-animation: fadeIn 0.5s;
+        animation: fadeIn 0.5s;
+    }
 
-.list-group-item.ng-leave {
-    -webkit-animation: fadeOut 0.3s;
-    -moz-animation: fadeOut 0.3s;
-    -ms-animation: fadeOut 0.3s;
-    animation: fadeOut 0.3s;
-  }
+    .list-group-item.ng-leave {
+        -webkit-animation: fadeOut 0.3s;
+        -moz-animation: fadeOut 0.3s;
+        -ms-animation: fadeOut 0.3s;
+        animation: fadeOut 0.3s;
+    }
 
 .form-group .help-block {
-  display: none;
+    display: none;
 }
- 
+
 .form-group.has-error .help-block {
-  display: block;
+    display: block;
 }
 
 .row {
@@ -91,7 +91,7 @@ div#contentFooter {
 
 .loading {
     margin-right: 4px;
-    background-image: url('../img/ajax-loader.gif'); 
+    background-image: url('../img/ajax-loader.gif');
 }
 
 .glyphicon-arrow-right {
@@ -107,21 +107,46 @@ div#contentFooter {
     color: #84b70b;
 }
 
+/*
+ * ngRepeat triggers three animation events: enter, leave and move.
+ */
+.repeat-animation.ng-enter,
+.repeat-animation.ng-move {
+  -webkit-transition:0.5s linear all;
+  transition:0.5s linear all;
+}
+
+.repeat-animation.ng-leave {
+   -webkit-transition:0.2s linear all;
+  transition:0.2s linear all; 
+}
+
+/* ending enter and move styling
+   (this is what the element will animate from */
+.repeat-animation.ng-enter,
+.repeat-animation.ng-move { opacity:0; }
+
+/* ending enter and move styling
+   (this is what the element will animate towards */
+.repeat-animation.ng-enter.ng-enter-active,
+.repeat-animation.ng-move.ng-move-active { opacity:1; }
+
+/* starting leave animation */
+.repeat-animation.ng-leave { opacity:1; }
+
+/* ending leave animation */
+.repeat-animation.ng-leave.ng-leave-active { opacity:0; }
+
 /* Large desktop */
 @media (min-width: 1200px) {
-
-
 }
- 
+
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 979px) {
-
-
 }
- 
+
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
-
 }
 
 /* Landscape phones and down */

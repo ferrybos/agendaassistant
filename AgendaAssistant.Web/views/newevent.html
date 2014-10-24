@@ -16,10 +16,41 @@
             <ng-include src="'partials/newEventDetails.html'" ng-show="CurrentStepIndex == 1"></ng-include>
 
             <!--Step 2: Participants-->
-            <ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>
+            <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
+            <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
+                <p class="help-block">Zul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen.</p>
+                <form ng-submit="AddParticipant()" name="participantsForm" novalidate>
+                    <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
+                    <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
+                    <button type="submit" ng-disabled="participantsForm.$invalid" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
+                </form>
+                <h4>Deelnemers ({{event.participants.length}})</h4>
+                <div class="list-group">
+                    <div ng-repeat="participant in event.participants" class="repeat-animation">
+                        <a class="list-group-item" style="cursor: pointer">
+                            <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px"><span class="glyphicon glyphicon-minus"></span></button>
+                            <h4 class="list-group-item-heading">{{participant.name}}</h4>
+                            <p class="list-group-item-text">{{participant.email}}</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="tab_navigation">
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepEvent()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepOutbound()" ng-disabled="!IsParticipantsStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
 
             <!--Step 3: Outbound flight search-->
-            <ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>
+            <!--<ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>-->
+            <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
+                <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
+                <flight-search data="event.outboundFlightSearch" departurestations="homeStations" arrivalstations="destinations" maxprice="outboundMaxPrice" weekdays="outboundWeekDays" paxcount="event.participants.length"></flight-search>
+
+                <div class="tab_navigation">
+                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
+                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="!IsOutboundStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
 
             <!--Step 4: Inbound flight search-->
             <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>

@@ -1,9 +1,11 @@
 ﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, stationsFactory, eventFactory, flightService) {
     $scope.constants = Constants;
-    $scope.homeStations = stationsFactory.homeStations;
-    $scope.departureStations = stationsFactory.departureStations;
     $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
+    $scope.homeStations = stationsFactory.homeStations;
+    $scope.destinations = stationsFactory.departureStations;
+    $scope.outboundMaxPrice = 0;
+    $scope.outboundWeekDays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
 
     // Participants default
     clearParticipantInput();
@@ -82,7 +84,7 @@
             $scope.areOutboundDefaultsSet = true;
         }
 
-        $scope.$apply();
+        //$scope.$apply();
         $scope.CurrentStepIndex = 3;
     };
 
@@ -158,16 +160,16 @@
         $log.log("Flights = " + JSON.stringify(flightSearch));
         //$log.log("Test: " + Object.prototype.toString.call(flightSearch)
         $scope.isLoading = true;
-        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
+        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount(), $scope.outboundMaxPrice, $scope.outboundWeekDays)
             .success(function (data) {
-                $log.log("Flights = " + JSON.stringify(data));
-                $scope.outboundFlights = data;
                 $scope.isLoading = false;
+                $scope.outboundFlights = data;
+                //$log.log("Flights = " + JSON.stringify(data));
             })
             .error(function (error) {
                 $scope.status = 'Unable to retrieve flights: ' + error.message;
-                $scope.outboundFlights = null;
                 $scope.isLoading = false;
+                $scope.outboundFlights = null;                
             });
     }
 

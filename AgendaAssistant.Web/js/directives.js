@@ -84,18 +84,54 @@ app.provider('showErrorsConfig', function () {
     };
 });
 
-//app.controller('NewUserController', function ($scope) {
-//    $scope.save = function () {
-//        $scope.$broadcast('show-errors-check-validity');
+app.directive('flightSearch', function ($log, flightService) {
+    //$log.log("flightSearch created!!!");
+    return {
+        restrict: 'E',
+        scope: {
+            flightsearch: '=data',
+            departurestations: '=',
+            arrivalstations: '=',
+            maxprice: '=',
+            weekdays: '=',
+            isloading: '=',
+            paxcount: '='
+        },
+        controller: function ($scope) {
+            $scope.isLoading = false;
+            $scope.flights = null;
+            $scope.maxpriceChecked = false;
+            
+            $scope.toggleIsSelected = function (flight) {
+                flight.IsSelected = flight.IsSelected === true ? false : true;
+            };
 
-//        if ($scope.userForm.$valid) {
-//            alert('User saved');
-//            $scope.reset();
-//        }
-//    };
+            $scope.selectAllFlights = function (flights, value) {
+                angular.forEach(flights, function (flight) {
+                    //$log.log("Select: " + angular.toJson(flight));
+                    flight.IsSelected = value;
+                });
+            };
 
-//    $scope.reset = function() {
-//        $scope.$broadcast('show-errors-reset');
-//        $scope.user = { name: '', email: '' };
-//    };
-//});
+            $scope.getSelectedFlights = function () {
+                return $filter('filter')($scope.flights, { IsSelected: true }, true);
+            };
+            
+            $scope.SearchFlights = function () {
+                $scope.isLoading = true;
+                flightService.getFlights($scope.flightsearch.departureStation, $scope.flightsearch.arrivalStation, $scope.flightsearch.beginDate, $scope.flightsearch.endDate, $scope.paxcount, $scope.maxprice, $scope.weekdays)
+                    .success(function (data) {
+                        $scope.isLoading = false;
+                        $scope.flights = data;
+                        //$log.log("Flights = " + JSON.stringify(data));
+                    })
+                    .error(function (error) {
+                        $scope.status = 'Unable to retrieve flights: ' + error.message;
+                        $scope.isLoading = false;
+                        $scope.flights = null;
+                    });
+            };
+        },
+        templateUrl: '../partials/flightsearch.html'
+    };
+});

@@ -7,11 +7,13 @@
     </form>
     <h4>Deelnemers ({{event.participants.length}})</h4>
     <div class="list-group">
-        <a ng-repeat="participant in event.participants" class="list-group-item animated" style="cursor: pointer">
-            <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px"><span class="glyphicon glyphicon-minus"></span></button>
-            <h4 class="list-group-item-heading">{{participant.name}}</h4>
-            <p class="list-group-item-text">{{participant.email}}</p>
-        </a>
+        <div ng-repeat="participant in event.participants" class="repeat-animation">
+            <a class="list-group-item" style="cursor: pointer">
+                <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px"><span class="glyphicon glyphicon-minus"></span></button>
+                <h4 class="list-group-item-heading">{{participant.name}}</h4>
+                <p class="list-group-item-text">{{participant.email}}</p>
+            </a>
+        </div>
     </div>
     <div class="tab_navigation">
         <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepEvent()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>

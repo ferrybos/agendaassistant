@@ -1,9 +1,9 @@
 ﻿<div class="panel-heading" style="cursor: pointer">{{ key | date : 'EEE dd-MMM' }}</div>
-<div class="panel-body" style="padding: 0">
+<div class="panel-body repeat-animation" style="padding: 0" >
     <table id="outboundflights-table" class="table table-condensed table-hover">
         <tbody>
             <tr ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
-                <td class="animated">
+                <td>
                     <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
                     <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
                 </td>
@@ -11,3 +11,4 @@
         </tbody>
     </table>
 </div>
+

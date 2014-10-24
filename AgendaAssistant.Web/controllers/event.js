@@ -8,6 +8,7 @@
     $scope.isReminderSectionExpanded = false;
     $scope.isConfirming = false;
     $scope.availabilityUrl = "#/availability/" + $routeParams.id;
+    $scope.outboundMaxPriceChecked = false;
     
     getEvent();
     
