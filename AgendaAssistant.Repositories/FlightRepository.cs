@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,13 @@ namespace AgendaAssistant.Repositories
 {
     public interface IFlightRepository
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount);
+        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short maxPrice, BitArray daysOfWeek);
     }
 
     public class FlightRepository : IFlightRepository
     {
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount)
+        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, 
+            short maxPrice, BitArray daysOfWeek)
         {
             var esbClient = new EsbApi34();
             
@@ -26,6 +28,8 @@ namespace AgendaAssistant.Repositories
             {
                 var availabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(departureStation, arrivalStation, beginDate, endDate,
                                                                carrierCode: null, paxCount: paxCount);
+                availabilityRequest.MaximumFarePrice = maxPrice;
+                
                 var availabilityResponse =
                     esbClient.BookingManager.GetAvailability(new TripAvailabilityRequest()
                         {
@@ -42,17 +46,26 @@ namespace AgendaAssistant.Repositories
                     if (availableFare != null)
                     {
                         var segment = journey.Segments[0];
-                        result.Add(new Flight()
+                        
+                        var departureDate = segment.STD.Date;
+                        var price = availableFare.SumOfAmount(ChargeType.FarePrice) +
+                                    availableFare.SumOfAmount(ChargeType.Tax) -
+                                    availableFare.SumOfAmount(ChargeType.Discount);
+
+                        if (ContainsDayOfWeek(daysOfWeek, departureDate.DayOfWeek) && price <= maxPrice)
                         {
-                            DepartureStation = segment.DepartureStation,
-                            ArrivalStation = segment.ArrivalStation,
-                            DepartureDate = segment.STD.Date, // todo: DepartureDate?
-                            CarrierCode = segment.FlightDesignator.CarrierCode,
-                            FlightNumber = short.Parse(segment.FlightDesignator.FlightNumber),
-                            STD = segment.STD,
-                            STA = segment.STA,
-                            Price = availableFare.SumOfAmount(ChargeType.FarePrice) + availableFare.SumOfAmount(ChargeType.Tax) - availableFare.SumOfAmount(ChargeType.Discount)
-                        });
+                            result.Add(new Flight()
+                            {
+                                DepartureStation = segment.DepartureStation,
+                                ArrivalStation = segment.ArrivalStation,
+                                DepartureDate = departureDate,
+                                CarrierCode = segment.FlightDesignator.CarrierCode,
+                                FlightNumber = short.Parse(segment.FlightDesignator.FlightNumber),
+                                STD = segment.STD,
+                                STA = segment.STA,
+                                Price = price
+                            });
+                        }
                     }
                 }
 
@@ -62,6 +75,17 @@ namespace AgendaAssistant.Repositories
             {
                 esbClient.LogOut();
             }
+        }
+
+        private bool ContainsDayOfWeek(BitArray daysOfWeek, DayOfWeek dayOfWeek)
+        {
+            return (daysOfWeek[0] && dayOfWeek == DayOfWeek.Monday) || (daysOfWeek[1] && dayOfWeek == DayOfWeek.Tuesday) ||
+                   (daysOfWeek[2] && dayOfWeek == DayOfWeek.Wednesday) ||
+                   (daysOfWeek[3] && dayOfWeek == DayOfWeek.Thursday) ||
+                   (daysOfWeek[4] && dayOfWeek == DayOfWeek.Friday) ||
+                   (daysOfWeek[5] && dayOfWeek == DayOfWeek.Saturday) ||
+                   (daysOfWeek[6] && dayOfWeek == DayOfWeek.Sunday);
+
         }
     }
 }

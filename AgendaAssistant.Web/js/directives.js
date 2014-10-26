@@ -92,16 +92,15 @@ app.directive('flightSearch', function ($log, flightService) {
             flightsearch: '=data',
             departurestations: '=',
             arrivalstations: '=',
-            maxprice: '=',
-            weekdays: '=',
-            isloading: '=',
             paxcount: '='
         },
         controller: function ($scope) {
             $scope.isLoading = false;
             $scope.flights = null;
             $scope.maxpriceChecked = false;
-            
+            $scope.maxprice = 0;
+            $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
+
             $scope.toggleIsSelected = function (flight) {
                 flight.IsSelected = flight.IsSelected === true ? false : true;
             };

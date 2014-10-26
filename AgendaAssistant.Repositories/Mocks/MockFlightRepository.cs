@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace AgendaAssistant.Repositories.Mocks
     public class MockFlightRepository : IFlightRepository
     {
         public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate,
-                                   short paxCount)
+                                   short paxCount, short maxPrice, BitArray daysOfWeek)
         {
             var result = new List<Flight>();
 

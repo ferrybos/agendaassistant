@@ -4,8 +4,6 @@
     $scope.isLoading = false;
     $scope.homeStations = stationsFactory.homeStations;
     $scope.destinations = stationsFactory.departureStations;
-    $scope.outboundMaxPrice = 0;
-    $scope.outboundWeekDays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
 
     // Participants default
     clearParticipantInput();
@@ -122,73 +120,7 @@
         $scope.newParticipantName = "";
         $scope.newParticipantEmail = "";
     };
-
-    function paxCount() {
-        return $scope.event.participants.length;
-    }
-
-    $scope.toggleIsSelected = function (flight) {
-        flight.IsSelected = flight.IsSelected === true ? false : true;
-    };
-
-    $scope.selectAllFlights = function (flights, value) {
-        angular.forEach(flights, function (flight) {
-            //$log.log("Select: " + angular.toJson(flight));
-            flight.IsSelected = value;
-        });
-    };
-
-    $scope.getSelectedOutboundFlights = function () {
-        return $filter('filter')($scope.outboundFlights, { IsSelected: true }, true);
-    };
     
-    $scope.getSelectedInboundFlights = function () {
-        return $filter('filter')($scope.inboundFlights, { IsSelected: true }, true);
-    };
-
-    $scope.SearchOutboundFlights = function (flightSearch) {
-        //$log.log("Search: " + JSON.stringify($scope.event.outboundFlightSearch));
-        getOutboundFlights(flightSearch);
-    };
-
-    $scope.SearchInboundFlights = function () {
-        //$log.log("Search: " + JSON.stringify($scope.event.inboundFlightSearch));
-        getInboundFlights($scope.event.inboundFlightSearch);
-    };
-
-    function getOutboundFlights(flightSearch) {
-        $log.log("Flights = " + JSON.stringify(flightSearch));
-        //$log.log("Test: " + Object.prototype.toString.call(flightSearch)
-        $scope.isLoading = true;
-        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount(), $scope.outboundMaxPrice, $scope.outboundWeekDays)
-            .success(function (data) {
-                $scope.isLoading = false;
-                $scope.outboundFlights = data;
-                //$log.log("Flights = " + JSON.stringify(data));
-            })
-            .error(function (error) {
-                $scope.status = 'Unable to retrieve flights: ' + error.message;
-                $scope.isLoading = false;
-                $scope.outboundFlights = null;                
-            });
-    }
-
-    function getInboundFlights(flightSearch) {
-        $scope.isLoading = true;
-
-        flightService.getFlights(flightSearch.departureStation, flightSearch.arrivalStation, flightSearch.beginDate, flightSearch.endDate, paxCount())
-            .success(function (data) {
-                $log.log("Flights = " + JSON.stringify(data));
-                $scope.inboundFlights = data;
-                $scope.isLoading = false;
-            })
-            .error(function (error) {
-                $scope.status = 'Unable to retrieve flights: ' + error.message;
-                $scope.inboundFlights = null;
-                $scope.isLoading = false;
-            });
-    }
-
     $scope.EnterTestEvent = function () {
         $scope.event.title = "Weekendje Barcelona";
         $scope.event.description = "Dit is een test";
@@ -207,11 +139,11 @@
         return $scope.event != undefined && $scope.event.participants != undefined && $scope.event.participants.length > 0;
     };
     
-    $scope.IsOutboundStepValid = function () {
-        return $scope.event != undefined && $scope.outboundFlights != null && $scope.getSelectedOutboundFlights().length > 0;
-    };
+    //$scope.IsOutboundStepValid = function () {
+    //    return $scope.event != undefined && $scope.outboundFlights != null && $scope.getSelectedOutboundFlights().length > 0;
+    //};
     
-    $scope.IsInboundStepValid = function () {
-        return $scope.event != undefined && $scope.inboundFlights != null && $scope.getSelectedInboundFlights().length > 0;
-    };
+    //$scope.IsInboundStepValid = function () {
+    //    return $scope.event != undefined && $scope.inboundFlights != null && $scope.getSelectedInboundFlights().length > 0;
+    //};
 });

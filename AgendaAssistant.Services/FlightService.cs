@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace AgendaAssistant.Services
 {
     public interface IFlightService
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount);
+        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short maxPrice, BitArray daysOfWeek);
     }
 
     public class FlightService : IFlightService
@@ -22,9 +23,9 @@ namespace AgendaAssistant.Services
             _repository = repository;
         }
 
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount)
+        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short maxPrice, BitArray daysOfWeek)
         {
-            return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount);
+            return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount, maxPrice, daysOfWeek);
         }
     }
 }
