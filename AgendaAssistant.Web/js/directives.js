@@ -84,34 +84,44 @@ app.provider('showErrorsConfig', function () {
     };
 });
 
-app.directive('flightSearch', function ($log, flightService) {
+app.directive('flightSearch', function ($log, flightService, stationsFactory) {
     return {
         restrict: 'E',
         scope: {
             paxcount: '=',
-            departurestation: '=',
-            departurestations: '=',
-            arrivalstation: '=',
-            arrivalstations: '=',
-            begindate: '=',
-            enddate: '=',
-            flights: '='
+            isoutbound: '=',
+            flights: '=',
+            flightsearch: '='
         },
         controller: function ($scope) {
             $scope.isloading = false;
+            $scope.departurestations = $scope.isoutbound ? stationsFactory.homeStations : stationsFactory.departureStations;
+            $scope.arrivalstations = $scope.isoutbound ? stationsFactory.departureStations : stationsFactory.homeStations;
             $scope.maxpriceChecked = false;
             $scope.maxprice = 0;
             $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
-
-            $log.log("FlightSearchDirective: " + $scope.begindate);
             
+            $scope.$watchCollection('[maxprice, maxpriceChecked]', function () {
+                if ($scope.flightsearch != undefined) {
+                    $scope.flightsearch.maxPrice = selectedMaxPrice();
+                }
+            });
+
+            angular.forEach($scope.weekdays, function(value, key) {
+                $scope.$watch('weekdays[' + key + '].value', function () {
+                    if ($scope.flightsearch != undefined) {
+                        $scope.flightsearch.daysOfWeek = selectedDaysOfWeek();
+                        $log.log("DaysOfWeek: " + $scope.flightsearch.daysOfWeek);
+                    }
+                });
+            });
+
             $scope.toggleIsSelected = function (flight) {
                 flight.IsSelected = flight.IsSelected === true ? false : true;
             };
 
             $scope.selectAllFlights = function (value) {
                 angular.forEach($scope.flights, function (flight) {
-                    //$log.log("Select: " + angular.toJson(flight));
                     flight.IsSelected = value;
                 });
             };
@@ -120,9 +130,16 @@ app.directive('flightSearch', function ($log, flightService) {
                 return $scope.maxpriceChecked ? $scope.maxprice : null;
             }
             
+            function selectedDaysOfWeek() {
+                return $scope.weekdays[0].value * 1 + $scope.weekdays[1].value * 2 + $scope.weekdays[2].value * 4 + $scope.weekdays[3].value * 8 + $scope.weekdays[4].value * 16 + $scope.weekdays[5].value * 32 + $scope.weekdays[6].value * 64;
+            }
+
             $scope.SearchFlights = function () {
                 $scope.isloading = true;
-                flightService.getFlights($scope.departurestation, $scope.arrivalstation, $scope.begindate, $scope.enddate, $scope.paxcount, $scope.weekdays, selectedMaxPrice())
+                // watches are not triggered on initial load
+                $scope.flightsearch.daysOfWeek = selectedDaysOfWeek();
+                $log.log("flightsearch: " + $scope.flightsearch);
+                flightService.getFlights($scope.flightsearch.departureStation, $scope.flightsearch.arrivalStation, $scope.flightsearch.beginDate, $scope.flightsearch.endDate, $scope.paxcount, selectedDaysOfWeek(), $scope.flightsearch.maxPrice)
                     .success(function (data) {
                         $scope.isloading = false;
                         $scope.flights = data;

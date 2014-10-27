@@ -15,7 +15,7 @@ namespace AgendaAssistant.Entities
         public string ArrivalStation { get; set; }
         public DateTime BeginDate { get; set; }
         public DateTime EndDate { get; set; }
-        public BitArray DaysOfWeek { get; set; }
+        public short DaysOfWeek { get; set; }
         public short? MaxPrice { get; set; }
 
         public List<Flight> Flights { get; set; }

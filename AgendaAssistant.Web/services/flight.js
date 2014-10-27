@@ -1,9 +1,8 @@
 ﻿app.service('flightService', ['$http', '$log', '$filter', function ($http, $log, $filter) {
     var urlBase = '/api/flight';
 
-    this.getFlights = function (departureStation, arrivalStation, beginDate, endDate, paxCount, weekDays, maxPrice) {
-        $log.log(weekDays);
-        var daysOfWeek = weekDays[0].value * 1 + weekDays[1].value * 2 + weekDays[2].value * 4 + weekDays[3].value * 8 + +weekDays[4].value * 16 + weekDays[5].value * 32 + weekDays[6].value * 64;
+    this.getFlights = function (departureStation, arrivalStation, beginDate, endDate, paxCount, daysOfWeek, maxPrice) {
+        //$log.log(weekDays);
 
         var queryValues = "/{0}/{1}/{2}/{3}/{4}/{5}"
             .replace('{0}', departureStation)

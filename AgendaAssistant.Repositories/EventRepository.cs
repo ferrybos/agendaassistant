@@ -84,7 +84,7 @@ namespace AgendaAssistant.Repositories
 
             var dbFlightSearch = dbFlightSearchRepository.Add(flightSearch.ArrivalStation,
                                                           flightSearch.DepartureStation, flightSearch.BeginDate,
-                                                          flightSearch.EndDate, BitArrayToInt(flightSearch.DaysOfWeek), flightSearch.MaxPrice);
+                                                          flightSearch.EndDate, flightSearch.DaysOfWeek, flightSearch.MaxPrice);
 
             foreach (var flight in flightSearch.Flights)
             {

@@ -1,9 +1,7 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, stationsFactory, eventFactory, flightService) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, eventFactory) {
     $scope.constants = Constants;
     $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
-    $scope.homeStations = stationsFactory.homeStations;
-    $scope.destinations = stationsFactory.departureStations;
 
     // Participants default
     clearParticipantInput();
@@ -26,17 +24,19 @@
         $scope.CurrentStepIndex = 9; //saving event
         
         // add selected flights to the event object to be sent to the server
-        var selectedOutboundFlights = $scope.getSelectedOutboundFlights();
+        var selectedOutboundFlights = getSelectedFlights($scope.outboundFlights);
         angular.forEach(selectedOutboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.outboundFlightSearch.flights);
-
-        var selectedInboundFlights = $scope.getSelectedInboundFlights();
+            
+        var selectedInboundFlights = getSelectedFlights($scope.inboundFlights);
         angular.forEach(selectedInboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.inboundFlightSearch.flights);
 
-        //$log.log("Event = " + JSON.stringify($scope.event));
+        $log.log("Event = " + JSON.stringify($scope.event));
+        $log.log("DaysOfWeekOutbound = " + JSON.stringify($scope.event.outboundFlightSearch.daysOfWeek));
+        $log.log("DaysOfWeekInbound = " + JSON.stringify($scope.event.inboundFlightSearch.daysOfWeek));
 
         $scope.event.$save(function (responseData) {
             // Success

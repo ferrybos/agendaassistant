@@ -44,7 +44,7 @@
             <!--<ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>-->
             <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
                 <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
-                <flight-search paxcount="event.participants.length" flights="outboundFlights" departurestation="event.outboundFlightSearch.departureStation" departurestations="homeStations" arrivalstation="event.outboundFlightSearch.arrivalStation" arrivalstations="destinations" begindate="event.outboundFlightSearch.beginDate" enddate="event.outboundFlightSearch.endDate" maxprice="outboundMaxPrice" weekdays="outboundWeekDays"></flight-search>
+                <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="!IsOutboundStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
@@ -55,7 +55,7 @@
             <!-- <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
                 <p class="help-block">Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
-                <flight-search paxcount="event.participants.length" flights="inboundFlights" departurestation="event.inboundFlightSearch.departureStation" departurestations="destinations" arrivalstation="event.inboundFlightSearch.arrivalStation" arrivalstations="homeStations" begindate="event.inboundFlightSearch.beginDate" enddate="event.inboundFlightSearch.endDate" maxprice="inboundMaxPrice" weekdays="inboundWeekDays"></flight-search>
+                <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="!IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
