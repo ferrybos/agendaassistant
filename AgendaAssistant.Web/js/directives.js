@@ -85,48 +85,52 @@ app.provider('showErrorsConfig', function () {
 });
 
 app.directive('flightSearch', function ($log, flightService) {
-    //$log.log("flightSearch created!!!");
     return {
         restrict: 'E',
         scope: {
-            flightsearch: '=data',
+            paxcount: '=',
+            departurestation: '=',
             departurestations: '=',
+            arrivalstation: '=',
             arrivalstations: '=',
-            paxcount: '='
+            begindate: '=',
+            enddate: '=',
+            flights: '='
         },
         controller: function ($scope) {
-            $scope.isLoading = false;
-            $scope.flights = null;
+            $scope.isloading = false;
             $scope.maxpriceChecked = false;
             $scope.maxprice = 0;
             $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
 
+            $log.log("FlightSearchDirective: " + $scope.begindate);
+            
             $scope.toggleIsSelected = function (flight) {
                 flight.IsSelected = flight.IsSelected === true ? false : true;
             };
 
-            $scope.selectAllFlights = function (flights, value) {
-                angular.forEach(flights, function (flight) {
+            $scope.selectAllFlights = function (value) {
+                angular.forEach($scope.flights, function (flight) {
                     //$log.log("Select: " + angular.toJson(flight));
                     flight.IsSelected = value;
                 });
             };
-
-            $scope.getSelectedFlights = function () {
-                return $filter('filter')($scope.flights, { IsSelected: true }, true);
-            };
+            
+            function selectedMaxPrice() {
+                return $scope.maxpriceChecked ? $scope.maxprice : null;
+            }
             
             $scope.SearchFlights = function () {
-                $scope.isLoading = true;
-                flightService.getFlights($scope.flightsearch.departureStation, $scope.flightsearch.arrivalStation, $scope.flightsearch.beginDate, $scope.flightsearch.endDate, $scope.paxcount, $scope.maxprice, $scope.weekdays)
+                $scope.isloading = true;
+                flightService.getFlights($scope.departurestation, $scope.arrivalstation, $scope.begindate, $scope.enddate, $scope.paxcount, $scope.weekdays, selectedMaxPrice())
                     .success(function (data) {
-                        $scope.isLoading = false;
+                        $scope.isloading = false;
                         $scope.flights = data;
                         //$log.log("Flights = " + JSON.stringify(data));
                     })
                     .error(function (error) {
                         $scope.status = 'Unable to retrieve flights: ' + error.message;
-                        $scope.isLoading = false;
+                        $scope.isloading = false;
                         $scope.flights = null;
                     });
             };

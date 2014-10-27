@@ -11,7 +11,7 @@ namespace AgendaAssistant.Services
 {
     public interface IFlightService
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short maxPrice, BitArray daysOfWeek);
+        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, BitArray daysOfWeek, short? maxPrice);
     }
 
     public class FlightService : IFlightService
@@ -23,9 +23,9 @@ namespace AgendaAssistant.Services
             _repository = repository;
         }
 
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short maxPrice, BitArray daysOfWeek)
+        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, BitArray daysOfWeek, short? maxPrice)
         {
-            return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount, maxPrice, daysOfWeek);
+            return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount, daysOfWeek, maxPrice);
         }
     }
 }

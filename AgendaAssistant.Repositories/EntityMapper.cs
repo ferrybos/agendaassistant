@@ -51,6 +51,8 @@ namespace AgendaAssistant.Repositories
                     ArrivalStation = dbFlightSearch.ArrivalStation,
                     BeginDate = dbFlightSearch.StartDate,
                     EndDate = dbFlightSearch.EndDate,
+                    //DaysOfWeek = dbFlightSearch.ma
+                    //MaxPrice = dbFlightSearch.
                     Flights = new List<Flight>()
                 };
 

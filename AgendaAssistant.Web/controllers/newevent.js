@@ -82,6 +82,8 @@
             $scope.areOutboundDefaultsSet = true;
         }
 
+        $log.log($scope.event);
+
         //$scope.$apply();
         $scope.CurrentStepIndex = 3;
     };
@@ -139,11 +141,15 @@
         return $scope.event != undefined && $scope.event.participants != undefined && $scope.event.participants.length > 0;
     };
     
-    //$scope.IsOutboundStepValid = function () {
-    //    return $scope.event != undefined && $scope.outboundFlights != null && $scope.getSelectedOutboundFlights().length > 0;
-    //};
+    function getSelectedFlights(flights) {
+        return $filter('filter')(flights, { IsSelected: true }, true);
+    };
     
-    //$scope.IsInboundStepValid = function () {
-    //    return $scope.event != undefined && $scope.inboundFlights != null && $scope.getSelectedInboundFlights().length > 0;
-    //};
+    $scope.IsOutboundStepValid = function () {
+        return $scope.event != undefined && $scope.outboundFlights != null && getSelectedFlights($scope.outboundFlights).length > 0;
+    };
+    
+    $scope.IsInboundStepValid = function () {
+        return $scope.event != undefined && $scope.inboundFlights != null && getSelectedFlights($scope.inboundFlights).length > 0;
+    };
 });

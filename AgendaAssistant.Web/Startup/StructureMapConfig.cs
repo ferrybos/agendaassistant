@@ -16,7 +16,7 @@ namespace AgendaAssistant.Web.Startup
         {
 
             GlobalConfiguration.Configure(
-                config => config.DependencyResolver = new StructureMapDependencyResolver(StructureMapConfig.BuildContainer()));
+                config => config.DependencyResolver = new StructureMapDependencyResolver(BuildContainer()));
         }
 
         public static IContainer BuildContainer()

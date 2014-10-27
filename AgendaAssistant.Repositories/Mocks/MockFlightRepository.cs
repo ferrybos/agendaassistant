@@ -11,7 +11,7 @@ namespace AgendaAssistant.Repositories.Mocks
     public class MockFlightRepository : IFlightRepository
     {
         public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate,
-                                   short paxCount, short maxPrice, BitArray daysOfWeek)
+                                   short paxCount, BitArray daysOfWeek, short? maxPrice)
         {
             var result = new List<Flight>();
 

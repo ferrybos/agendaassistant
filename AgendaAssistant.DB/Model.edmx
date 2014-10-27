@@ -103,6 +103,8 @@
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
           <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="DaysOfWeek" Type="int" Nullable="false" />
+          <Property Name="MaxPrice" Type="int" />
         </EntityType>
         <EntityType Name="Participant">
           <Key>
@@ -229,7 +231,6 @@
           <EntitySet Name="Comments" EntityType="AgendaAssistantModel.Comment" />
           <EntitySet Name="Events" EntityType="AgendaAssistantModel.Event" />
           <EntitySet Name="Flights" EntityType="AgendaAssistantModel.Flight" />
-          <EntitySet Name="FlightSearches" EntityType="AgendaAssistantModel.FlightSearch" />
           <EntitySet Name="Persons" EntityType="AgendaAssistantModel.Person" />
           <AssociationSet Name="FK_Availability_Flight" Association="AgendaAssistantModel.FK_Availability_Flight">
             <End Role="Flight" EntitySet="Flights" />
@@ -247,12 +248,17 @@
             <End Role="Person" EntitySet="Persons" />
             <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="FK_Event_INboundFLightSearch" Association="AgendaAssistantModel.FK_Event_INboundFLightSearch">
-            <End Role="FlightSearch" EntitySet="FlightSearches" />
-            <End Role="Event" EntitySet="Events" />
-          </AssociationSet>
           <AssociationSet Name="FK_Event_Organizer" Association="AgendaAssistantModel.FK_Event_Organizer">
             <End Role="Person" EntitySet="Persons" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="Participant" Association="AgendaAssistantModel.Participant">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Person" EntitySet="Persons" />
+          </AssociationSet>
+          <EntitySet Name="FlightSearches" EntityType="AgendaAssistantModel.FlightSearch" />
+          <AssociationSet Name="FK_Event_INboundFLightSearch" Association="AgendaAssistantModel.FK_Event_INboundFLightSearch">
+            <End Role="FlightSearch" EntitySet="FlightSearches" />
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_OutboundFlightSearch" Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch">
@@ -262,10 +268,6 @@
           <AssociationSet Name="FK_Flight_FlightSearch" Association="AgendaAssistantModel.FK_Flight_FlightSearch">
             <End Role="FlightSearch" EntitySet="FlightSearches" />
             <End Role="Flight" EntitySet="Flights" />
-          </AssociationSet>
-          <AssociationSet Name="Participant" Association="AgendaAssistantModel.Participant">
-            <End Role="Event" EntitySet="Events" />
-            <End Role="Person" EntitySet="Persons" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Availability">
@@ -306,11 +308,11 @@
           <Property Name="OutboundFlightSearchID" Type="Int64" />
           <Property Name="InboundFlightSearchID" Type="Int64" />
           <NavigationProperty Name="Comments" Relationship="AgendaAssistantModel.FK_Comment_Event" FromRole="Event" ToRole="Comment" />
-          <NavigationProperty Name="InboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="Event" ToRole="FlightSearch" />
           <NavigationProperty Name="Organizer" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
-          <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
           <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.Participant" FromRole="Event" ToRole="Person" />
           <Property Type="Guid" Name="EventID" Nullable="false" />
+          <NavigationProperty Name="InboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="Event" ToRole="FlightSearch" />
+          <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -326,19 +328,6 @@
           <Property Name="ID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Availabilities" Relationship="AgendaAssistantModel.FK_Availability_Flight" FromRole="Flight" ToRole="Availability" />
           <NavigationProperty Name="FlightSearch" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="Flight" ToRole="FlightSearch" />
-        </EntityType>
-        <EntityType Name="FlightSearch">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="DepartureStation" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="true" />
-          <Property Name="ArrivalStation" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="true" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="ID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Events" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="FlightSearch" ToRole="Event" />
-          <NavigationProperty Name="Events1" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="FlightSearch" ToRole="Event" />
-          <NavigationProperty Name="Flights" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="FlightSearch" ToRole="Flight" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -404,18 +393,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Event_INboundFLightSearch">
-          <End Role="FlightSearch" Type="AgendaAssistantModel.FlightSearch" Multiplicity="0..1" />
-          <End Role="Event" Type="AgendaAssistantModel.Event" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FlightSearch">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Event">
-              <PropertyRef Name="InboundFlightSearchID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Event_Organizer">
           <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="1" />
           <End Role="Event" Type="AgendaAssistantModel.Event" Multiplicity="*" />
@@ -428,9 +405,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Event_OutboundFlightSearch">
-          <End Role="FlightSearch" Type="AgendaAssistantModel.FlightSearch" Multiplicity="0..1" />
+        <Association Name="Participant">
           <End Role="Event" Type="AgendaAssistantModel.Event" Multiplicity="*" />
+          <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="*" />
+        </Association>
+        <EntityType Name="FlightSearch">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="String" Name="DepartureStation" Nullable="false" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="ArrivalStation" Nullable="false" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" Precision="0" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" Precision="0" />
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="DaysOfWeek" Nullable="false" />
+          <Property Type="Int32" Name="MaxPrice" />
+          <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="FlightSearch" ToRole="Event" />
+          <NavigationProperty Name="Event1" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="FlightSearch" ToRole="Event" />
+          <NavigationProperty Name="Flights" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="FlightSearch" ToRole="Flight" />
+        </EntityType>
+        <Association Name="FK_Event_INboundFLightSearch">
+          <End Type="AgendaAssistantModel.FlightSearch" Role="FlightSearch" Multiplicity="0..1" />
+          <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlightSearch">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="InboundFlightSearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_OutboundFlightSearch">
+          <End Type="AgendaAssistantModel.FlightSearch" Role="FlightSearch" Multiplicity="0..1" />
+          <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FlightSearch">
               <PropertyRef Name="ID" />
@@ -441,8 +449,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Flight_FlightSearch">
-          <End Role="FlightSearch" Type="AgendaAssistantModel.FlightSearch" Multiplicity="1" />
-          <End Role="Flight" Type="AgendaAssistantModel.Flight" Multiplicity="*" />
+          <End Type="AgendaAssistantModel.FlightSearch" Role="FlightSearch" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Flight" Role="Flight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FlightSearch">
               <PropertyRef Name="ID" />
@@ -451,10 +459,6 @@
               <PropertyRef Name="FlightSearchID" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="Participant">
-          <End Role="Event" Type="AgendaAssistantModel.Event" Multiplicity="*" />
-          <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -513,17 +517,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FlightSearches">
-            <EntityTypeMapping TypeName="AgendaAssistantModel.FlightSearch">
-              <MappingFragment StoreEntitySet="FlightSearch">
-                <ScalarProperty Name="DepartureStation" ColumnName="DepartureStation" />
-                <ScalarProperty Name="ArrivalStation" ColumnName="ArrivalStation" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Persons">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Person">
               <MappingFragment StoreEntitySet="Person">
@@ -545,6 +538,19 @@
               <ScalarProperty Name="ID" ColumnName="PersonID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="FlightSearches">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.FlightSearch">
+              <MappingFragment StoreEntitySet="FlightSearch">
+                <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
+                <ScalarProperty Name="DaysOfWeek" ColumnName="DaysOfWeek" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ArrivalStation" ColumnName="ArrivalStation" />
+                <ScalarProperty Name="DepartureStation" ColumnName="DepartureStation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

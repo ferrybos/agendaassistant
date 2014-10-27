@@ -13,13 +13,13 @@ namespace AgendaAssistant.Repositories
 {
     public interface IFlightRepository
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short maxPrice, BitArray daysOfWeek);
+        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, BitArray daysOfWeek, short? maxPrice);
     }
 
     public class FlightRepository : IFlightRepository
     {
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, 
-            short maxPrice, BitArray daysOfWeek)
+        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount,
+            BitArray daysOfWeek, short? maxPrice)
         {
             var esbClient = new EsbApi34();
             
@@ -28,8 +28,7 @@ namespace AgendaAssistant.Repositories
             {
                 var availabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(departureStation, arrivalStation, beginDate, endDate,
                                                                carrierCode: null, paxCount: paxCount);
-                availabilityRequest.MaximumFarePrice = maxPrice;
-                
+
                 var availabilityResponse =
                     esbClient.BookingManager.GetAvailability(new TripAvailabilityRequest()
                         {
@@ -52,7 +51,10 @@ namespace AgendaAssistant.Repositories
                                     availableFare.SumOfAmount(ChargeType.Tax) -
                                     availableFare.SumOfAmount(ChargeType.Discount);
 
-                        if (ContainsDayOfWeek(daysOfWeek, departureDate.DayOfWeek) && price <= maxPrice)
+                        if (maxPrice.HasValue && price > maxPrice.Value)
+                            continue;
+
+                        if (ContainsDayOfWeek(daysOfWeek, departureDate.DayOfWeek))
                         {
                             result.Add(new Flight()
                             {

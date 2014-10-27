@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,6 +64,19 @@ namespace AgendaAssistant.Repositories
             return EntityMapper.Map(dbEvent);
         }
 
+        private int BitArrayToInt(BitArray daysOfWeek)
+        {
+            short result = 0;
+
+            for (int i = 0; i < daysOfWeek.Count; i++)
+            {
+                if (daysOfWeek[i])
+                    result += Convert.ToInt16(Math.Pow(2, i));
+            }
+
+            return result;
+        }
+
         private DB.FlightSearch AddFlights(FlightSearch flightSearch)
         {
             var dbFlightSearchRepository = new DbFlightSearchRepository(_db);
@@ -70,7 +84,7 @@ namespace AgendaAssistant.Repositories
 
             var dbFlightSearch = dbFlightSearchRepository.Add(flightSearch.ArrivalStation,
                                                           flightSearch.DepartureStation, flightSearch.BeginDate,
-                                                          flightSearch.EndDate);
+                                                          flightSearch.EndDate, BitArrayToInt(flightSearch.DaysOfWeek), flightSearch.MaxPrice);
 
             foreach (var flight in flightSearch.Flights)
             {
