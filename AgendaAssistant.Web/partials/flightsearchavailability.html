@@ -1,4 +1,12 @@
-﻿<div class="list-group">
+﻿<div class="list-group" ng-show="event.outboundFlightSearch.selectedFlight != null">
+    <div class="list-group-item list-group-item-warning">
+        <h4>{{event.outboundFlightSearch.selectedFlight.departureDate | date : 'EEE dd-MMM'}}   {{event.outboundFlightSearch.selectedFlight.carrierCode}}{{event.outboundFlightSearch.selectedFlight.flightNumber}}   {{event.outboundFlightSearch.selectedFlight.price}} EUR</h4>
+        <p>{{event.outboundFlightSearch.selectedFlight.std | date : 'hh:mm'}}      Vertrek: {{event.outboundFlightSearch.selectedFlight.departureStation}}</p>
+        <p>{{event.outboundFlightSearch.selectedFlight.sta | date : 'hh:mm'}}      Aankomst: {{event.outboundFlightSearch.selectedFlight.arrivalStation}}</p>
+    </div>
+</div>
+
+<div class="list-group" ng-show="event.outboundFlightSearch.selectedFlight == null || isPushPinSelected === true">
     <div class="panel panel-default" ng-repeat="(key, value) in activeFlights | groupBy: 'departureDate'">
         <div class="panel-heading">{{ key | date : 'EEE dd-MMM' }}</div>
         <div class="panel-body" style="padding: 0">
@@ -8,6 +16,11 @@
                         <td>
                             <table class="table">
                                 <tr>
+                                    <td style="padding-right: 20px; border-top: 0;" ng-show="isPushPinSelected === true">
+                                        <button type="button" class="btn btn-lg" ng-click="SelectFlight(event.outboundFlightSearch, flight)" ng-class="flight == event.outboundFlightSearch.selectedFlight  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
+                                            <span class="glyphicon glyphicon-pushpin"></span>
+                                        </button>
+                                    </td>
                                     <td style="padding-right: 20px; border-top: 0;">
                                         <span class="flighttime">{{flight.std | date : 'hh:mm'}}</span>
                                     </td>

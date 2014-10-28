@@ -19,5 +19,6 @@ namespace AgendaAssistant.Entities
         public short? MaxPrice { get; set; }
 
         public List<Flight> Flights { get; set; }
+        public Flight SelectedFlight { get; set; }
     }
 }

@@ -28,9 +28,11 @@ namespace AgendaAssistant.DB
         public long ID { get; set; }
         public int DaysOfWeek { get; set; }
         public Nullable<int> MaxPrice { get; set; }
+        public Nullable<long> SelectedFlightID { get; set; }
     
-        public virtual ICollection<Event> Event { get; set; }
-        public virtual ICollection<Event> Event1 { get; set; }
+        internal virtual ICollection<Event> Event { get; set; }
+        internal virtual ICollection<Event> Event1 { get; set; }
         public virtual ICollection<Flight> Flights { get; set; }
+        public virtual Flight SelectedFlight { get; set; }
     }
 }

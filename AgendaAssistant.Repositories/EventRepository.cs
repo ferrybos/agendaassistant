@@ -20,6 +20,7 @@ namespace AgendaAssistant.Repositories
         Event Save(Event value);
         Event Get(string code);
         void Confirm(string code);
+        void SelectFlight(long flightSearchId, long flightId);
     }
 
     /// <summary>
@@ -107,6 +108,14 @@ namespace AgendaAssistant.Repositories
 
                 _db.SaveChanges();
             }
+        }
+
+        public void SelectFlight(long flightSearchId, long flightId)
+        {
+            var dbFlightSearch = new DbFlightSearchRepository(_db).Get(flightSearchId);
+            dbFlightSearch.SelectedFlightID = flightId;
+            
+            _db.SaveChanges();
         }
 
         public Event Get(string code)

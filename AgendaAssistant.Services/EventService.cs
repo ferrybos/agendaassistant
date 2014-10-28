@@ -35,6 +35,11 @@ namespace AgendaAssistant.Services
         {
             _repository.Confirm(code);
         }
+
+        public void SelectFlight(long flightSearchId, long flightId)
+        {
+            _repository.SelectFlight(flightSearchId, flightId);
+        }
     }
 
     public interface IEventService
@@ -42,5 +47,6 @@ namespace AgendaAssistant.Services
         Event CreateNew(Event value);
         Event Get(string code);
         void Confirm(string code);
+        void SelectFlight(long flightSearchId, long flightId);
     }
 }

@@ -20,6 +20,7 @@
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_INboundFLightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Flight_FlightSearch" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

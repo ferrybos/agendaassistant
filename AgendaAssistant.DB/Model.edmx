@@ -41,6 +41,10 @@
             <End Role="FlightSearch" EntitySet="FlightSearch" />
             <End Role="Flight" EntitySet="Flight" />
           </AssociationSet>
+          <AssociationSet Name="FK_FlightSearch_SelectedFlight" Association="AgendaAssistantModel.Store.FK_FlightSearch_SelectedFlight">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="FlightSearch" EntitySet="FlightSearch" />
+          </AssociationSet>
           <AssociationSet Name="FK_Participant_Person" Association="AgendaAssistantModel.Store.FK_Participant_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Participant" EntitySet="Participant" />
@@ -105,6 +109,7 @@
           <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="DaysOfWeek" Type="int" Nullable="false" />
           <Property Name="MaxPrice" Type="int" />
+          <Property Name="SelectedFlightID" Type="bigint" />
         </EntityType>
         <EntityType Name="Participant">
           <Key>
@@ -210,6 +215,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_FlightSearch_SelectedFlight">
+          <End Role="Flight" Type="AgendaAssistantModel.Store.Flight" Multiplicity="0..1" />
+          <End Role="FlightSearch" Type="AgendaAssistantModel.Store.FlightSearch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightSearch">
+              <PropertyRef Name="SelectedFlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Participant_Person">
           <End Role="Person" Type="AgendaAssistantModel.Store.Person" Multiplicity="1" />
           <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="*" />
@@ -268,6 +285,10 @@
           <AssociationSet Name="FK_Flight_FlightSearch" Association="AgendaAssistantModel.FK_Flight_FlightSearch">
             <End Role="FlightSearch" EntitySet="FlightSearches" />
             <End Role="Flight" EntitySet="Flights" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FlightSearch_SelectedFlight" Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight">
+            <End Role="Flight" EntitySet="Flights" />
+            <End Role="FlightSearch" EntitySet="FlightSearches" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Availability">
@@ -328,6 +349,7 @@
           <Property Name="ID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Availabilities" Relationship="AgendaAssistantModel.FK_Availability_Flight" FromRole="Flight" ToRole="Availability" />
           <NavigationProperty Name="FlightSearch" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="Flight" ToRole="FlightSearch" />
+          <NavigationProperty Name="FlightSearch1" Relationship="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" FromRole="Flight" ToRole="FlightSearch" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -420,9 +442,11 @@
           <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="DaysOfWeek" Nullable="false" />
           <Property Type="Int32" Name="MaxPrice" />
-          <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="FlightSearch" ToRole="Event" />
-          <NavigationProperty Name="Event1" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="FlightSearch" ToRole="Event" />
+          <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="FlightSearch" ToRole="Event" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" />
+          <NavigationProperty Name="Event1" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="FlightSearch" ToRole="Event" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Internal" />
           <NavigationProperty Name="Flights" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="FlightSearch" ToRole="Flight" />
+          <Property Type="Int64" Name="SelectedFlightID" />
+          <NavigationProperty Name="SelectedFlight" Relationship="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" FromRole="FlightSearch" ToRole="Flight" />
         </EntityType>
         <Association Name="FK_Event_INboundFLightSearch">
           <End Type="AgendaAssistantModel.FlightSearch" Role="FlightSearch" Multiplicity="0..1" />
@@ -457,6 +481,18 @@
             </Principal>
             <Dependent Role="Flight">
               <PropertyRef Name="FlightSearchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FlightSearch_SelectedFlight">
+          <End Type="AgendaAssistantModel.Flight" Role="Flight" Multiplicity="0..1" />
+          <End Type="AgendaAssistantModel.FlightSearch" Role="FlightSearch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Flight">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FlightSearch">
+              <PropertyRef Name="SelectedFlightID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -541,6 +577,7 @@
           <EntitySetMapping Name="FlightSearches">
             <EntityTypeMapping TypeName="AgendaAssistantModel.FlightSearch">
               <MappingFragment StoreEntitySet="FlightSearch">
+                <ScalarProperty Name="SelectedFlightID" ColumnName="SelectedFlightID" />
                 <ScalarProperty Name="MaxPrice" ColumnName="MaxPrice" />
                 <ScalarProperty Name="DaysOfWeek" ColumnName="DaysOfWeek" />
                 <ScalarProperty Name="ID" ColumnName="ID" />

@@ -88,6 +88,21 @@ namespace AgendaAssistant.Web.api
             }
         }
 
+        [Route("selectflight")]
+        [HttpPost]
+        public IHttpActionResult SelectFlight(long flightSearchId, long flightId)
+        {
+            try
+            {
+                _service.SelectFlight(flightSearchId, flightId);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
         // PUT api/<controller>/5
         //public void Put(int id, [FromBody]Event value)
         //{

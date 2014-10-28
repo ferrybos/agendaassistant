@@ -17,6 +17,7 @@ namespace AgendaAssistant.DB
         public Flight()
         {
             this.Availabilities = new HashSet<Availability>();
+            this.FlightSearch1 = new HashSet<FlightSearch>();
         }
     
         public System.DateTime DepartureDate { get; set; }
@@ -30,5 +31,6 @@ namespace AgendaAssistant.DB
     
         public virtual ICollection<Availability> Availabilities { get; set; }
         public virtual FlightSearch FlightSearch { get; set; }
+        public virtual ICollection<FlightSearch> FlightSearch1 { get; set; }
     }
 }

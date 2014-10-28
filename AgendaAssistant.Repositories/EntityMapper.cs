@@ -51,12 +51,19 @@ namespace AgendaAssistant.Repositories
                     ArrivalStation = dbFlightSearch.ArrivalStation,
                     BeginDate = dbFlightSearch.StartDate,
                     EndDate = dbFlightSearch.EndDate,
-                    //DaysOfWeek = dbFlightSearch.ma
-                    //MaxPrice = dbFlightSearch.
+                    DaysOfWeek = (short)dbFlightSearch.DaysOfWeek,
+                    MaxPrice = (short?)dbFlightSearch.MaxPrice,
                     Flights = new List<Flight>()
                 };
 
             dbFlightSearch.Flights.ToList().ForEach(f => flightSearch.Flights.Add(Map(f)));
+
+            // link selected flight from collection
+            if (dbFlightSearch.SelectedFlightID.HasValue)
+            {
+                flightSearch.SelectedFlight =
+                    flightSearch.Flights.Single(f => f.Id.Equals(dbFlightSearch.SelectedFlightID));
+            }
 
             return flightSearch;
         }

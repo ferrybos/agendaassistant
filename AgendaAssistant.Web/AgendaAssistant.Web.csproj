@@ -89,6 +89,7 @@
     <Content Include="controllers\home.js" />
     <Content Include="controllers\newevent.js" />
     <Content Include="css\app.css" />
+    <Content Include="css\extra.css" />
     <Content Include="directives\flightSearch.js" />
     <Content Include="Global.asax" />
     <Content Include="img\ajax-loader.gif" />

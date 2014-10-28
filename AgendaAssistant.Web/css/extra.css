@@ -1,0 +1,98 @@
+﻿html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.container {
+	display:block;
+	width: 100%;
+	border-bottom: 1px solid black;
+	margin-bottom: 10px;
+	padding: 10px 5px;
+}
+.first {
+    width: 100%;
+}
+
+.container .first .elem_wrapper {
+    float: left;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.container .first .bar_wrapper {
+    width: auto;
+    margin-left: 130px;
+    border: 1px solid darkgrey;
+}
+
+
+.bar {
+	width: 100%;
+	display:block;
+	background-color: grey;
+	color:black;
+	border-color: 1px solid: darkgrey;
+	padding: 2px;
+	border-radius: 6px;
+}
+.bar.twenty {
+	width: 20%;
+}
+.bar.thirty {
+	width: 30%;
+}
+.bar.fourty {
+	width: 40%;
+}
+
+.euro {
+	padding: 2px;
+	border-radius: 6px;
+	color: white;
+	background-color: darkgrey;
+}
+
+.time {
+	padding: 2px;
+}
+
+.container .second ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.container .second ul li {
+	float: left;
+	width: 100%;
+}
+
+.container .second ul li .icon {
+	float:left;
+	min-width: 50px;
+	max-width: 50px;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.container .second ul li .name {
+	float:left;
+	min-width: 50px;
+	text-align: left;
+}
+
+
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  font-size: 0;
+  height: 0;
+}
