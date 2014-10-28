@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, Constants, eventFactory) {
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, Constants, eventFactory) {
     $scope.constants = Constants;
     $scope.event = null;
     //$scope.activeFlightTabIndex = 0;
@@ -10,7 +10,6 @@
     $scope.availabilityUrl = "#/availability/" + $routeParams.id;
     //$scope.outboundMaxPriceChecked = false;
     $scope.isPushPinSelected = false;
-    $scope.deepLinkUrl = null;
     
     getEvent();
     
@@ -21,7 +20,6 @@
             $scope.selectFlightTab(0);
             $log.log("Event = " + JSON.stringify($scope.event));
             $log.log("outboundFlightSearch = " + JSON.stringify($scope.event.outboundFlightSearch));
-            setdeepLinkUrl();
         });
     };
 
@@ -55,7 +53,6 @@
     $scope.SelectFlight = function (flightSearch, flight) {
         //$log.log("SelectFlight = " + flightSearch.id + ", " + flight.id);
         flightSearch.selectedFlight = flight;
-        setdeepLinkUrl();
         
         $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: flight.id }, function () {
             //getEvent(); //refresh event
@@ -69,11 +66,11 @@
     $scope.isDeepLinkVisible = function () {
         return $scope.event.outboundFlightSearch.selectedFlight != null;
     };
-    
-    function setdeepLinkUrl() {
-        var url = "http://www.transavia.com/hv/main/nav/processflightqry?to={0}&from={1}&fromMonth={2}&fromDay={3}&trip=retour&toMonth={4}&toDay={5}&adults={6}&children=0&infants=0";
 
-        $scope.deepLinkUrl = url
+    $scope.openDeepLink = function () {
+        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?to={0}&from={1}&fromMonth={2}&fromDay={3}&trip=retour&toMonth={4}&toDay={5}&adults={6}&children=0&infants=0";
+
+        var deeplinkUrl = urlTemplate
            .replace('{0}', $scope.event.outboundFlightSearch.arrivalStation.trim())
            .replace('{1}', $scope.event.outboundFlightSearch.departureStation.trim())
            .replace('{2}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
@@ -81,7 +78,7 @@
            .replace('{4}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
            .replace('{5}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
            .replace('{6}', $scope.event.participants.length);
-
-        $log.log("deepLinkUrl = " + $scope.deepLinkUrl);
+        
+        $window.open(deeplinkUrl);
     };
 });
