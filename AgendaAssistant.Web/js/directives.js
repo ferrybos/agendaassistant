@@ -155,3 +155,26 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
         templateUrl: '../partials/flightsearch.html'
     };
 });
+
+app.directive('flightSearchAvailability', function ($log, eventFactory) {
+    return {
+        restrict: 'E',
+        scope: {
+            event: '=',
+            flightsearch: '=',
+            ispushpinselected: '=',
+            availabilityurl: '='
+        },
+        controller: function ($scope) {
+            $scope.SelectFlight = function (flightSearch, flight) {
+                //$log.log("SelectFlight = " + flightSearch.id + ", " + flight.id);
+                flightSearch.selectedFlight = flight;
+
+                $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: flight.id }, function () {
+                    //getEvent(); //refresh event
+                });
+            };
+        },
+        templateUrl: '../partials/flightsearchavailability.html'
+    };
+});

@@ -1,14 +1,13 @@
 ﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, Constants, eventFactory) {
     $scope.constants = Constants;
     $scope.event = null;
-    //$scope.activeFlightTabIndex = 0;
-    $scope.activeFlights = null;
-    $scope.availabilityUrl = null;
+    $scope.activeFlightTabIndex = 0;
+    //$scope.activeFlights = null;
+    //$scope.availabilityUrl = null;
     $scope.isActionsExpanded = false;
     $scope.isReminderSectionExpanded = false;
     $scope.isConfirming = false;
     $scope.availabilityUrl = "#/availability/" + $routeParams.id;
-    //$scope.outboundMaxPriceChecked = false;
     $scope.isPushPinSelected = false;
     
     getEvent();
@@ -17,9 +16,9 @@
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
-            $scope.selectFlightTab(0);
-            $log.log("Event = " + JSON.stringify($scope.event));
-            $log.log("outboundFlightSearch = " + JSON.stringify($scope.event.outboundFlightSearch));
+            //$scope.selectFlightTab(0);
+            //$log.log("Event = " + JSON.stringify($scope.event));
+            //$log.log("outboundFlightSearch = " + JSON.stringify($scope.event.outboundFlightSearch));
         });
     };
 
@@ -30,11 +29,11 @@
     $scope.selectFlightTab = function (tabIndex) {
         $scope.activeFlightTabIndex = tabIndex;
         
-        if ($scope.activeFlightTabIndex == 0)
-            $scope.activeFlights = $scope.event.outboundFlightSearch.flights;
-        else {
-            $scope.activeFlights = $scope.event.inboundFlightSearch.flights;
-        }
+        //if ($scope.activeFlightTabIndex == 0)
+        //    $scope.activeFlights = $scope.event.outboundFlightSearch.flights;
+        //else {
+        //    $scope.activeFlights = $scope.event.inboundFlightSearch.flights;
+        //}
     };
     
     $scope.unconfirmedParticipants = function() {
@@ -50,21 +49,12 @@
         });
     };
 
-    $scope.SelectFlight = function (flightSearch, flight) {
-        //$log.log("SelectFlight = " + flightSearch.id + ", " + flight.id);
-        flightSearch.selectedFlight = flight;
-        
-        $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: flight.id }, function () {
-            //getEvent(); //refresh event
-        });
-    };
-
     $scope.SelectFlightTab = function (value) {
         $scope.activeFlightTabIndex = value;
     };
     
-    $scope.isDeepLinkVisible = function () {
-        return $scope.event.outboundFlightSearch.selectedFlight != null;
+    $scope.areFlightsSelected = function () {
+        return true;
     };
 
     $scope.openDeepLink = function () {
