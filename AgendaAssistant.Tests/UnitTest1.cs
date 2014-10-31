@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using AgendaAssistant.Mail;
 using AgendaAssistant.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,6 +10,16 @@ namespace AgendaAssistant.Tests
     [TestClass]
     public class UnitTest1
     {
+        [TestMethod]
+        public void SendMail()
+        {
+            var mailer = new SendGridMail();
+            var msg = mailer.CreateMessage("info@ferrybos.nl", new List<string>() {"ferrybos@gmail.com"},
+                                           "Test from SendGrid",
+                                           "<p>Dit is een test!</p>", "Dit is een test!");
+            mailer.SendMessage(msg);
+        }
+
         [TestMethod]
         public void WeekDaysTest()
         {

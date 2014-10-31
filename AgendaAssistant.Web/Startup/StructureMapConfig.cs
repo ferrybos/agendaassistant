@@ -29,6 +29,7 @@ namespace AgendaAssistant.Web.Startup
                     c.For<IEventRepository>().Use<EventRepository>();
                     c.For<IAvailabilityService>().Use<AvailabilityService>();
                     c.For<IAvailabilityRepository>().Use<AvailabilityRepository>();
+                    c.For<IMailService>().Use<MailService>();
                 });
 
             return container;

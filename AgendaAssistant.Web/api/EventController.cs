@@ -80,6 +80,7 @@ namespace AgendaAssistant.Web.api
             try
             {
                 _service.Confirm(code);
+
                 return Ok();
             }
             catch (Exception e)
