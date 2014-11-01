@@ -58,16 +58,22 @@
     };
 
     $scope.openDeepLink = function () {
-        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?to={0}&from={1}&fromMonth={2}&fromDay={3}&trip=retour&toMonth={4}&toDay={5}&adults={6}&children=0&infants=0";
+        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?to={to}&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&trip=retour&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
 
         var deeplinkUrl = urlTemplate
-           .replace('{0}', $scope.event.outboundFlightSearch.arrivalStation.trim())
-           .replace('{1}', $scope.event.outboundFlightSearch.departureStation.trim())
-           .replace('{2}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
-           .replace('{3}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
-           .replace('{4}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
-           .replace('{5}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
-           .replace('{6}', $scope.event.participants.length);
+            .replace('{to}', $scope.event.outboundFlightSearch.arrivalStation.trim())
+            .replace('{from}', $scope.event.outboundFlightSearch.departureStation.trim())
+            .replace('{fromMonth}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+            .replace('{fromDay}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
+            .replace('{toMonth}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+            .replace('{toDay}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
+            .replace('{adults}', $scope.event.participants.length)
+            .replace('{flightNrUp1}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+            .replace('{flightNrUp2}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
+            .replace('{flightNrUp3}', $scope.event.outboundFlightSearch.selectedFlight.flightNumber)
+            .replace('{flightNrDown1}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+            .replace('{flightNrDown2}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
+            .replace('{flightNrDown3}', $scope.event.inboundFlightSearch.selectedFlight.flightNumber);
         
         $window.open(deeplinkUrl);
     };
