@@ -102,6 +102,7 @@
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\delete.png" />
     <Content Include="img\hvlogo.png" />
+    <Content Include="img\logo.png" />
     <Content Include="js\app.js" />
     <Content Include="index.html" />
     <Content Include="js\DatepickerDemoCtrl.js" />
@@ -178,6 +179,8 @@
     <None Include="Properties\PublishProfiles\ferrybos - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\ferrybos - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\ferrybos - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\vluchtprikker - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\vluchtprikker - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

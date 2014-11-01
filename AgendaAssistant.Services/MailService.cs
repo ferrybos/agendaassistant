@@ -17,7 +17,7 @@ namespace AgendaAssistant.Services
     public class MailService: IMailService
     {
         private const string From = "service@vluchtprikker.nl";
-        private const string RootUrl = @"http://ferrybos.nl/#/";
+        private const string RootUrl = @"http://vluchtprikker.nl/#/";
 
         private string ConfirmEventUrl(Event evn)
         {
@@ -110,7 +110,7 @@ namespace AgendaAssistant.Services
 
         private EmailBody GenerateBody(string salutation, string announcement, string action, string linkUrl, string linkText)
         {
-            const string logoUrl = @"http://static.datumprikker.nl/img/logo_mail.gif\";
+            const string logoUrl = @"http://www.vluchtprikker.nl/img/logo.png\";
 
             var htmlBuilder = new StringBuilder();
             htmlBuilder.AppendLine(salutation);

@@ -2,7 +2,7 @@
     <p class="help-block">Afspraak wordt ingeladen...</p>
     <ng-include src="'partials/loader.html'"></ng-include>
 </div>
-<div id="wrapper" ng-show="event != null">
+<div ng-show="event != null">
     <h1 class="page-header">{{::event.title}}</h1>
     <ng-include src="'partials/eventNotConfirmed.html'"></ng-include>
     <div ng-if="event.isConfirmed">
