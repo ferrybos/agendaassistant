@@ -28,7 +28,6 @@
     };
     
     $scope.unconfirmedParticipants = function() {
-        //return $scope.event.participants;
         return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
     };
 
@@ -49,13 +48,13 @@
     };
 
     $scope.openDeepLink = function () {
-        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?to={to}&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&trip=retour&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
+        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
 
         var deeplinkUrl = urlTemplate
-            .replace('{to}', $scope.event.outboundFlightSearch.arrivalStation.trim())
             .replace('{from}', $scope.event.outboundFlightSearch.departureStation.trim())
             .replace('{fromMonth}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
             .replace('{fromDay}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
+            .replace('{to}', $scope.event.inboundFlightSearch.departureStation.trim())
             .replace('{toMonth}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
             .replace('{toDay}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
             .replace('{adults}', $scope.event.participants.length)
