@@ -100,14 +100,14 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
             $scope.maxpriceChecked = false;
             $scope.maxprice = 0;
             $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
-            
+
             $scope.$watchCollection('[maxprice, maxpriceChecked]', function () {
                 if ($scope.flightsearch != undefined) {
                     $scope.flightsearch.maxPrice = selectedMaxPrice();
                 }
             });
 
-            angular.forEach($scope.weekdays, function(value, key) {
+            angular.forEach($scope.weekdays, function (value, key) {
                 $scope.$watch('weekdays[' + key + '].value', function () {
                     if ($scope.flightsearch != undefined) {
                         $scope.flightsearch.daysOfWeek = selectedDaysOfWeek();
@@ -125,11 +125,11 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
                     flight.IsSelected = value;
                 });
             };
-            
+
             function selectedMaxPrice() {
                 return $scope.maxpriceChecked ? $scope.maxprice : null;
             }
-            
+
             function selectedDaysOfWeek() {
                 return $scope.weekdays[0].value * 1 + $scope.weekdays[1].value * 2 + $scope.weekdays[2].value * 4 + $scope.weekdays[3].value * 8 + $scope.weekdays[4].value * 16 + $scope.weekdays[5].value * 32 + $scope.weekdays[6].value * 64;
             }
@@ -167,11 +167,9 @@ app.directive('flightSearchAvailability', function ($log, eventFactory) {
         },
         controller: function ($scope) {
             $scope.SelectFlight = function (flightSearch, flight) {
-                //$log.log("SelectFlight = " + flightSearch.id + ", " + flight.id);
                 flightSearch.selectedFlight = flight;
 
                 $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: flight.id }, function () {
-                    //getEvent(); //refresh event
                 });
             };
         },

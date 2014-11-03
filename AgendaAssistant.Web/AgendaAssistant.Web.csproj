@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="controllers\availability.js" />
+    <Content Include="controllers\confirm.js" />
     <Content Include="controllers\event.js" />
     <Content Include="controllers\home.js" />
     <Content Include="controllers\newevent.js" />
@@ -152,6 +153,7 @@
     <Content Include="services\event.js" />
     <Content Include="test.html" />
     <Content Include="views\availability.html" />
+    <Content Include="views\confirm.html" />
     <Content Include="views\event.html" />
     <Content Include="views\home.html" />
     <Content Include="views\newevent.html" />

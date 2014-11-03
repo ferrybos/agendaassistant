@@ -9,6 +9,11 @@ using AgendaAssistant.Services;
 
 namespace AgendaAssistant.Web.api
 {
+    public class ConfirmData
+    {
+        public string Code { get; set; }
+    }
+
     [RoutePrefix("api/event")]
     public class EventController : ApiController
     {
@@ -75,11 +80,11 @@ namespace AgendaAssistant.Web.api
 
         [Route("confirm")]
         [HttpPost]
-        public IHttpActionResult Confirm(string code)
+        public IHttpActionResult Confirm([FromBody]ConfirmData data)
         {
             try
             {
-                _service.Confirm(code);
+                _service.Confirm(data.Code);
 
                 return Ok();
             }

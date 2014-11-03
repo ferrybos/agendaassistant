@@ -10,3 +10,12 @@
         }
     );
 });
+
+app.service('eventService', ['$http', '$log', '$filter', function ($http, $log, $filter) {
+    var urlBase = '/api/event/confirm';
+
+    this.confirm = function (code) {
+        $log.log("Confirm event " + code);
+        return $http.post(urlBase, code);
+    };
+}]);

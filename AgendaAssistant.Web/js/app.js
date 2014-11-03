@@ -17,6 +17,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
         when('/', { templateUrl: 'views/home.html', controller: 'HomeCtrl' }).
         when('/newevent', { templateUrl: 'views/newevent.html', controller: 'NewEventCtrl' }).
         when('/event/:id', { templateUrl: 'views/event.html', controller: 'EventCtrl' }).
+        when('/confirm/:id', { templateUrl: 'views/confirm.html', controller: 'ConfirmCtrl' }).
         when('/availability/:eventid/:personid', { templateUrl: 'views/availability.html', controller: 'AvailabilityCtrl' }).
         otherwise({ redirectTo: '/' });
 }]);

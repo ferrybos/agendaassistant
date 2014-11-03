@@ -21,7 +21,7 @@ namespace AgendaAssistant.Services
 
         private string ConfirmEventUrl(Event evn)
         {
-            return RootUrl + string.Format("confirmevent/{0}", evn.Code);
+            return RootUrl + string.Format("confirm/{0}", evn.Code);
         }
 
         private string EventUrl(Event evn)
@@ -69,7 +69,7 @@ namespace AgendaAssistant.Services
                 string.Format("Uitnodigingen versturen: {0}", evn.Title),
                 string.Format("U heeft de afspraak '<strong>{0}</strong>' aangemaakt.", evn.Title), 
                 "Klik op de onderstaande link om de uitnodigingen te versturen.",
-                EventUrl(evn), 
+                ConfirmEventUrl(evn), 
                 "Uitnodigingen versturen");
         }
 

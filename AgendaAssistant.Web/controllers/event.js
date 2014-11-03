@@ -16,9 +16,6 @@
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
-            //$scope.selectFlightTab(0);
-            //$log.log("Event = " + JSON.stringify($scope.event));
-            //$log.log("outboundFlightSearch = " + JSON.stringify($scope.event.outboundFlightSearch));
         });
     };
 
@@ -28,12 +25,6 @@
 
     $scope.selectFlightTab = function (tabIndex) {
         $scope.activeFlightTabIndex = tabIndex;
-        
-        //if ($scope.activeFlightTabIndex == 0)
-        //    $scope.activeFlights = $scope.event.outboundFlightSearch.flights;
-        //else {
-        //    $scope.activeFlights = $scope.event.inboundFlightSearch.flights;
-        //}
     };
     
     $scope.unconfirmedParticipants = function() {
