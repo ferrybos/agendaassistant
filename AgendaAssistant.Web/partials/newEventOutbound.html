@@ -87,7 +87,7 @@
                             <tr ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
                                 <td>
                                     <h4>{{flight.carrierCode}}{{flight.flightNumber}} {{flight.price}} EUR</h4>
-                                    <p>Vertrek: {{flight.std | date : 'hh:mm'}}   Aankomst: {{flight.sta | date : 'hh:mm'}}</p>
+                                    <p>Vertrek: {{flight.std | date : 'HH:mm'}}   Aankomst: {{flight.sta | date : 'HH:mm'}}</p>
                                 </td>
                             </tr>
                         </tbody>

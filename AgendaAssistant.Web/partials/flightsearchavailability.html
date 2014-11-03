@@ -1,8 +1,8 @@
 ﻿<div class="list-group" ng-if="flightsearch.selectedFlight != null" class="repeat-animation">
     <div class="list-group-item list-group-item-warning">
         <h4>{{flightsearch.selectedFlight.departureDate | date : 'EEE dd-MMM'}}   {{flightsearch.selectedFlight.carrierCode}}{{flightsearch.selectedFlight.flightNumber}}   {{flightsearch.selectedFlight.price}} EUR</h4>
-        <p>{{flightsearch.selectedFlight.std | date : 'hh:mm'}}      Vertrek: {{flightsearch.selectedFlight.departureStation}}</p>
-        <p>{{flightsearch.selectedFlight.sta | date : 'hh:mm'}}      Aankomst: {{flightsearch.selectedFlight.arrivalStation}}</p>
+        <p>{{flightsearch.selectedFlight.std | date : 'HH:mm'}}      Vertrek: {{flightsearch.selectedFlight.departureStation}}</p>
+        <p>{{flightsearch.selectedFlight.sta | date : 'HH:mm'}}      Aankomst: {{flightsearch.selectedFlight.arrivalStation}}</p>
     </div>
 </div>
 
@@ -22,7 +22,7 @@
                                         </button>
                                     </td>
                                     <td style="padding-right: 20px; border-top: 0;">
-                                        <span class="flighttime">{{flight.std | date : 'hh:mm'}}</span>
+                                        <span class="flighttime">{{flight.std | date : 'HH:mm'}}</span>
                                     </td>
                                     <td style="padding-right: 30px; border-top: 0;">
                                         <span class="badge" style="line-height: 18px; margin-left: 5px">{{flight.price}} EUR</span>
