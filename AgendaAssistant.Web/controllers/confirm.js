@@ -5,5 +5,5 @@
     // Go to event details after 3 seconds
     $timeout(function() {
         $location.path("/event/" + $routeParams.id);
-    }, 200);
+    }, 100);
 });
