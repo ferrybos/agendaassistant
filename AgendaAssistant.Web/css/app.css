@@ -30,7 +30,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     /*padding: 0 15px;*/
-    padding: 4px;
+    padding: 10px;
     background-color: #eee;
 }
 
@@ -180,6 +180,11 @@ div#contentFooter {
 @media (min-width: 1200px) {
     body {
         background: url('../img/sky.jpg') no-repeat fixed center 0;
+    }
+
+    .container {
+        padding-left: 20px;
+        padding-right: 20px
     }
 }
 

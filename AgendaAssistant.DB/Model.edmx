@@ -45,6 +45,10 @@
             <End Role="Flight" EntitySet="Flight" />
             <End Role="FlightSearch" EntitySet="FlightSearch" />
           </AssociationSet>
+          <AssociationSet Name="FK_Participant_Event" Association="AgendaAssistantModel.Store.FK_Participant_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
           <AssociationSet Name="FK_Participant_Person" Association="AgendaAssistantModel.Store.FK_Participant_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Participant" EntitySet="Participant" />
@@ -118,6 +122,7 @@
           </Key>
           <Property Name="EventID" Type="bigint" Nullable="false" />
           <Property Name="PersonID" Type="bigint" Nullable="false" />
+          <Property Name="Baggage" Type="char" MaxLength="4" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -227,6 +232,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Participant_Event">
+          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="1" />
+          <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Participant_Person">
           <End Role="Person" Type="AgendaAssistantModel.Store.Person" Multiplicity="1" />
           <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="*" />
@@ -248,30 +265,13 @@
           <EntitySet Name="Comments" EntityType="AgendaAssistantModel.Comment" />
           <EntitySet Name="Events" EntityType="AgendaAssistantModel.Event" />
           <EntitySet Name="Flights" EntityType="AgendaAssistantModel.Flight" />
-          <EntitySet Name="Persons" EntityType="AgendaAssistantModel.Person" />
           <AssociationSet Name="FK_Availability_Flight" Association="AgendaAssistantModel.FK_Availability_Flight">
             <End Role="Flight" EntitySet="Flights" />
-            <End Role="Availability" EntitySet="Availabilities" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Availability_Person" Association="AgendaAssistantModel.FK_Availability_Person">
-            <End Role="Person" EntitySet="Persons" />
             <End Role="Availability" EntitySet="Availabilities" />
           </AssociationSet>
           <AssociationSet Name="FK_Comment_Event" Association="AgendaAssistantModel.FK_Comment_Event">
             <End Role="Event" EntitySet="Events" />
             <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comment_Person" Association="AgendaAssistantModel.FK_Comment_Person">
-            <End Role="Person" EntitySet="Persons" />
-            <End Role="Comment" EntitySet="Comments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Event_Organizer" Association="AgendaAssistantModel.FK_Event_Organizer">
-            <End Role="Person" EntitySet="Persons" />
-            <End Role="Event" EntitySet="Events" />
-          </AssociationSet>
-          <AssociationSet Name="Participant" Association="AgendaAssistantModel.Participant">
-            <End Role="Event" EntitySet="Events" />
-            <End Role="Person" EntitySet="Persons" />
           </AssociationSet>
           <EntitySet Name="FlightSearches" EntityType="AgendaAssistantModel.FlightSearch" />
           <AssociationSet Name="FK_Event_INboundFLightSearch" Association="AgendaAssistantModel.FK_Event_INboundFLightSearch">
@@ -289,6 +289,28 @@
           <AssociationSet Name="FK_FlightSearch_SelectedFlight" Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight">
             <End Role="Flight" EntitySet="Flights" />
             <End Role="FlightSearch" EntitySet="FlightSearches" />
+          </AssociationSet>
+          <EntitySet Name="Participants" EntityType="AgendaAssistantModel.Participant" />
+          <EntitySet Name="Persons" EntityType="AgendaAssistantModel.Person" />
+          <AssociationSet Name="FK_Availability_Person" Association="AgendaAssistantModel.FK_Availability_Person">
+            <End Role="Person" EntitySet="Persons" />
+            <End Role="Availability" EntitySet="Availabilities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Person" Association="AgendaAssistantModel.FK_Comment_Person">
+            <End Role="Person" EntitySet="Persons" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Organizer" Association="AgendaAssistantModel.FK_Event_Organizer">
+            <End Role="Person" EntitySet="Persons" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Event" Association="AgendaAssistantModel.FK_Participant_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Participant" EntitySet="Participants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Person" Association="AgendaAssistantModel.FK_Participant_Person">
+            <End Role="Person" EntitySet="Persons" />
+            <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Availability">
@@ -329,11 +351,11 @@
           <Property Name="OutboundFlightSearchID" Type="Int64" />
           <Property Name="InboundFlightSearchID" Type="Int64" />
           <NavigationProperty Name="Comments" Relationship="AgendaAssistantModel.FK_Comment_Event" FromRole="Event" ToRole="Comment" />
-          <NavigationProperty Name="Organizer" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
-          <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.Participant" FromRole="Event" ToRole="Person" />
           <Property Type="Guid" Name="EventID" Nullable="false" />
           <NavigationProperty Name="InboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_INboundFLightSearch" FromRole="Event" ToRole="FlightSearch" />
           <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
+          <NavigationProperty Name="Organizer" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
+          <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Event" ToRole="Participant" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -351,22 +373,6 @@
           <NavigationProperty Name="FlightSearch" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="Flight" ToRole="FlightSearch" />
           <NavigationProperty Name="FlightSearch1" Relationship="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" FromRole="Flight" ToRole="FlightSearch" />
         </EntityType>
-        <EntityType Name="Person">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
-          <Property Name="FirstNameInPassport" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LastNameInPassport" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Gender" Type="Byte" />
-          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Availabilities" Relationship="AgendaAssistantModel.FK_Availability_Person" FromRole="Person" ToRole="Availability" />
-          <NavigationProperty Name="Comments" Relationship="AgendaAssistantModel.FK_Comment_Person" FromRole="Person" ToRole="Comment" />
-          <NavigationProperty Name="Events" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Person" ToRole="Event" />
-          <NavigationProperty Name="Events1" Relationship="AgendaAssistantModel.Participant" FromRole="Person" ToRole="Event" />
-        </EntityType>
         <Association Name="FK_Availability_Flight">
           <End Role="Flight" Type="AgendaAssistantModel.Flight" Multiplicity="1" />
           <End Role="Availability" Type="AgendaAssistantModel.Availability" Multiplicity="*" />
@@ -376,18 +382,6 @@
             </Principal>
             <Dependent Role="Availability">
               <PropertyRef Name="FlightID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Availability_Person">
-          <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="1" />
-          <End Role="Availability" Type="AgendaAssistantModel.Availability" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Availability">
-              <PropertyRef Name="PersonID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -402,34 +396,6 @@
               <PropertyRef Name="EventID" />
             </Dependent>
           </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Comment_Person">
-          <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="1" />
-          <End Role="Comment" Type="AgendaAssistantModel.Comment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Comment">
-              <PropertyRef Name="PersonID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Event_Organizer">
-          <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="1" />
-          <End Role="Event" Type="AgendaAssistantModel.Event" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Person">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Event">
-              <PropertyRef Name="OrganizerPersonID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Participant">
-          <End Role="Event" Type="AgendaAssistantModel.Event" Multiplicity="*" />
-          <End Role="Person" Type="AgendaAssistantModel.Person" Multiplicity="*" />
         </Association>
         <EntityType Name="FlightSearch">
           <Key>
@@ -496,6 +462,93 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="EventID" />
+            <PropertyRef Name="PersonID" />
+          </Key>
+          <Property Type="Int64" Name="EventID" Nullable="false" />
+          <Property Type="Int64" Name="PersonID" Nullable="false" />
+          <Property Type="String" Name="Baggage" MaxLength="4" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Participant" ToRole="Event" />
+          <NavigationProperty Name="Person" Relationship="AgendaAssistantModel.FK_Participant_Person" FromRole="Participant" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="FirstNameInPassport" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastNameInPassport" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Byte" Name="Gender" />
+          <Property Type="DateTime" Name="DateOfBirth" Precision="0" />
+          <NavigationProperty Name="Availability" Relationship="AgendaAssistantModel.FK_Availability_Person" FromRole="Person" ToRole="Availability" />
+          <NavigationProperty Name="Comment" Relationship="AgendaAssistantModel.FK_Comment_Person" FromRole="Person" ToRole="Comment" />
+          <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Person" ToRole="Event" />
+          <NavigationProperty Name="Participant" Relationship="AgendaAssistantModel.FK_Participant_Person" FromRole="Person" ToRole="Participant" />
+        </EntityType>
+        <Association Name="FK_Availability_Person">
+          <End Type="AgendaAssistantModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Availability" Role="Availability" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Availability">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Person">
+          <End Type="AgendaAssistantModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Comment" Role="Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Organizer">
+          <End Type="AgendaAssistantModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="OrganizerPersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Participant_Event">
+          <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Participant" Role="Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Participant_Person">
+          <End Type="AgendaAssistantModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Participant" Role="Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Participant">
+              <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -553,27 +606,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Persons">
-            <EntityTypeMapping TypeName="AgendaAssistantModel.Person">
-              <MappingFragment StoreEntitySet="Person">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="FirstNameInPassport" ColumnName="FirstNameInPassport" />
-                <ScalarProperty Name="LastNameInPassport" ColumnName="LastNameInPassport" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="Participant" TypeName="AgendaAssistantModel.Participant" StoreEntitySet="Participant">
-            <EndProperty Name="Event">
-              <ScalarProperty Name="ID" ColumnName="EventID" />
-            </EndProperty>
-            <EndProperty Name="Person">
-              <ScalarProperty Name="ID" ColumnName="PersonID" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="FlightSearches">
             <EntityTypeMapping TypeName="AgendaAssistantModel.FlightSearch">
               <MappingFragment StoreEntitySet="FlightSearch">
@@ -585,6 +617,28 @@
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="ArrivalStation" ColumnName="ArrivalStation" />
                 <ScalarProperty Name="DepartureStation" ColumnName="DepartureStation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Participant">
+              <MappingFragment StoreEntitySet="Participant">
+                <ScalarProperty Name="Baggage" ColumnName="Baggage" />
+                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persons">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Person">
+              <MappingFragment StoreEntitySet="Person">
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="LastNameInPassport" ColumnName="LastNameInPassport" />
+                <ScalarProperty Name="FirstNameInPassport" ColumnName="FirstNameInPassport" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

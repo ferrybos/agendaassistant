@@ -27,7 +27,7 @@ namespace AgendaAssistant.Repositories
                 };
 
             dbEvent.Participants.ToList()
-                   .ForEach(p => evn.Participants.Add(new Participant() { PersonId = p.ID, Name = p.Name, Email = p.Email}));
+                   .ForEach(p => evn.Participants.Add(new Participant() { PersonId = p.PersonID, Name = p.Person.Name, Email = p.Person.Email }));
 
             return evn;
         }
@@ -38,7 +38,11 @@ namespace AgendaAssistant.Repositories
                 {
                     Id = dbPerson.ID,
                     Name = dbPerson.Name,
-                    Email = dbPerson.Email
+                    Email = dbPerson.Email,
+                    FirstNameInPassport = dbPerson.FirstNameInPassport,
+                    LastNameInPassport = dbPerson.LastNameInPassport,
+                    DateOfBirth = dbPerson.DateOfBirth,
+                    Gender = dbPerson.Gender.HasValue ? (Gender)dbPerson.Gender.Value : (Gender?)null
                 };
         }
 
@@ -90,6 +94,22 @@ namespace AgendaAssistant.Repositories
             {
                 Value = dbAvailability.Value,
                 CommentText = dbAvailability.Comment
+            };
+        }
+
+        public static Participant Map(DB.Participant dbParticipant)
+        {
+            return new Participant
+            {
+                EventId = dbParticipant.EventID,
+                PersonId = dbParticipant.PersonID,
+
+                Name = dbParticipant.Person.Name,
+                Email = dbParticipant.Person.Email,
+                
+                Person = Map(dbParticipant.Person),
+
+                Baggage = dbParticipant.Baggage
             };
         }
     }

@@ -40,6 +40,7 @@ namespace AgendaAssistant.Repositories
             // setup
             var dbPersonRepository = new DbPersonRepository(_db);
             var dbEventRepository = new DbEventRepository(_db);
+            var dbParticipantRepository = new DbParticipantRepository(_db);
 
             // event and organizer
             var organizerPerson = dbPersonRepository.AddPerson(value.Organizer.Name, value.Organizer.Email);
@@ -52,7 +53,7 @@ namespace AgendaAssistant.Repositories
                                     ? organizerPerson
                                     : dbPersonRepository.AddPerson(participant.Name, participant.Email);
 
-                dbEventRepository.AddParticipant(dbEvent, person);
+                dbParticipantRepository.AddParticipant(dbEvent, person, "");
             }
 
             // flights

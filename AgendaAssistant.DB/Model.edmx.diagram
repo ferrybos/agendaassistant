@@ -4,23 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5fa6680d7dec4eb0a957df681893af5e" Name="Diagram1">
+      <Diagram DiagramId="5fa6680d7dec4eb0a957df681893af5e" Name="Diagram1" ZoomLevel="100">
         <EntityTypeShape EntityType="AgendaAssistantModel.Availability" Width="1.5" PointX="7.5" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Comment" Width="1.5" PointX="7.5" PointY="6.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Event" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Flight" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Person" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Flight" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Person" ManuallyRouted="false" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Comment_Event" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Comment_Person" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Event_Organizer" ManuallyRouted="false" />
-        <AssociationConnector Association="AgendaAssistantModel.Participant" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.FlightSearch" Width="1.5" PointX="0.448154339775515" PointY="19.038115093036609" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.FlightSearch" Width="1.5" PointX="1.125" PointY="13.5" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_INboundFLightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Flight_FlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Participant" Width="1.5" PointX="11.375" PointY="8.875" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Person" Width="1.5" PointX="5.25" PointY="12.25" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Person" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Comment_Person" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Event_Organizer" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Event" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Person" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

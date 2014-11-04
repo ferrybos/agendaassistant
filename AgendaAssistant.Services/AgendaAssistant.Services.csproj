@@ -50,6 +50,7 @@
     <Compile Include="EventService.cs" />
     <Compile Include="FlightService.cs" />
     <Compile Include="MailService.cs" />
+    <Compile Include="ParticipantService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

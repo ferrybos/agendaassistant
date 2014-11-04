@@ -14,10 +14,22 @@ namespace AgendaAssistant.Entities
         }
     }
 
+    public enum Gender
+    {
+        Male,
+        Female
+    }
+
     public class Person
     {
         public long Id { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
+
+        public string FirstNameInPassport { get; set; }
+        public string LastNameInPassport { get; set; }
+        public Gender? Gender { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+
     }
 }

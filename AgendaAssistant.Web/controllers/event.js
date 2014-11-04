@@ -2,12 +2,11 @@
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
-    //$scope.activeFlights = null;
-    //$scope.availabilityUrl = null;
     $scope.isActionsExpanded = false;
     $scope.isReminderSectionExpanded = false;
     $scope.isConfirming = false;
     $scope.availabilityUrl = "#/availability/" + $routeParams.id;
+    $scope.participantUrl = "#/participant/" + $routeParams.id;
     $scope.isPushPinSelected = false;
     
     getEvent();

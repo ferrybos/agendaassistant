@@ -96,6 +96,7 @@
     <Content Include="controllers\event.js" />
     <Content Include="controllers\home.js" />
     <Content Include="controllers\newevent.js" />
+    <Content Include="controllers\participant.js" />
     <Content Include="css\app.css" />
     <Content Include="css\extra.css" />
     <Content Include="directives\flightSearch.js" />
@@ -151,16 +152,19 @@
     <Content Include="services\availability.js" />
     <Content Include="services\flight.js" />
     <Content Include="services\event.js" />
+    <Content Include="services\participant.js" />
     <Content Include="test.html" />
     <Content Include="views\availability.html" />
     <Content Include="views\confirm.html" />
     <Content Include="views\event.html" />
     <Content Include="views\home.html" />
     <Content Include="views\newevent.html" />
+    <Content Include="views\participant.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="api\AvailabilityController.cs" />
+    <Compile Include="api\ParticipantController.cs" />
     <Compile Include="api\FlightController.cs" />
     <Compile Include="api\EventController.cs" />
     <Compile Include="Global.asax.cs">

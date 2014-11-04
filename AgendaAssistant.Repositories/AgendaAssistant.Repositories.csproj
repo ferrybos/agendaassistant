@@ -70,6 +70,7 @@
     <Compile Include="FlightRepository.cs" />
     <Compile Include="Mocks\MockAvailabilityRepository.cs" />
     <Compile Include="Mocks\MockFlightRepository.cs" />
+    <Compile Include="ParticipantRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

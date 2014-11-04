@@ -14,7 +14,6 @@ namespace AgendaAssistant.Web.Startup
     {
         public static void Register()
         {
-
             GlobalConfiguration.Configure(
                 config => config.DependencyResolver = new StructureMapDependencyResolver(BuildContainer()));
         }
@@ -29,6 +28,8 @@ namespace AgendaAssistant.Web.Startup
                     c.For<IEventRepository>().Use<EventRepository>();
                     c.For<IAvailabilityService>().Use<AvailabilityService>();
                     c.For<IAvailabilityRepository>().Use<AvailabilityRepository>();
+                    c.For<IParticipantService>().Use<ParticipantService>();
+                    c.For<IParticipantRepository>().Use<ParticipantRepository>();
                     c.For<IMailService>().Use<MailService>();
                 });
 
