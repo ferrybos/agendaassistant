@@ -1,5 +1,10 @@
 ﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="participant == null" />
 <div id="wrapper" ng-show="participant != null">
+    <ol class="breadcrumb">
+        <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
+        <li><a href="{{::eventUrl}}">Afspraak</a></li>
+        <li class="active">Boekingsgegevens wijzigen</li>
+    </ol>
     <h1 class="page-header">Boekingsgegevens wijzigen</h1>
     <p style="margin-bottom: 20px">Deelnemer: {{::participant.name}}</p>
 
@@ -20,8 +25,8 @@
                 <input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control" ng-model="participant.person.dateOfBirth" data-max-date="today" bs-datepicker>
             </div>
         </div>
-        <div class="col-xs-6" style="padding-left: 15px;padding-right:0">
-            <label class="control-label" for="gender">Geslacht</label><br/>
+        <div class="col-xs-6" style="padding-left: 15px; padding-right: 0">
+            <label class="control-label" for="gender">Geslacht</label><br />
             <select id="gender" class="form-control" ng-model="participant.person.gender">
                 <option value="0">Man</option>
                 <option value="1">Vrouw</option>

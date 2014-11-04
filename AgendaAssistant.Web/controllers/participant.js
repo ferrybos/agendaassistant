@@ -1,23 +1,20 @@
-﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $log, $filter, $routeParams, $timeout, participantService, participantFactory) {
+﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $log, $filter, $routeParams, $timeout, participantService) {
     $log.log('ParticipantCtrl');
     $scope.participant = null;
+    $scope.eventUrl = "#/event/" + $routeParams.eventid;
     
     getData();
 
     function getData() {
-        participantFactory.get({ eventid: $routeParams.eventid, personid: $routeParams.personid }, function (data) {
-            $scope.participant = data;
-            $log.log("participant = " + JSON.stringify(data));
-        });
-        //participantService.get($routeParams.eventid, $routeParams.personid)
-        //    .success(function(data) {
-        //        $log.log("participant = " + JSON.stringify(data));
-        //        $scope.participant = data;
-        //    })
-        //    .error(function(error) {
-        //        $scope.status = 'Unable to retrieve participant: ' + error.message;
-        //        $scope.participant = null;
-        //    });
+        participantService.get($routeParams.eventid, $routeParams.personid)
+            .success(function(data) {
+                $log.log("participant = " + JSON.stringify(data));
+                $scope.participant = data;
+            })
+            .error(function(error) {
+                $scope.status = 'Unable to retrieve participant: ' + error.message;
+                $scope.participant = null;
+            });
     };
 
     var timeout = null;

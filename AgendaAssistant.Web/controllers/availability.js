@@ -3,7 +3,8 @@
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
-    
+    $scope.eventUrl = "#/event/" + $routeParams.eventid;
+
     getData();
     
     function getData() {

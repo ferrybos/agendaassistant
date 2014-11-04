@@ -38,6 +38,10 @@ body {
         margin: 20px 0;
     }
 
+.breadcrumb {
+    font-weight: bold;
+}
+
 .table {
     margin-bottom: 0;
 }

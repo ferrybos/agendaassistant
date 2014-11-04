@@ -23,9 +23,10 @@ namespace AgendaAssistant.Web.api
         // Required field should be included in the route
         // Optional fields should be added as query string parameters, for example max price
         [Route("{eventId}/{personId}")]
-        public Participant Get(string eventId, long personId)
+        public IHttpActionResult Get(string eventId, long personId)
         {
-            return _service.Get(eventId, personId);
+            var participant = _service.Get(eventId, personId);
+            return Ok(participant);
         }
 
         [Route("")]

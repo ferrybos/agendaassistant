@@ -105,6 +105,7 @@
     <Content Include="img\delete.png" />
     <Content Include="img\hvlogo.png" />
     <Content Include="img\logo.png" />
+    <Content Include="img\sky.jpg" />
     <Content Include="js\app.js" />
     <Content Include="index.html" />
     <Content Include="js\DatepickerDemoCtrl.js" />
