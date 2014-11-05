@@ -109,7 +109,7 @@ namespace AgendaAssistant.Repositories
                 
                 Person = Map(dbParticipant.Person),
 
-                Baggage = dbParticipant.Baggage
+                Baggage = dbParticipant.Baggage.Trim()
             };
         }
     }

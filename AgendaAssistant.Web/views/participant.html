@@ -12,11 +12,13 @@
 
     <!--FirstNameInPassport-->
     <div class="form-group">
+        <label class="control-label" for="firstNameInPassport" ng-show="participant.person.firstNameInPassport.length > 0">Voornaam in paspoort</label><br />
         <input type="text" class="form-control" name="firstNameInPassport" ng-model="participant.person.firstNameInPassport" focus-on="focusFirstNameInPassport" placeholder="Voornaam in paspoort" maxlength="100" autocomplete="off" style="width: 100%" />
     </div>
 
     <!--LastNameInPassport-->
     <div class="form-group">
+        <label class="control-label" for="lastNameInPassport" ng-show="participant.person.lastNameInPassport.length > 0">Achternaam in paspoort</label><br />
         <input type="text" class="form-control" name="lastNameInPassport" ng-model="participant.person.lastNameInPassport" placeholder="Achternaam in paspoort" maxlength="100" autocomplete="off" style="width: 100%" />
     </div>
 
@@ -34,5 +36,14 @@
                 <option value="1">Vrouw</option>
             </select>
         </div>
+    </div>
+    
+    <div class="form-group">
+        <label class="control-label" for="gender">Ruim bagage</label><br />
+            <select id="Select1" class="form-control" ng-model="participant.baggage">
+                <option value="">Geen</option>
+                <option value="B15">15 kg</option>
+                <option value="B20">20 kg</option>
+            </select>
     </div>
 </div>
