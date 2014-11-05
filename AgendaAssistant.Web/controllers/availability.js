@@ -4,6 +4,8 @@
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
     $scope.eventUrl = "#/event/" + $routeParams.eventid;
+    $scope.infoMessage = "";
+    $scope.errorMessage = "";
 
     getData();
     
@@ -31,7 +33,16 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $log,
     
     var saveUpdates = function () {
         //console.log("Saving updates to item #" + ($scope.$index + 1) + "...", $scope.flight.availabilities[0]);
-        availabilityService.update($scope.flight.availabilities[0]);
+        availabilityService.update($scope.flight.availabilities[0])
+            .success(function(data) {
+                $scope.infoMessage = "Gegevens zijn opgeslagen";
+                $timeout(function() {
+                    $scope.infoMessage = "";
+                }, 3000);
+            })
+            .error(function(error) {
+                $scope.errorMessage = error.message + " " + error.exceptionMessage;
+            });
     };
     
     var debounceUpdate = function (newVal, oldVal) {

@@ -32,6 +32,8 @@ body {
     /*padding: 0 15px;*/
     padding: 10px;
     background-color: #eee;
+    /*required to position alerts inside container*/
+    position: relative;
 }
 
     .container .text-muted {
@@ -40,6 +42,15 @@ body {
 
 .breadcrumb {
     font-weight: bold;
+}
+
+.alert {
+    z-index: 1000;
+    position: absolute;
+    top: 2px;
+    border: 0;
+    right: 2px;
+    left: 2px;
 }
 
 .table {
@@ -177,6 +188,41 @@ div#contentFooter {
 
     /* ending leave animation */
     .repeat-animation.ng-leave.ng-leave-active {
+        opacity: 0;
+    }
+
+.alert.ng-enter,
+.alert.ng-move {
+    -webkit-transition: 0.2s linear all;
+    transition: 0.2s linear all;
+}
+
+.alert.ng-leave {
+    -webkit-transition: 1.0s linear all;
+    transition: 1.0s linear all;
+}
+
+/* ending enter and move styling
+   (this is what the element will animate from */
+.alert.ng-enter,
+.alert.ng-move {
+    opacity: 0;
+}
+
+    /* ending enter and move styling
+   (this is what the element will animate towards */
+    .alert.ng-enter.ng-enter-active,
+    .alert.ng-move.ng-move-active {
+        opacity: 1;
+    }
+
+/* starting leave animation */
+.alert.ng-leave {
+    opacity: 1;
+}
+
+    /* ending leave animation */
+    .alert.ng-leave.ng-leave-active {
         opacity: 0;
     }
 

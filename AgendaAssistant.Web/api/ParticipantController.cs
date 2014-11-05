@@ -25,8 +25,15 @@ namespace AgendaAssistant.Web.api
         [Route("{eventId}/{personId}")]
         public IHttpActionResult Get(string eventId, long personId)
         {
-            var participant = _service.Get(eventId, personId);
-            return Ok(participant);
+            try
+            {
+                var participant = _service.Get(eventId, personId);
+                return Ok(participant);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
         [Route("")]
@@ -34,8 +41,15 @@ namespace AgendaAssistant.Web.api
         public IHttpActionResult Post([FromBody] Participant participant)
         {
             // update participant
-            _service.Update(participant);
-            return Ok();
+            try
+            {
+                _service.Update(participant);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }

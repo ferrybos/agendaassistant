@@ -1,4 +1,6 @@
-﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="event == null" />
+﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="event == null && infoMessage.length == 0 && errorMessage.length == 0" />
+<div class="alert alert-success" role="alert" ng-if="infoMessage.length > 0">{{infoMessage}}</div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-if="errorMessage.length > 0">{{errorMessage}}</div>
 <div id="wrapper" ng-show="event != null">
     <ol class="breadcrumb">
         <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
