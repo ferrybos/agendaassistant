@@ -153,6 +153,11 @@ div#contentFooter {
     color: #84b70b;
 }
 
+.comment {
+    color: darkblue;
+    /*font-weight: bold;*/
+}
+
 /*
  * ngRepeat triggers three animation events: enter, leave and move.
  */
@@ -230,11 +235,12 @@ div#contentFooter {
 @media (min-width: 1200px) {
     body {
         background: url('../img/sky.jpg') no-repeat fixed center 0;
+        background-color: #19487d; /* Old browsers */
     }
 
     .container {
         padding-left: 20px;
-        padding-right: 20px
+        padding-right: 20px;
     }
 }
 

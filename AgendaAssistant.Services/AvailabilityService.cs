@@ -39,6 +39,9 @@ namespace AgendaAssistant.Services
         public void Update(Availability availability)
         {
             _repository.Update(availability);
+
+            // todo: insert mail record if no unsent record exists already
+
         }
     }
 

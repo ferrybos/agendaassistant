@@ -1,4 +1,4 @@
-﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="event == null && infoMessage.length == 0 && errorMessage.length == 0" />
+﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="event == null && errorMessage.length == 0" />
 <div class="alert alert-success" role="alert" ng-if="infoMessage.length > 0">{{infoMessage}}</div>
 <div class="alert alert-danger alert-dismissible" role="alert" ng-if="errorMessage.length > 0">{{errorMessage}}</div>
 <div id="wrapper" ng-show="event != null">
@@ -38,12 +38,13 @@
                                             </div>
                                         </div>
                                         <div style="float: left">
-                                            <h4>{{flight.std | date : 'HH:mm'}}   {{flight.price}} EUR</h4>
+                                            <span class="flighttime" style="padding: 8px; border-top: 0;">{{flight.std | date : 'HH:mm'}}</span>
+                                            <span class="badge" style="line-height: 18px; margin-left: 20px">{{flight.price}} EUR</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <textarea class="form-control" name="comment" rows="4" ng-model="flight.availabilities[0].commentText" ng-show="flight.isCommentExpanded === true" placeholder="Opmerking" style="width: 100%"></textarea>
-                                        <span class="help-block" ng-show="!flight.isCommentExpanded && flight.availabilities[0].commentText != ''">{{flight.availabilities[0].commentText}}</span>
+                                        <p class="comment" ng-show="!flight.isCommentExpanded && flight.availabilities[0].commentText != ''" style="padding-left: 8px">{{flight.availabilities[0].commentText}}</p>
                                     </div>
                                 </td>
                             </tr>

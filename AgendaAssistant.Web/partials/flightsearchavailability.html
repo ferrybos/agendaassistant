@@ -44,7 +44,7 @@
                                         </td>
                                         <td style="border-top: 0; vertical-align: middle">
                                             <span ng-repeat="availability in value" style="margin-right: 20px">
-                                                <a href="{{::availabilityurl}}/{{::availability.personId}}">{{::availability.name}}</a><span ng-show="availability.commentText != null" style="margin-left: 5px">({{::availability.commentText}})</span>
+                                                <a href="{{::availabilityurl}}/{{::availability.personId}}">{{::availability.name}}</a><span class="comment" ng-show="availability.commentText != null" style="margin-left: 5px">({{::availability.commentText}})</span>
                                             </span>
                                         </td>
                                     </tr>

@@ -1,9 +1,9 @@
-﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $log, $filter, $routeParams, $timeout, participantService) {
+﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, $timeout, participantService) {
     $log.log('ParticipantCtrl');
     $scope.participant = null;
     $scope.eventUrl = "#/event/" + $routeParams.eventid;
-    $scope.infoMessage = "";
-    $scope.errorMessage = "";
+    $rootScope.infoMessage = "";
+    $rootScope.errorMessage = "";
     
     getData();
 
@@ -20,7 +20,7 @@
                 $scope.$watch('participant.baggage', debounceUpdate);
             })
             .error(function(error) {
-                $scope.errorMessage = error.message + " " + error.exceptionMessage;
+                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
                 $scope.participant = null;
             });
     };
@@ -30,13 +30,13 @@
     var saveUpdates = function () {
         participantService.update($scope.participant)
             .success(function(data) {
-                $scope.infoMessage = "Gegevens zijn opgeslagen";
+                $rootScope.infoMessage = "Gegevens zijn opgeslagen";
                 $timeout(function () {
-                    $scope.infoMessage = "";
+                    $rootScope.infoMessage = "";
                 }, 3000);
             })
             .error(function (error) {
-                $scope.errorMessage = error.message + " " + error.exceptionMessage;
+                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
             });        
     };
 

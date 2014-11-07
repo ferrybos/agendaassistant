@@ -1,4 +1,4 @@
-﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'uiSlider', 'mgcrea.ngStrap', 'angular.filter']);
+﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'uiSlider', 'mgcrea.ngStrap', 'angular.filter', 'angular-appinsights']);
 
 app.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {
@@ -10,7 +10,7 @@ app.config(function($datepickerProvider) {
 });
 
 // Configure routes
-app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+app.config(['$routeProvider', '$locationProvider', 'insightsProvider', function ($routeProvider, $locationProvider, insightsProvider) {
     //$locationProvider.html5Mode(true);
 
     $routeProvider.
@@ -21,4 +21,7 @@ app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $lo
         when('/availability/:eventid/:personid', { templateUrl: 'views/availability.html', controller: 'AvailabilityCtrl' }).
         when('/participant/:eventid/:personid', { templateUrl: 'views/participant.html', controller: 'ParticipantCtrl' }).
         otherwise({ redirectTo: '/' });
+    
+    // Add application insights id here
+    insightsProvider.start('5845b2871415a79a1ee36e1f6326b3d7aefbe63c678950a');
 }]);

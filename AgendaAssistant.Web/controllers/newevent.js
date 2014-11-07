@@ -1,4 +1,6 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, eventFactory) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, eventFactory, insights) {
+    insights.logEvent('NewEventCtrl Activated');
+    
     $scope.constants = Constants;
     $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
@@ -21,6 +23,8 @@
     };
 
     $scope.CreateEvent = function () {
+        insights.logEvent('User creates event');
+        
         $scope.CurrentStepIndex = 9; //saving event
         
         // add selected flights to the event object to be sent to the server
@@ -46,6 +50,7 @@
     };
 
     $scope.CancelNewEvent = function () {
+        insights.logEvent('User cancels new event');
         $location.path("/");
     };
 
@@ -56,6 +61,8 @@
 
     $scope.isOrganizerAddedToParticipants = false;
     $scope.SelectStepParticipants = function () {
+        insights.logEvent('User selects participants step');
+        
         $scope.$broadcast('focusParticipantName');
 
         if (!$scope.isOrganizerAddedToParticipants) {
@@ -69,6 +76,8 @@
 
     $scope.areOutboundDefaultsSet = false;
     $scope.SelectStepOutbound = function () {
+        insights.logEvent('User selects outbound step');
+        
         if (!$scope.areOutboundDefaultsSet) {
             // set defaults on first hit
             $scope.event.outboundFlightSearch.departureStation = "AMS";
@@ -90,6 +99,8 @@
 
     $scope.areInboundDefaultsSet = false;
     $scope.SelectStepInbound = function () {
+        insights.logEvent('User selects inbound step');
+
         if (!$scope.areInboundDefaultsSet) {
             // set defaults on first hit
             $scope.event.inboundFlightSearch.departureStation = $scope.event.outboundFlightSearch.arrivalStation;
@@ -105,12 +116,16 @@
     };
 
     $scope.AddParticipant = function () {
+        insights.logEvent('User adds participant');
+
         addParticipantInternal($scope.newParticipantName, $scope.newParticipantEmail);
         clearParticipantInput();
         $scope.$broadcast('focusParticipantName');
     };
 
     $scope.DeleteParticipant = function (index) {
+        insights.logEvent('User deletes participant');
+
         $scope.event.participants.splice(index, 1);
     };
 
@@ -124,6 +139,8 @@
     };
     
     $scope.EnterTestEvent = function () {
+        insights.logEvent('User selects test link');
+        
         $scope.event.title = "Weekendje Barcelona";
         $scope.event.description = "Dit is een test";
         $scope.event.organizer.name = "Ferry Bos";

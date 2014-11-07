@@ -8,6 +8,8 @@
         <EntityContainer Name="AgendaAssistantModelStoreContainer">
           <EntitySet Name="Availability" EntityType="AgendaAssistantModel.Store.Availability" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Comment" EntityType="AgendaAssistantModel.Store.Comment" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Email" EntityType="AgendaAssistantModel.Store.Email" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmailType" EntityType="AgendaAssistantModel.Store.EmailType" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Event" EntityType="AgendaAssistantModel.Store.Event" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Flight" EntityType="AgendaAssistantModel.Store.Flight" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FlightSearch" EntityType="AgendaAssistantModel.Store.FlightSearch" store:Type="Tables" Schema="dbo" />
@@ -24,6 +26,18 @@
           <AssociationSet Name="FK_Comment_Person" Association="AgendaAssistantModel.Store.FK_Comment_Person">
             <End Role="Person" EntitySet="Person" />
             <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_EmailType" Association="AgendaAssistantModel.Store.FK_Email_EmailType">
+            <End Role="EmailType" EntitySet="EmailType" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_Event" Association="AgendaAssistantModel.Store.FK_Email_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_RecipientPerson" Association="AgendaAssistantModel.Store.FK_Email_RecipientPerson">
+            <End Role="Person" EntitySet="Person" />
+            <End Role="Email" EntitySet="Email" />
           </AssociationSet>
           <AssociationSet Name="FK_Event_INboundFLightSearch" Association="AgendaAssistantModel.Store.FK_Event_INboundFLightSearch">
             <End Role="FlightSearch" EntitySet="FlightSearch" />
@@ -74,6 +88,27 @@
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" Nullable="false" MaxLength="250" />
         </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="RecipientPersonID" Type="bigint" Nullable="false" />
+          <Property Name="EmailTypeID" Type="smallint" Nullable="false" />
+          <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
+          <Property Name="SentUtc" Type="datetime" />
+          <Property Name="Subject" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="BodyHtml" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="BodyPlain" Type="nvarchar" Nullable="false" MaxLength="1000" />
+          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="EmailType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="ID" Type="smallint" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="ID" />
@@ -122,7 +157,9 @@
           </Key>
           <Property Name="EventID" Type="bigint" Nullable="false" />
           <Property Name="PersonID" Type="bigint" Nullable="false" />
-          <Property Name="Baggage" Type="char" MaxLength="4" />
+          <Property Name="Baggage" Type="varchar" MaxLength="4" />
+          <Property Name="AvailabilityUpdateSent" Type="bit" />
+          <Property Name="Code" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -169,6 +206,42 @@
             </Principal>
             <Dependent Role="Comment">
               <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_EmailType">
+          <End Role="EmailType" Type="AgendaAssistantModel.Store.EmailType" Multiplicity="1" />
+          <End Role="Email" Type="AgendaAssistantModel.Store.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="EmailTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_Event">
+          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="1" />
+          <End Role="Email" Type="AgendaAssistantModel.Store.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_RecipientPerson">
+          <End Role="Person" Type="AgendaAssistantModel.Store.Person" Multiplicity="1" />
+          <End Role="Email" Type="AgendaAssistantModel.Store.Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="RecipientPersonID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -312,6 +385,20 @@
             <End Role="Person" EntitySet="Persons" />
             <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
+          <EntitySet Name="Emails" EntityType="AgendaAssistantModel.Email" />
+          <EntitySet Name="EmailTypes" EntityType="AgendaAssistantModel.EmailType" />
+          <AssociationSet Name="FK_Email_EmailType" Association="AgendaAssistantModel.FK_Email_EmailType">
+            <End Role="EmailType" EntitySet="EmailTypes" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_Event" Association="AgendaAssistantModel.FK_Email_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_RecipientPerson" Association="AgendaAssistantModel.FK_Email_RecipientPerson">
+            <End Role="Person" EntitySet="Persons" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Availability">
           <Key>
@@ -356,6 +443,7 @@
           <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
           <NavigationProperty Name="Organizer" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
           <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Event" ToRole="Participant" />
+          <NavigationProperty Name="Emails" Relationship="AgendaAssistantModel.FK_Email_Event" FromRole="Event" ToRole="Email" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -469,9 +557,11 @@
           </Key>
           <Property Type="Int64" Name="EventID" Nullable="false" />
           <Property Type="Int64" Name="PersonID" Nullable="false" />
-          <Property Type="String" Name="Baggage" MaxLength="4" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Baggage" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Participant" ToRole="Event" />
           <NavigationProperty Name="Person" Relationship="AgendaAssistantModel.FK_Participant_Person" FromRole="Participant" ToRole="Person" />
+          <Property Type="Boolean" Name="AvailabilityUpdateSent" />
+          <Property Type="Guid" Name="Code" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -488,6 +578,7 @@
           <NavigationProperty Name="Comment" Relationship="AgendaAssistantModel.FK_Comment_Person" FromRole="Person" ToRole="Comment" />
           <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Person" ToRole="Event" />
           <NavigationProperty Name="Participant" Relationship="AgendaAssistantModel.FK_Participant_Person" FromRole="Person" ToRole="Participant" />
+          <NavigationProperty Name="Emails" Relationship="AgendaAssistantModel.FK_Email_RecipientPerson" FromRole="Person" ToRole="Email" />
         </EntityType>
         <Association Name="FK_Availability_Person">
           <End Type="AgendaAssistantModel.Person" Role="Person" Multiplicity="1" />
@@ -546,6 +637,67 @@
             </Principal>
             <Dependent Role="Participant">
               <PropertyRef Name="PersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int64" Name="EventID" Nullable="false" />
+          <Property Type="Int64" Name="RecipientPersonID" Nullable="false" />
+          <Property Type="Int16" Name="EmailTypeID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedUtc" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="SentUtc" Precision="3" />
+          <Property Type="String" Name="Subject" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BodyHtml" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BodyPlain" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Type="Int64" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="EmailType" Relationship="AgendaAssistantModel.FK_Email_EmailType" FromRole="Email" ToRole="EmailType" />
+          <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Email_Event" FromRole="Email" ToRole="Event" />
+          <NavigationProperty Name="Person" Relationship="AgendaAssistantModel.FK_Email_RecipientPerson" FromRole="Email" ToRole="Person" />
+        </EntityType>
+        <EntityType Name="EmailType">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int16" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Emails" Relationship="AgendaAssistantModel.FK_Email_EmailType" FromRole="EmailType" ToRole="Email" />
+        </EntityType>
+        <Association Name="FK_Email_EmailType">
+          <End Type="AgendaAssistantModel.EmailType" Role="EmailType" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmailType">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="EmailTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_Event">
+          <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Email_RecipientPerson">
+          <End Type="AgendaAssistantModel.Person" Role="Person" Multiplicity="1" />
+          <End Type="AgendaAssistantModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Email">
+              <PropertyRef Name="RecipientPersonID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -623,6 +775,8 @@
           <EntitySetMapping Name="Participants">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Participant">
               <MappingFragment StoreEntitySet="Participant">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="AvailabilityUpdateSent" ColumnName="AvailabilityUpdateSent" />
                 <ScalarProperty Name="Baggage" ColumnName="Baggage" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
@@ -642,6 +796,29 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Email">
+              <MappingFragment StoreEntitySet="Email">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BodyPlain" ColumnName="BodyPlain" />
+                <ScalarProperty Name="BodyHtml" ColumnName="BodyHtml" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="SentUtc" ColumnName="SentUtc" />
+                <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
+                <ScalarProperty Name="EmailTypeID" ColumnName="EmailTypeID" />
+                <ScalarProperty Name="RecipientPersonID" ColumnName="RecipientPersonID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailTypes">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.EmailType">
+              <MappingFragment StoreEntitySet="EmailType">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -656,7 +833,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

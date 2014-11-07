@@ -20,6 +20,7 @@ namespace AgendaAssistant.DB
             this.Comment = new HashSet<Comment>();
             this.Event = new HashSet<Event>();
             this.Participant = new HashSet<Participant>();
+            this.Emails = new HashSet<Email>();
         }
     
         public long ID { get; set; }
@@ -34,5 +35,6 @@ namespace AgendaAssistant.DB
         public virtual ICollection<Comment> Comment { get; set; }
         public virtual ICollection<Event> Event { get; set; }
         public virtual ICollection<Participant> Participant { get; set; }
+        public virtual ICollection<Email> Emails { get; set; }
     }
 }

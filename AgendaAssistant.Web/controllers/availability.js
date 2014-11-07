@@ -1,11 +1,10 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $log, $filter, $routeParams, Constants, availabilityFactory) {
-    $log.log('AvailabilityCtrl');
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, Constants, availabilityFactory) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
     $scope.eventUrl = "#/event/" + $routeParams.eventid;
-    $scope.infoMessage = "";
-    $scope.errorMessage = "";
+    $rootScope.infoMessage = "";
+    $rootScope.errorMessage = "";
 
     getData();
     
@@ -13,7 +12,7 @@
         //$log.log('getData: ' + $routeParams.eventid + ', ' + $routeParams.personid);
         availabilityFactory.get({ eventid: $routeParams.eventid, personid: $routeParams.personid }, function (data) {
             $scope.event = data.event;
-            $log.log("Event = " + JSON.stringify($scope.event));
+            //$log.log("Event = " + JSON.stringify($scope.event));
         });
     };
     
@@ -26,22 +25,20 @@
     };
 });
 
-angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $log, $timeout, $filter, $routeParams, Constants, availabilityService) {
-    $log.log('AvailabilityItemCtrl');
-
+angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $timeout, $filter, $routeParams, Constants, availabilityService) {
     var timeout = null;
     
     var saveUpdates = function () {
         //console.log("Saving updates to item #" + ($scope.$index + 1) + "...", $scope.flight.availabilities[0]);
         availabilityService.update($scope.flight.availabilities[0])
             .success(function(data) {
-                $scope.infoMessage = "Gegevens zijn opgeslagen";
-                $timeout(function() {
-                    $scope.infoMessage = "";
+                $rootScope.infoMessage = "Gegevens zijn opgeslagen";
+                $timeout(function () {
+                    $rootScope.infoMessage = "";
                 }, 3000);
             })
             .error(function(error) {
-                $scope.errorMessage = error.message + " " + error.exceptionMessage;
+                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
             });
     };
     

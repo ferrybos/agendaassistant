@@ -18,6 +18,7 @@ namespace AgendaAssistant.DB
         {
             this.Comments = new HashSet<Comment>();
             this.Participants = new HashSet<Participant>();
+            this.Emails = new HashSet<Email>();
         }
     
         public long ID { get; set; }
@@ -36,5 +37,6 @@ namespace AgendaAssistant.DB
         public virtual FlightSearch OutboundFlightSearch { get; set; }
         public virtual Person Organizer { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
+        public virtual ICollection<Email> Emails { get; set; }
     }
 }
