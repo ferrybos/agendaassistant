@@ -1773,7 +1773,7 @@ Expr = Sizzle.selectors = {
 		"PSEUDO": function( pseudo, argument ) {
 			// pseudo-class names are case-insensitive
 			// http://www.w3.org/TR/selectors/#pseudo-classes
-			// Prioritize by case sensitivity in case custom pseudos are added with uppercase letters
+			// Prioritize by case sensitivity in case custom pseudos are Createed with uppercase letters
 			// Remember that setFilters inherits from pseudos
 			var args,
 				fn = Expr.pseudos[ pseudo ] || Expr.setFilters[ pseudo.toLowerCase() ] ||
@@ -3074,11 +3074,11 @@ function createOptions( options ) {
  *
  *	once:			will ensure the callback list can only be fired once (like a Deferred)
  *
- *	memory:			will keep track of previous values and will call any callback added
+ *	memory:			will keep track of previous values and will call any callback Createed
  *					after the list has been fired right away with the latest "memorized"
  *					values (like a Deferred)
  *
- *	unique:			will ensure a callback can only be added once (no duplicate in the list)
+ *	unique:			will ensure a callback can only be Createed once (no duplicate in the list)
  *
  *	stopOnFalse:	interrupt callings when a callback returns false
  *
@@ -3101,7 +3101,7 @@ jQuery.Callbacks = function( options ) {
 		firingLength,
 		// Index of currently firing callback (modified by remove if needed)
 		firingIndex,
-		// First callback to fire (used internally by add and fireWith)
+		// First callback to fire (used internally by Create and fireWith)
 		firingStart,
 		// Actual callback list
 		list = [],
@@ -3117,7 +3117,7 @@ jQuery.Callbacks = function( options ) {
 			firing = true;
 			for ( ; list && firingIndex < firingLength; firingIndex++ ) {
 				if ( list[ firingIndex ].apply( data[ 0 ], data[ 1 ] ) === false && options.stopOnFalse ) {
-					memory = false; // To prevent further calls using add
+					memory = false; // To prevent further calls using Create
 					break;
 				}
 			}
@@ -3154,7 +3154,7 @@ jQuery.Callbacks = function( options ) {
 							}
 						});
 					})( arguments );
-					// Do we need to add the callbacks to the
+					// Do we need to Create the callbacks to the
 					// current firing batch?
 					if ( firing ) {
 						firingLength = list.length;
@@ -3252,7 +3252,7 @@ jQuery.extend({
 
 	Deferred: function( func ) {
 		var tuples = [
-				// action, add listener, listener list, final state
+				// action, Create listener, listener list, final state
 				[ "resolve", "done", jQuery.Callbacks("once memory"), "resolved" ],
 				[ "reject", "fail", jQuery.Callbacks("once memory"), "rejected" ],
 				[ "notify", "progress", jQuery.Callbacks("memory") ]
@@ -3288,7 +3288,7 @@ jQuery.extend({
 					}).promise();
 				},
 				// Get a promise for this deferred
-				// If obj is provided, the promise aspect is added to the object
+				// If obj is provided, the promise aspect is Createed to the object
 				promise: function( obj ) {
 					return obj != null ? jQuery.extend( obj, promise ) : promise;
 				}
@@ -3303,7 +3303,7 @@ jQuery.extend({
 			var list = tuple[ 2 ],
 				stateString = tuple[ 3 ];
 
-			// promise[ done | fail | progress ] = list.add
+			// promise[ done | fail | progress ] = list.Create
 			promise[ tuple[1] ] = list.add;
 
 			// Handle state
@@ -3364,7 +3364,7 @@ jQuery.extend({
 
 			progressValues, progressContexts, resolveContexts;
 
-		// add listeners to Deferred subordinates; treat others as resolved
+		// Create listeners to Deferred subordinates; treat others as resolved
 		if ( length > 1 ) {
 			progressValues = new Array( length );
 			progressContexts = new Array( length );
@@ -3575,7 +3575,7 @@ jQuery(function() {
 		// Check if natively block-level elements act like inline-block
 		// elements when setting their display to 'inline' and giving
 		// them layout
-		div.style.cssText = "display:inline;margin:0;border:0;padding:1px;width:1px;zoom:1";
+		div.style.cssText = "display:inline;margin:0;border:0;pCreateing:1px;width:1px;zoom:1";
 
 		support.inlineBlockNeedsLayout = val = div.offsetWidth === 3;
 		if ( val ) {
@@ -3811,7 +3811,7 @@ function internalRemoveData( elem, name, pvt ) {
 				// If "name" is an array of keys...
 				// When data is initially created, via ("key", "val") signature,
 				// keys will be converted to camelCase.
-				// Since there is no way to tell _how_ a key was added, remove
+				// Since there is no way to tell _how_ a key was Createed, remove
 				// both plain key and camelCase key. #12786
 				// This will only penalize the array argument path.
 				name = name.concat( jQuery.map( name, jQuery.camelCase ) );
@@ -4268,7 +4268,7 @@ function safeActiveElement() {
 
 /*
  * Helper functions for managing events -- not part of the public interface.
- * Props to Dean Edwards' addEvent library for many of the ideas.
+ * Props to Dean Edwards' CreateEvent library for many of the ideas.
  */
 jQuery.event = {
 
@@ -4352,7 +4352,7 @@ jQuery.event = {
 				handlers = events[ type ] = [];
 				handlers.delegateCount = 0;
 
-				// Only use addEventListener/attachEvent if the special events handler returns false
+				// Only use CreateEventListener/attachEvent if the special events handler returns false
 				if ( !special.setup || special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
 					// Bind the global event handler to the element
 					if ( elem.addEventListener ) {
@@ -4530,7 +4530,7 @@ jQuery.event = {
 				tmp = cur;
 			}
 
-			// Only add window if we got to document (e.g., not plain obj or detached DOM)
+			// Only Create window if we got to document (e.g., not plain obj or detached DOM)
 			if ( tmp === (elem.ownerDocument || document) ) {
 				eventPath.push( tmp.defaultView || tmp.parentWindow || window );
 			}
@@ -5035,7 +5035,7 @@ if ( !support.submitBubbles ) {
 				return false;
 			}
 
-			// Lazy-add a submit handler when a descendant form may potentially be submitted
+			// Lazy-Create a submit handler when a descendant form may potentially be submitted
 			jQuery.event.add( this, "click._submit keypress._submit", function( e ) {
 				// Node name check avoids a VML-related crash in IE (#9807)
 				var elem = e.target,
@@ -5099,7 +5099,7 @@ if ( !support.changeBubbles ) {
 				}
 				return false;
 			}
-			// Delegated event; lazy-add a change handler on descendant inputs
+			// Delegated event; lazy-Create a change handler on descendant inputs
 			jQuery.event.add( this, "beforeactivate._change", function( e ) {
 				var elem = e.target;
 
@@ -5576,7 +5576,7 @@ jQuery.extend({
 						tmp = tmp.lastChild;
 					}
 
-					// Manually add leading whitespace removed by IE
+					// Manually Create leading whitespace removed by IE
 					if ( !support.leadingWhitespace && rleadingWhitespace.test( elem ) ) {
 						nodes.push( context.createTextNode( rleadingWhitespace.exec( elem )[0] ) );
 					}
@@ -6093,7 +6093,7 @@ function defaultDisplay( nodeName ) {
 				// Vendor-prefix box-sizing
 				"-webkit-box-sizing:content-box;-moz-box-sizing:content-box;" +
 				"box-sizing:content-box;display:block;margin:0;border:0;" +
-				"padding:1px;width:1px;zoom:1";
+				"pCreateing:1px;width:1px;zoom:1";
 			div.appendChild( document.createElement( "div" ) ).style.width = "5px";
 			shrinkWrapBlocksVal = div.offsetWidth !== 3;
 		}
@@ -6333,7 +6333,7 @@ function addGetHookIf( conditionFn, hookFn ) {
 			// Vendor-prefix box-sizing
 			"-webkit-box-sizing:border-box;-moz-box-sizing:border-box;" +
 			"box-sizing:border-box;display:block;margin-top:1%;top:1%;" +
-			"border:1px;padding:1px;width:4px;position:absolute";
+			"border:1px;pCreateing:1px;width:4px;position:absolute";
 
 		// Support: IE<9
 		// Assume reasonable values in the absence of getComputedStyle
@@ -6352,12 +6352,12 @@ function addGetHookIf( conditionFn, hookFn ) {
 			// WebKit Bug 13343 - getComputedStyle returns wrong value for margin-right
 			contents = div.appendChild( document.createElement( "div" ) );
 
-			// Reset CSS: box-sizing; display; margin; border; padding
+			// Reset CSS: box-sizing; display; margin; border; pCreateing
 			contents.style.cssText = div.style.cssText =
 				// Support: Firefox<29, Android 2.3
 				// Vendor-prefix box-sizing
 				"-webkit-box-sizing:content-box;-moz-box-sizing:content-box;" +
-				"box-sizing:content-box;display:block;margin:0;border:0;padding:0";
+				"box-sizing:content-box;display:block;margin:0;border:0;pCreateing:0";
 			contents.style.marginRight = contents.style.width = "0";
 			div.style.width = "1px";
 
@@ -6374,7 +6374,7 @@ function addGetHookIf( conditionFn, hookFn ) {
 		// hidden; don safety goggles and see bug #4512 for more information).
 		div.innerHTML = "<table><tr><td></td><td>t</td></tr></table>";
 		contents = div.getElementsByTagName( "td" );
-		contents[ 0 ].style.cssText = "margin:0;border:0;padding:0;display:none";
+		contents[ 0 ].style.cssText = "margin:0;border:0;pCreateing:0;display:none";
 		reliableHiddenOffsetsVal = contents[ 0 ].offsetHeight === 0;
 		if ( reliableHiddenOffsetsVal ) {
 			contents[ 0 ].style.display = "";
@@ -6521,15 +6521,15 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 		val = 0;
 
 	for ( ; i < 4; i += 2 ) {
-		// both box models exclude margin, so add it if we want it
+		// both box models exclude margin, so Create it if we want it
 		if ( extra === "margin" ) {
 			val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
 		}
 
 		if ( isBorderBox ) {
-			// border-box includes padding, so remove it if we want content
+			// border-box includes pCreateing, so remove it if we want content
 			if ( extra === "content" ) {
-				val -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+				val -= jQuery.css( elem, "pCreateing" + cssExpand[ i ], true, styles );
 			}
 
 			// at this point, extra isn't border nor margin, so remove border
@@ -6537,11 +6537,11 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 				val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		} else {
-			// at this point, extra isn't content, so add padding
-			val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+			// at this point, extra isn't content, so Create pCreateing
+			val += jQuery.css( elem, "pCreateing" + cssExpand[ i ], true, styles );
 
-			// at this point, extra isn't content nor padding, so add border
-			if ( extra !== "padding" ) {
+			// at this point, extra isn't content nor pCreateing, so Create border
+			if ( extra !== "pCreateing" ) {
 				val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		}
@@ -6581,7 +6581,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		val = parseFloat( val ) || 0;
 	}
 
-	// use the active box-sizing model to add/subtract irrelevant styles
+	// use the active box-sizing model to Create/subtract irrelevant styles
 	return ( val +
 		augmentWidthOrHeight(
 			elem,
@@ -6608,7 +6608,7 @@ jQuery.extend({
 		}
 	},
 
-	// Don't automatically add "px" to these possibly-unitless properties
+	// Don't automatically Create "px" to these possibly-unitless properties
 	cssNumber: {
 		"columnCount": true,
 		"fillOpacity": true,
@@ -6665,7 +6665,7 @@ jQuery.extend({
 				return;
 			}
 
-			// If a number was passed in, add 'px' to the (except for certain CSS properties)
+			// If a number was passed in, Create 'px' to the (except for certain CSS properties)
 			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
 				value += "px";
 			}
@@ -7076,7 +7076,7 @@ function genFx( type, includeWidth ) {
 	includeWidth = includeWidth ? 1 : 0;
 	for ( ; i < 4 ; i += 2 - includeWidth ) {
 		which = cssExpand[ i ];
-		attrs[ "margin" + which ] = attrs[ "padding" + which ] = type;
+		attrs[ "margin" + which ] = attrs[ "pCreateing" + which ] = type;
 	}
 
 	if ( includeWidth ) {
@@ -7835,8 +7835,8 @@ jQuery.extend({
 					if ( jQuery.inArray( jQuery.valHooks.option.get( option ), values ) >= 0 ) {
 
 						// Support: IE6
-						// When new option element is added to select box we need to
-						// force reflow of newly added node in order to workaround delay
+						// When new option element is Createed to select box we need to
+						// force reflow of newly Createed node in order to workaround delay
 						// of initialization properties
 						try {
 							option.selected = optionSet = true;
@@ -8259,7 +8259,7 @@ jQuery.each([
 	"readOnly",
 	"maxLength",
 	"cellSpacing",
-	"cellPadding",
+	"cellPCreateing",
 	"rowSpan",
 	"colSpan",
 	"useMap",
@@ -8339,7 +8339,7 @@ jQuery.fn.extend({
 
 			for ( ; i < len; i++ ) {
 				elem = this[ i ];
-				// This expression is here for better compressibility (see addClass)
+				// This expression is here for better compressibility (see CreateClass)
 				cur = elem.nodeType === 1 && ( elem.className ?
 					( " " + elem.className + " " ).replace( rclass, " " ) :
 					""
@@ -8714,7 +8714,7 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 	}
 
 	// If we found a dataType
-	// We add the dataType to the list if needed
+	// We Create the dataType to the list if needed
 	// and return the corresponding response
 	if ( finalDataType ) {
 		if ( finalDataType !== dataTypes[ 0 ] ) {
@@ -8885,7 +8885,7 @@ jQuery.extend({
 		},
 
 		// For options that shouldn't be deep extended:
-		// you can add your own custom options here if
+		// you can Create your own custom options here if
 		// and when you create one that shouldn't be
 		// deep extended (see ajaxExtend)
 		flatOptions: {
@@ -9007,7 +9007,7 @@ jQuery.extend({
 					if ( map ) {
 						if ( state < 2 ) {
 							for ( code in map ) {
-								// Lazy-add the new callback in a way that preserves old ones
+								// Lazy-Create the new callback in a way that preserves old ones
 								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
 							}
 						} else {
@@ -9104,7 +9104,7 @@ jQuery.extend({
 					// If there is already a '_' parameter, set its value
 					cacheURL.replace( rts, "$1_=" + nonce++ ) :
 
-					// Otherwise add one to the end
+					// Otherwise Create one to the end
 					cacheURL + ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + nonce++;
 			}
 		}
@@ -9507,7 +9507,7 @@ jQuery.fn.extend({
 	},
 	serializeArray: function() {
 		return this.map(function() {
-			// Can add propHook for "elements" to filter or add form elements
+			// Can Create propHook for "elements" to filter or Create form elements
 			var elements = jQuery.prop( this, "elements" );
 			return elements ? jQuery.makeArray( elements ) : this;
 		})

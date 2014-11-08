@@ -29,9 +29,9 @@ namespace AgendaAssistant.Services
             return RootUrl + string.Format("event/{0}", evn.Code);
         }
 
-        private string AvailabilityUrl(Event evn, Participant participant)
+        private string AvailabilityUrl(Participant participant)
         {
-            return RootUrl + string.Format("availability/{0}/{1}", evn.Code, participant.PersonId);
+            return RootUrl + string.Format("availability/{0}", participant.Code);
         }
 
         public void Send(string recipient, string subject, EmailBody body)
@@ -56,10 +56,10 @@ namespace AgendaAssistant.Services
 
         public void SendToParticipant(Participant participant, string subject, string announcement, string action, string linkUrl, string linkText)
         {
-            var salutation = string.Format("Beste {0}", participant.Name);
+            var salutation = string.Format("Beste {0}", participant.Person.Name);
             var body = GenerateBody(salutation, announcement, action, linkUrl, linkText);
             
-            Send(participant.Email, subject, body);
+            Send(participant.Person.Email, subject, body);
         }
 
         public void SendEventConfirmation(Event evn)
@@ -80,7 +80,7 @@ namespace AgendaAssistant.Services
                 string.Format("Uitnodiging van {0}: {1}", evn.Organizer.Name, evn.Title),
                 string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.", evn.Organizer.Name, evn.Title),
                 "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid op te geven.",
-                AvailabilityUrl(evn, participant),
+                AvailabilityUrl(participant),
                 "Beschikbaarheid invullen"
                 );
         }

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.3.0
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -94,7 +94,7 @@ function shallowClearAndCopy(src, dst) {
  *   `/user/:username`. If you are using a URL with a port number (e.g.
  *   `http://example.com:8080/api`), it will be respected.
  *
- *   If you are using a url with a suffix, just add the suffix, like this:
+ *   If you are using a url with a suffix, just Create the suffix, like this:
  *   `$resource('http://example.com/resource.json')` or `$resource('http://example.com/:id.json')`
  *   or even `$resource('http://example.com/resource/:resource_id.:format')`
  *   If the parameter before the suffix is empty, :resource_id in this case, then the `/.` will be
@@ -216,10 +216,10 @@ function shallowClearAndCopy(src, dst) {
  *   Success callback is called with (value, responseHeaders) arguments. Error callback is called
  *   with (httpResponse) argument.
  *
- *   Class actions return empty instance (with additional properties below).
+ *   Class actions return empty instance (with Createitional properties below).
  *   Instance actions return promise of the action.
  *
- *   The Resource instances and collection have these additional properties:
+ *   The Resource instances and collection have these Createitional properties:
  *
  *   - `$promise`: the {@link ng.$q promise} of the original server interaction that created this
  *     instance or collection.

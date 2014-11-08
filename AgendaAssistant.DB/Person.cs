@@ -16,14 +16,11 @@ namespace AgendaAssistant.DB
     {
         public Person()
         {
-            this.Availability = new HashSet<Availability>();
-            this.Comment = new HashSet<Comment>();
-            this.Event = new HashSet<Event>();
-            this.Participant = new HashSet<Participant>();
-            this.Emails = new HashSet<Email>();
+            this.Events = new HashSet<Event>();
+            this.Participants = new HashSet<Participant>();
         }
     
-        public long ID { get; set; }
+        public System.Guid ID { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string FirstNameInPassport { get; set; }
@@ -31,10 +28,7 @@ namespace AgendaAssistant.DB
         public Nullable<byte> Gender { get; set; }
         public Nullable<System.DateTime> DateOfBirth { get; set; }
     
-        public virtual ICollection<Availability> Availability { get; set; }
-        public virtual ICollection<Comment> Comment { get; set; }
-        public virtual ICollection<Event> Event { get; set; }
-        public virtual ICollection<Participant> Participant { get; set; }
-        public virtual ICollection<Email> Emails { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
+        public virtual ICollection<Participant> Participants { get; set; }
     }
 }

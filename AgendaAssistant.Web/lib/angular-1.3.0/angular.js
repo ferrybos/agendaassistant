@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.3.0
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -1283,7 +1283,7 @@ function getNgAttribute(element, ngAttr) {
  <example module="ngAppDemo">
    <file name="index.html">
    <div ng-controller="ngAppDemoController">
-     I can add: {{a}} + {{b}} =  {{ a+b }}
+     I can Create: {{a}} + {{b}} =  {{ a+b }}
    </div>
    </file>
    <file name="script.js">
@@ -1300,7 +1300,7 @@ function getNgAttribute(element, ngAttr) {
    <file name="index.html">
    <div ng-app="ngAppStrictDemo" ng-strict-di>
        <div ng-controller="GoodController1">
-           I can add: {{a}} + {{b}} =  {{ a+b }}
+           I can Create: {{a}} + {{b}} =  {{ a+b }}
 
            <p>This renders because the controller does not fail to
               instantiate, by using explicit annotation style (see
@@ -1319,7 +1319,7 @@ function getNgAttribute(element, ngAttr) {
        </div>
 
        <div ng-controller="BadController">
-           I can add: {{a}} + {{b}} =  {{ a+b }}
+           I can Create: {{a}} + {{b}} =  {{ a+b }}
 
            <p>The controller could not be instantiated, due to relying
               on automatic function annotations (which are disabled in
@@ -1355,7 +1355,7 @@ function getNgAttribute(element, ngAttr) {
        -webkit-border-radius: 4px;
        border-radius: 4px;
        border: 1px solid;
-       padding: .5em;
+       pCreateing: .5em;
    }
    div[ng-controller^=Good] {
        border-color: #d6e9c6;
@@ -2263,7 +2263,7 @@ function publishExternalAPI(angular){
 }
 
 /* global JQLitePrototype: true,
-  addEventListenerFn: true,
+  CreateEventListenerFn: true,
   removeEventListenerFn: true,
   BOOLEAN_ATTR: true,
   ALIASED_ATTR: true,
@@ -2298,7 +2298,7 @@ function publishExternalAPI(angular){
  * ## Angular's jqLite
  * jqLite provides only the following jQuery methods:
  *
- * - [`addClass()`](http://api.jquery.com/addClass/)
+ * - [`CreateClass()`](http://api.jquery.com/CreateClass/)
  * - [`after()`](http://api.jquery.com/after/)
  * - [`append()`](http://api.jquery.com/append/)
  * - [`attr()`](http://api.jquery.com/attr/) - Does not support functions as parameters
@@ -2335,7 +2335,7 @@ function publishExternalAPI(angular){
  * - [`wrap()`](http://api.jquery.com/wrap/)
  *
  * ## jQuery/jqLite Extras
- * Angular also provides the following additional methods and events to both jQuery and jqLite:
+ * Angular also provides the following Createitional methods and events to both jQuery and jqLite:
  *
  * ### Events
  * - `$destroy` - AngularJS intercepts all jqLite/jQuery's DOM destruction apis and fires this event
@@ -3032,7 +3032,7 @@ forEach({
   on: function jqLiteOn(element, type, fn, unsupported){
     if (isDefined(unsupported)) throw jqLiteMinErr('onargs', 'jqLite#on() does not support the `selector` or `eventData` parameters');
 
-    // Do not add event handlers to non-elements because they will not be cleaned up.
+    // Do not Create event handlers to non-elements because they will not be cleaned up.
     if (!jqLiteAcceptsData(element)) {
       return;
     }
@@ -3086,7 +3086,7 @@ forEach({
   one: function(element, type, fn) {
     element = jqLite(element);
 
-    //add the listener twice so that when it is called
+    //Create the listener twice so that when it is called
     //you can remove the original function and still be
     //able to call element.off(ev, fn) normally
     element.on(type, function onFn() {
@@ -3350,7 +3350,7 @@ HashMap.prototype = {
  *
 
  * @param {Array.<string|Function>} modules A list of module functions or their aliases. See
- *        {@link angular.module}. The `ng` module must be explicitly added.
+ *        {@link angular.module}. The `ng` module must be explicitly Createed.
  * @returns {injector} Injector object. See {@link auto.$injector $injector}.
  *
  * @example
@@ -3369,14 +3369,14 @@ HashMap.prototype = {
  *
  * Sometimes you want to get access to the injector of a currently running Angular app
  * from outside Angular. Perhaps, you want to inject and compile some markup after the
- * application has been bootstrapped. You can do this using the extra `injector()` added
+ * application has been bootstrapped. You can do this using the extra `injector()` Createed
  * to JQuery/jqLite elements. See {@link angular.element}.
  *
  * *This is fairly rare but could be the case if a third party library is injecting the
  * markup.*
  *
  * In the following example a new block of HTML containing a `ng-controller`
- * directive is added to the end of the document body by JQuery. We then compile and link
+ * directive is Createed to the end of the document body by JQuery. We then compile and link
  * it into the current AngularJS scope.
  *
  * ```js
@@ -3396,7 +3396,7 @@ HashMap.prototype = {
  * @name auto
  * @description
  *
- * Implicit module which gets automatically added to each {@link auto.$injector $injector}.
+ * Implicit module which gets automatically Createed to each {@link auto.$injector $injector}.
  */
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
@@ -3500,7 +3500,7 @@ function annotate(fn, strictDi, name) {
  * minification, and obfuscation tools since these tools change the argument names.
  *
  * ## `$inject` Annotation
- * By adding an `$inject` property onto a function the injection parameters can be specified.
+ * By Createing an `$inject` property onto a function the injection parameters can be specified.
  *
  * ## Inline
  * As an array of injection names, where the last item in the array is the function to call.
@@ -3659,9 +3659,9 @@ function annotate(fn, strictDi, name) {
  * correct **service provider**, instantiating it and then calling its `$get` **service factory**
  * function to get the instance of the **service**.
  *
- * Often services have no configuration options and there is no need to add methods to the service
+ * Often services have no configuration options and there is no need to Create methods to the service
  * provider.  The provider will be no more than a constructor function with a `$get` property. For
- * these cases the {@link auto.$provide $provide} service has additional helper methods to register
+ * these cases the {@link auto.$provide $provide} service has Createitional helper methods to register
  * services without specifying a provider.
  *
  * * {@link auto.$provide#provider provider(provider)} - registers a **service provider** with the
@@ -3693,7 +3693,7 @@ function annotate(fn, strictDi, name) {
  * For example, the {@link ng.$log $log} service has a provider called
  * {@link ng.$logProvider $logProvider}.
  *
- * Service provider objects can have additional methods which allow configuration of the provider
+ * Service provider objects can have Createitional methods which allow configuration of the provider
  * and its service. Importantly, you can configure what kind of service is created by the `$get`
  * method, or how that service will act. For example, the {@link ng.$logProvider $logProvider} has a
  * method {@link ng.$logProvider#debugEnabled debugEnabled}
@@ -4323,12 +4323,12 @@ function $AnchorScrollProvider() {
        </file>
        <file name="style.css">
          body {
-           padding-top: 50px;
+           pCreateing-top: 50px;
          }
 
          .anchor {
            border: 2px dashed DarkOrchid;
-           padding: 10px 10px 200px 10px;
+           pCreateing: 10px 10px 200px 10px;
          }
 
          .fixed-header {
@@ -4559,8 +4559,8 @@ var $AnimateProvider = ['$provide', function($provide) {
 
         // If the most recent class manipulation (via $animate) was to remove the class, and the
         // element currently has the class, the class is scheduled for removal. Otherwise, if
-        // the most recent class manipulation (via $animate) was to add the class, and the
-        // element does not currently have the class, the class is scheduled to be added.
+        // the most recent class manipulation (via $animate) was to Create the class, and the
+        // element does not currently have the class, the class is scheduled to be Createed.
         if (status === false && hasClass) {
           toRemove.push(className);
         } else if (status === true && !hasClass) {
@@ -4603,7 +4603,7 @@ var $AnimateProvider = ['$provide', function($provide) {
      * @ngdoc service
      * @name $animate
      * @description The $animate service provides rudimentary DOM manipulation functions to
-     * insert, remove and move elements within the DOM, as well as adding and removing classes.
+     * insert, remove and move elements within the DOM, as well as Createing and removing classes.
      * This service is the core service used by the ngAnimate $animator service which provides
      * high-level animation hooks for CSS and JavaScript.
      *
@@ -4687,13 +4687,13 @@ var $AnimateProvider = ['$provide', function($provide) {
       /**
        *
        * @ngdoc method
-       * @name $animate#addClass
+       * @name $animate#CreateClass
        * @kind function
        * @description Adds the provided className CSS class value to the provided element.
        * When the function is called a promise is returned that will be resolved at a later time.
        * @param {DOMElement} element the element which will have the className value
-       *   added to it
-       * @param {string} className the CSS class which will be added to the element
+       *   Createed to it
+       * @param {string} className the CSS class which will be Createed to the element
        * @param {object=} options an optional collection of options that will be applied to the element.
        * @return {Promise} the animation callback promise
        */
@@ -4751,7 +4751,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        * When the function is called a promise is returned that will be resolved at a later time.
        * @param {DOMElement} element the element which will have its CSS classes changed
        *   removed from it
-       * @param {string} add the CSS classes which will be added to the element
+       * @param {string} Create the CSS classes which will be Createed to the element
        * @param {string} remove the CSS class which will be removed from the element
        * @param {object=} options an optional collection of options that will be applied to the element.
        * @return {Promise} the animation callback promise
@@ -4787,7 +4787,7 @@ var $AnimateProvider = ['$provide', function($provide) {
 
             // in the event that the element is removed before postDigest
             // is run then the cache will be undefined and there will be
-            // no need anymore to add or remove and of the element classes
+            // no need anymore to Create or remove and of the element classes
             if (cache) {
               var classes = resolveElementClasses(element, cache.classes);
               if (classes) {
@@ -4915,15 +4915,15 @@ function Browser(window, document, $log, $sniffer) {
       pollTimeout;
 
   /**
-   * @name $browser#addPollFn
+   * @name $browser#CreatePollFn
    *
-   * @param {function()} fn Poll function to add
+   * @param {function()} fn Poll function to Create
    *
    * @description
    * Adds a function to the list of functions that poller periodically executes,
    * and starts polling if not started yet.
    *
-   * @returns {function()} the added function
+   * @returns {function()} the Createed function
    */
   self.addPollFn = function(fn) {
     if (isUndefined(pollTimeout)) startPoller(100, setTimeout);
@@ -5087,7 +5087,7 @@ function Browser(window, document, $log, $sniffer) {
    * Register callback function that will be called, when url changes.
    *
    * It's only called when the url is changed from outside of angular:
-   * - user types different url into address bar
+   * - user types different url into Createress bar
    * - user clicks on history (forward/back) button
    * - user clicks on a link
    *
@@ -5105,7 +5105,7 @@ function Browser(window, document, $log, $sniffer) {
     // TODO(vojta): refactor to use node's syntax for events
     if (!urlChangeInit) {
       // We listen on both (hashchange/popstate) when available, as some browsers (e.g. Opera)
-      // don't fire popstate when user change the address bar and don't fire hashchange when url
+      // don't fire popstate when user change the Createress bar and don't fire hashchange when url
       // changed by push/replaceState
 
       // html5 history api - popstate event
@@ -5556,7 +5556,7 @@ function $CacheFactoryProvider() {
          *   <ul>
          *     <li>**id**: the id of the cache instance</li>
          *     <li>**size**: the number of entries kept in the cache instance</li>
-         *     <li>**...**: any additional properties from the options object when creating the
+         *     <li>**...**: any Createitional properties from the options object when creating the
          *       cache.</li>
          *   </ul>
          */
@@ -5878,7 +5878,7 @@ function $TemplateCacheProvider() {
  *    * `scope`: optional argument to override the scope.
  *    * `cloneLinkingFn`: optional argument to create clones of the original transcluded content.
  *    * `futureParentElement`:
- *        * defines the parent to which the `cloneLinkingFn` will add the cloned elements.
+ *        * defines the parent to which the `cloneLinkingFn` will Create the cloned elements.
  *        * default: `$element.parent()` resp. `$element` for `transclude:'element'` resp. `transclude:true`.
  *        * only needed for transcludes that are allowed to contain non html elements (e.g. SVG elements)
  *          and when the `cloneLinkinFn` is passed,
@@ -6156,7 +6156,7 @@ function $TemplateCacheProvider() {
  * ```
  *
  * <div class="alert alert-info">
- * **Best Practice**: if you intend to add and remove transcluded content manually in your directive
+ * **Best Practice**: if you intend to Create and remove transcluded content manually in your directive
  * (by calling the transclude function to get the DOM and and calling `element.remove()` to remove it),
  * then you are also responsible for calling `$destroy` on the transclusion scope.
  * </div>
@@ -6523,9 +6523,9 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    * @kind function
    *
    * @description
-   * Call this method to enable/disable various debug runtime information in the compiler such as adding
+   * Call this method to enable/disable various debug runtime information in the compiler such as Createing
    * binding information and a reference to the current scope on to DOM elements.
-   * If enabled, the compiler will add the following to DOM elements that have been bound to the scope
+   * If enabled, the compiler will Create the following to DOM elements that have been bound to the scope
    * * `ng-binding` CSS class
    * * `$binding` data property containing an array of the binding expressions
    *
@@ -6571,14 +6571,14 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
       /**
        * @ngdoc method
-       * @name $compile.directive.Attributes#$addClass
+       * @name $compile.directive.Attributes#$CreateClass
        * @kind function
        *
        * @description
        * Adds the CSS class value specified by the classVal parameter to the element. If animations
-       * are enabled then an animation will be triggered for the class addition.
+       * are enabled then an animation will be triggered for the class Createition.
        *
-       * @param {string} classVal The className value that will be added to the element
+       * @param {string} classVal The className value that will be Createed to the element
        */
       $addClass : function(classVal) {
         if(classVal && classVal.length > 0) {
@@ -6693,7 +6693,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             var innerIdx = i*2;
             // sanitize the uri
             result += $$sanitizeUri(trim( rawUris[innerIdx]), true);
-            // add the descriptor
+            // Create the descriptor
             result += ( " " + trim(rawUris[innerIdx+1]));
           }
 
@@ -6703,7 +6703,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           // sanitize the last uri
           result += $$sanitizeUri(trim(lastTuple[0]), true);
 
-          // and add the last descriptor if any
+          // and Create the last descriptor if any
           if( lastTuple.length === 2) {
             result += (" " + trim(lastTuple[1]));
           }
@@ -6946,7 +6946,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
 
         if (nodeLinkFnFound) {
-          // copy nodeList so that if a nodeLinkFn removes or adds an element at this DOM level our
+          // copy nodeList so that if a nodeLinkFn removes or Creates an element at this DOM level our
           // offsets don't get screwed up
           var nodeListLength = nodeList.length;
           stableNodeList = new Array(nodeListLength);
@@ -7013,11 +7013,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     }
 
     /**
-     * Looks for directives on the given node and adds them to the directive collection which is
+     * Looks for directives on the given node and Creates them to the directive collection which is
      * sorted.
      *
      * @param node Node to search.
-     * @param directives An array to which the directives are added to. This array is sorted before
+     * @param directives An array to which the directives are Createed to. This array is sorted before
      *        the function returns.
      * @param attrs The shared attrs object which is used to populate the normalized attributes.
      * @param {number=} maxPriority Max directive priority.
@@ -7225,13 +7225,13 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           // directive when the template arrives
           if (!directive.templateUrl) {
             if (isObject(directiveValue)) {
-              // This directive is trying to add an isolated scope.
+              // This directive is trying to Create an isolated scope.
               // Check that there is no scope of any kind already
               assertNoDuplicate('new/isolated scope', newIsolateScopeDirective || newScopeDirective,
                                 directive, $compileNode);
               newIsolateScopeDirective = directive;
             } else {
-              // This directive is trying to add a child scope.
+              // This directive is trying to Create a child scope.
               // Check that there is no isolated scope already
               assertNoDuplicate('new/isolated scope', newIsolateScopeDirective, directive,
                                 $compileNode);
@@ -7256,7 +7256,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
           // Special case ngIf and ngRepeat so that we don't complain about duplicate transclusion.
           // This option should only be used by directives that know how to safely handle element transclusion,
-          // where the transcluded nodes are added or replaced after linking.
+          // where the transcluded nodes are Createed or replaced after linking.
           if (!directive.$$tlb) {
             assertNoDuplicate('transclusion', nonTlbTranscludeDirective, directive, $compileNode);
             nonTlbTranscludeDirective = directive;
@@ -7671,7 +7671,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
      *   * `A': attribute
      *   * `C`: class
      *   * `M`: comment
-     * @returns {boolean} true if directive was added.
+     * @returns {boolean} true if directive was Createed.
      */
     function addDirective(tDirectives, name, location, maxPriority, ignoreDirective, startAttrName,
                           endAttrName) {
@@ -7904,7 +7904,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
                 hasCompileParent = !!templateNodeParent.length;
 
             // When transcluding a template that has bindings in the root
-            // we don't have a parent and thus need to add the class during linking fn.
+            // we don't have a parent and thus need to Create the class during linking fn.
             if (hasCompileParent) compile.$$addBindingClass(templateNodeParent);
 
             return function textInterpolateLinkFn(scope, node) {
@@ -7998,7 +7998,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
                 ($$observers[name] || ($$observers[name] = [])).$$inter = true;
                 (attr.$$observers && attr.$$observers[name].$$scope || scope).
                   $watch(interpolateFn, function interpolateFnWatchAction(newValue, oldValue) {
-                    //special case for class attribute addition + removal
+                    //special case for class attribute Createition + removal
                     //so that class changes can tap into the animation
                     //hooks provided by the $animate service. Be sure to
                     //skip animations when the first digest occurs (when
@@ -8324,7 +8324,7 @@ function $ControllerProvider() {
         // This machinery is used to create an instance of the object before calling the
         // controller's constructor itself.
         //
-        // This allows properties to be added to the controller before the constructor is
+        // This allows properties to be Createed to the controller before the constructor is
         // invoked. Primarily, this is used for isolate scope bindings in $compile.
         //
         // This feature is not intended for use by applications, and is thus not documented
@@ -8747,7 +8747,7 @@ function $HttpProvider() {
      *
      * ## Setting HTTP Headers
      *
-     * The $http service will automatically add certain HTTP headers to all requests. These defaults
+     * The $http service will automatically Create certain HTTP headers to all requests. These defaults
      * can be fully configured by accessing the `$httpProvider.defaults.headers` configuration
      * object, which currently contains this default configuration:
      *
@@ -8758,8 +8758,8 @@ function $HttpProvider() {
      * - `$httpProvider.defaults.headers.put` (header defaults for PUT requests)
      *   - `Content-Type: application/json`
      *
-     * To add or overwrite these defaults, simply add or remove a property from these configuration
-     * objects. To add headers for an HTTP method other than POST or PUT, simply add a new object
+     * To Create or overwrite these defaults, simply Create or remove a property from these configuration
+     * objects. To Create headers for an HTTP method other than POST or PUT, simply Create a new object
      * with the lowercased HTTP method name as the key, e.g.
      * `$httpProvider.defaults.headers.get = { 'My-Header' : 'value' }.
      *
@@ -8772,7 +8772,7 @@ function $HttpProvider() {
      * });
      * ```
      *
-     * In addition, you can supply a `headers` property in the config object passed when
+     * In Createition, you can supply a `headers` property in the config object passed when
      * calling `$http(config)`, which overrides the defaults without changing them globally.
      *
      *
@@ -8789,7 +8789,7 @@ function $HttpProvider() {
      * `defaults.transformResponse` properties. If a request does not provide its own transformations
      * then these will be applied.
      *
-     * You can augment or replace the default transformations by modifying these properties by adding to or
+     * You can augment or replace the default transformations by modifying these properties by Createing to or
      * replacing the array.
      *
      * Angular provides the following default transformations:
@@ -8815,7 +8815,7 @@ function $HttpProvider() {
      * overwritten. If you wish to augment the default transformations then you must include them in your
      * local transformation array.
      *
-     * The following code demonstrates adding a new response transformation to be run after the default response
+     * The following code demonstrates Createing a new response transformation to be run after the default response
      * transformations have been run.
      *
      * ```js
@@ -8874,7 +8874,7 @@ function $HttpProvider() {
      * promise APIs} to fulfill this need for both synchronous and asynchronous pre-processing.
      *
      * The interceptors are service factories that are registered with the `$httpProvider` by
-     * adding them to the `$httpProvider.interceptors` array. The factory is called and
+     * Createing them to the `$httpProvider.interceptors` array. The factory is called and
      * injected with dependencies (if specified) and returns the interceptor.
      *
      * There are two kinds of interceptors (and two kinds of rejection interceptors):
@@ -8954,7 +8954,7 @@ function $HttpProvider() {
      * - [XSRF](http://en.wikipedia.org/wiki/Cross-site_request_forgery)
      *
      * Both server and the client must cooperate in order to eliminate these threats. Angular comes
-     * pre-configured with strategies that address these issues, but for this to work backend server
+     * pre-configured with strategies that Createress these issues, but for this to work backend server
      * cooperation is required.
      *
      * ### JSON Vulnerability Protection
@@ -8996,7 +8996,7 @@ function $HttpProvider() {
      * unique for each user and must be verifiable by the server (to prevent the JavaScript from
      * making up its own tokens). We recommend that the token is a digest of your site's
      * authentication cookie with a [salt](https://en.wikipedia.org/wiki/Salt_(cryptography&#41;)
-     * for added security.
+     * for Createed security.
      *
      * The name of the headers can be specified using the xsrfHeaderName and xsrfCookieName
      * properties of either $httpProvider.defaults at config-time, $http.defaults at run-time,
@@ -9642,7 +9642,7 @@ function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDoc
         try {
           xhr.responseType = responseType;
         } catch (e) {
-          // WebKit added support for the json responseType value on 09/03/2013
+          // WebKit Createed support for the json responseType value on 09/03/2013
           // https://bugs.webkit.org/show_bug.cgi?id=73648. Versions of Safari prior to 7 are
           // known to throw when setting the value "json" as the response type. Other older
           // browsers implementing the responseType
@@ -9683,7 +9683,7 @@ function createHttpBackend($browser, createXhr, $browserDefer, callbacks, rawDoc
   function jsonpReq(url, callbackId, done) {
     // we can't use jQuery/jqLite here because jQuery does crazy shit with script elements, e.g.:
     // - fetches local scripts via XHR and evals them
-    // - adds and immediately removes script elements from the document
+    // - Creates and immediately removes script elements from the document
     var script = rawDocument.createElement('script'), callback = null;
     script.type = "text/javascript";
     script.src = url;
@@ -9924,7 +9924,7 @@ function $InterpolateProvider() {
           expressionPositions.push(concat.length);
           concat.push('');
         } else {
-          // we did not find an interpolation, so we have to add the remainder to the separators array
+          // we did not find an interpolation, so we have to Create the remainder to the separators array
           if (index !== textLength) {
             concat.push(unescapeText(text.substring(index)));
           }
@@ -10727,7 +10727,7 @@ var locationPrototype = {
    *
    * Change path when called with parameter and return `$location`.
    *
-   * Note: Path should always begin with forward slash (/), this method will add the forward slash
+   * Note: Path should always begin with forward slash (/), this method will Create the forward slash
    * if it is missing.
    *
    * @param {(string|number)=} path New path
@@ -10778,7 +10778,7 @@ var locationPrototype = {
    *
    * If `paramValue` is `null`, the property specified via the first argument will be deleted.
    *
-   * If `paramValue` is `true`, the property specified via the first argument will be added with no
+   * If `paramValue` is `true`, the property specified via the first argument will be Createed with no
    * value nor trailing equal sign.
    *
    * @return {Object} If called with no arguments returns the parsed `search` object. If called with
@@ -10841,7 +10841,7 @@ var locationPrototype = {
    *
    * @description
    * If called, all changes to $location during current `$digest` will be replacing current history
-   * record, instead of adding new one.
+   * record, instead of Createing new one.
    */
   replace: function() {
     this.$$replace = true;
@@ -10916,18 +10916,18 @@ function locationGetterSetter(property, preprocess) {
  * @requires $rootElement
  *
  * @description
- * The $location service parses the URL in the browser address bar (based on the
+ * The $location service parses the URL in the browser Createress bar (based on the
  * [window.location](https://developer.mozilla.org/en/window.location)) and makes the URL
- * available to your application. Changes to the URL in the address bar are reflected into
- * $location service and changes to $location are reflected into the browser address bar.
+ * available to your application. Changes to the URL in the Createress bar are reflected into
+ * $location service and changes to $location are reflected into the browser Createress bar.
  *
  * **The $location service:**
  *
- * - Exposes the current URL in the browser address bar, so you can
+ * - Exposes the current URL in the browser Createress bar, so you can
  *   - Watch and observe the URL.
  *   - Change the URL.
  * - Synchronizes the URL with the browser when the user
- *   - Changes the address bar.
+ *   - Changes the Createress bar.
  *   - Clicks the back or forward button (or clicks a History link).
  *   - Clicks on a link.
  * - Represents the URL object as a set of methods (protocol, host, port, path, search, hash).
@@ -12414,7 +12414,7 @@ function $ParseProvider() {
               parsedExpression.$$watchDelegate = constantWatchDelegate;
             } else if (oneTime) {
               //oneTime is not part of the exp passed to the Parser so we may have to
-              //wrap the parsedExpression before adding a $$watchDelegate
+              //wrap the parsedExpression before Createing a $$watchDelegate
               parsedExpression = wrapSharedExpression(parsedExpression);
               parsedExpression.$$watchDelegate = parsedExpression.literal ?
                 oneTimeLiteralWatchDelegate : oneTimeWatchDelegate;
@@ -12458,7 +12458,7 @@ function $ParseProvider() {
       if (typeof newValue === 'object') {
 
         // attempt to convert the value to a primitive type
-        // TODO(docs): add a note to docs that by implementing valueOf even objects and arrays can
+        // TODO(docs): Create a note to docs that by implementing valueOf even objects and arrays can
         //             be cheaply dirty-checked
         newValue = newValue.valueOf();
 
@@ -13214,7 +13214,7 @@ function $$RAFProvider(){ //rAF
  *     exposed as $$____ properties
  *
  * Loop operations are optimized by using while(count--) { ... }
- *   - this means that in order to keep the same order of execution as addition we have to add
+ *   - this means that in order to keep the same order of execution as Createition we have to Create
  *     items to the array at the beginning (unshift) instead of at the end (push)
  *
  * Child scopes are created and removed often
@@ -13427,7 +13427,7 @@ function $RootScopeProvider(){
         // the parent scope is destroyed, the property `$$destroyed` is inherited
         // prototypically. In all other cases, this property needs to be set
         // when the parent scope is destroyed.
-        // The listener needs to be added after the parent is set
+        // The listener needs to be Createed after the parent is set
         if (isolate || parent != this) child.$on('$destroy', destroyChild);
 
         return child;
@@ -13683,9 +13683,9 @@ function $RootScopeProvider(){
        * the properties). If a change is detected, the `listener` callback is fired.
        *
        * - The `obj` collection is observed via standard $watch operation and is examined on every
-       *   call to $digest() to see if any items have been added, removed, or moved.
+       *   call to $digest() to see if any items have been Createed, removed, or moved.
        * - The `listener` is called whenever anything within the `obj` has changed. Examples include
-       *   adding, removing, and moving items belonging to an object or array.
+       *   Createing, removing, and moving items belonging to an object or array.
        *
        *
        * # Example
@@ -15001,7 +15001,7 @@ function $SceDelegateProvider() {
  * Note:  When enabled (the default), IE<11 in quirks mode is not supported.  In this mode, IE<11 allow
  * one to execute arbitrary javascript by the use of the expression() syntax.  Refer
  * <http://blogs.msdn.com/b/ie/archive/2008/10/16/ending-expressions.aspx> to learn more about them.
- * You can ensure your document is in standards mode and not quirks mode by adding `<!doctype html>`
+ * You can ensure your document is in standards mode and not quirks mode by Createing `<!doctype html>`
  * to the top of your HTML document.
  *
  * SCE assists in writing code in way that (a) is secure by default and (b) makes auditing for
@@ -15077,7 +15077,7 @@ function $SceDelegateProvider() {
  * The browser's
  * [Same Origin Policy](https://code.google.com/p/browsersec/wiki/Part2#Same-origin_policy_for_XMLHttpRequest)
  * and [Cross-Origin Resource Sharing (CORS)](http://www.w3.org/TR/cors/)
- * policy apply in addition to this and may further restrict whether the template is successfully
+ * policy apply in Createition to this and may further restrict whether the template is successfully
  * loaded.  This means that without the right CORS policy, loading templates from a different domain
  * won't work on all browsers.  Also, loading templates from `file://` URL does not work on some
  * browsers.
@@ -15146,7 +15146,7 @@ function $SceDelegateProvider() {
  *      if they as a last resort.
  *    - The regular expression must be an instance of RegExp (i.e. not a string.)  It is
  *      matched against the **entire** *normalized / absolute URL* of the resource being tested
- *      (even when the RegExp did not have the `^` and `$` codes.)  In addition, any flags
+ *      (even when the RegExp did not have the `^` and `$` codes.)  In Createition, any flags
  *      present on the RegExp (such as multiline, global, ignoreCase) are ignored.
  *    - If you are generating your JavaScript from some other templating engine (not
  *      recommended, e.g. in issue [#4006](https://github.com/angular/angular.js/issues/4006)),
@@ -15322,7 +15322,7 @@ function $SceProvider() {
     if (enabled && $document[0].documentMode < 8) {
       throw $sceMinErr('iequirks',
         'Strict Contextual Escaping does not support Internet Explorer version < 11 in quirks ' +
-        'mode.  You can fix this by adding the text <!doctype html> to the top of your HTML ' +
+        'mode.  You can fix this by Createing the text <!doctype html> to the top of your HTML ' +
         'document.  See http://docs.angularjs.org/api/ng.$sce for more information.');
     }
 
@@ -15983,7 +15983,7 @@ function $TimeoutProvider() {
 // NOTE:  The usage of window and document instead of $window and $document here is
 // deliberate.  This service depends on the specific behavior of anchor nodes created by the
 // browser (resolving and parsing URLs) that is unlikely to be provided by mock objects and
-// cause us to break tests.  In addition, when the browser resolves a URL for XHR, it
+// cause us to break tests.  In Createition, when the browser resolves a URL for XHR, it
 // doesn't know about mocked locations and resolves URLs to the real document - which is
 // exactly the behavior needed here.  There is little value is mocking these out for this
 // service.
@@ -16834,25 +16834,25 @@ var DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZEw']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d
  *   `format` string can be composed of the following elements:
  *
  *   * `'yyyy'`: 4 digit representation of year (e.g. AD 1 => 0001, AD 2010 => 2010)
- *   * `'yy'`: 2 digit representation of year, padded (00-99). (e.g. AD 2001 => 01, AD 2010 => 10)
+ *   * `'yy'`: 2 digit representation of year, pCreateed (00-99). (e.g. AD 2001 => 01, AD 2010 => 10)
  *   * `'y'`: 1 digit representation of year, e.g. (AD 1 => 1, AD 199 => 199)
  *   * `'MMMM'`: Month in year (January-December)
  *   * `'MMM'`: Month in year (Jan-Dec)
- *   * `'MM'`: Month in year, padded (01-12)
+ *   * `'MM'`: Month in year, pCreateed (01-12)
  *   * `'M'`: Month in year (1-12)
- *   * `'dd'`: Day in month, padded (01-31)
+ *   * `'dd'`: Day in month, pCreateed (01-31)
  *   * `'d'`: Day in month (1-31)
  *   * `'EEEE'`: Day in Week,(Sunday-Saturday)
  *   * `'EEE'`: Day in Week, (Sun-Sat)
- *   * `'HH'`: Hour in day, padded (00-23)
+ *   * `'HH'`: Hour in day, pCreateed (00-23)
  *   * `'H'`: Hour in day (0-23)
- *   * `'hh'`: Hour in AM/PM, padded (01-12)
+ *   * `'hh'`: Hour in AM/PM, pCreateed (01-12)
  *   * `'h'`: Hour in AM/PM, (1-12)
- *   * `'mm'`: Minute in hour, padded (00-59)
+ *   * `'mm'`: Minute in hour, pCreateed (00-59)
  *   * `'m'`: Minute in hour (0-59)
- *   * `'ss'`: Second in minute, padded (00-59)
+ *   * `'ss'`: Second in minute, pCreateed (00-59)
  *   * `'s'`: Second in minute (0-59)
- *   * `'.sss' or ',sss'`: Millisecond in second, padded (000-999)
+ *   * `'.sss' or ',sss'`: Millisecond in second, pCreateed (000-999)
  *   * `'a'`: AM/PM marker
  *   * `'Z'`: 4 digit (+sign) representation of the timezone offset (-1200-+1200)
  *   * `'ww'`: ISO-8601 week of year (00-53)
@@ -17379,7 +17379,7 @@ function ngDirective(directive) {
  *
  * This change permits the easy creation of action links with the `ngClick` directive
  * without changing the location or causing page reloads, e.g.:
- * `<a href="" ng-click="list.addItem()">Add Item</a>`
+ * `<a href="" ng-click="list.CreateItem()">Add Item</a>`
  */
 var htmlAnchorDirective = valueFn({
   restrict: 'E',
@@ -17824,7 +17824,7 @@ forEach(['src', 'srcset', 'href'], function(attrName) {
   };
 });
 
-/* global -nullFormCtrl, -SUBMITTED_CLASS, addSetValidityMethod: true
+/* global -nullFormCtrl, -SUBMITTED_CLASS, CreateSetValidityMethod: true
  */
 var nullFormCtrl = {
   $addControl: noop,
@@ -17934,7 +17934,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
 
   /**
    * @ngdoc method
-   * @name form.FormController#$addControl
+   * @name form.FormController#$CreateControl
    *
    * @description
    * Register a control with the form.
@@ -17943,7 +17943,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    */
   form.$addControl = function(control) {
     // Breaking change - before, inputs whose name was "hasOwnProperty" were quietly ignored
-    // and not added to the scope.  Now we throw an error.
+    // and not Createed to the scope.  Now we throw an error.
     assertNotHasOwnProperty(control.$name, 'input');
     controls.push(control);
 
@@ -18031,7 +18031,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    * @description
    * Sets the form to a dirty state.
    *
-   * This method can be called to add the 'ng-dirty' class and set the form to a dirty
+   * This method can be called to Create the 'ng-dirty' class and set the form to a dirty
    * state (ng-dirty class). This method will also propagate to parent forms.
    */
   form.$setDirty = function() {
@@ -18149,7 +18149,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  *  - `ng-dirty` is set if the form is dirty.
  *  - `ng-submitted` is set if the form was submitted.
  *
- * Keep in mind that ngAnimate can detect each of these classes when added and removed.
+ * Keep in mind that ngAnimate can detect each of these classes when Createed and removed.
  *
  *
  * # Submitting a form and preventing the default action
@@ -18187,7 +18187,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
  *
  * ## Animation Hooks
  *
- * Animations in ngForm are triggered when any of the associated CSS classes are added and removed.
+ * Animations in ngForm are triggered when any of the associated CSS classes are Createed and removed.
  * These classes are: `.ng-pristine`, `.ng-dirty`, `.ng-invalid` and `.ng-valid` as well as any
  * other validations that are performed within the form. Animations in ngForm are similar to how
  * they work in ngClass and animations can be hooked into using CSS transitions, keyframes as well
@@ -19047,7 +19047,7 @@ var inputType = {
    *
    * @description
    * Text input with email validation. Sets the `email` validation error key if not a valid email
-   * address.
+   * Createress.
    *
    * @param {string} ngModel Assignable angular expression to data-bind to.
    * @param {string=} name Property name of the form under which the control is published.
@@ -19898,7 +19898,7 @@ var VALID_CLASS = 'ng-valid',
  *
  * @property {Array.<Function>} $viewChangeListeners Array of functions to execute whenever the
  *     view value has changed. It is called with no arguments, and its return value is ignored.
- *     This can be used in place of additional $watches against the model value.
+ *     This can be used in place of Createitional $watches against the model value.
  *
  * @property {Object} $error An object hash with all failing validator ids as keys.
  * @property {Object} $pending An object hash with all pending validator ids as keys.
@@ -20589,7 +20589,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *
  * Note: `ngModel` will try to bind to the property given by evaluating the expression on the
  * current scope. If the property doesn't already exist on this scope, it will be created
- * implicitly and added to the scope.
+ * implicitly and Createed to the scope.
  *
  * For best practices on using `ngModel`, see:
  *
@@ -20613,7 +20613,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *  - {@link ng.directive:textarea textarea}
  *
  * # CSS classes
- * The following CSS classes are added and removed on the associated input/select/textarea element
+ * The following CSS classes are Createed and removed on the associated input/select/textarea element
  * depending on the validity of the model.
  *
  *  - `ng-valid` is set if the model is valid.
@@ -20621,11 +20621,11 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *  - `ng-pristine` is set if the model is pristine.
  *  - `ng-dirty` is set if the model is dirty.
  *
- * Keep in mind that ngAnimate can detect each of these classes when added and removed.
+ * Keep in mind that ngAnimate can detect each of these classes when Createed and removed.
  *
  * ## Animation Hooks
  *
- * Animations within models are triggered when any of the associated CSS classes are added and removed
+ * Animations within models are triggered when any of the associated CSS classes are Createed and removed
  * on the input element which is attached to the model. These classes are: `.ng-pristine`, `.ng-dirty`,
  * `.ng-invalid` and `.ng-valid` as well as any other validations that are performed on the model itself.
  * The animations that are triggered within ngModel are similar to how they work in ngClass and
@@ -20688,8 +20688,8 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  * frequently than other parts of your code.
  * </div>
  *
- * You use this behavior by adding `ng-model-options="{ getterSetter: true }"` to an element that
- * has `ng-model` attached to it. You can also add `ng-model-options="{ getterSetter: true }"` to
+ * You use this behavior by Createing `ng-model-options="{ getterSetter: true }"` to an element that
+ * has `ng-model` attached to it. You can also Create `ng-model-options="{ getterSetter: true }"` to
  * a `<form>`, which will enable this behavior for all `<input>`s within it. See
  * {@link ng.directive:ngModelOptions `ngModelOptions`} for more.
  *
@@ -20963,7 +20963,7 @@ var minlengthDirective = function() {
  *   tab or newline character.
  * * Otherwise whitespace around the delimiter is ignored when splitting (although it is respected
  *   when joining the list items back together) and whitespace around each list item is stripped
- *   before it is added to the model.
+ *   before it is Createed to the model.
  *
  * ### Example with Validation
  *
@@ -21303,7 +21303,7 @@ var ngModelOptionsDirective = function() {
     controller: ['$scope', '$attrs', function($scope, $attrs) {
       var that = this;
       this.$options = $scope.$eval($attrs.ngModelOptions);
-      // Allow adding/overriding bound events
+      // Allow Createing/overriding bound events
       if (this.$options.updateOn !== undefined) {
         this.$options.updateOnDefault = false;
         // extract "default" pseudo-event from list of events that can trigger a model update
@@ -21750,7 +21750,7 @@ function classDirective(name, selector) {
  *
  * @description
  * The `ngClass` directive allows you to dynamically set CSS classes on an HTML element by databinding
- * an expression that represents all classes to be added.
+ * an expression that represents all classes to be Createed.
  *
  * The directive operates in three different ways, depending on which of three types the expression
  * evaluates to:
@@ -21764,20 +21764,20 @@ function classDirective(name, selector) {
  * 3. If the expression evaluates to an object, then for each key-value pair of the
  * object with a truthy value the corresponding key is used as a class name.
  *
- * The directive won't add duplicate classes if a particular class was already set.
+ * The directive won't Create duplicate classes if a particular class was already set.
  *
- * When the expression changes, the previously added classes are removed and only then the
- * new classes are added.
+ * When the expression changes, the previously Createed classes are removed and only then the
+ * new classes are Createed.
  *
  * @animations
- * add - happens just before the class is applied to the element
+ * Create - happens just before the class is applied to the element
  * remove - happens just before the class is removed from the element
  *
  * @element ANY
  * @param {expression} ngClass {@link guide/expression Expression} to eval. The result
  *   of the evaluation can be a string representing space delimited class
  *   names, an array, or a map of class names to boolean values. In the case of a map, the
- *   names of the properties whose values are truthy will be added as css classes to the
+ *   names of the properties whose values are truthy will be Createed as css classes to the
  *   element.
  *
  * @example Example that demonstrates basic bindings via ngClass directive.
@@ -21884,7 +21884,7 @@ function classDirective(name, selector) {
    The ngClass directive still supports CSS3 Transitions/Animations even if they do not follow the ngAnimate CSS naming structure.
    Upon animation ngAnimate will apply supplementary CSS classes to track the start and end of an animation, but this will not hinder
    any pre-existing CSS transitions already on the element. To get an idea of what happens during a class-based animation, be sure
-   to view the step by step details of {@link ng.$animate#addClass $animate.addClass} and
+   to view the step by step details of {@link ng.$animate#CreateClass $animate.CreateClass} and
    {@link ng.$animate#removeClass $animate.removeClass}.
  */
 var ngClassDirective = classDirective('', true);
@@ -22001,7 +22001,7 @@ var ngClassEvenDirective = classDirective('Even', 1);
  *
  * `ngCloak` works in cooperation with the following css rule embedded within `angular.js` and
  * `angular.min.js`.
- * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
+ * For CSP mode please Create `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```css
  * [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
@@ -22018,9 +22018,9 @@ var ngClassEvenDirective = classDirective('Even', 1);
  * document; alternatively, the css rule above must be included in the external stylesheet of the
  * application.
  *
- * Legacy browsers, like IE7, do not provide attribute selector support (added in CSS 2.1) so they
- * cannot match the `[ng\:cloak]` selector. To work around this limitation, you must add the css
- * class `ng-cloak` in addition to the `ngCloak` directive as shown in the example below.
+ * Legacy browsers, like IE7, do not provide attribute selector support (Createed in CSS 2.1) so they
+ * cannot match the `[ng\:cloak]` selector. To work around this limitation, you must Create the css
+ * class `ng-cloak` in Createition to the `ngCloak` directive as shown in the example below.
  *
  * @element ANY
  *
@@ -22125,7 +22125,7 @@ var ngCloakDirective = ngDirective({
  *          [ <a href="" ng-click="settings.clearContact(contact)">clear</a>
  *          | <a href="" ng-click="settings.removeContact(contact)">X</a> ]
  *        </li>
- *        <li>[ <a href="" ng-click="settings.addContact()">add</a> ]</li>
+ *        <li>[ <a href="" ng-click="settings.CreateContact()">Create</a> ]</li>
  *     </ul>
  *    </div>
  *   </file>
@@ -22144,7 +22144,7 @@ var ngCloakDirective = ngDirective({
  *      alert(this.name);
  *    };
  *
- *    SettingsController1.prototype.addContact = function() {
+ *    SettingsController1.prototype.CreateContact = function() {
  *      this.contacts.push({type: 'email', value: 'yourname@example.org'});
  *    };
  *
@@ -22180,7 +22180,7 @@ var ngCloakDirective = ngDirective({
  *       expect(firstRepeat.element(by.model('contact.value')).getAttribute('value'))
  *           .toBe('');
  *
- *       container.element(by.linkText('add')).click();
+ *       container.element(by.linkText('Create')).click();
  *
  *       expect(container.element(by.repeater('contact in settings.contacts').row(2))
  *           .element(by.model('contact.value'))
@@ -22208,7 +22208,7 @@ var ngCloakDirective = ngDirective({
  *         [ <a href="" ng-click="clearContact(contact)">clear</a>
  *         | <a href="" ng-click="removeContact(contact)">X</a> ]
  *       </li>
- *       <li>[ <a href="" ng-click="addContact()">add</a> ]</li>
+ *       <li>[ <a href="" ng-click="CreateContact()">Create</a> ]</li>
  *    </ul>
  *   </div>
  *  </file>
@@ -22226,7 +22226,7 @@ var ngCloakDirective = ngDirective({
  *       alert($scope.name);
  *     };
  *
- *     $scope.addContact = function() {
+ *     $scope.CreateContact = function() {
  *       $scope.contacts.push({type:'email', value:'yourname@example.org'});
  *     };
  *
@@ -22263,7 +22263,7 @@ var ngCloakDirective = ngDirective({
  *      expect(firstRepeat.element(by.model('contact.value')).getAttribute('value'))
  *          .toBe('');
  *
- *      container.element(by.linkText('add')).click();
+ *      container.element(by.linkText('Create')).click();
  *
  *      expect(container.element(by.repeater('contact in contacts').row(2))
  *          .element(by.model('contact.value'))
@@ -22964,8 +22964,8 @@ forEach(
  *
  * Also, `ngIf` recreates elements using their compiled state. An example of this behavior
  * is if an element's class attribute is directly modified after it's compiled, using something like
- * jQuery's `.addClass()` method, and the element is later removed. When `ngIf` recreates the element
- * the added class will be lost because the original compiled state is used to regenerate the element.
+ * jQuery's `.CreateClass()` method, and the element is later removed. When `ngIf` recreates the element
+ * the Createed class will be lost because the original compiled state is used to regenerate the element.
  *
  * Additionally, you can provide animations via the `ngAnimate` module to animate the `enter`
  * and `leave` effects.
@@ -22979,7 +22979,7 @@ forEach(
  * @priority 600
  * @param {expression} ngIf If the {@link guide/expression expression} is falsy then
  *     the element is removed from the DOM tree. If it is truthy a copy of the compiled
- *     element is added to the DOM tree.
+ *     element is Createed to the DOM tree.
  *
  * @example
   <example module="ngAnimate" deps="angular-animate.js" animations="true">
@@ -22994,7 +22994,7 @@ forEach(
       .animate-if {
         background:white;
         border:1px solid black;
-        padding:10px;
+        pCreateing:10px;
       }
 
       .animate-if.ng-enter, .animate-if.ng-leave {
@@ -23077,7 +23077,7 @@ var ngIfDirective = ['$animate', function($animate) {
  * {@link $sce#trustAsResourceUrl wrap them} as trusted values. Refer to Angular's {@link
  * ng.$sce Strict Contextual Escaping}.
  *
- * In addition, the browser's
+ * In Createition, the browser's
  * [Same Origin Policy](https://code.google.com/p/browsersec/wiki/Part2#Same-origin_policy_for_XMLHttpRequest)
  * and [Cross-Origin Resource Sharing (CORS)](http://www.w3.org/TR/cors/)
  * policy may further restrict whether the template is successfully loaded.
@@ -23143,7 +23143,7 @@ var ngIfDirective = ['$animate', function($animate) {
       }
 
       .slide-animate {
-        padding:10px;
+        pCreateing:10px;
       }
 
       .slide-animate.ng-enter, .slide-animate.ng-leave {
@@ -23156,7 +23156,7 @@ var ngIfDirective = ['$animate', function($animate) {
         right:0;
         bottom:0;
         display:block;
-        padding:10px;
+        pCreateing:10px;
       }
 
       .slide-animate.ng-enter {
@@ -23295,7 +23295,7 @@ var ngIncludeDirective = ['$templateRequest', '$anchorScroll', '$animate', '$sce
 
               // Note: This will also link all children of ng-include that were contained in the original
               // html. If that content contains controllers, ... they could pollute/change the scope.
-              // However, using ng-include on an element with additional content does not make sense...
+              // However, using ng-include on an element with Createitional content does not make sense...
               // Note: We can't remove them in the cloneAttchFn of $transclude as that
               // function is called before linking the content, which would apply child
               // directives to non existing elements.
@@ -23528,7 +23528,7 @@ var ngNonBindableDirective = ngDirective({ terminal: true, priority: 1000 });
  * </ng-pluralize>
  * ```
  *
- * Notice that we are still using two plural categories(one, other), but we added
+ * Notice that we are still using two plural categories(one, other), but we Createed
  * three explicit number rules 0, 1 and 2.
  * When one person, perhaps John, views the document, "John is viewing" will be shown.
  * When three people view the document, no explicit number rule is found, so
@@ -23741,7 +23741,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
  * as **data-ng-repeat-start**, **x-ng-repeat-start** and **ng:repeat-start**).
  *
  * @animations
- * **.enter** - when a new item is added to the list or when an item is revealed after a filter
+ * **.enter** - when a new item is Createed to the list or when an item is revealed after a filter
  *
  * **.leave** - when an item is removed from the list or when an item is filtered out
  *
@@ -23827,7 +23827,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', function($locale, $interp
         border:1px solid black;
         list-style:none;
         margin:0;
-        padding:0 10px;
+        pCreateing:0 10px;
       }
 
       .animate-repeat {
@@ -24120,10 +24120,10 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
  *
  * @description
  * The `ngShow` directive shows or hides the given HTML element based on the expression
- * provided to the `ngShow` attribute. The element is shown or hidden by removing or adding
+ * provided to the `ngShow` attribute. The element is shown or hidden by removing or Createing
  * the `.ng-hide` CSS class onto the element. The `.ng-hide` CSS class is predefined
  * in AngularJS and sets the display style to none (using an !important flag).
- * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
+ * For CSP mode please Create `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```html
  * <!-- when $scope.myValue is truthy (element is visible) -->
@@ -24133,7 +24133,7 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
  * <div ng-show="myValue" class="ng-hide"></div>
  * ```
  *
- * When the `ngShow` expression evaluates to a falsy value then the `.ng-hide` CSS class is added to the class
+ * When the `ngShow` expression evaluates to a falsy value then the `.ng-hide` CSS class is Createed to the class
  * attribute on the element causing it to become hidden. When truthy, the `.ng-hide` CSS class is removed
  * from the element causing the element not to appear hidden.
  *
@@ -24177,20 +24177,20 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
  * //
  * //a working example can be found at the bottom of this page
  * //
- * .my-element.ng-hide-add, .my-element.ng-hide-remove {
+ * .my-element.ng-hide-Create, .my-element.ng-hide-remove {
  *   /&#42; this is required as of 1.3x to properly
  *      apply all styling in a show/hide animation &#42;/
  *   transition:0s linear all;
  * }
  *
- * .my-element.ng-hide-add-active,
+ * .my-element.ng-hide-Create-active,
  * .my-element.ng-hide-remove-active {
  *   /&#42; the transition is defined in the active class &#42;/
  *   transition:1s linear all;
  * }
  *
- * .my-element.ng-hide-add { ... }
- * .my-element.ng-hide-add.ng-hide-add-active { ... }
+ * .my-element.ng-hide-Create { ... }
+ * .my-element.ng-hide-Create.ng-hide-Create-active { ... }
  * .my-element.ng-hide-remove { ... }
  * .my-element.ng-hide-remove.ng-hide-remove-active { ... }
  * ```
@@ -24199,7 +24199,7 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
  * property to block during animation states--ngAnimate will handle the style toggling automatically for you.
  *
  * @animations
- * addClass: `.ng-hide` - happens after the `ngShow` expression evaluates to a truthy value and the just before contents are set to visible
+ * CreateClass: `.ng-hide` - happens after the `ngShow` expression evaluates to a truthy value and the just before contents are set to visible
  * removeClass: `.ng-hide` - happens after the `ngShow` expression evaluates to a non truthy value and just before the contents are set to hidden
  *
  * @element ANY
@@ -24230,12 +24230,12 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
       .animate-show {
         line-height:20px;
         opacity:1;
-        padding:10px;
+        pCreateing:10px;
         border:1px solid black;
         background:white;
       }
 
-      .animate-show.ng-hide-add.ng-hide-add-active,
+      .animate-show.ng-hide-Create.ng-hide-Create-active,
       .animate-show.ng-hide-remove.ng-hide-remove-active {
         -webkit-transition:all linear 0.5s;
         transition:all linear 0.5s;
@@ -24244,11 +24244,11 @@ var NG_HIDE_IN_PROGRESS_CLASS = 'ng-hide-animate';
       .animate-show.ng-hide {
         line-height:0;
         opacity:0;
-        padding:0 10px;
+        pCreateing:0 10px;
       }
 
       .check-element {
-        padding:10px;
+        pCreateing:10px;
         border:1px solid black;
         background:white;
       }
@@ -24275,11 +24275,11 @@ var ngShowDirective = ['$animate', function($animate) {
     multiElement: true,
     link: function(scope, element, attr) {
       scope.$watch(attr.ngShow, function ngShowWatchAction(value){
-        // we're adding a temporary, animation-specific class for ng-hide since this way
+        // we're Createing a temporary, animation-specific class for ng-hide since this way
         // we can control when the element is actually displayed on screen without having
         // to have a global/greedy CSS selector that breaks when other animations are run.
         // Read: https://github.com/angular/angular.js/issues/9103#issuecomment-58335845
-        $animate[value ? 'removeClass' : 'addClass'](element, NG_HIDE_CLASS, {
+        $animate[value ? 'removeClass' : 'CreateClass'](element, NG_HIDE_CLASS, {
           tempClasses : NG_HIDE_IN_PROGRESS_CLASS
         });
       });
@@ -24294,10 +24294,10 @@ var ngShowDirective = ['$animate', function($animate) {
  *
  * @description
  * The `ngHide` directive shows or hides the given HTML element based on the expression
- * provided to the `ngHide` attribute. The element is shown or hidden by removing or adding
+ * provided to the `ngHide` attribute. The element is shown or hidden by removing or Createing
  * the `ng-hide` CSS class onto the element. The `.ng-hide` CSS class is predefined
  * in AngularJS and sets the display style to none (using an !important flag).
- * For CSP mode please add `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
+ * For CSP mode please Create `angular-csp.css` to your html file (see {@link ng.directive:ngCsp ngCsp}).
  *
  * ```html
  * <!-- when $scope.myValue is truthy (element is hidden) -->
@@ -24307,7 +24307,7 @@ var ngShowDirective = ['$animate', function($animate) {
  * <div ng-hide="myValue"></div>
  * ```
  *
- * When the `ngHide` expression evaluates to a truthy value then the `.ng-hide` CSS class is added to the class
+ * When the `ngHide` expression evaluates to a truthy value then the `.ng-hide` CSS class is Createed to the class
  * attribute on the element causing it to become hidden. When falsy, the `.ng-hide` CSS class is removed
  * from the element causing the element not to appear hidden.
  *
@@ -24344,18 +24344,18 @@ var ngShowDirective = ['$animate', function($animate) {
  *
  * Animations in ngShow/ngHide work with the show and hide events that are triggered when the directive expression
  * is true and false. This system works like the animation system present with ngClass, except that the `.ng-hide`
- * CSS class is added and removed for you instead of your own CSS class.
+ * CSS class is Createed and removed for you instead of your own CSS class.
  *
  * ```css
  * //
  * //a working example can be found at the bottom of this page
  * //
- * .my-element.ng-hide-add, .my-element.ng-hide-remove {
+ * .my-element.ng-hide-Create, .my-element.ng-hide-remove {
  *   transition:0.5s linear all;
  * }
  *
- * .my-element.ng-hide-add { ... }
- * .my-element.ng-hide-add.ng-hide-add-active { ... }
+ * .my-element.ng-hide-Create { ... }
+ * .my-element.ng-hide-Create.ng-hide-Create-active { ... }
  * .my-element.ng-hide-remove { ... }
  * .my-element.ng-hide-remove.ng-hide-remove-active { ... }
  * ```
@@ -24365,7 +24365,7 @@ var ngShowDirective = ['$animate', function($animate) {
  *
  * @animations
  * removeClass: `.ng-hide` - happens after the `ngHide` expression evaluates to a truthy value and just before the contents are set to hidden
- * addClass: `.ng-hide` - happens after the `ngHide` expression evaluates to a non truthy value and just before the contents are set to visible
+ * CreateClass: `.ng-hide` - happens after the `ngHide` expression evaluates to a non truthy value and just before the contents are set to visible
  *
  * @element ANY
  * @param {expression} ngHide If the {@link guide/expression expression} is truthy then
@@ -24397,7 +24397,7 @@ var ngShowDirective = ['$animate', function($animate) {
         transition:all linear 0.5s;
         line-height:20px;
         opacity:1;
-        padding:10px;
+        pCreateing:10px;
         border:1px solid black;
         background:white;
       }
@@ -24405,11 +24405,11 @@ var ngShowDirective = ['$animate', function($animate) {
       .animate-hide.ng-hide {
         line-height:0;
         opacity:0;
-        padding:0 10px;
+        pCreateing:0 10px;
       }
 
       .check-element {
-        padding:10px;
+        pCreateing:10px;
         border:1px solid black;
         background:white;
       }
@@ -24436,9 +24436,9 @@ var ngHideDirective = ['$animate', function($animate) {
     multiElement: true,
     link: function(scope, element, attr) {
       scope.$watch(attr.ngHide, function ngHideWatchAction(value){
-        // The comment inside of the ngShowDirective explains why we add and
+        // The comment inside of the ngShowDirective explains why we Create and
         // remove a temporary class for the show/hide animation
-        $animate[value ? 'addClass' : 'removeClass'](element,NG_HIDE_CLASS, {
+        $animate[value ? 'CreateClass' : 'removeClass'](element,NG_HIDE_CLASS, {
           tempClasses : NG_HIDE_IN_PROGRESS_CLASS
         });
       });
@@ -24545,7 +24545,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
  * @scope
  * @priority 1200
  * @param {*} ngSwitch|on expression to match against <tt>ng-switch-when</tt>.
- * On child elements add:
+ * On child elements Create:
  *
  * * `ngSwitchWhen`: the case statement to match against. If match then this
  *   case will be displayed. If the same match appears multiple times, all the
@@ -24588,7 +24588,7 @@ var ngStyleDirective = ngDirective(function(scope, element, attr) {
       }
 
       .animate-switch {
-        padding:10px;
+        pCreateing:10px;
       }
 
       .animate-switch.ng-animate {
@@ -24942,7 +24942,7 @@ var ngOptionsMinErr = minErr('ngOptions');
               [<a href ng-click="colors.splice($index, 1)">X</a>]
             </li>
             <li>
-              [<a href ng-click="colors.push({})">add</a>]
+              [<a href ng-click="colors.push({})">Create</a>]
             </li>
           </ul>
           <hr/>
@@ -25194,7 +25194,7 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
           // compile the element since there might be bindings in it
           $compile(nullOption)(scope);
 
-          // remove the class, which is added automatically because we recompile the element and it
+          // remove the class, which is Createed automatically because we recompile the element and it
           // becomes the compilation root
           nullOption.removeClass('ng-scope');
 
@@ -25203,7 +25203,7 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
           nullOption.remove();
         }
 
-        // clear contents, we'll add what's needed based on the model
+        // clear contents, we'll Create what's needed based on the model
         selectElement.empty();
 
         selectElement.on('change', selectionChanged);
@@ -25321,15 +25321,15 @@ var selectDirective = ['$compile', '$parse', function($compile,   $parse) {
 
         /**
          * A new labelMap is created with each render.
-         * This function is called for each existing option with added=false,
-         * and each new option with added=true.
+         * This function is called for each existing option with Createed=false,
+         * and each new option with Createed=true.
          * - Labels that are passed to this method twice,
-         * (once with added=true and once with added=false) will end up with a value of 0, and
+         * (once with Createed=true and once with Createed=false) will end up with a value of 0, and
          * will cause no change to happen to the corresponding option.
-         * - Labels that are passed to this method only once with added=false will end up with a
+         * - Labels that are passed to this method only once with Createed=false will end up with a
          * value of -1 and will eventually be passed to selectCtrl.removeOption()
-         * - Labels that are passed to this method only once with added=true will end up with a
-         * value of 1 and will eventually be passed to selectCtrl.addOption()
+         * - Labels that are passed to this method only once with Createed=true will end up with a
+         * value of 1 and will eventually be passed to selectCtrl.CreateOption()
         */
         function updateLabelMap(labelMap, label, added) {
           labelMap[label] = labelMap[label] || 0;

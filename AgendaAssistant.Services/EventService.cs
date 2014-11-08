@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,57 +10,84 @@ using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Services
 {
+    public interface IEventService
+    {
+        Event Get(Guid id);
+        Event Create(string title, string description, string name, string email);
+
+        void AddParticipant(Guid id, string name, string email);
+        void DeleteParticipant(Guid id, string email);
+
+        void Save(Event evn);
+
+        void SelectFlight(Guid id, long flightSearchId, long flightId);
+
+        void Confirm(Guid id);
+    }
+
     /// <summary>
     /// Contains all business logic regarding events
     /// </summary>
     public class EventService : IEventService
     {
-        private readonly IEventRepository _repository;
         private readonly IMailService _mailService;
+        private readonly EventRepository _repository;
+        private readonly IDbContext _dbContext;
 
-        public EventService(IEventRepository repository, IMailService mailService)
+        public EventService(IDbContext dbContext, IMailService mailService)
         {
-            _repository = repository;
+            _dbContext = dbContext;
+            _repository = new EventRepository(_dbContext);
             _mailService = mailService;
         }
 
-        public Event CreateNew(Event value)
+        public Event Get(Guid id)
         {
-            var evn = _repository.Save(value);
+            // fetch event (including complete tree)
+            var dbEvent = _repository.Single(id);
 
-            _mailService.SendEventConfirmation(evn);
+            return EntityMapper.Map(dbEvent);
+        }
+
+        public Event Create(string title, string description, string name, string email)
+        {
+            var dbOrganizerPerson = new PersonRepository(_dbContext).AddOrGetExisting(name, email);
+            var dbEvent = _repository.Create(title, description, dbOrganizerPerson);
+
+            // todo: _mailService.SendEventConfirmation(evn);
+
+            return EntityMapper.Map(dbEvent);
+        }
+
+        public void Confirm(Guid id)
+        {
+            var dbEvent = _repository.Confirm(id);
+
+            // todo:
+            //foreach (var participant in dbEvent.Participants)
+            //    _mailService.SendInvitation(evn, participant);
+
+            //_mailService.SendInvitationConfirmation(evn);
+        }
+
+        public void AddParticipant(Guid id, string name, string email)
+        {
             
-            return evn;
         }
 
-        public Event Get(string code)
+        public void DeleteParticipant(Guid id, string email)
         {
-            return _repository.Get(code);
+            throw new NotImplementedException();
         }
 
-        public void Confirm(string code)
+        public void Save(Event evn)
         {
-            _repository.Confirm(code);
-
-            var evn = Get(code);
-            
-            foreach (var participant in evn.Participants)
-                _mailService.SendInvitation(evn, participant);
-
-            _mailService.SendInvitationConfirmation(evn);
+            throw new NotImplementedException();
         }
 
-        public void SelectFlight(long flightSearchId, long flightId)
+        public void SelectFlight(Guid id, long flightSearchId, long flightId)
         {
-            _repository.SelectFlight(flightSearchId, flightId);
+            //_repository.SelectFlight(flightSearchId, flightId);
         }
-    }
-
-    public interface IEventService
-    {
-        Event CreateNew(Event value);
-        Event Get(string code);
-        void Confirm(string code);
-        void SelectFlight(long flightSearchId, long flightId);
     }
 }

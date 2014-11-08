@@ -9,16 +9,26 @@ using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Services
 {
+    public interface IAvailabilityService
+    {
+        List<Availability> GetByParticipant(Guid participantId);
+        List<Availability> GetByEvent(Guid eventId);
+        short CalculateAvailabilityPercentage(Flight flight);
+        void Update(Availability availability);
+    }
+
     /// <summary>
     /// Contains all business logic regarding events
     /// </summary>
     public class AvailabilityService : IAvailabilityService
     {
-        private readonly IAvailabilityRepository _repository;
+        private readonly AvailabilityRepository _repository;
+        private readonly IDbContext _dbContext;
 
-        public AvailabilityService(IAvailabilityRepository repository)
+        public AvailabilityService(IDbContext dbContext)
         {
-            _repository = repository;
+            _dbContext = dbContext;
+            _repository = new AvailabilityRepository(_dbContext);
         }
 
         public short CalculateAvailabilityPercentage(Flight flight)
@@ -26,30 +36,38 @@ namespace AgendaAssistant.Services
             return flight.Availabilities.Count == 0 ? (short) 0 : (short) (flight.Availabilities.Average(a => a.Value));
         }
 
-        public List<Availability> Get(long flightSearchId)
+        public List<Availability> GetByEvent(Guid eventId)
         {
-            return _repository.Get(flightSearchId);            
+            var dbEvent = new EventRepository(_dbContext).Single(eventId);
+
+            var result = new List<Availability>();
+            
+            _repository.SelectAll(dbEvent.OutboundFlightSearchID).ForEach(a => result.Add(EntityMapper.Map(a)));
+            _repository.SelectAll(dbEvent.InboundFlightSearchID).ForEach(a => result.Add(EntityMapper.Map(a)));
+
+            return result;
         }
 
-        public List<Availability> Get(long flightSearchId, long personId)
+        public List<Availability> GetByParticipant(Guid participantId)
         {
-            return _repository.Get(flightSearchId, personId);
+            var dbAvailabilities = _repository.SelectAll(participantId);
+
+            var result = new List<Availability>();
+            dbAvailabilities.ForEach(a => result.Add(EntityMapper.Map(a)));
+            
+            return result;
         }
 
         public void Update(Availability availability)
         {
-            _repository.Update(availability);
+            var dbParticipant = new ParticipantRepository(_dbContext).Single(availability.ParticipantId);
 
-            // todo: insert mail record if no unsent record exists already
+            _repository.Update(availability.ParticipantId, availability.FlightId, availability.Value,
+                               availability.CommentText);
 
+            // trigger new email to be sent by web job
+            dbParticipant.AvailabilityUpdateSent = false;
+            _dbContext.Current.SaveChanges();
         }
-    }
-
-    public interface IAvailabilityService
-    {
-        List<Availability> Get(long flightSearchId, long personId);
-        List<Availability> Get(long flightSearchId);
-        short CalculateAvailabilityPercentage(Flight flight);
-        void Update(Availability availability);
     }
 }

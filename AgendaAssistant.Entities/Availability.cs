@@ -8,11 +8,11 @@ namespace AgendaAssistant.Entities
 {
     public class Availability
     {
+        public Guid ParticipantId { get; set; }
+        public long FlightId { get; set; }
+
         public short Value { get; set; }
         public string CommentText { get; set; }
-
-        public long PersonId { get; set; }
-        public long FlightId { get; set; }
 
         // Display properties
         public string Name { get; set; }

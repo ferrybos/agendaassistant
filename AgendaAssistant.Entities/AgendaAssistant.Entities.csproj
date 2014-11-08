@@ -51,6 +51,12 @@
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
+      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
+      <Name>AgendaAssistant.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

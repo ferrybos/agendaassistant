@@ -4,104 +4,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.DB;
-using Availability = AgendaAssistant.Entities.Availability;
-using Event = AgendaAssistant.Entities.Event;
-using FlightSearch = AgendaAssistant.Entities.FlightSearch;
-using Person = AgendaAssistant.Entities.Person;
+using AgendaAssistant.DB.Repositories;
+using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Repositories
 {
-    public interface IAvailabilityRepository
-    {
-        List<Availability> Get(long flightSearchId, long personId);
-        List<Availability> Get(long flightSearchId);
-        void Update(Availability availability);
-    }
-
     /// <summary>
     /// Contains all logic to interface with data(base)
     /// </summary>
-    public class AvailabilityRepository : IAvailabilityRepository
+    public class AvailabilityRepository : DbRepository
     {
-        private readonly AgendaAssistantEntities _db;
-
-        public AvailabilityRepository()
+        public AvailabilityRepository(IDbContext dbContext)
+            : base(dbContext)
         {
-            _db = DbContextFactory.New();
         }
 
-        public void Update(Availability availability)
+        public Availability Single(Guid participantId, long flightId)
         {
             var dbAvailability =
-                _db.Availabilities.Single(
-                    a => a.FlightID == availability.FlightId && a.PersonID == availability.PersonId);
+                DbContext.Availabilities.Single(
+                    e => e.ParticipantID.Equals(participantId) && e.FlightID.Equals(flightId));
 
-            dbAvailability.Value = availability.Value;
-            dbAvailability.Comment = availability.CommentText;
-
-            _db.SaveChanges();
-        }
-
-        public List<Availability> Get(long flightSearchId)
-        {
-            var result = new List<Availability>();
-            var dbFlightSearch = _db.FlightSearches.Single(fs => fs.ID == flightSearchId);
-            var dbAvailabilities =
-                _db.Availabilities.Where(a => a.Flight.FlightSearchID == flightSearchId)
-                   .ToList();
-
-            foreach (var dbFlight in dbFlightSearch.Flights)
+            if (dbAvailability == null)
             {
-                var flight = dbFlight;
-                foreach (var dbAvailability in dbAvailabilities.Where(a => a.FlightID == flight.ID))
-                {
-                    var availability = EntityMapper.Map(dbAvailability);
-                    availability.FlightId = dbFlight.ID;
-                    availability.PersonId = dbAvailability.PersonID;
-                    availability.Name = dbAvailability.Person.Name;
-                    result.Add(availability);
-                }
+                throw new ApplicationException(
+                    string.Format("Availability not found with participantId {0} and flightId {1}", participantId,
+                                  flightId));
             }
 
-            return result;
+            return dbAvailability;
         }
 
-        public List<Availability> Get(long flightSearchId, long personId)
+        public List<Availability> SelectAll(long flightSearchId)
         {
-            var result = new List<Availability>();
+            return DbContext.Availabilities.Where(a => a.Flight.FlightSearchID == flightSearchId).ToList();
+        }
 
-            var dbFlightSearch = _db.FlightSearches.Single(fs => fs.ID == flightSearchId);
+        public List<Availability> SelectAll(Guid participantId)
+        {
+            return
+                DbContext.Availabilities.Where(a => a.ParticipantID.Equals(participantId)).ToList();
+        }
 
-            var dbAvailabilities =
-                _db.Availabilities.Where(a => a.Flight.FlightSearchID == flightSearchId && a.PersonID == personId)
-                   .ToList();
+        public void Update(Guid participantId, long flightId, short value, string comment)
+        {
+            var dbAvailability = Single(participantId, flightId);
 
-            foreach (var dbFlight in dbFlightSearch.Flights)
-            {
-                var dbAvailability = dbAvailabilities.SingleOrDefault(a => a.FlightID == dbFlight.ID);
+            dbAvailability.Value = value;
+            dbAvailability.Comment = comment;
 
-                if (dbAvailability == null)
-                {
-                    // does not exist yet, create new
-                    dbAvailability = _db.Availabilities.Create();
-                    _db.Availabilities.Add(dbAvailability);
-
-                    dbAvailability.FlightID = dbFlight.ID;
-                    dbAvailability.PersonID = personId;
-                    dbAvailability.Value = 0;
-
-                    dbAvailabilities.Add(dbAvailability);
-                }
-
-                var availability = EntityMapper.Map(dbAvailability);
-                availability.FlightId = dbFlight.ID;
-                availability.PersonId = personId;
-                result.Add(availability);
-            }
-
-            _db.SaveChanges();
-
-            return result;
+            DbContext.SaveChanges();
         }
     }
 }

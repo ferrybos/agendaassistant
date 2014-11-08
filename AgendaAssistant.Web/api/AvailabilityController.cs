@@ -7,6 +7,7 @@ using System.Web.Http;
 using AgendaAssistant.Entities;
 using AgendaAssistant.Repositories;
 using AgendaAssistant.Services;
+using AgendaAssistant.Shared;
 using AgendaAssistant.Web.models;
 
 namespace AgendaAssistant.Web.api
@@ -14,34 +15,26 @@ namespace AgendaAssistant.Web.api
     [RoutePrefix("api/availability")]
     public class AvailabilityController : ApiController
     {
-        private readonly IAvailabilityService _availabilityService;
+        private readonly IAvailabilityService _service;
         private readonly IEventService _eventService;
 
         public AvailabilityController(IAvailabilityService availabilityService, IEventService eventService)
         {
-            _availabilityService = availabilityService;
+            _service = availabilityService;
             _eventService = eventService;
         }
 
-        // GET api/<controller>/5
-        [Route("{eventId}/{personId}")]
-        public AvailabilityModel Get(string eventId, long personId)
-        {           
-            var evn = _eventService.Get(eventId);
+        [Route("{eventId}/{participantId}")]
+        [HttpGet]
+        public AvailabilityModel Get(string eventId, string participantId)
+        {
+            // todo: no other participants
+            var evn = _eventService.Get(GuidUtil.ToGuid(eventId));
+            var availabilities = _service.GetByParticipant(GuidUtil.ToGuid(participantId));
 
-            var outboundAvailabilities = _availabilityService.Get(evn.OutboundFlightSearch.Id, personId);
-            foreach (var flight in evn.OutboundFlightSearch.Flights)
-            {
-                flight.Availabilities = new List<Availability>();
-                flight.Availabilities.AddRange(outboundAvailabilities.Where(a => a.FlightId == flight.Id));
-            }
-
-            var inboundAvailabilities = _availabilityService.Get(evn.InboundFlightSearch.Id, personId);
-            foreach (var flight in evn.InboundFlightSearch.Flights)
-            {
-                flight.Availabilities = new List<Availability>();
-                flight.Availabilities.AddRange(inboundAvailabilities.Where(a => a.FlightId == flight.Id));
-            }
+            // map availabilities to flightsearch
+            evn.OutboundFlightSearch.AddAvailabilities(availabilities);
+            evn.InboundFlightSearch.AddAvailabilities(availabilities);
 
             // fetch existing event
             return new AvailabilityModel()
@@ -55,7 +48,7 @@ namespace AgendaAssistant.Web.api
         public IHttpActionResult Post([FromBody] Availability availability)
         {
             // update av
-            _availabilityService.Update(availability);
+            _service.Update(availability);
             return Ok();
         }
     }

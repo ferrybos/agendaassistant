@@ -14,13 +14,10 @@ namespace AgendaAssistant.DB
     
     public partial class Comment
     {
-        public long ID { get; set; }
-        public long EventID { get; set; }
-        public long PersonID { get; set; }
+        public System.Guid ParticipantID { get; set; }
         public System.DateTime CreatedUtc { get; set; }
-        public string Comment1 { get; set; }
+        public string CommentText { get; set; }
     
-        public virtual Event Event { get; set; }
-        public virtual Person Person { get; set; }
+        public virtual Participant Participant { get; set; }
     }
 }

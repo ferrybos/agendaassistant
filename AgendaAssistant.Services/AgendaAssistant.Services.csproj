@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\AgendaAssistant.Web\bin\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="SendGridMail">
       <HintPath>..\packages\Sendgrid.5.0.0\lib\SendGridMail.dll</HintPath>
     </Reference>
@@ -54,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AgendaAssistant.DB\AgendaAssistant.DB.csproj">
+      <Project>{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}</Project>
+      <Name>AgendaAssistant.DB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgendaAssistant.Entities\AgendaAssistant.Entities.csproj">
       <Project>{ca95586a-1c6d-457f-bae4-c0707d603633}</Project>
       <Name>AgendaAssistant.Entities</Name>

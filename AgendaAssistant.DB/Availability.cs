@@ -14,12 +14,12 @@ namespace AgendaAssistant.DB
     
     public partial class Availability
     {
-        public long PersonID { get; set; }
+        public System.Guid ParticipantID { get; set; }
         public long FlightID { get; set; }
-        public short Value { get; set; }
+        public Nullable<short> Value { get; set; }
         public string Comment { get; set; }
     
         public virtual Flight Flight { get; set; }
-        public virtual Person Person { get; set; }
+        public virtual Participant Participant { get; set; }
     }
 }

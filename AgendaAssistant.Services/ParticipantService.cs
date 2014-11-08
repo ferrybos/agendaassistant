@@ -5,32 +5,60 @@ using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.Entities;
 using AgendaAssistant.Repositories;
+using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Services
 {
     public interface IParticipantService
     {
-        Participant Get(string eventCode, long personId);
+        Participant Get(Guid id);
         void Update(Participant participant);
     }
 
     public class ParticipantService : IParticipantService
     {
-        private readonly IParticipantRepository _repository;
+        private readonly IDbContext _dbContext;
+        private readonly ParticipantRepository _repository;
+        private readonly PersonRepository _personRepository;
 
-        public ParticipantService(IParticipantRepository repository)
+        public ParticipantService(IDbContext dbContext)
         {
-            _repository = repository;
+            _dbContext = dbContext;
+
+            _repository = new ParticipantRepository(_dbContext);
+            _personRepository = new PersonRepository(_dbContext);
         }
 
-        public Participant Get(string eventCode, long personId)
+        public Participant Get(Guid id)
         {
-            return _repository.Get(eventCode, personId);
+            var dbParticipant = _repository.Single(id);
+
+            return EntityMapper.Map(dbParticipant);
+        }
+
+        public Participant Add(Guid eventId, string name, string email)
+        {
+            var dbEvent = new EventRepository(_dbContext).Single(eventId);
+            var dbPerson = _personRepository.AddOrGetExisting(name, email);
+            
+            var dbParticipant = _repository.Add(dbEvent.ID, dbPerson.ID);
+            
+            return EntityMapper.Map(dbParticipant);
         }
 
         public void Update(Participant participant)
         {
-            _repository.Update(participant);
+            _repository.Update(participant.Id, participant.Bagage);
+            
+            var person = participant.Person;
+            _personRepository.Update(person.Id,
+                                     person.FirstNameInPassport, person.LastNameInPassport,
+                                     person.DateOfBirth, person.Gender);
+        }
+
+        public void Delete(Participant participant)
+        {
+            _repository.Delete(participant.Id);
         }
     }
 }

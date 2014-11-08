@@ -10,12 +10,11 @@ namespace AgendaAssistant.Repositories
 {
     public static class EntityMapper
     {
-        public static Event Map(DB.Event dbEvent)
+        public static Event Map(DB.Event dbEvent, bool recursive = true)
         {
             var evn = new Event()
                 {
-                    EventId = dbEvent.ID,
-                    Code = CodeString.GuidAsCodeString(dbEvent.EventID),
+                    Id = dbEvent.ID,
                     Description = dbEvent.Description,
                     Status = dbEvent.Status,
                     Title = dbEvent.Title,
@@ -26,8 +25,12 @@ namespace AgendaAssistant.Repositories
                     InboundFlightSearch = Map(dbEvent.InboundFlightSearch)
                 };
 
-            dbEvent.Participants.ToList()
-                   .ForEach(p => evn.Participants.Add(new Participant() { PersonId = p.PersonID, Name = p.Person.Name, Email = p.Person.Email }));
+            if (recursive)
+            {
+                dbEvent.Participants.ToList().ForEach(p => evn.Participants.Add(Map(p)));
+                evn.OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch);
+                evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch);
+            }
 
             return evn;
         }
@@ -92,7 +95,7 @@ namespace AgendaAssistant.Repositories
         {
             return new Availability
             {
-                Value = dbAvailability.Value,
+                Value = dbAvailability.Value ?? 0,
                 CommentText = dbAvailability.Comment
             };
         }
@@ -101,15 +104,16 @@ namespace AgendaAssistant.Repositories
         {
             return new Participant
             {
-                EventId = dbParticipant.EventID,
-                PersonId = dbParticipant.PersonID,
+                Id = dbParticipant.ID,
 
-                Name = dbParticipant.Person.Name,
-                Email = dbParticipant.Person.Email,
+                EventId = dbParticipant.EventID,
+
+                //Name = dbParticipant.Person.Name,
+                //Email = dbParticipant.Person.Email,
                 
                 Person = Map(dbParticipant.Person),
 
-                Baggage = dbParticipant.Baggage.Trim()
+                Bagage = dbParticipant.Bagage.Trim()
             };
         }
     }

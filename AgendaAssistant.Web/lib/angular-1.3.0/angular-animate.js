@@ -1,4 +1,4 @@
-/**
+﻿/**
  * @license AngularJS v1.3.0
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
@@ -32,10 +32,10 @@
  * | {@link ng.directive:ngInclude#animations ngInclude}                                                      | enter and leave                                                          |
  * | {@link ng.directive:ngSwitch#animations ngSwitch}                                                        | enter and leave                                                          |
  * | {@link ng.directive:ngIf#animations ngIf}                                                                | enter and leave                                                          |
- * | {@link ng.directive:ngClass#animations ngClass}                                                          | add and remove (the CSS class(es) present)                               |
- * | {@link ng.directive:ngShow#animations ngShow} & {@link ng.directive:ngHide#animations ngHide}            | add and remove (the ng-hide class value)                                 |
- * | {@link ng.directive:form#animation-hooks form} & {@link ng.directive:ngModel#animation-hooks ngModel}    | add and remove (dirty, pristine, valid, invalid & all other validations) |
- * | {@link module:ngMessages#animations ngMessages}                                                          | add and remove (ng-active & ng-inactive)                                 |
+ * | {@link ng.directive:ngClass#animations ngClass}                                                          | Create and remove (the CSS class(es) present)                               |
+ * | {@link ng.directive:ngShow#animations ngShow} & {@link ng.directive:ngHide#animations ngHide}            | Create and remove (the ng-hide class value)                                 |
+ * | {@link ng.directive:form#animation-hooks form} & {@link ng.directive:ngModel#animation-hooks ngModel}    | Create and remove (dirty, pristine, valid, invalid & all other validations) |
+ * | {@link module:ngMessages#animations ngMessages}                                                          | Create and remove (ng-active & ng-inactive)                                 |
  * | {@link module:ngMessages#animations ngMessage}                                                           | enter and leave                                                          |
  *
  * You can find out more information about animations upon visiting each directive page.
@@ -56,7 +56,7 @@
  * </style>
  *
  * <!--
- * the animate service will automatically add .ng-enter and .ng-leave to the element
+ * the animate service will automatically Create .ng-enter and .ng-leave to the element
  * to trigger the CSS transition/animations
  * -->
  * <ANY class="slide" ng-include="..."></ANY>
@@ -85,7 +85,7 @@
  * Angular will wait for two digest cycles until enabling animations. From there on, any animation-triggering
  * layout changes in the application will trigger animations as normal.
  *
- * In addition, upon bootstrap, if the routing system or any directives or load remote data (via $http) then Angular
+ * In Createition, upon bootstrap, if the routing system or any directives or load remote data (via $http) then Angular
  * will automatically extend the wait time to enable animations once **all** of the outbound HTTP requests
  * are complete.
  *
@@ -151,7 +151,7 @@
  *
  * Both CSS3 animations and transitions can be used together and the animate service will figure out the correct duration and delay timing.
  *
- * Upon DOM mutation, the event class is added first (something like `ng-enter`), then the browser prepares itself to add
+ * Upon DOM mutation, the event class is Createed first (something like `ng-enter`), then the browser prepares itself to Create
  * the active class (in this case `ng-enter-active`) which then triggers the animation. The animation module will automatically
  * detect the CSS code to determine when the animation ends. Once the animation is over then both CSS classes will be
  * removed from the DOM. If a browser does not support CSS transitions or CSS animations then the animation will start and end
@@ -168,28 +168,28 @@
  * ### Class-based transition animations
  *
  * Class-based transitions refer to transition animations that are triggered when a CSS class is
- * added to or removed from the element (via `$animate.addClass`, `$animate.removeClass`,
+ * Createed to or removed from the element (via `$animate.CreateClass`, `$animate.removeClass`,
  * `$animate.setClass`, or by directives such as `ngClass`, `ngModel` and `form`).
  * They are different when compared to structural animations since they **do not cancel existing
  * animations** nor do they **block successive transitions** from rendering on the same element.
  * This distinction allows for **multiple class-based transitions** to be performed on the same element.
  *
- * In addition to ngAnimate supporting the default (natural) functionality of class-based transition
+ * In Createition to ngAnimate supporting the default (natural) functionality of class-based transition
  * animations, ngAnimate also decorates the element with starting and ending CSS classes to aid the
  * developer in further styling the element throughout the transition animation. Earlier versions
  * of ngAnimate may have caused natural CSS transitions to break and not render properly due to
  * $animate temporarily blocking transitions using `0s none` in order to allow the setup CSS class
- * (the `-add` or `-remove` class) to be applied without triggering an animation. However, as of
+ * (the `-Create` or `-remove` class) to be applied without triggering an animation. However, as of
  * **version 1.3**, this workaround has been removed with ngAnimate and all non-ngAnimate CSS
  * class transitions are compatible with ngAnimate.
  *
  * There is, however, one special case when dealing with class-based transitions in ngAnimate.
  * When rendering class-based transitions that make use of the setup and active CSS classes
- * (e.g. `.fade-add` and `.fade-add-active` for when `.fade` is added) be sure to define
+ * (e.g. `.fade-Create` and `.fade-Create-active` for when `.fade` is Createed) be sure to define
  * the transition value **on the active CSS class** and not the setup class.
  *
  * ```css
- * .fade-add {
+ * .fade-Create {
  *   /&#42; remember to place a 0s transition here
  *      to ensure that the styles are applied instantly
  *      even if the element already has a transition style &#42;/
@@ -198,14 +198,14 @@
  *   /&#42; starting CSS styles &#42;/
  *   opacity:1;
  * }
- * .fade-add.fade-add-active {
+ * .fade-Create.fade-Create-active {
  *   /&#42; this will be the length of the animation &#42;/
  *   transition:1s linear all;
  *   opacity:0;
  * }
  * ```
  *
- * The setup CSS class (in this case `.fade-add`) also has a transition style property, however, it
+ * The setup CSS class (in this case `.fade-Create`) also has a transition style property, however, it
  * has a duration of zero. This may not be required, however, incase the browser is unable to render
  * the styling present in this CSS class instantly then it could be that the browser is attempting
  * to perform an unnecessary transition.
@@ -300,11 +300,11 @@
  *     leave: function(element, done) { },
  *     move: function(element, done) { },
  *
- *     //animation that can be triggered before the class is added
+ *     //animation that can be triggered before the class is Createed
  *     beforeAddClass: function(element, className, done) { },
  *
- *     //animation that can be triggered after the class is added
- *     addClass: function(element, className, done) { },
+ *     //animation that can be triggered after the class is Createed
+ *     CreateClass: function(element, className, done) { },
  *
  *     //animation that can be triggered before the class is removed
  *     beforeRemoveClass: function(element, className, done) { },
@@ -323,7 +323,7 @@
  *
  * Within a JavaScript animation, an object containing various event callback animation functions is expected to be returned.
  * As explained above, these callbacks are triggered based on the animation event. Therefore if an enter animation is run,
- * and the JavaScript animation is found, then the enter callback will handle that animation (in addition to the CSS keyframe animation
+ * and the JavaScript animation is found, then the enter callback will handle that animation (in Createition to the CSS keyframe animation
  * or transition code that is defined via a stylesheet).
  *
  *
@@ -332,11 +332,11 @@
  * include into its animation. Let's say for example we wanted to render an animation that animates an element
  * towards the mouse coordinates as to where the user clicked last. By collecting the X/Y coordinates of the click
  * (via the event parameter) we can set the `top` and `left` styles into an object and pass that into our function
- * call to `$animate.addClass`.
+ * call to `$animate.CreateClass`.
  *
  * ```js
  * canvas.on('click', function(e) {
- *   $animate.addClass(element, 'on', {
+ *   $animate.CreateClass(element, 'on', {
  *     to: {
  *       left : e.client.x + 'px',
  *       top : e.client.y + 'px'
@@ -352,7 +352,7 @@
  *
  * ```js
  * canvas.on('click', function(e) {
- *   $animate.addClass(element, 'on', {
+ *   $animate.CreateClass(element, 'on', {
  *     from: {
  *        position: 'absolute',
  *        left: '0px',
@@ -550,17 +550,17 @@ angular.module('ngAnimate', ['ng'])
           var hasClass = hasClasses[className];
           var matchingAnimation = lookup[className] || {};
 
-          // When addClass and removeClass is called then $animate will check to
-          // see if addClass and removeClass cancel each other out. When there are
-          // more calls to removeClass than addClass then the count falls below 0
+          // When CreateClass and removeClass is called then $animate will check to
+          // see if CreateClass and removeClass cancel each other out. When there are
+          // more calls to removeClass than CreateClass then the count falls below 0
           // and then the removeClass animation will be allowed. Otherwise if the
-          // count is above 0 then that means an addClass animation will commence.
+          // count is above 0 then that means an CreateClass animation will commence.
           // Once an animation is allowed then the code will also check to see if
-          // there exists any on-going animation that is already adding or remvoing
+          // there exists any on-going animation that is already Createing or remvoing
           // the matching CSS class.
           if (status === false) {
             //does it have the class or will it have the class
-            if (hasClass || matchingAnimation.event == 'addClass') {
+            if (hasClass || matchingAnimation.event == 'CreateClass') {
               toRemove.push(className);
             }
           } else if (status === true) {
@@ -585,7 +585,7 @@ angular.module('ngAnimate', ['ng'])
           //animations sniffing. This is always included for each
           //element animation procedure if the browser supports
           //transitions and/or keyframe animations. The default
-          //animation is added to the top of the list to prevent
+          //animation is Createed to the top of the list to prevent
           //any previous animations from affecting the element styling
           //prior to the element being animated.
           if ($sniffer.transitions || $sniffer.animations) {
@@ -627,7 +627,7 @@ angular.module('ngAnimate', ['ng'])
             animationEvent = 'removeClass';
           } else if (!classNameRemove) {
             className = classNameAdd;
-            animationEvent = 'addClass';
+            animationEvent = 'CreateClass';
           } else {
             className = classNameAdd + ' ' + classNameRemove;
           }
@@ -635,7 +635,7 @@ angular.module('ngAnimate', ['ng'])
 
         var isSetClassOperation = animationEvent == 'setClass';
         var isClassBased = isSetClassOperation
-                           || animationEvent == 'addClass'
+                           || animationEvent == 'CreateClass'
                            || animationEvent == 'removeClass'
                            || animationEvent == 'animate';
 
@@ -656,7 +656,7 @@ angular.module('ngAnimate', ['ng'])
         forEach(lookup(animationLookup), function(animationFactory) {
           var created = registerAnimation(animationFactory, animationEvent);
           if (!created && isSetClassOperation) {
-            registerAnimation(animationFactory, 'addClass');
+            registerAnimation(animationFactory, 'CreateClass');
             registerAnimation(animationFactory, 'removeClass');
           }
         });
@@ -696,7 +696,7 @@ angular.module('ngAnimate', ['ng'])
             allCompleteFn();
           }
 
-          //The code below adds directly to the array in order to work with
+          //The code below Creates directly to the array in order to work with
           //both sync and async animations. Sync animations are when the done()
           //operation is called right away. DO NOT REFACTOR!
           forEach(animations, function(animation, index) {
@@ -710,7 +710,7 @@ angular.module('ngAnimate', ['ng'])
               case 'animate':
                 cancellations.push(animation.fn(element, className, options.from, options.to, progress));
                 break;
-              case 'addClass':
+              case 'CreateClass':
                 cancellations.push(animation.fn(element, classNameAdd || className,     progress, options));
                 break;
               case 'removeClass':
@@ -775,7 +775,7 @@ angular.module('ngAnimate', ['ng'])
        * @kind object
        *
        * @description
-       * The `$animate` service provides animation detection support while performing DOM operations (enter, leave and move) as well as during addClass and removeClass operations.
+       * The `$animate` service provides animation detection support while performing DOM operations (enter, leave and move) as well as during CreateClass and removeClass operations.
        * When any of these operations are run, the $animate service
        * will examine any JavaScript-defined animations (which are defined by using the $animateProvider provider object)
        * as well as any CSS-defined animations against the CSS classes present on the element once the DOM operation is run.
@@ -814,7 +814,7 @@ angular.module('ngAnimate', ['ng'])
        * promise that was returned when the animation was started.
        *
        * ```js
-       * var promise = $animate.addClass(element, 'super-long-animation').then(function() {
+       * var promise = $animate.CreateClass(element, 'super-long-animation').then(function() {
        *   //this will still be called even if cancelled
        * });
        *
@@ -858,13 +858,13 @@ angular.module('ngAnimate', ['ng'])
          * | 1. $animate.animate(...) is called                                                                                | class="my-animation"                                       |
          * | 2. $animate waits for the next digest to start the animation                                                      | class="my-animation ng-animate"                            |
          * | 3. $animate runs the JavaScript-defined animations detected on the element                                        | class="my-animation ng-animate"                            |
-         * | 4. the className class value is added to the element                                                              | class="my-animation ng-animate className"                  |
+         * | 4. the className class value is Createed to the element                                                              | class="my-animation ng-animate className"                  |
          * | 5. $animate scans the element styles to get the CSS transition/animation duration and delay                       | class="my-animation ng-animate className"                  |
          * | 6. $animate blocks all CSS transitions on the element to ensure the .className class styling is applied right away| class="my-animation ng-animate className"                  |
          * | 7. $animate applies the provided collection of `from` CSS styles to the element                                   | class="my-animation ng-animate className"                  |
          * | 8. $animate waits for a single animation frame (this performs a reflow)                                           | class="my-animation ng-animate className"                  |
          * | 9. $animate removes the CSS transition block placed on the element                                                | class="my-animation ng-animate className"                  |
-         * | 10. the className-active class is added (this triggers the CSS transition/animation)                              | class="my-animation ng-animate className className-active" |
+         * | 10. the className-active class is Createed (this triggers the CSS transition/animation)                              | class="my-animation ng-animate className className-active" |
          * | 11. $animate applies the collection of `to` CSS styles to the element which are then handled by the transition    | class="my-animation ng-animate className className-active" |
          * | 12. $animate waits for the animation to complete (via events and timeout)                                         | class="my-animation ng-animate className className-active" |
          * | 13. The animation ends and all generated CSS classes are removed from the element                                 | class="my-animation"                                       |
@@ -873,7 +873,7 @@ angular.module('ngAnimate', ['ng'])
          * @param {DOMElement} element the element that will be the focus of the enter animation
          * @param {object} from a collection of CSS styles that will be applied to the element at the start of the animation
          * @param {object} to a collection of CSS styles that the element will animate towards
-         * @param {string=} className an optional CSS class that will be added to the element for the duration of the animation (the default class is `ng-inline-animate`)
+         * @param {string=} className an optional CSS class that will be Createed to the element for the duration of the animation (the default class is `ng-inline-animate`)
          * @param {object=} options an optional collection of options that will be picked up by the CSS transition/animation
          * @return {Promise} the animation callback promise
         */
@@ -905,12 +905,12 @@ angular.module('ngAnimate', ['ng'])
          * | 2. element is inserted into the parentElement element or beside the afterElement element                          | class="my-animation"                                     |
          * | 3. $animate waits for the next digest to start the animation                                                      | class="my-animation ng-animate"                          |
          * | 4. $animate runs the JavaScript-defined animations detected on the element                                        | class="my-animation ng-animate"                          |
-         * | 5. the .ng-enter class is added to the element                                                                    | class="my-animation ng-animate ng-enter"                 |
+         * | 5. the .ng-enter class is Createed to the element                                                                    | class="my-animation ng-animate ng-enter"                 |
          * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay                       | class="my-animation ng-animate ng-enter"                 |
          * | 7. $animate blocks all CSS transitions on the element to ensure the .ng-enter class styling is applied right away | class="my-animation ng-animate ng-enter"                 |
          * | 8. $animate waits for a single animation frame (this performs a reflow)                                           | class="my-animation ng-animate ng-enter"                 |
          * | 9. $animate removes the CSS transition block placed on the element                                                | class="my-animation ng-animate ng-enter"                 |
-         * | 10. the .ng-enter-active class is added (this triggers the CSS transition/animation)                              | class="my-animation ng-animate ng-enter ng-enter-active" |
+         * | 10. the .ng-enter-active class is Createed (this triggers the CSS transition/animation)                              | class="my-animation ng-animate ng-enter ng-enter-active" |
          * | 11. $animate waits for the animation to complete (via events and timeout)                                         | class="my-animation ng-animate ng-enter ng-enter-active" |
          * | 12. The animation ends and all generated CSS classes are removed from the element                                 | class="my-animation"                                     |
          * | 13. The returned promise is resolved.                                                                             | class="my-animation"                                     |
@@ -941,7 +941,7 @@ angular.module('ngAnimate', ['ng'])
          *
          * @description
          * Runs the leave animation operation and, upon completion, removes the element from the DOM. Once
-         * the animation is started, the following CSS classes will be added for the duration of the animation:
+         * the animation is started, the following CSS classes will be Createed for the duration of the animation:
          *
          * Below is a breakdown of each step that occurs during leave animation:
          *
@@ -950,12 +950,12 @@ angular.module('ngAnimate', ['ng'])
          * | 1. $animate.leave(...) is called                                                                                  | class="my-animation"                                     |
          * | 2. $animate runs the JavaScript-defined animations detected on the element                                        | class="my-animation ng-animate"                          |
          * | 3. $animate waits for the next digest to start the animation                                                      | class="my-animation ng-animate"                          |
-         * | 4. the .ng-leave class is added to the element                                                                    | class="my-animation ng-animate ng-leave"                 |
+         * | 4. the .ng-leave class is Createed to the element                                                                    | class="my-animation ng-animate ng-leave"                 |
          * | 5. $animate scans the element styles to get the CSS transition/animation duration and delay                       | class="my-animation ng-animate ng-leave"                 |
          * | 6. $animate blocks all CSS transitions on the element to ensure the .ng-leave class styling is applied right away | class="my-animation ng-animate ng-leave”                 |
          * | 7. $animate waits for a single animation frame (this performs a reflow)                                           | class="my-animation ng-animate ng-leave"                 |
          * | 8. $animate removes the CSS transition block placed on the element                                                | class="my-animation ng-animate ng-leave”                 |
-         * | 9. the .ng-leave-active class is added (this triggers the CSS transition/animation)                               | class="my-animation ng-animate ng-leave ng-leave-active" |
+         * | 9. the .ng-leave-active class is Createed (this triggers the CSS transition/animation)                               | class="my-animation ng-animate ng-leave ng-leave-active" |
          * | 10. $animate waits for the animation to complete (via events and timeout)                                         | class="my-animation ng-animate ng-leave ng-leave-active" |
          * | 11. The animation ends and all generated CSS classes are removed from the element                                 | class="my-animation"                                     |
          * | 12. The element is removed from the DOM                                                                           | ...                                                      |
@@ -985,8 +985,8 @@ angular.module('ngAnimate', ['ng'])
          *
          * @description
          * Fires the move DOM operation. Just before the animation starts, the animate service will either append it into the parentElement container or
-         * add the element directly after the afterElement element if present. Then the move animation will be run. Once
-         * the animation is started, the following CSS classes will be added for the duration of the animation:
+         * Create the element directly after the afterElement element if present. Then the move animation will be run. Once
+         * the animation is started, the following CSS classes will be Createed for the duration of the animation:
          *
          * Below is a breakdown of each step that occurs during move animation:
          *
@@ -996,12 +996,12 @@ angular.module('ngAnimate', ['ng'])
          * | 2. element is moved into the parentElement element or beside the afterElement element                            | class="my-animation"                                   |
          * | 3. $animate waits for the next digest to start the animation                                                     | class="my-animation ng-animate"                        |
          * | 4. $animate runs the JavaScript-defined animations detected on the element                                       | class="my-animation ng-animate"                        |
-         * | 5. the .ng-move class is added to the element                                                                    | class="my-animation ng-animate ng-move"                |
+         * | 5. the .ng-move class is Createed to the element                                                                    | class="my-animation ng-animate ng-move"                |
          * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay                      | class="my-animation ng-animate ng-move"                |
          * | 7. $animate blocks all CSS transitions on the element to ensure the .ng-move class styling is applied right away | class="my-animation ng-animate ng-move”                |
          * | 8. $animate waits for a single animation frame (this performs a reflow)                                          | class="my-animation ng-animate ng-move"                |
          * | 9. $animate removes the CSS transition block placed on the element                                               | class="my-animation ng-animate ng-move”                |
-         * | 10. the .ng-move-active class is added (this triggers the CSS transition/animation)                              | class="my-animation ng-animate ng-move ng-move-active" |
+         * | 10. the .ng-move-active class is Createed (this triggers the CSS transition/animation)                              | class="my-animation ng-animate ng-move ng-move-active" |
          * | 11. $animate waits for the animation to complete (via events and timeout)                                        | class="my-animation ng-animate ng-move ng-move-active" |
          * | 12. The animation ends and all generated CSS classes are removed from the element                                | class="my-animation"                                   |
          * | 13. The returned promise is resolved.                                                                            | class="my-animation"                                   |
@@ -1028,31 +1028,31 @@ angular.module('ngAnimate', ['ng'])
 
         /**
          * @ngdoc method
-         * @name $animate#addClass
+         * @name $animate#CreateClass
          *
          * @description
          * Triggers a custom animation event based off the className variable and then attaches the className value to the element as a CSS class.
-         * Unlike the other animation methods, the animate service will suffix the className value with {@type -add} in order to provide
+         * Unlike the other animation methods, the animate service will suffix the className value with {@type -Create} in order to provide
          * the animate service the setup and active CSS classes in order to trigger the animation (this will be skipped if no CSS transitions
-         * or keyframes are defined on the -add-active or base CSS class).
+         * or keyframes are defined on the -Create-active or base CSS class).
          *
-         * Below is a breakdown of each step that occurs during addClass animation:
+         * Below is a breakdown of each step that occurs during CreateClass animation:
          *
          * | Animation Step                                                                                     | What the element class attribute looks like                      |
          * |----------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-         * | 1. $animate.addClass(element, 'super') is called                                                   | class="my-animation"                                             |
+         * | 1. $animate.CreateClass(element, 'super') is called                                                   | class="my-animation"                                             |
          * | 2. $animate runs the JavaScript-defined animations detected on the element                         | class="my-animation ng-animate"                                  |
-         * | 3. the .super-add class is added to the element                                                    | class="my-animation ng-animate super-add"                        |
-         * | 4. $animate waits for a single animation frame (this performs a reflow)                            | class="my-animation ng-animate super-add"                        |
-         * | 5. the .super and .super-add-active classes are added (this triggers the CSS transition/animation) | class="my-animation ng-animate super super-add super-add-active" |
-         * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay        | class="my-animation ng-animate super-add"                        |
-         * | 7. $animate waits for the animation to complete (via events and timeout)                           | class="my-animation super super-add super-add-active"            |
+         * | 3. the .super-Create class is Createed to the element                                                    | class="my-animation ng-animate super-Create"                        |
+         * | 4. $animate waits for a single animation frame (this performs a reflow)                            | class="my-animation ng-animate super-Create"                        |
+         * | 5. the .super and .super-Create-active classes are Createed (this triggers the CSS transition/animation) | class="my-animation ng-animate super super-Create super-Create-active" |
+         * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay        | class="my-animation ng-animate super-Create"                        |
+         * | 7. $animate waits for the animation to complete (via events and timeout)                           | class="my-animation super super-Create super-Create-active"            |
          * | 8. The animation ends and all generated CSS classes are removed from the element                   | class="my-animation super"                                       |
          * | 9. The super class is kept on the element                                                          | class="my-animation super"                                       |
          * | 10. The returned promise is resolved.                                                              | class="my-animation super"                                       |
          *
          * @param {DOMElement} element the element that will be animated
-         * @param {string} className the CSS class that will be added to the element and then animated
+         * @param {string} className the CSS class that will be Createed to the element and then animated
          * @param {object=} options an optional collection of styles that will be picked up by the CSS transition/animation
          * @return {Promise} the animation callback promise
         */
@@ -1076,9 +1076,9 @@ angular.module('ngAnimate', ['ng'])
          * |------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
          * | 1. $animate.removeClass(element, 'super') is called                                                              | class="my-animation super"                                       |
          * | 2. $animate runs the JavaScript-defined animations detected on the element                                       | class="my-animation super ng-animate"                            |
-         * | 3. the .super-remove class is added to the element                                                               | class="my-animation super ng-animate super-remove"               |
+         * | 3. the .super-remove class is Createed to the element                                                               | class="my-animation super ng-animate super-remove"               |
          * | 4. $animate waits for a single animation frame (this performs a reflow)                                          | class="my-animation super ng-animate super-remove"               |
-         * | 5. the .super-remove-active classes are added and .super is removed (this triggers the CSS transition/animation) | class="my-animation ng-animate super-remove super-remove-active" |
+         * | 5. the .super-remove-active classes are Createed and .super is removed (this triggers the CSS transition/animation) | class="my-animation ng-animate super-remove super-remove-active" |
          * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay                      | class="my-animation super ng-animate super-remove"               |
          * | 7. $animate waits for the animation to complete (via events and timeout)                                         | class="my-animation ng-animate super-remove super-remove-active" |
          * | 8. The animation ends and all generated CSS classes are removed from the element                                 | class="my-animation"                                             |
@@ -1106,17 +1106,17 @@ angular.module('ngAnimate', ['ng'])
          * |--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
          * | 1. $animate.removeClass(element, ‘on’, ‘off’) is called                                                                              | class="my-animation super off”                                                       |
          * | 2. $animate runs the JavaScript-defined animations detected on the element                                                           | class="my-animation super ng-animate off”                                            |
-         * | 3. the .on-add and .off-remove classes are added to the element                                                                      | class="my-animation ng-animate on-add off-remove off”                                |
-         * | 4. $animate waits for a single animation frame (this performs a reflow)                                                              | class="my-animation ng-animate on-add off-remove off”                                |
-         * | 5. the .on, .on-add-active and .off-remove-active classes are added and .off is removed (this triggers the CSS transition/animation) | class="my-animation ng-animate on on-add on-add-active off-remove off-remove-active” |
-         * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay                                          | class="my-animation ng-animate on on-add on-add-active off-remove off-remove-active" |
-         * | 7. $animate waits for the animation to complete (via events and timeout)                                                             | class="my-animation ng-animate on on-add on-add-active off-remove off-remove-active" |
+         * | 3. the .on-Create and .off-remove classes are Createed to the element                                                                      | class="my-animation ng-animate on-Create off-remove off”                                |
+         * | 4. $animate waits for a single animation frame (this performs a reflow)                                                              | class="my-animation ng-animate on-Create off-remove off”                                |
+         * | 5. the .on, .on-Create-active and .off-remove-active classes are Createed and .off is removed (this triggers the CSS transition/animation) | class="my-animation ng-animate on on-Create on-Create-active off-remove off-remove-active” |
+         * | 6. $animate scans the element styles to get the CSS transition/animation duration and delay                                          | class="my-animation ng-animate on on-Create on-Create-active off-remove off-remove-active" |
+         * | 7. $animate waits for the animation to complete (via events and timeout)                                                             | class="my-animation ng-animate on on-Create on-Create-active off-remove off-remove-active" |
          * | 8. The animation ends and all generated CSS classes are removed from the element                                                     | class="my-animation on"                                                              |
          * | 9. The returned promise is resolved.                                                                                                 | class="my-animation on"                                                              |
          *
          * @param {DOMElement} element the element which will have its CSS classes changed
          *   removed from it
-         * @param {string} add the CSS classes which will be added to the element
+         * @param {string} Create the CSS classes which will be Createed to the element
          * @param {string} remove the CSS class which will be removed from the element
          *   CSS classes have been set on the element
          * @param {object=} options an optional collection of styles that will be picked up by the CSS transition/animation
@@ -1133,8 +1133,8 @@ angular.module('ngAnimate', ['ng'])
             return $delegate.$$setClassImmediately(element, add, remove, options);
           }
 
-          // we're using a combined array for both the add and remove
-          // operations since the ORDER OF addClass and removeClass matters
+          // we're using a combined array for both the Create and remove
+          // operations since the ORDER OF CreateClass and removeClass matters
           var classes, cache = element.data(STORAGE_KEY);
           var hasCache = !!cache;
           if (!cache) {
@@ -1329,7 +1329,7 @@ angular.module('ngAnimate', ['ng'])
             && !runner.isSetClassOperation
             && animationEvent != 'animate'
             && !skipAnimation) {
-          skipAnimation = (animationEvent == 'addClass') == element.hasClass(className); //opposite of XOR
+          skipAnimation = (animationEvent == 'CreateClass') == element.hasClass(className); //opposite of XOR
         }
 
         if (skipAnimation) {
@@ -2044,7 +2044,7 @@ angular.module('ngAnimate', ['ng'])
         beforeSetClass : function(element, add, remove, animationCompleted, options) {
           options = options || {};
           var className = suffixClasses(remove, '-remove') + ' ' +
-                          suffixClasses(add, '-add');
+                          suffixClasses(add, '-Create');
           var cancellationMethod = animateBefore('setClass', element, className, options.from);
           if (cancellationMethod) {
             afterReflow(element, animationCompleted);
@@ -2056,7 +2056,7 @@ angular.module('ngAnimate', ['ng'])
 
         beforeAddClass : function(element, className, animationCompleted, options) {
           options = options || {};
-          var cancellationMethod = animateBefore('addClass', element, suffixClasses(className, '-add'), options.from);
+          var cancellationMethod = animateBefore('CreateClass', element, suffixClasses(className, '-Create'), options.from);
           if (cancellationMethod) {
             afterReflow(element, animationCompleted);
             return cancellationMethod;
@@ -2079,14 +2079,14 @@ angular.module('ngAnimate', ['ng'])
         setClass : function(element, add, remove, animationCompleted, options) {
           options = options || {};
           remove = suffixClasses(remove, '-remove');
-          add = suffixClasses(add, '-add');
+          add = suffixClasses(add, '-Create');
           var className = remove + ' ' + add;
           return animateAfter('setClass', element, className, animationCompleted, options.to);
         },
 
         addClass : function(element, className, animationCompleted, options) {
           options = options || {};
-          return animateAfter('addClass', element, suffixClasses(className, '-add'), animationCompleted, options.to);
+          return animateAfter('CreateClass', element, suffixClasses(className, '-Create'), animationCompleted, options.to);
         },
 
         removeClass : function(element, className, animationCompleted, options) {

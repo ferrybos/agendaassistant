@@ -16,8 +16,8 @@ namespace AgendaAssistant.DB
     {
         public FlightSearch()
         {
-            this.Event = new HashSet<Event>();
-            this.Event1 = new HashSet<Event>();
+            this.Events = new HashSet<Event>();
+            this.Events1 = new HashSet<Event>();
             this.Flights = new HashSet<Flight>();
         }
     
@@ -30,8 +30,8 @@ namespace AgendaAssistant.DB
         public Nullable<int> MaxPrice { get; set; }
         public Nullable<long> SelectedFlightID { get; set; }
     
-        internal virtual ICollection<Event> Event { get; set; }
-        internal virtual ICollection<Event> Event1 { get; set; }
+        public virtual ICollection<Event> Events { internal get; set; }
+        public virtual ICollection<Event> Events1 { internal get; set; }
         public virtual ICollection<Flight> Flights { get; set; }
         public virtual Flight SelectedFlight { get; set; }
     }

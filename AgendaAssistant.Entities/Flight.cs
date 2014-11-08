@@ -19,7 +19,14 @@ namespace AgendaAssistant.Entities
         public short FlightNumber { get; set; }
         public decimal Price { get; set; }
 
-        public short AvailabilityPercentage { get; set; }
+        public short AvailabilityPercentage
+        {
+            get
+            {
+                return Availabilities.Count == 0 ? (short)0 : (short)(Availabilities.Average(a => a.Value));
+            }
+        }
+
         public List<Availability> Availabilities { get; set; }
     }
 }

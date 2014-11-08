@@ -27,7 +27,7 @@
         
         $scope.CurrentStepIndex = 9; //saving event
         
-        // add selected flights to the event object to be sent to the server
+        // Create selected flights to the event object to be sent to the server
         var selectedOutboundFlights = getSelectedFlights($scope.outboundFlights);
         angular.forEach(selectedOutboundFlights, function (flight) {
             this.push(flight);
@@ -116,7 +116,7 @@
     };
 
     $scope.AddParticipant = function () {
-        insights.logEvent('User adds participant');
+        insights.logEvent('User Creates participant');
 
         addParticipantInternal($scope.newParticipantName, $scope.newParticipantEmail);
         clearParticipantInput();

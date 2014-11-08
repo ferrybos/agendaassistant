@@ -21,7 +21,7 @@ body {
 
 body {
     padding-top: 0px;
-    background-color: #eee;
+    background-color: #fcfcfc;
 }
 
 .container {
@@ -31,7 +31,7 @@ body {
     margin-right: auto;
     /*padding: 0 15px;*/
     padding: 10px;
-    background-color: #eee;
+    background-color: #fcfcfc;
     /*required to position alerts inside container*/
     position: relative;
 }

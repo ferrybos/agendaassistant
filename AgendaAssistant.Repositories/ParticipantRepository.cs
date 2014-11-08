@@ -5,50 +5,60 @@ using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.DB;
 using AgendaAssistant.DB.Repositories;
-using AgendaAssistant.Entities;
-using Participant = AgendaAssistant.Entities.Participant;
-using Person = AgendaAssistant.Entities.Person;
+using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Repositories
 {
-    public interface IParticipantRepository
+    public class ParticipantRepository : DbRepository
     {
-        Participant Get(string eventCode, long personId);
-        void Update(Participant participant);
-    }
-
-    public class ParticipantRepository : IParticipantRepository
-    {
-        private readonly AgendaAssistantEntities _db;
-
-        public ParticipantRepository()
+        public ParticipantRepository(IDbContext dbContext)
+            : base(dbContext)
         {
-            _db = DbContextFactory.New();
         }
 
-        public Participant Get(string eventCode, long personId)
+        /// <summary>
+        /// Fetches an event from the database with the given id 
+        /// </summary>
+        public Participant Single(Guid id)
         {
-            var dbEvent = new DbEventRepository(_db).Get(CodeString.CodeStringToGuid(eventCode));
-            var dbParticipant = dbEvent.Participants.SingleOrDefault(p => p.PersonID == personId);
+            var dbParticipant = DbContext.Participants.SingleOrDefault(e => e.ID.Equals(id));
 
-            return EntityMapper.Map(dbParticipant);
+            if (dbParticipant == null)
+            {
+                throw new ApplicationException(string.Format("Participant not found with id {0}", id));
+            }
+
+            return dbParticipant;
         }
 
-        public void Update(Participant participant)
+        public void Update(Guid id, string bagage)
         {
-            var dbParticipant =
-                _db.Participants.Single(
-                    p => p.EventID == participant.EventId && p.PersonID == participant.PersonId);
+            var dbParticipant = Single(id);
 
-            var dbPerson = dbParticipant.Person;
-            dbPerson.FirstNameInPassport = participant.Person.FirstNameInPassport;
-            dbPerson.LastNameInPassport = participant.Person.LastNameInPassport;
-            dbPerson.DateOfBirth = participant.Person.DateOfBirth;
-            dbPerson.Gender = participant.Person.Gender.HasValue ? (byte) participant.Person.Gender : (byte?)null;
-            
-            dbParticipant.Baggage = participant.Baggage;
+            dbParticipant.Bagage = bagage;
 
-            _db.SaveChanges();
+            DbContext.SaveChanges();
+        }
+
+        public Participant Add(Guid eventId, Guid personId)
+        {
+            var dbParticipant = DbContext.Participants.Create();
+            DbContext.Participants.Add(dbParticipant);
+
+            dbParticipant.EventID = eventId;
+            dbParticipant.PersonID = personId;
+
+            DbContext.SaveChanges();
+
+            return dbParticipant;
+        }
+
+        public void Delete(Guid id)
+        {
+            var dbParticipant = Single(id);
+            DbContext.Participants.Remove(dbParticipant);
+
+            DbContext.SaveChanges();
         }
     }
 }

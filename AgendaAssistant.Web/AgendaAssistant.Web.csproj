@@ -102,6 +102,7 @@
     <Content Include="directives\flightSearch.js" />
     <Content Include="Global.asax" />
     <Content Include="img\ajax-loader.gif" />
+    <Content Include="img\bg.jpg" />
     <Content Include="img\delete.png" />
     <Content Include="img\hvlogo.png" />
     <Content Include="img\logo.png" />
@@ -209,6 +210,10 @@
     <ProjectReference Include="..\AgendaAssistant.Services\AgendaAssistant.Services.csproj">
       <Project>{54c07956-cc9d-4b6b-9bab-7496f48630bd}</Project>
       <Name>AgendaAssistant.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
+      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
+      <Name>AgendaAssistant.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

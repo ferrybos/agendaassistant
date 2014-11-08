@@ -6,128 +6,126 @@ using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.DB;
 using AgendaAssistant.DB.Repositories;
-using AgendaAssistant.Entities;
 using AgendaAssistant.Extensions;
-using AutoMapper;
-using Event = AgendaAssistant.Entities.Event;
-using FlightSearch = AgendaAssistant.Entities.FlightSearch;
-using Person = AgendaAssistant.Entities.Person;
+using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Repositories
 {
-    public interface IEventRepository
-    {
-        Event Save(Event value);
-        Event Get(string code);
-        void Confirm(string code);
-        void SelectFlight(long flightSearchId, long flightId);
-    }
-
     /// <summary>
     /// Contains all logic to interface with data(base)
     /// </summary>
-    public class EventRepository : IEventRepository
+    public class EventRepository : DbRepository
     {
-        private readonly AgendaAssistantEntities _db;
-
-        public EventRepository()
+        public EventRepository(IDbContext dbContext)
+            : base(dbContext)
         {
-            _db = DbContextFactory.New();
         }
 
-        public Event Save(Event value)
+        /// <summary>
+        /// Fetches an event from the database with the given id 
+        /// </summary>
+        public Event Single(Guid id)
         {
-            // setup
-            var dbPersonRepository = new DbPersonRepository(_db);
-            var dbEventRepository = new DbEventRepository(_db);
-            var dbParticipantRepository = new DbParticipantRepository(_db);
+            var dbEvent = DbContext.Events.SingleOrDefault(e => e.ID.Equals(id));
 
-            // event and organizer
-            var organizerPerson = dbPersonRepository.AddPerson(value.Organizer.Name, value.Organizer.Email);
-            var dbEvent = dbEventRepository.AddEvent(value.Title, value.Description, organizerPerson, "", false);
-
-            // participants
-            foreach (var participant in value.Participants)
+            if (dbEvent == null)
             {
-                var person = value.Organizer.Matches(participant.Name, participant.Email)
-                                    ? organizerPerson
-                                    : dbPersonRepository.AddPerson(participant.Name, participant.Email);
-
-                dbParticipantRepository.AddParticipant(dbEvent, person, "");
+                throw new ApplicationException(string.Format("Event not found with id {0}", id));
             }
 
-            // flights
-            dbEvent.OutboundFlightSearch = AddFlights(value.OutboundFlightSearch);
-            dbEvent.InboundFlightSearch = AddFlights(value.InboundFlightSearch);
-
-            // save event
-            _db.SaveChanges();
-
-            return EntityMapper.Map(dbEvent);
+            return dbEvent;
         }
 
-        private int BitArrayToInt(BitArray daysOfWeek)
+        public Event Create(string title, string description, Person organizer)
         {
-            short result = 0;
+            var dbEvent = DbContext.Events.Create();
+            DbContext.Events.Add(dbEvent);
 
-            for (int i = 0; i < daysOfWeek.Count; i++)
-            {
-                if (daysOfWeek[i])
-                    result += Convert.ToInt16(Math.Pow(2, i));
-            }
+            dbEvent.Title = title;
+            dbEvent.Description = description;
+            dbEvent.Organizer = organizer;
 
-            return result;
+            dbEvent.ID = Guid.NewGuid(); // used as id for redirect links in app and emails
+            dbEvent.CreatedUtc = DateTime.UtcNow;
+            dbEvent.Status = "";
+            dbEvent.IsConfirmed = false;
+
+            DbContext.SaveChanges();
+
+            return dbEvent;
+
+
+            //// setup
+            //var dbPersonRepository = new DbPersonRepository(DbContext);
+            //var dbEventRepository = new DbEventRepository(DbContext);
+            //var dbParticipantRepository = new DbParticipantRepository(DbContext);
+
+            //// event and organizer
+            //var organizerPerson = dbPersonRepository.AddPerson(value.Organizer.Name, value.Organizer.Email);
+            //var dbEvent = dbEventRepository.AddEvent(value.Title, value.Description, organizerPerson, "", false);
+
+            //// participants
+            //foreach (var participant in value.Participants)
+            //{
+            //    var person = value.Organizer.Matches(participant.Name, participant.Email)
+            //                        ? organizerPerson
+            //                        : dbPersonRepository.AddPerson(participant.Name, participant.Email);
+
+            //    dbParticipantRepository.AddParticipant(dbEvent, person, "");
+            //}
+
+            //// flights
+            //dbEvent.OutboundFlightSearch = AddFlights(value.OutboundFlightSearch);
+            //dbEvent.InboundFlightSearch = AddFlights(value.InboundFlightSearch);
+
+            //// save event
+            //DbContext.SaveChanges();
+
+            //return EntityMapper.Map(dbEvent);
         }
 
-        private DB.FlightSearch AddFlights(FlightSearch flightSearch)
+        public Event Confirm(Guid id)
         {
-            var dbFlightSearchRepository = new DbFlightSearchRepository(_db);
-            var dbFlightRepository = new DbFlightRepository(_db);
-
-            var dbFlightSearch = dbFlightSearchRepository.Add(flightSearch.ArrivalStation,
-                                                          flightSearch.DepartureStation, flightSearch.BeginDate,
-                                                          flightSearch.EndDate, flightSearch.DaysOfWeek, flightSearch.MaxPrice);
-
-            foreach (var flight in flightSearch.Flights)
-            {
-                var dbFlight = dbFlightRepository.Add(flight.CarrierCode, flight.FlightNumber,
-                    flight.DepartureDate, flight.STD, flight.STA, (int)(flight.Price * 100));
-                dbFlightSearch.Flights.Add(dbFlight);
-            }
-
-            return dbFlightSearch;
-        }
-
-        public void Confirm(string code)
-        {
-            var dbEvent = GetDbEvent(code);
+            var dbEvent = Single(id);
 
             if (!dbEvent.IsConfirmed)
             {
                 dbEvent.IsConfirmed = true;
                 dbEvent.Status = "Uitnodigingen verstuurd";
 
-                _db.SaveChanges();
+                DbContext.SaveChanges();
             }
+
+            return dbEvent;
         }
 
-        public void SelectFlight(long flightSearchId, long flightId)
-        {
-            var dbFlightSearch = new DbFlightSearchRepository(_db).Get(flightSearchId);
-            dbFlightSearch.SelectedFlightID = flightId;
-            
-            _db.SaveChanges();
-        }
+        //private DB.FlightSearch AddFlights(FlightSearch flightSearch)
+        //{
+        //    var dbFlightSearchRepository = new DbFlightSearchRepository(_db);
+        //    var dbFlightRepository = new DbFlightRepository(_db);
 
-        public Event Get(string code)
-        {
-            var dbEvent = GetDbEvent(code);
-            return EntityMapper.Map(dbEvent);
-        }
+        //    var dbFlightSearch = dbFlightSearchRepository.Create(flightSearch.ArrivalStation,
+        //                                                  flightSearch.DepartureStation, flightSearch.BeginDate,
+        //                                                  flightSearch.EndDate, flightSearch.DaysOfWeek, flightSearch.MaxPrice);
 
-        private DB.Event GetDbEvent(string code)
-        {
-            return new DbEventRepository(_db).Get(CodeString.CodeStringToGuid(code));
-        }
+        //    foreach (var flight in flightSearch.Flights)
+        //    {
+        //        var dbFlight = dbFlightRepository.Create(flight.CarrierCode, flight.FlightNumber,
+        //            flight.DepartureDate, flight.STD, flight.STA, (int)(flight.Price * 100));
+        //        dbFlightSearch.Flights.Create(dbFlight);
+        //    }
+
+        //    return dbFlightSearch;
+        //}
+
+        
+
+        //public void SelectFlight(long flightSearchId, long flightId)
+        //{
+        //    var dbFlightSearch = new DbFlightSearchRepository(_db).Get(flightSearchId);
+        //    dbFlightSearch.SelectedFlightID = flightId;
+
+        //    _db.SaveChanges();
+        //}
     }
 }

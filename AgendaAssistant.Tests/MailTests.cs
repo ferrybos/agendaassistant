@@ -24,12 +24,13 @@ namespace AgendaAssistant.Tests
 
             _event = new Event()
                 {
-                    Code = "abc123",
+                    Id = Guid.NewGuid(),
                     Title = "Weekendje Valencia",
                     Organizer = new Person() {Email = "ferrybos@gmail.com", Name = "Ferry Bos"}
                 };
 
-            _participant = new Participant() { Email = "ferrybos@gmail.com", Name = "Ferry", PersonId = 123456 };
+            var person = new Person() {Id = Guid.NewGuid(), Email = "ferrybos@gmail.com", Name = "Ferry"};
+            _participant = new Participant() {Id = Guid.NewGuid(), EventId = _event.Id, Person = person};
         }
 
         [TestMethod]

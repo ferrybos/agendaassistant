@@ -20,5 +20,13 @@ namespace AgendaAssistant.Entities
 
         public List<Flight> Flights { get; set; }
         public Flight SelectedFlight { get; set; }
+
+        public void AddAvailabilities(List<Availability> availabilities)
+        {
+            foreach (var flight in Flights)
+            {
+                flight.Availabilities.AddRange(availabilities.Where(a => a.FlightId.Equals(flight.Id)));
+            }
+        }
     }
 }

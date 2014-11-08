@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using AgendaAssistant.Entities;
 using AgendaAssistant.Services;
+using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Web.api
 {
+    public class NewEventData
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+
     public class ConfirmData
     {
-        public string Code { get; set; }
+        public string EventCode { get; set; }
     }
 
     [RoutePrefix("api/event")]
@@ -29,40 +35,26 @@ namespace AgendaAssistant.Web.api
 
         // GET api/<controller>/5
         [Route("{id}")]
+        [HttpGet]
         public Event Get(string id)
         {
-            if (id == "new")
-            {
-                // new event
-                var newEvent = EventFactory.NewEvent();
-                return newEvent;
-            }
+            //if (id == "new")
+            //{
+            //    // returns the model so it does not have to be duplicated in javascript
+            //    var newEvent = EventFactory.NewEvent();
+            //    return newEvent;
+            //}
             
             // fetch existing event
-            // todo: remove duplicate code from AvailabilityController
-            var evn = _service.Get(id);
+            var evn = _service.Get(GuidUtil.ToGuid(id));
 
-            var outboundAvailabilities = _availabilityService.Get(evn.OutboundFlightSearch.Id);
-            foreach (var flight in evn.OutboundFlightSearch.Flights)
-            {
-                flight.Availabilities = new List<Availability>();
-                flight.Availabilities.AddRange(outboundAvailabilities.Where(a => a.FlightId == flight.Id));
-                flight.AvailabilityPercentage = _availabilityService.CalculateAvailabilityPercentage(flight);
-            }
-
-            var inboundAvailabilities = _availabilityService.Get(evn.InboundFlightSearch.Id);
-            foreach (var flight in evn.InboundFlightSearch.Flights)
-            {
-                flight.Availabilities = new List<Availability>();
-                flight.Availabilities.AddRange(inboundAvailabilities.Where(a => a.FlightId == flight.Id));
-                flight.AvailabilityPercentage = _availabilityService.CalculateAvailabilityPercentage(flight);
-            }
+            var eventAvailabilities = _availabilityService.GetByEvent(evn.Id);
+            evn.AddAvailabilities(eventAvailabilities);
 
             // used to show participants that have not reacted yet (clicked the link in the confirmation email)
             foreach (var participant in evn.Participants)
             {
-                participant.HasConfirmed = outboundAvailabilities.Any(a => a.PersonId == participant.PersonId) ||
-                                           inboundAvailabilities.Any(a => a.PersonId == participant.PersonId);
+                participant.HasConfirmed = eventAvailabilities.Any(a => a.ParticipantId == participant.Id);
             }
 
             return evn;
@@ -71,12 +63,21 @@ namespace AgendaAssistant.Web.api
         // POST api/<controller>
         [Route("")]
         [HttpPost]
-        public IHttpActionResult Post([FromBody]Event value)
+        public IHttpActionResult New([FromBody]NewEventData data)
         {
             // create new event
-            var createdEvent = _service.CreateNew(value);
+            try
+            {
+                var newEvent = _service.Create(data.Title, data.Description, data.Name, data.Email);
 
-            return Created(string.Format("api/event/{0}", createdEvent.EventId), Json(new { Code = createdEvent.Code }).Content);
+                return Created(string.Format("api/event/{0}", GuidUtil.ToString(newEvent.Id)),
+                               Json(new { Event = newEvent }).Content);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
         }
 
         [Route("confirm")]
@@ -85,39 +86,46 @@ namespace AgendaAssistant.Web.api
         {
             try
             {
-                _service.Confirm(data.Code);
+                var id = GuidUtil.ToGuid(data.EventCode);
+                _service.Confirm(id);
 
                 return Ok();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return InternalServerError(e);
+                return InternalServerError(ex);
             }
         }
 
         [Route("selectflight")]
         [HttpPost]
-        public IHttpActionResult SelectFlight(long flightSearchId, long flightId)
+        public IHttpActionResult SelectFlight(string id, long flightSearchId, long flightId)
         {
             try
             {
-                _service.SelectFlight(flightSearchId, flightId);
+                // todo: _service.SelectFlight(flightSearchId, flightId);
                 return Ok();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return InternalServerError(e);
+                return InternalServerError(ex);
             }
         }
 
         // PUT api/<controller>/5
-        //public void Put(int id, [FromBody]Event value)
-        //{
-        //}
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        [Route("{id}")]
+        [HttpPut]
+        public IHttpActionResult Put(string id, [FromBody] Event value)
         {
+            try
+            {
+                _service.Save(value);
+                return Ok(string.Format("api/event/{0}", GuidUtil.ToString(value.Id)));
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }
