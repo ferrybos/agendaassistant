@@ -55,20 +55,22 @@ namespace AgendaAssistant.Repositories
             return dbEvent;
         }
 
-        public Event Confirm(Guid id)
+        public bool Confirm(Guid id)
         {
             var dbEvent = Single(id);
 
-            if (!dbEvent.IsConfirmed)
+            if (dbEvent.IsConfirmed)
             {
-                dbEvent.IsConfirmed = true;
-                dbEvent.Status = "Uitnodigingen verstuurd";
-
-                DbContext.SaveChanges();
+                return false;
             }
 
-            return dbEvent;
-        }      
+            dbEvent.IsConfirmed = true;
+            dbEvent.Status = "Uitnodigingen verstuurd";
+
+            DbContext.SaveChanges();
+
+            return true;
+        }
 
         //public void SelectFlight(long flightSearchId, long flightId)
         //{

@@ -110,7 +110,7 @@ namespace AgendaAssistant.Services
 
         private EmailBody GenerateBody(string salutation, string announcement, string action, string linkUrl, string linkText)
         {
-            const string logoUrl = @"http://www.vluchtprikker.nl/img/logo.png\";
+            //const string logoUrl = @"http://www.vluchtprikker.nl/img/logo.png\";
 
             var htmlBuilder = new StringBuilder();
             htmlBuilder.AppendLine(salutation);
@@ -120,7 +120,7 @@ namespace AgendaAssistant.Services
             htmlBuilder.AppendLine("<br /><br />");
             htmlBuilder.AppendLine(string.Format("<a href=\"{0}\" style=\"Font-size:22px;line-height:32px;color:#3399ff;\">{1}</a>", linkUrl, linkText));
             htmlBuilder.AppendLine("<br /><br /><br />");
-            htmlBuilder.AppendLine(string.Format("<img src=\"{0}\" style=\"display:block;\" /><br />", logoUrl));
+            //htmlBuilder.AppendLine(string.Format("<img src=\"{0}\" style=\"display:block;\" /><br />", logoUrl));
             htmlBuilder.AppendLine(string.Format(
                 "<span style=\"font-size:11px;color:#777777;\">Werkt de link niet? Kopieer dan het onderstaande adres naar uw browser.<br />{0}</span>", linkUrl));
             htmlBuilder.AppendLine("");

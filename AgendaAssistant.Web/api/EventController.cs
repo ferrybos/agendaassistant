@@ -18,7 +18,7 @@ namespace AgendaAssistant.Web.api
 
     public class ConfirmData
     {
-        public string EventCode { get; set; }
+        public string Code { get; set; }
     }
 
     [RoutePrefix("api/event")]
@@ -26,11 +26,13 @@ namespace AgendaAssistant.Web.api
     {
         private readonly IEventService _service;
         private readonly IAvailabilityService _availabilityService;
+        private readonly IMailService _mailService;
 
-        public EventController(IEventService eventService, IAvailabilityService availabilityService)
+        public EventController(IEventService eventService, IAvailabilityService availabilityService, IMailService mailService)
         {
             _service = eventService;
             _availabilityService = availabilityService;
+            _mailService = mailService;
         }
 
         // GET api/<controller>/5
@@ -80,8 +82,16 @@ namespace AgendaAssistant.Web.api
         {
             try
             {
-                var id = GuidUtil.ToGuid(data.EventCode);
-                _service.Confirm(id);
+                var id = GuidUtil.ToGuid(data.Code);
+                if (_service.Confirm(id))
+                {
+                    var evn = _service.Get(id);
+
+                    foreach (var participant in evn.Participants)
+                        _mailService.SendInvitation(evn, participant);
+
+                    _mailService.SendInvitationConfirmation(evn);
+                }
 
                 return Ok();
             }
@@ -114,6 +124,8 @@ namespace AgendaAssistant.Web.api
             try
             {
                 _service.Complete(value);
+                _mailService.SendEventConfirmation(value);
+
                 return Ok(string.Format("api/event/{0}", value.Code));
             }
             catch (Exception ex)

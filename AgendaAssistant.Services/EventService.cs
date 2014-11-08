@@ -20,7 +20,7 @@ namespace AgendaAssistant.Services
 
         void SelectFlight(Guid id, long flightSearchId, long flightId);
 
-        void Confirm(Guid id);
+        bool Confirm(Guid id);
     }
 
     /// <summary>
@@ -28,15 +28,13 @@ namespace AgendaAssistant.Services
     /// </summary>
     public class EventService : IEventService
     {
-        private readonly IMailService _mailService;
         private readonly EventRepository _repository;
         private readonly IDbContext _dbContext;
 
-        public EventService(IDbContext dbContext, IMailService mailService)
+        public EventService(IDbContext dbContext)
         {
             _dbContext = dbContext;
             _repository = new EventRepository(_dbContext);
-            _mailService = mailService;
         }
 
         public Event Get(Guid id)
@@ -55,25 +53,16 @@ namespace AgendaAssistant.Services
             // by default, add organizer as participant
             new ParticipantRepository(_dbContext).Add(dbEvent.ID, dbOrganizerPerson.ID);
 
-            // todo: _mailService.SendEventConfirmation(evn);
-
             return EntityMapper.Map(dbEvent);
         }
 
-        public void Confirm(Guid id)
+        public bool Confirm(Guid id)
         {
-            var dbEvent = _repository.Confirm(id);
-
-            // todo:
-            //foreach (var participant in dbEvent.Participants)
-            //    _mailService.SendInvitation(evn, participant);
-
-            //_mailService.SendInvitationConfirmation(evn);
+            return _repository.Confirm(id);
         }
 
         public void Complete(Event evn)
         {
-            // todo: insert flightsearch
             var dbEvent = _repository.Single(evn.Id);
 
             dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlightSearch);
