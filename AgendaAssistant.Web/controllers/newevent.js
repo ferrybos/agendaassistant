@@ -14,16 +14,6 @@
 
     $scope.event = { id: "", title: "", description: "", organizer: { name: "", email: "" } };
     
-    //getNewEvent();
-
-    //function getNewEvent() {
-    //    var newEvent = eventFactory.get({ id: "new" }, function () {
-    //        $scope.event = newEvent;
-    //        //$log.log("Event = " + angular.ToJSON($scope.event));
-    //    });
-
-    //};
-    
     var newEvent = function () {
         eventService.new($scope.event)
            .success(function (data) {
@@ -53,15 +43,26 @@
             this.push(flight);
         }, $scope.event.inboundFlightSearch.flights);
 
-        $log.log("Event = " + JSON.stringify($scope.event));
-        $log.log("DaysOfWeekOutbound = " + JSON.stringify($scope.event.outboundFlightSearch.daysOfWeek));
-        $log.log("DaysOfWeekInbound = " + JSON.stringify($scope.event.inboundFlightSearch.daysOfWeek));
+        $log.log("Complete: " + JSON.stringify($scope.event));
+        //$log.log("DaysOfWeekOutbound = " + JSON.stringify($scope.event.outboundFlightSearch.daysOfWeek));
+        //$log.log("DaysOfWeekInbound = " + JSON.stringify($scope.event.inboundFlightSearch.daysOfWeek));
 
-        $scope.event.$save(function (responseData) {
-            // Success
-            //$log.log("save success: " + JSON.stringify(responseData));
-            $location.path("/event/" + responseData.code);
-        });
+        eventService.complete($scope.event)
+           .success(function (data) {
+               $log.log("Event: " + JSON.stringify(data));
+               //$scope.CurrentStepIndex = 2;
+               $location.path("/event/" + $scope.event.code);
+           })
+           .error(function (error) {
+               $log.log("Error: " + error.exceptionMessage);
+               $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+           });
+
+        //$scope.event.$save(function (responseData) {
+        //    // Success
+        //    //$log.log("save success: " + JSON.stringify(responseData));
+        //    $location.path("/event/" + responseData.code);
+        //});
     };
 
     $scope.CancelNewEvent = function () {
@@ -88,24 +89,23 @@
         $scope.$broadcast('focusParticipantName');
     };
 
-    $scope.areOutboundDefaultsSet = false;
     $scope.SelectStepOutbound = function () {
         insights.logEvent('User selects outbound step');
         
-        if (!$scope.areOutboundDefaultsSet) {
+        if ($scope.event.outboundFlightSearch == null) {
             // set defaults on first hit
-            $scope.event.outboundFlightSearch.departureStation = "AMS";
-            $scope.event.outboundFlightSearch.arrivalStation = "BCN";
             var myDate = new Date();
-            var x = myDate.setDate(myDate.getDate() + 1);
-            var y = myDate.setDate(myDate.getDate() + 8);
-            $scope.event.outboundFlightSearch.beginDate = x;
-            $scope.event.outboundFlightSearch.endDate = y;
 
-            $scope.areOutboundDefaultsSet = true;
+            $scope.event.outboundFlightSearch = {
+                departureStation: "AMS",
+                arrivalStation: "BCN",
+                beginDate: myDate.setDate(myDate.getDate() + 1),
+                endDate: myDate.setDate(myDate.getDate() + 8),
+                flights: []
+            };
         }
 
-        $log.log($scope.event);
+        //$log.log($scope.event);
 
         //$scope.$apply();
         $scope.CurrentStepIndex = 3;
@@ -115,17 +115,18 @@
     $scope.SelectStepInbound = function () {
         insights.logEvent('User selects inbound step');
 
-        if (!$scope.areInboundDefaultsSet) {
+        if ($scope.event.inboundFlightSearch == null) {
             // set defaults on first hit
-            $scope.event.inboundFlightSearch.departureStation = $scope.event.outboundFlightSearch.arrivalStation;
-            $scope.event.inboundFlightSearch.arrivalStation = $scope.event.outboundFlightSearch.departureStation;
-            $scope.event.inboundFlightSearch.beginDate = $scope.event.outboundFlightSearch.beginDate;
-            $scope.event.inboundFlightSearch.endDate = $scope.event.outboundFlightSearch.endDate;
-            
-            $scope.areInboundDefaultsSet = true;
+            $scope.event.inboundFlightSearch = {
+                departureStation: $scope.event.outboundFlightSearch.arrivalStation,
+                arrivalStation: $scope.event.outboundFlightSearch.departureStation,
+                beginDate: $scope.event.outboundFlightSearch.beginDate,
+                endDate: $scope.event.outboundFlightSearch.endDate,
+                flights: []
+            };
         }
 
-        $scope.$apply();
+        //$scope.$apply();
         $scope.CurrentStepIndex = 4;
     };
 

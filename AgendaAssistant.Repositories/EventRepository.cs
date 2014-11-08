@@ -53,35 +53,6 @@ namespace AgendaAssistant.Repositories
             DbContext.SaveChanges();
 
             return dbEvent;
-
-
-            //// setup
-            //var dbPersonRepository = new DbPersonRepository(DbContext);
-            //var dbEventRepository = new DbEventRepository(DbContext);
-            //var dbParticipantRepository = new DbParticipantRepository(DbContext);
-
-            //// event and organizer
-            //var organizerPerson = dbPersonRepository.AddPerson(value.Organizer.Name, value.Organizer.Email);
-            //var dbEvent = dbEventRepository.AddEvent(value.Title, value.Description, organizerPerson, "", false);
-
-            //// participants
-            //foreach (var participant in value.Participants)
-            //{
-            //    var person = value.Organizer.Matches(participant.Name, participant.Email)
-            //                        ? organizerPerson
-            //                        : dbPersonRepository.AddPerson(participant.Name, participant.Email);
-
-            //    dbParticipantRepository.AddParticipant(dbEvent, person, "");
-            //}
-
-            //// flights
-            //dbEvent.OutboundFlightSearch = AddFlights(value.OutboundFlightSearch);
-            //dbEvent.InboundFlightSearch = AddFlights(value.InboundFlightSearch);
-
-            //// save event
-            //DbContext.SaveChanges();
-
-            //return EntityMapper.Map(dbEvent);
         }
 
         public Event Confirm(Guid id)
@@ -97,28 +68,7 @@ namespace AgendaAssistant.Repositories
             }
 
             return dbEvent;
-        }
-
-        //private DB.FlightSearch AddFlights(FlightSearch flightSearch)
-        //{
-        //    var dbFlightSearchRepository = new DbFlightSearchRepository(_db);
-        //    var dbFlightRepository = new DbFlightRepository(_db);
-
-        //    var dbFlightSearch = dbFlightSearchRepository.Create(flightSearch.ArrivalStation,
-        //                                                  flightSearch.DepartureStation, flightSearch.BeginDate,
-        //                                                  flightSearch.EndDate, flightSearch.DaysOfWeek, flightSearch.MaxPrice);
-
-        //    foreach (var flight in flightSearch.Flights)
-        //    {
-        //        var dbFlight = dbFlightRepository.Create(flight.CarrierCode, flight.FlightNumber,
-        //            flight.DepartureDate, flight.STD, flight.STA, (int)(flight.Price * 100));
-        //        dbFlightSearch.Flights.Create(dbFlight);
-        //    }
-
-        //    return dbFlightSearch;
-        //}
-
-        
+        }      
 
         //public void SelectFlight(long flightSearchId, long flightId)
         //{

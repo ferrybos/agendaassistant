@@ -23,6 +23,9 @@ namespace AgendaAssistant.Entities
 
         public void AddAvailabilities(List<Availability> availabilities)
         {
+            if (availabilities.Count == 0)
+                return;
+
             foreach (var flight in Flights)
             {
                 flight.Availabilities.AddRange(availabilities.Where(a => a.FlightId.Equals(flight.Id)));

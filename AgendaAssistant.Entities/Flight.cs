@@ -23,7 +23,10 @@ namespace AgendaAssistant.Entities
         {
             get
             {
-                return Availabilities.Count == 0 ? (short)0 : (short)(Availabilities.Average(a => a.Value));
+                if (Availabilities == null)
+                    return 0;
+
+                return Availabilities.Count == 0 ? (short) 0 : (short) (Availabilities.Average(a => a.Value));
             }
         }
 

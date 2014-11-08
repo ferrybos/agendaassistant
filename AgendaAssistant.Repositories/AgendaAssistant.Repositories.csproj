@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="CodeString.cs" />
     <Compile Include="AvailabilityRepository.cs" />
+    <Compile Include="FlightSearchRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="EmailRepository.cs" />
     <Compile Include="EntityMapper.cs" />

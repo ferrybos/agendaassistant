@@ -4,9 +4,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Entities;
+using AgendaAssistant.DB;
 using AgendaAssistant.Repositories;
 using AgendaAssistant.Shared;
+using Event = AgendaAssistant.Entities.Event;
 
 namespace AgendaAssistant.Services
 {
@@ -15,10 +16,7 @@ namespace AgendaAssistant.Services
         Event Get(Guid id);
         Event Create(string title, string description, string name, string email);
 
-        void AddParticipant(Guid id, string name, string email);
-        void DeleteParticipant(Guid id, string email);
-
-        void Save(Event evn);
+        void Complete(Event evn);
 
         void SelectFlight(Guid id, long flightSearchId, long flightId);
 
@@ -73,19 +71,36 @@ namespace AgendaAssistant.Services
             //_mailService.SendInvitationConfirmation(evn);
         }
 
-        public void AddParticipant(Guid id, string name, string email)
+        public void Complete(Event evn)
         {
-            
+            // todo: insert flightsearch
+            var dbEvent = _repository.Single(evn.Id);
+
+            dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlightSearch);
+            dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlightSearch);
+
+            _dbContext.Current.SaveChanges();
         }
 
-        public void DeleteParticipant(Guid id, string email)
+        private FlightSearch AddFlightSearch(Entities.FlightSearch flightSearch)
         {
-            throw new NotImplementedException();
-        }
+            var flightSearchRepository = new FlightSearchRepository(_dbContext);
 
-        public void Save(Event evn)
-        {
-            throw new NotImplementedException();
+            var dbFlightSearch = flightSearchRepository.Add(
+                flightSearch.DepartureStation,
+                flightSearch.ArrivalStation,
+                flightSearch.BeginDate,
+                flightSearch.EndDate,
+                flightSearch.DaysOfWeek,
+                flightSearch.MaxPrice);
+
+            foreach (var flight in flightSearch.Flights)
+            {
+                flightSearchRepository.AddFlight(dbFlightSearch, flight.CarrierCode, flight.FlightNumber,
+                                                 flight.DepartureDate, flight.STA, flight.STD, (int)(flight.Price*100));
+            }
+
+            return dbFlightSearch;
         }
 
         public void SelectFlight(Guid id, long flightSearchId, long flightId)

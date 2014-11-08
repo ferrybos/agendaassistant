@@ -107,14 +107,14 @@ namespace AgendaAssistant.Web.api
         }
 
         // PUT api/<controller>/5
-        [Route("{id}")]
-        [HttpPut]
-        public IHttpActionResult Put(string id, [FromBody] Event value)
+        [Route("complete")]
+        [HttpPost]
+        public IHttpActionResult Complete([FromBody] Event value)
         {
             try
             {
-                _service.Save(value);
-                return Ok(string.Format("api/event/{0}", GuidUtil.ToString(value.Id)));
+                _service.Complete(value);
+                return Ok(string.Format("api/event/{0}", value.Code));
             }
             catch (Exception ex)
             {

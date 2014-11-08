@@ -15,8 +15,11 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
     var urlBase = '/api/event';
 
     this.new = function(event) {
-        //$log.log("New event: " + JSON.stringify(event));
         return $http.post(urlBase, event);
+    };
+
+    this.complete = function (event) {
+        return $http.post(urlBase + '/complete', event);
     };
 
     this.confirm = function (code) {
