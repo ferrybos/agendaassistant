@@ -3,8 +3,8 @@
         <span ng-class="isActionsExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Acties
     </div>
     <div class="panel-body" ng-show="isActionsExpanded">
-        <a href="{{::availabilityUrl}}/{{::event.organizer.id}}" style="margin-right: 20px"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid wijzigen</a>
-        <a href="{{::participantUrl}}/{{::event.organizer.id}}" style="margin-right: 20px"><span class="glyphicon glyphicon-briefcase" style="margin-right: 4px"></span>Boekingsgegevens wijzigen</a>
+        <a href="#/availability/{{::event.organizerParticipantCode}}" style="margin-right: 20px"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid wijzigen</a>
+        <a href="#/participant/{{::event.organizerParticipantCode}}" style="margin-right: 20px"><span class="glyphicon glyphicon-briefcase" style="margin-right: 4px"></span>Boekingsgegevens wijzigen</a>
         <a href="" ng-click="selectPushPin()" style="margin-right: 20px"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
         <a href="" ng-click="openDeepLink()" style="margin-right: 20px"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</a>
     </div>

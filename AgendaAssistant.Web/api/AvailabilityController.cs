@@ -16,31 +16,20 @@ namespace AgendaAssistant.Web.api
     public class AvailabilityController : ApiController
     {
         private readonly IAvailabilityService _service;
-        private readonly IEventService _eventService;
 
-        public AvailabilityController(IAvailabilityService availabilityService, IEventService eventService)
+        public AvailabilityController(IAvailabilityService availabilityService)
         {
             _service = availabilityService;
-            _eventService = eventService;
         }
 
-        [Route("{eventId}/{participantId}")]
+        [Route("{participantId}")]
         [HttpGet]
-        public AvailabilityModel Get(string eventId, string participantId)
+        public IHttpActionResult Get(string participantId)
         {
-            // todo: no other participants
-            var evn = _eventService.Get(GuidUtil.ToGuid(eventId));
-            var availabilities = _service.GetByParticipant(GuidUtil.ToGuid(participantId));
-
-            // map availabilities to flightsearch
-            evn.OutboundFlightSearch.AddAvailabilities(availabilities);
-            evn.InboundFlightSearch.AddAvailabilities(availabilities);
+            var evn = _service.Get(GuidUtil.ToGuid(participantId));
 
             // fetch existing event
-            return new AvailabilityModel()
-                {
-                    Event = evn
-                };
+            return Ok(evn);
         }
 
         [Route("")]

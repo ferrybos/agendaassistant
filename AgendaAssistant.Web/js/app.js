@@ -18,8 +18,8 @@ app.config(['$routeProvider', '$locationProvider', 'insightsProvider', function 
         when('/newevent', { templateUrl: 'views/newevent.html', controller: 'NewEventCtrl' }).
         when('/event/:id', { templateUrl: 'views/event.html', controller: 'EventCtrl' }).
         when('/confirm/:id', { templateUrl: 'views/confirm.html', controller: 'ConfirmCtrl' }).
-        when('/availability/:eventid/:personid', { templateUrl: 'views/availability.html', controller: 'AvailabilityCtrl' }).
-        when('/participant/:eventid/:personid', { templateUrl: 'views/participant.html', controller: 'ParticipantCtrl' }).
+        when('/availability/:participantid', { templateUrl: 'views/availability.html', controller: 'AvailabilityCtrl' }).
+        when('/participant/:participantid', { templateUrl: 'views/participant.html', controller: 'ParticipantCtrl' }).
         otherwise({ redirectTo: '/' });
     
     // Add application insights id here

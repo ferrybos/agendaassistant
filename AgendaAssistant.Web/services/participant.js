@@ -1,12 +1,8 @@
 ﻿app.service('participantService', ['$http', '$log', function ($http, $log) {
     var urlBase = '/api/participant';
 
-    this.get = function (eventid, personid) {
-        var queryValues = "/{0}/{1}"
-            .replace('{0}', eventid)
-            .replace('{1}', personid);
-
-        return $http.get(urlBase + queryValues);
+    this.get = function (participantid) {
+        return $http.get(urlBase + "/" + participantid);
     };
 
     this.post = function (participant) {

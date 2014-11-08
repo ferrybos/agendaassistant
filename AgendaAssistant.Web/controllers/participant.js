@@ -8,7 +8,7 @@
     getData();
 
     function getData() {
-        participantService.get($routeParams.eventid, $routeParams.personid)
+        participantService.get($routeParams.participantid)
             .success(function(data) {
                 $log.log("participant = " + JSON.stringify(data));
                 $scope.participant = data;

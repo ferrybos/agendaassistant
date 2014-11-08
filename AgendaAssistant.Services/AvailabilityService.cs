@@ -11,7 +11,7 @@ namespace AgendaAssistant.Services
 {
     public interface IAvailabilityService
     {
-        List<Availability> GetByParticipant(Guid participantId);
+        Event Get(Guid participantId);
         List<Availability> GetByEvent(Guid eventId);
         short CalculateAvailabilityPercentage(Flight flight);
         void Update(Availability availability);
@@ -51,14 +51,31 @@ namespace AgendaAssistant.Services
             return result;
         }
 
-        public List<Availability> GetByParticipant(Guid participantId)
+        public Event Get(Guid participantId)
         {
+            var dbParticipant = new ParticipantRepository(_dbContext).Single(participantId);
+            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
+
+            var evn = EntityMapper.Map(dbEvent, includeParticipants: false);
+            evn.Participants.Add(EntityMapper.Map(dbParticipant));
+
             var dbAvailabilities = _repository.SelectAll(participantId);
 
-            var result = new List<Availability>();
-            dbAvailabilities.ForEach(a => result.Add(EntityMapper.Map(a)));
-            
-            return result;
+            if (dbAvailabilities.Count == 0)
+            {
+                // create if not exist yet (first time participant visits the event)
+                dbAvailabilities.AddRange(evn.OutboundFlightSearch.Flights.Select(flight => _repository.Create(participantId, flight.Id)));
+                dbAvailabilities.AddRange(evn.InboundFlightSearch.Flights.Select(flight => _repository.Create(participantId, flight.Id)));
+            }
+
+            var availabilities = new List<Availability>();
+            dbAvailabilities.ForEach(a => availabilities.Add(EntityMapper.Map(a)));
+
+            // map availabilities to flightsearch
+            evn.OutboundFlightSearch.AddAvailabilities(availabilities);
+            evn.InboundFlightSearch.AddAvailabilities(availabilities);
+
+            return evn;
         }
 
         public void Update(Availability availability)

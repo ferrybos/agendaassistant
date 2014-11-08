@@ -10,7 +10,7 @@ namespace AgendaAssistant.Repositories
 {
     public static class EntityMapper
     {
-        public static Event Map(DB.Event dbEvent, bool recursive = true)
+        public static Event Map(DB.Event dbEvent, bool includeParticipants = true, bool includeFlights = true)
         {
             var evn = new Event()
                 {
@@ -23,9 +23,13 @@ namespace AgendaAssistant.Repositories
                     Participants = new List<Participant>()
                 };
 
-            if (recursive)
+            if (includeParticipants)
             {
                 dbEvent.Participants.ToList().ForEach(p => evn.Participants.Add(Map(p)));
+            }
+
+            if (includeFlights)
+            {
                 evn.OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch);
                 evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch);
             }
@@ -55,8 +59,8 @@ namespace AgendaAssistant.Repositories
             var flightSearch = new FlightSearch
                 {
                     Id = dbFlightSearch.ID,
-                    DepartureStation = dbFlightSearch.DepartureStation,
-                    ArrivalStation = dbFlightSearch.ArrivalStation,
+                    DepartureStation = dbFlightSearch.DepartureStation.Trim(),
+                    ArrivalStation = dbFlightSearch.ArrivalStation.Trim(),
                     BeginDate = dbFlightSearch.StartDate,
                     EndDate = dbFlightSearch.EndDate,
                     DaysOfWeek = (short)dbFlightSearch.DaysOfWeek,
@@ -82,9 +86,9 @@ namespace AgendaAssistant.Repositories
                 {
                     Id = dbFlight.ID,
                     CarrierCode = dbFlight.CarrierCode,
-                    FlightNumber = (short) dbFlight.FlightNumber,
-                    ArrivalStation = dbFlight.FlightSearch.ArrivalStation,
-                    DepartureStation = dbFlight.FlightSearch.DepartureStation,
+                    FlightNumber = (short)dbFlight.FlightNumber,
+                    ArrivalStation = dbFlight.FlightSearch.ArrivalStation.Trim(),
+                    DepartureStation = dbFlight.FlightSearch.DepartureStation.Trim(),
                     DepartureDate = dbFlight.DepartureDate,
                     STA = dbFlight.STA,
                     STD = dbFlight.STD,
@@ -96,8 +100,11 @@ namespace AgendaAssistant.Repositories
         {
             return new Availability
             {
+                ParticipantId = dbAvailability.ParticipantID,
+                FlightId = dbAvailability.FlightID,
                 Value = dbAvailability.Value ?? 0,
-                CommentText = dbAvailability.Comment
+                CommentText = dbAvailability.Comment.Trim(),
+                Name = dbAvailability.Participant.Person.Name // todo: improve!!!
             };
         }
 
@@ -107,7 +114,7 @@ namespace AgendaAssistant.Repositories
             {
                 Id = dbParticipant.ID,
 
-                EventId = dbParticipant.EventID,              
+                EventId = dbParticipant.EventID,
                 Person = Map(dbParticipant.Person),
 
                 Bagage = dbParticipant.Bagage.Trim()

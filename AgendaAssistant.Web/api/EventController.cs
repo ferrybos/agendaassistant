@@ -51,6 +51,11 @@ namespace AgendaAssistant.Web.api
                 participant.HasConfirmed = eventAvailabilities.Any(a => a.ParticipantId == participant.Id);
             }
 
+            var organizerParticipant = evn.Participants.SingleOrDefault(p => p.Person.Id.Equals(evn.Organizer.Id));
+
+            if (organizerParticipant != null)
+                evn.OrganizerParticipantCode = organizerParticipant.Code;
+
             return evn;
         }
 

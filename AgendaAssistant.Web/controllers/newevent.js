@@ -44,8 +44,6 @@
         }, $scope.event.inboundFlightSearch.flights);
 
         $log.log("Complete: " + JSON.stringify($scope.event));
-        //$log.log("DaysOfWeekOutbound = " + JSON.stringify($scope.event.outboundFlightSearch.daysOfWeek));
-        //$log.log("DaysOfWeekInbound = " + JSON.stringify($scope.event.inboundFlightSearch.daysOfWeek));
 
         eventService.complete($scope.event)
            .success(function (data) {
@@ -57,12 +55,6 @@
                $log.log("Error: " + error.exceptionMessage);
                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
            });
-
-        //$scope.event.$save(function (responseData) {
-        //    // Success
-        //    //$log.log("save success: " + JSON.stringify(responseData));
-        //    $location.path("/event/" + responseData.code);
-        //});
     };
 
     $scope.CancelNewEvent = function () {

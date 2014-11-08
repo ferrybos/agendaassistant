@@ -5,8 +5,8 @@
     $scope.isActionsExpanded = false;
     $scope.isReminderSectionExpanded = false;
     $scope.isConfirming = false;
-    $scope.availabilityUrl = "#/availability/" + $routeParams.id;
-    $scope.participantUrl = "#/participant/" + $routeParams.id;
+    $scope.availabilityUrl = "#/availability/";
+    $scope.participantUrl = "#/participant/";
     $scope.isPushPinSelected = false;
     
     getEvent();
@@ -15,6 +15,7 @@
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
+            $log.log("Event: " + JSON.stringify($scope.event));
         });
     };
 
