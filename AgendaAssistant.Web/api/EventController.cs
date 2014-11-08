@@ -38,14 +38,6 @@ namespace AgendaAssistant.Web.api
         [HttpGet]
         public Event Get(string id)
         {
-            //if (id == "new")
-            //{
-            //    // returns the model so it does not have to be duplicated in javascript
-            //    var newEvent = EventFactory.NewEvent();
-            //    return newEvent;
-            //}
-            
-            // fetch existing event
             var evn = _service.Get(GuidUtil.ToGuid(id));
 
             var eventAvailabilities = _availabilityService.GetByEvent(evn.Id);
@@ -63,15 +55,17 @@ namespace AgendaAssistant.Web.api
         // POST api/<controller>
         [Route("")]
         [HttpPost]
-        public IHttpActionResult New([FromBody]NewEventData data)
+        public IHttpActionResult Post([FromBody]Event data)
         {
+            //System.Threading.Thread.Sleep(2000);
+
             // create new event
             try
             {
-                var newEvent = _service.Create(data.Title, data.Description, data.Name, data.Email);
+                var newEvent = _service.Create(data.Title, data.Description, data.Organizer.Name, data.Organizer.Email);
 
-                return Created(string.Format("api/event/{0}", GuidUtil.ToString(newEvent.Id)),
-                               Json(new { Event = newEvent }).Content);
+                //Json(new { Event = newEvent }).Content);
+                return Created(string.Format("api/event/{0}", newEvent.Code), Json(newEvent).Content);
             }
             catch (Exception ex)
             {

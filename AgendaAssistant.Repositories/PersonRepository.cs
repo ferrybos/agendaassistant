@@ -74,6 +74,7 @@ namespace AgendaAssistant.Repositories
             var dbPerson = DbContext.Persons.Create();
             DbContext.Persons.Add(dbPerson);
 
+            dbPerson.ID = Guid.NewGuid();
             dbPerson.Name = name;
             dbPerson.Email = email;
 

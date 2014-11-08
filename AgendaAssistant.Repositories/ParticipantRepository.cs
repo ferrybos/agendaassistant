@@ -45,8 +45,10 @@ namespace AgendaAssistant.Repositories
             var dbParticipant = DbContext.Participants.Create();
             DbContext.Participants.Add(dbParticipant);
 
+            dbParticipant.ID = Guid.NewGuid();
             dbParticipant.EventID = eventId;
             dbParticipant.PersonID = personId;
+            dbParticipant.Bagage = "";
 
             DbContext.SaveChanges();
 

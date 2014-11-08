@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, eventFactory, insights) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, eventFactory, eventService, participantService, insights) {
     insights.logEvent('NewEventCtrl Activated');
     
     $scope.constants = Constants;
@@ -12,14 +12,29 @@
     $scope.outboundFlights = null;
     $scope.inboundFlights = null;
 
-    getNewEvent();
+    $scope.event = { id: "", title: "", description: "", organizer: { name: "", email: "" } };
+    
+    //getNewEvent();
 
-    function getNewEvent() {
-        var newEvent = eventFactory.get({ id: "new" }, function () {
-            $scope.event = newEvent;
-            //$log.log("Event = " + angular.ToJSON($scope.event));
-        });
+    //function getNewEvent() {
+    //    var newEvent = eventFactory.get({ id: "new" }, function () {
+    //        $scope.event = newEvent;
+    //        //$log.log("Event = " + angular.ToJSON($scope.event));
+    //    });
 
+    //};
+    
+    var newEvent = function () {
+        eventService.new($scope.event)
+           .success(function (data) {
+               $log.log("Event: " + JSON.stringify(data));
+               //$scope.CurrentStepIndex = 2;
+               $scope.event = data;
+           })
+           .error(function (error) {
+               $log.log("Error: " + error.exceptionMessage);
+               $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+           });
     };
 
     $scope.CreateEvent = function () {
@@ -63,15 +78,14 @@
     $scope.SelectStepParticipants = function () {
         insights.logEvent('User selects participants step');
         
-        $scope.$broadcast('focusParticipantName');
-
-        if (!$scope.isOrganizerAddedToParticipants) {
-            // Add organizer to participants list           
-            addParticipantInternal($scope.event.organizer.name, $scope.event.organizer.email);
-            $scope.isOrganizerAddedToParticipants = true;
+        if ($scope.event.id == "") {
+            newEvent($scope.event);
+        } else {
+            //
         }
-
+        
         $scope.CurrentStepIndex = 2;
+        $scope.$broadcast('focusParticipantName');
     };
 
     $scope.areOutboundDefaultsSet = false;
@@ -117,8 +131,20 @@
 
     $scope.AddParticipant = function () {
         insights.logEvent('User Creates participant');
+       
+        var participant = { eventId: $scope.event.id, person: { name: $scope.newParticipantName, email: $scope.newParticipantEmail } };
 
-        addParticipantInternal($scope.newParticipantName, $scope.newParticipantEmail);
+        participantService.post(participant)
+            .success(function (data) {
+                $log.log("Participant: " + JSON.stringify(data));
+                //$scope.event = data;
+                $scope.event.participants.push(data);
+            })
+            .error(function (error) {
+                $log.log("Error: " + error.exceptionMessage);
+                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+            });
+
         clearParticipantInput();
         $scope.$broadcast('focusParticipantName');
     };
@@ -126,11 +152,17 @@
     $scope.DeleteParticipant = function (index) {
         insights.logEvent('User deletes participant');
 
-        $scope.event.participants.splice(index, 1);
-    };
-
-    function addParticipantInternal(name, email) {
-        $scope.event.participants.push({ name: name, email: email });
+        var participant = $scope.event.participants[index];
+        
+        participantService.delete(participant)
+            .success(function (data) {
+                $log.log("Delete participant: " + JSON.stringify(data));
+                $scope.event.participants.splice(index, 1);
+            })
+            .error(function (error) {
+                $log.log("Error: " + error.exceptionMessage);
+                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+            });
     };
 
     function clearParticipantInput() {

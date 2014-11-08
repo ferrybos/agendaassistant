@@ -12,7 +12,9 @@ namespace AgendaAssistant.Services
     public interface IParticipantService
     {
         Participant Get(Guid id);
+        Participant Add(Guid eventId, string name, string email);
         void Update(Participant participant);
+        void Delete(Guid id);
     }
 
     public class ParticipantService : IParticipantService
@@ -56,9 +58,9 @@ namespace AgendaAssistant.Services
                                      person.DateOfBirth, person.Gender);
         }
 
-        public void Delete(Participant participant)
+        public void Delete(Guid id)
         {
-            _repository.Delete(participant.Id);
+            _repository.Delete(id);
         }
     }
 }

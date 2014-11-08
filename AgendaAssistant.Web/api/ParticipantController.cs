@@ -50,13 +50,14 @@ namespace AgendaAssistant.Web.api
         /// </summary>
         [Route("")]
         [HttpPost]
-        public IHttpActionResult Post([FromBody] ParticipantData data)
+        public IHttpActionResult Post([FromBody] Participant participant)
         {
             // new participant
             try
             {
-                //_service.Update(participant);
-                return Ok();
+                var newParticipant = _service.Add(participant.EventId, participant.Person.Name, participant.Person.Email);
+
+                return Created(string.Format("api/participant/{0}", newParticipant.Code), Json(newParticipant).Content);
             }
             catch (Exception ex)
             {
@@ -86,14 +87,14 @@ namespace AgendaAssistant.Web.api
         /// <summary>
         /// Called to delete participants
         /// </summary>
-        [Route("")]
+        [Route("{id}")]
         [HttpDelete]
-        public IHttpActionResult Delete([FromBody] ParticipantData data)
+        public IHttpActionResult Delete(string id)
         {
-            // update participant
+            // delete participant
             try
             {
-                //_service.Delete(..);
+                _service.Delete(GuidUtil.ToGuid(id));
                 return Ok();
             }
             catch (Exception ex)

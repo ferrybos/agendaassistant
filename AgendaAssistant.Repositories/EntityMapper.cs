@@ -20,9 +20,7 @@ namespace AgendaAssistant.Repositories
                     Title = dbEvent.Title,
                     IsConfirmed = dbEvent.IsConfirmed,
                     Organizer = Map(dbEvent.Organizer),
-                    Participants = new List<Participant>(),
-                    OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch),
-                    InboundFlightSearch = Map(dbEvent.InboundFlightSearch)
+                    Participants = new List<Participant>()
                 };
 
             if (recursive)
@@ -51,6 +49,9 @@ namespace AgendaAssistant.Repositories
 
         public static FlightSearch Map(DB.FlightSearch dbFlightSearch)
         {
+            if (dbFlightSearch == null)
+                return null;
+
             var flightSearch = new FlightSearch
                 {
                     Id = dbFlightSearch.ID,
@@ -106,11 +107,7 @@ namespace AgendaAssistant.Repositories
             {
                 Id = dbParticipant.ID,
 
-                EventId = dbParticipant.EventID,
-
-                //Name = dbParticipant.Person.Name,
-                //Email = dbParticipant.Person.Email,
-                
+                EventId = dbParticipant.EventID,              
                 Person = Map(dbParticipant.Person),
 
                 Bagage = dbParticipant.Bagage.Trim()

@@ -5,28 +5,28 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5fa6680d7dec4eb0a957df681893af5e" Name="Diagram1" ZoomLevel="100">
-        <EntityTypeShape EntityType="AgendaAssistantModel.Availability" Width="1.5" PointX="10.5" PointY="5.375" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Comment" Width="1.5" PointX="7.5" PointY="9.5" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.EmailType" Width="1.5" PointX="6" PointY="1.625" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Event" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Availability" Width="1.5" PointX="8.25" PointY="5.375" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Comment" Width="1.5" PointX="5.25" PointY="9.5" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.EmailType" Width="1.5" PointX="9" PointY="2.625" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Flight" Width="1.5" PointX="1.5" PointY="9.25" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.FlightSearch" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Participant" Width="1.5" PointX="5.25" PointY="5" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.FlightSearch" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Participant" Width="1.5" PointX="3" PointY="5" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Person" Width="1.5" PointX="0.75" PointY="5" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Flight" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Participant" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Comment_Participant" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Flight_FlightSearch" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Person" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Email" Width="1.5" PointX="11.25" PointY="4.875" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Email_EmailType" />
+        <AssociationConnector Association="AgendaAssistantModel.Recipient" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Event" Width="1.5" PointX="6" PointY="4.5" />
+        <AssociationConnector Association="AgendaAssistantModel.FK_Email_Event" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_InboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_Organizer" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Event" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Flight_FlightSearch" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Person" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Email" Width="1.5" PointX="8.25" PointY="4.875" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Email_EmailType" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Email_Event" />
-        <AssociationConnector Association="AgendaAssistantModel.Recipient" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

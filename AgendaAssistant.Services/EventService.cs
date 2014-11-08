@@ -54,6 +54,9 @@ namespace AgendaAssistant.Services
             var dbOrganizerPerson = new PersonRepository(_dbContext).AddOrGetExisting(name, email);
             var dbEvent = _repository.Create(title, description, dbOrganizerPerson);
 
+            // by default, add organizer as participant
+            new ParticipantRepository(_dbContext).Add(dbEvent.ID, dbOrganizerPerson.ID);
+
             // todo: _mailService.SendEventConfirmation(evn);
 
             return EntityMapper.Map(dbEvent);

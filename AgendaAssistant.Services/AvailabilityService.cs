@@ -41,9 +41,12 @@ namespace AgendaAssistant.Services
             var dbEvent = new EventRepository(_dbContext).Single(eventId);
 
             var result = new List<Availability>();
-            
-            _repository.SelectAll(dbEvent.OutboundFlightSearchID).ForEach(a => result.Add(EntityMapper.Map(a)));
-            _repository.SelectAll(dbEvent.InboundFlightSearchID).ForEach(a => result.Add(EntityMapper.Map(a)));
+
+            if (dbEvent.OutboundFlightSearchID.HasValue)
+                _repository.SelectAll(dbEvent.OutboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
+
+            if (dbEvent.InboundFlightSearchID.HasValue)
+                _repository.SelectAll(dbEvent.InboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
 
             return result;
         }

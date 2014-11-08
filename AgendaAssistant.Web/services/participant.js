@@ -1,4 +1,4 @@
-﻿app.service('participantService', ['$http', '$log', '$filter', function ($http, $log, $filter) {
+﻿app.service('participantService', ['$http', '$log', function ($http, $log) {
     var urlBase = '/api/participant';
 
     this.get = function (eventid, personid) {
@@ -9,7 +9,16 @@
         return $http.get(urlBase + queryValues);
     };
 
-    this.update = function (participant) {
+    this.post = function (participant) {
         return $http.post(urlBase, participant);
+    };
+       
+    this.update = function (participant) {
+        return $http.put(urlBase, participant);
+    };
+    
+    this.delete = function (participant) {
+        $log.log("Delete: " + participant.code);
+        return $http.delete(urlBase + "/" + participant.code);
     };
 }]);

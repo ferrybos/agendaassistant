@@ -16,8 +16,8 @@ namespace AgendaAssistant.DB
     {
         public Person()
         {
-            this.Events = new HashSet<Event>();
             this.Participants = new HashSet<Participant>();
+            this.Events = new HashSet<Event>();
         }
     
         public System.Guid ID { get; set; }
@@ -28,7 +28,7 @@ namespace AgendaAssistant.DB
         public Nullable<byte> Gender { get; set; }
         public Nullable<System.DateTime> DateOfBirth { get; set; }
     
-        public virtual ICollection<Event> Events { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
+        public virtual ICollection<Event> Events { get; set; }
     }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using AgendaAssistant.DB.Repositories;
 using AgendaAssistant.Repositories;
 using AgendaAssistant.Repositories.Mocks;
 using AgendaAssistant.Services;
+using AgendaAssistant.Shared;
 using StructureMap;
 
 namespace AgendaAssistant.Web.Startup
@@ -22,6 +24,7 @@ namespace AgendaAssistant.Web.Startup
         {
             var container = new Container(c =>
                 {
+                    c.For<IDbContext>().Add<AgendaAssistantDbContext>();
                     c.For<IFlightService>().Use<FlightService>();
                     c.For<IFlightRepository>().Use<FlightRepository>();
                     c.For<IEventService>().Use<EventService>();

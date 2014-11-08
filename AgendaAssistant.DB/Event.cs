@@ -16,8 +16,8 @@ namespace AgendaAssistant.DB
     {
         public Event()
         {
-            this.Participants = new HashSet<Participant>();
             this.Emails = new HashSet<Email>();
+            this.Participants = new HashSet<Participant>();
         }
     
         public System.Guid ID { get; set; }
@@ -26,14 +26,14 @@ namespace AgendaAssistant.DB
         public string Description { get; set; }
         public string Status { get; set; }
         public bool IsConfirmed { get; set; }
-        public long OutboundFlightSearchID { get; set; }
-        public long InboundFlightSearchID { get; set; }
+        public Nullable<long> OutboundFlightSearchID { get; set; }
+        public Nullable<long> InboundFlightSearchID { get; set; }
         public System.Guid OrganizerPersonID { get; set; }
     
+        public virtual ICollection<Email> Emails { get; set; }
         public virtual FlightSearch InboundFlightSearch { get; set; }
         public virtual Person Organizer { get; set; }
         public virtual FlightSearch OutboundFlightSearch { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }
-        public virtual ICollection<Email> Emails { get; set; }
     }
 }

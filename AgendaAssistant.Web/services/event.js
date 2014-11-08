@@ -11,11 +11,16 @@
     );
 });
 
-app.service('eventService', ['$http', '$log', '$filter', function ($http, $log, $filter) {
-    var urlBase = '/api/event/confirm';
+app.service('eventService', ['$http', '$log', function ($http, $log) {
+    var urlBase = '/api/event';
+
+    this.new = function(event) {
+        //$log.log("New event: " + JSON.stringify(event));
+        return $http.post(urlBase, event);
+    };
 
     this.confirm = function (code) {
         $log.log("Confirm event " + code);
-        return $http.post(urlBase, code);
+        return $http.post(urlBase + '/confirm', code);
     };
 }]);
