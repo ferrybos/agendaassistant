@@ -14,7 +14,7 @@
     };
     
     this.delete = function (participant) {
-        $log.log("Delete: " + participant.code);
-        return $http.delete(urlBase + "/" + participant.code);
+        $log.log("Delete: " + participant.id);
+        return $http.delete(urlBase + "/" + participant.id);
     };
 }]);

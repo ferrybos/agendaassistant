@@ -22,8 +22,8 @@
             <!--Step 2: Participants-->
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
             <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
-                <p class="help-block">Zul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen.</p>
-                <form ng-submit="AddParticipant()" name="participantsForm" novalidate>
+                <p class="help-block">Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Er mogen maximaal 9 deelnemers worden toegevoegd.</p>
+                <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
                     <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
                     <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
                     <button type="submit" ng-disabled="participantsForm.$invalid" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
@@ -32,7 +32,7 @@
                 <div class="list-group">
                     <div ng-repeat="participant in event.participants" class="repeat-animation">
                         <a class="list-group-item" style="cursor: pointer">
-                            <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px"><span class="glyphicon glyphicon-minus"></span></button>
+                            <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px" title="Deelnemer verwijderen"><span class="glyphicon glyphicon-minus"></span></button>
                             <h4 class="list-group-item-heading">{{participant.person.name}}</h4>
                             <p class="list-group-item-text">{{participant.person.email}}</p>
                         </a>
@@ -47,7 +47,7 @@
             <!--Step 3: Outbound flight search-->
             <!--<ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>-->
             <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
-                <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
+                <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren. Wanneer je alleen op specifieke dagen wilt, kun je weekdagen uit- of aanzetten. Met de maximum prijs kun je een budget per vlucht aangeven.</p>
                 <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>

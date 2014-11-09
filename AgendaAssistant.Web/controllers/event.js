@@ -42,10 +42,6 @@
     $scope.SelectFlightTab = function (value) {
         $scope.activeFlightTabIndex = value;
     };
-    
-    $scope.areFlightsSelected = function () {
-        return true;
-    };
 
     $scope.openDeepLink = function () {
         var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
@@ -66,5 +62,15 @@
             .replace('{flightNrDown3}', $scope.event.inboundFlightSearch.selectedFlight.flightNumber);
         
         $window.open(deeplinkUrl);
+    };
+
+    $scope.areSelectedFlightsInvalid = function() {
+        return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
+            $scope.event.outboundFlightSearch.selectedFlight.std > $scope.event.inboundFlightSearch.selectedFlight.std;
+    };
+
+    $scope.areSelectedFlightsValid = function () {
+        return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
+            $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
     };
 });
