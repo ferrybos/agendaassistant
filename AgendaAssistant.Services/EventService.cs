@@ -18,7 +18,7 @@ namespace AgendaAssistant.Services
 
         void Complete(Event evn);
 
-        void SelectFlight(string id, long flightSearchId, long flightId);
+        void SelectFlight(string eventId, long flightSearchId, long flightId);
 
         bool Confirm(string id);
     }
@@ -92,9 +92,14 @@ namespace AgendaAssistant.Services
             return dbFlightSearch;
         }
 
-        public void SelectFlight(string id, long flightSearchId, long flightId)
+        public void SelectFlight(string eventId, long flightSearchId, long flightId)
         {
-            //_repository.SelectFlight(flightSearchId, flightId);
+            _repository.Single(GuidUtil.ToGuid(eventId));
+
+            var dbFlightySearch = new FlightSearchRepository(_dbContext).Single(flightSearchId);
+
+            dbFlightySearch.SelectedFlightID = flightId;
+            _dbContext.Current.SaveChanges();
         }
     }
 }

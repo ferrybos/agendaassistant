@@ -111,7 +111,7 @@ namespace AgendaAssistant.Web.api
         {
             try
             {
-                // todo: _service.SelectFlight(flightSearchId, flightId);
+                _service.SelectFlight(id, flightSearchId, flightId);
                 return Ok();
             }
             catch (Exception ex)

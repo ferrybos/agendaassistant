@@ -54,5 +54,17 @@ namespace AgendaAssistant.Repositories
 
             DbContext.SaveChanges();
         }
+
+        public FlightSearch Single(long id)
+        {
+            var dbFlightSearch = DbContext.FlightSearches.SingleOrDefault(e => e.ID.Equals(id));
+
+            if (dbFlightSearch == null)
+            {
+                throw new ApplicationException(string.Format("FlightSearch not found with id {0}", id));
+            }
+
+            return dbFlightSearch;
+        }
     }
 }
