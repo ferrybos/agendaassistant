@@ -14,7 +14,7 @@ namespace AgendaAssistant.Repositories
         {
             var evn = new Event()
                 {
-                    Id = dbEvent.ID,
+                    Id = GuidUtil.ToString(dbEvent.ID),
                     Description = dbEvent.Description,
                     Status = dbEvent.Status,
                     Title = dbEvent.Title,
@@ -41,7 +41,7 @@ namespace AgendaAssistant.Repositories
         {
             return new Person
                 {
-                    Id = dbPerson.ID,
+                    Id = GuidUtil.ToString(dbPerson.ID),
                     Name = dbPerson.Name,
                     Email = dbPerson.Email,
                     FirstNameInPassport = dbPerson.FirstNameInPassport,
@@ -100,7 +100,7 @@ namespace AgendaAssistant.Repositories
         {
             return new Availability
             {
-                ParticipantId = dbAvailability.ParticipantID,
+                ParticipantId = GuidUtil.ToString(dbAvailability.ParticipantID),
                 FlightId = dbAvailability.FlightID,
                 Value = dbAvailability.Value ?? 0,
                 CommentText = dbAvailability.Comment.Trim(),
@@ -112,9 +112,9 @@ namespace AgendaAssistant.Repositories
         {
             return new Participant
             {
-                Id = dbParticipant.ID,
+                Id = GuidUtil.ToString(dbParticipant.ID),
 
-                EventId = dbParticipant.EventID,
+                EventId = GuidUtil.ToString(dbParticipant.EventID),
                 Person = Map(dbParticipant.Person),
 
                 Bagage = dbParticipant.Bagage.Trim()

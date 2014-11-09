@@ -1,6 +1,6 @@
 ﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $routeParams, eventService, $timeout) {
 
-    eventService.confirm({ code: $routeParams.id });
+    eventService.confirm($routeParams.id);
     
     // Go to event details after 3 seconds
     $timeout(function() {

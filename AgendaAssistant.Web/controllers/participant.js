@@ -1,7 +1,6 @@
 ﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, $timeout, participantService) {
-    $log.log('ParticipantCtrl');
     $scope.participant = null;
-    $scope.eventUrl = "#/event/" + $routeParams.eventid;
+    $scope.eventUrl = "";
     $rootScope.infoMessage = "";
     $rootScope.errorMessage = "";
     
@@ -12,12 +11,13 @@
             .success(function(data) {
                 $log.log("participant = " + JSON.stringify(data));
                 $scope.participant = data;
+                $scope.eventUrl = "#/event/" + data.eventId;
                 
                 $scope.$watch('participant.person.firstNameInPassport', debounceUpdate);
                 $scope.$watch('participant.person.lastNameInPassport', debounceUpdate);
                 $scope.$watch('participant.person.gender', debounceUpdate);
                 $scope.$watch('participant.person.dateOfBirth', debounceUpdate);
-                $scope.$watch('participant.baggage', debounceUpdate);
+                $scope.$watch('participant.bagage', debounceUpdate);
             })
             .error(function(error) {
                 $rootScope.errorMessage = error.message + " " + error.exceptionMessage;

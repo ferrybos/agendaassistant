@@ -11,10 +11,10 @@ namespace AgendaAssistant.Services
 {
     public interface IParticipantService
     {
-        Participant Get(Guid id);
-        Participant Add(Guid eventId, string name, string email);
+        Participant Get(string id);
+        Participant Add(string eventId, string name, string email);
         void Update(Participant participant);
-        void Delete(Guid id);
+        void Delete(string id);
     }
 
     public class ParticipantService : IParticipantService
@@ -31,16 +31,16 @@ namespace AgendaAssistant.Services
             _personRepository = new PersonRepository(_dbContext);
         }
 
-        public Participant Get(Guid id)
+        public Participant Get(string id)
         {
-            var dbParticipant = _repository.Single(id);
+            var dbParticipant = _repository.Single(GuidUtil.ToGuid(id));
 
             return EntityMapper.Map(dbParticipant);
         }
 
-        public Participant Add(Guid eventId, string name, string email)
+        public Participant Add(string eventId, string name, string email)
         {
-            var dbEvent = new EventRepository(_dbContext).Single(eventId);
+            var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
             var dbPerson = _personRepository.AddOrGetExisting(name, email);
             
             var dbParticipant = _repository.Add(dbEvent.ID, dbPerson.ID);
@@ -50,17 +50,17 @@ namespace AgendaAssistant.Services
 
         public void Update(Participant participant)
         {
-            _repository.Update(participant.Id, participant.Bagage);
+            _repository.Update(GuidUtil.ToGuid(participant.Id), participant.Bagage);
             
             var person = participant.Person;
-            _personRepository.Update(person.Id,
+            _personRepository.Update(GuidUtil.ToGuid(person.Id),
                                      person.FirstNameInPassport, person.LastNameInPassport,
                                      person.DateOfBirth, person.Gender);
         }
 
-        public void Delete(Guid id)
+        public void Delete(string id)
         {
-            _repository.Delete(id);
+            _repository.Delete(GuidUtil.ToGuid(id));
         }
     }
 }

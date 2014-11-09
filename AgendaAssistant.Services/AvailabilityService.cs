@@ -11,8 +11,8 @@ namespace AgendaAssistant.Services
 {
     public interface IAvailabilityService
     {
-        Event Get(Guid participantId);
-        List<Availability> GetByEvent(Guid eventId);
+        Event Get(string participantId);
+        List<Availability> GetByEvent(string eventId);
         short CalculateAvailabilityPercentage(Flight flight);
         void Update(Availability availability);
     }
@@ -36,9 +36,9 @@ namespace AgendaAssistant.Services
             return flight.Availabilities.Count == 0 ? (short) 0 : (short) (flight.Availabilities.Average(a => a.Value));
         }
 
-        public List<Availability> GetByEvent(Guid eventId)
+        public List<Availability> GetByEvent(string eventId)
         {
-            var dbEvent = new EventRepository(_dbContext).Single(eventId);
+            var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
 
             var result = new List<Availability>();
 
@@ -51,21 +51,23 @@ namespace AgendaAssistant.Services
             return result;
         }
 
-        public Event Get(Guid participantId)
+        public Event Get(string participantId)
         {
-            var dbParticipant = new ParticipantRepository(_dbContext).Single(participantId);
+            Guid id = GuidUtil.ToGuid(participantId);
+
+            var dbParticipant = new ParticipantRepository(_dbContext).Single(id);
             var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
             var evn = EntityMapper.Map(dbEvent, includeParticipants: false);
             evn.Participants.Add(EntityMapper.Map(dbParticipant));
 
-            var dbAvailabilities = _repository.SelectAll(participantId);
+            var dbAvailabilities = _repository.SelectAll(id);
 
             if (dbAvailabilities.Count == 0)
             {
                 // create if not exist yet (first time participant visits the event)
-                dbAvailabilities.AddRange(evn.OutboundFlightSearch.Flights.Select(flight => _repository.Create(participantId, flight.Id)));
-                dbAvailabilities.AddRange(evn.InboundFlightSearch.Flights.Select(flight => _repository.Create(participantId, flight.Id)));
+                dbAvailabilities.AddRange(evn.OutboundFlightSearch.Flights.Select(flight => _repository.Create(id, flight.Id)));
+                dbAvailabilities.AddRange(evn.InboundFlightSearch.Flights.Select(flight => _repository.Create(id, flight.Id)));
             }
 
             var availabilities = new List<Availability>();
@@ -80,9 +82,9 @@ namespace AgendaAssistant.Services
 
         public void Update(Availability availability)
         {
-            var dbParticipant = new ParticipantRepository(_dbContext).Single(availability.ParticipantId);
+            var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(availability.ParticipantId));
 
-            _repository.Update(availability.ParticipantId, availability.FlightId, availability.Value,
+            _repository.Update(GuidUtil.ToGuid(availability.ParticipantId), availability.FlightId, availability.Value,
                                availability.CommentText);
 
             // trigger new email to be sent by web job

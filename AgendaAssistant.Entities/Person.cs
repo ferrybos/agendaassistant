@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace AgendaAssistant.Entities
 {
-    //public static class PersonFactory
-    //{
-    //    public static Person NewPerson()
-    //    {
-    //        return new Person() { Id = 0 };
-    //    }
-    //}
-
     public enum Gender
     {
         Male,
@@ -22,7 +14,7 @@ namespace AgendaAssistant.Entities
 
     public class Person
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string Email { get; set; }
         public string Name { get; set; }

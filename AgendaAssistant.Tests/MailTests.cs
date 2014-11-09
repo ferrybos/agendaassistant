@@ -6,6 +6,7 @@ using AgendaAssistant.Entities;
 using AgendaAssistant.Mail;
 using AgendaAssistant.Repositories;
 using AgendaAssistant.Services;
+using AgendaAssistant.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgendaAssistant.Tests
@@ -24,13 +25,13 @@ namespace AgendaAssistant.Tests
 
             _event = new Event()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = GuidUtil.ToString(Guid.NewGuid()),
                     Title = "Weekendje Valencia",
                     Organizer = new Person() {Email = "ferrybos@gmail.com", Name = "Ferry Bos"}
                 };
 
-            var person = new Person() {Id = Guid.NewGuid(), Email = "ferrybos@gmail.com", Name = "Ferry"};
-            _participant = new Participant() {Id = Guid.NewGuid(), EventId = _event.Id, Person = person};
+            var person = new Person() {Id = GuidUtil.ToString(Guid.NewGuid()), Email = "ferrybos@gmail.com", Name = "Ferry"};
+            _participant = new Participant() {Id = GuidUtil.ToString(Guid.NewGuid()), EventId = _event.Id, Person = person};
         }
 
         [TestMethod]

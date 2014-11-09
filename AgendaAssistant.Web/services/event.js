@@ -22,8 +22,8 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
         return $http.post(urlBase + '/complete', event);
     };
 
-    this.confirm = function (code) {
-        $log.log("Confirm event " + code);
-        return $http.post(urlBase + '/confirm', code);
+    this.confirm = function (id) {
+        $log.log("Confirm event " + id);
+        return $http.post(urlBase + '/confirm', { id: id });
     };
 }]);

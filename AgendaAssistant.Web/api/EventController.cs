@@ -18,7 +18,7 @@ namespace AgendaAssistant.Web.api
 
     public class ConfirmData
     {
-        public string Code { get; set; }
+        public string Id { get; set; }
     }
 
     [RoutePrefix("api/event")]
@@ -40,7 +40,7 @@ namespace AgendaAssistant.Web.api
         [HttpGet]
         public Event Get(string id)
         {
-            var evn = _service.Get(GuidUtil.ToGuid(id));
+            var evn = _service.Get(id);
 
             var eventAvailabilities = _availabilityService.GetByEvent(evn.Id);
             evn.AddAvailabilities(eventAvailabilities);
@@ -54,7 +54,7 @@ namespace AgendaAssistant.Web.api
             var organizerParticipant = evn.Participants.SingleOrDefault(p => p.Person.Id.Equals(evn.Organizer.Id));
 
             if (organizerParticipant != null)
-                evn.OrganizerParticipantCode = organizerParticipant.Code;
+                evn.OrganizerParticipantCode = organizerParticipant.Id;
 
             return evn;
         }
@@ -72,7 +72,7 @@ namespace AgendaAssistant.Web.api
                 var newEvent = _service.Create(data.Title, data.Description, data.Organizer.Name, data.Organizer.Email);
 
                 //Json(new { Event = newEvent }).Content);
-                return Created(string.Format("api/event/{0}", newEvent.Code), Json(newEvent).Content);
+                return Created(string.Format("api/event/{0}", newEvent.Id), Json(newEvent).Content);
             }
             catch (Exception ex)
             {
@@ -87,10 +87,9 @@ namespace AgendaAssistant.Web.api
         {
             try
             {
-                var id = GuidUtil.ToGuid(data.Code);
-                if (_service.Confirm(id))
+                if (_service.Confirm(data.Id))
                 {
-                    var evn = _service.Get(id);
+                    var evn = _service.Get(data.Id);
 
                     foreach (var participant in evn.Participants)
                         _mailService.SendInvitation(evn, participant);
@@ -131,7 +130,7 @@ namespace AgendaAssistant.Web.api
                 _service.Complete(value);
                 _mailService.SendEventConfirmation(value);
 
-                return Ok(string.Format("api/event/{0}", value.Code));
+                return Ok(string.Format("api/event/{0}", value.Id));
             }
             catch (Exception ex)
             {

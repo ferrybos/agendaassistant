@@ -13,7 +13,7 @@
             .success(function(data) {
                 $log.log("event = " + JSON.stringify(data));
                 $scope.event = data;
-                $scope.eventUrl = "#/event/" + $scope.event.id;
+                $scope.eventUrl = "#/event/" + $scope.event.id; // + "/" + $routeParams.participantid;
             })
             .error(function(error) {
                 $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
@@ -24,10 +24,6 @@
     $scope.SelectFlightTab = function (value) {
         $scope.activeFlightTabIndex = value;
     };
-
-    //$scope.UpdateAvailability = function(availability) {
-    //    $log.log("UpdateAvailability: Value=" + availability.value + ", CommentText=" + availability.commentText);
-    //};
 });
 
 angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $timeout, $filter, $routeParams, Constants, availabilityService) {

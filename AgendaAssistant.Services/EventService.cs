@@ -13,14 +13,14 @@ namespace AgendaAssistant.Services
 {
     public interface IEventService
     {
-        Event Get(Guid id);
+        Event Get(string id);
         Event Create(string title, string description, string name, string email);
 
         void Complete(Event evn);
 
-        void SelectFlight(Guid id, long flightSearchId, long flightId);
+        void SelectFlight(string id, long flightSearchId, long flightId);
 
-        bool Confirm(Guid id);
+        bool Confirm(string id);
     }
 
     /// <summary>
@@ -37,10 +37,10 @@ namespace AgendaAssistant.Services
             _repository = new EventRepository(_dbContext);
         }
 
-        public Event Get(Guid id)
+        public Event Get(string id)
         {
             // fetch event (including complete tree)
-            var dbEvent = _repository.Single(id);
+            var dbEvent = _repository.Single(GuidUtil.ToGuid(id));
 
             return EntityMapper.Map(dbEvent);
         }
@@ -56,14 +56,14 @@ namespace AgendaAssistant.Services
             return EntityMapper.Map(dbEvent);
         }
 
-        public bool Confirm(Guid id)
+        public bool Confirm(string id)
         {
-            return _repository.Confirm(id);
+            return _repository.Confirm(GuidUtil.ToGuid(id));
         }
 
         public void Complete(Event evn)
         {
-            var dbEvent = _repository.Single(evn.Id);
+            var dbEvent = _repository.Single(GuidUtil.ToGuid(evn.Id));
 
             dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlightSearch);
             dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlightSearch);
@@ -92,7 +92,7 @@ namespace AgendaAssistant.Services
             return dbFlightSearch;
         }
 
-        public void SelectFlight(Guid id, long flightSearchId, long flightId)
+        public void SelectFlight(string id, long flightSearchId, long flightId)
         {
             //_repository.SelectFlight(flightSearchId, flightId);
         }

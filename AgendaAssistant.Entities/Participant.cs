@@ -9,14 +9,9 @@ namespace AgendaAssistant.Entities
 {
     public class Participant
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
-        public string Code
-        {
-            get { return GuidUtil.ToString(Id); }
-        }
-
-        public Guid EventId { get; set; }
+        public string EventId { get; set; }
         
         public Person Person { get; set; }
 

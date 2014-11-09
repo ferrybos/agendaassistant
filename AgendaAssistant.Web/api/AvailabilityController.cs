@@ -26,7 +26,7 @@ namespace AgendaAssistant.Web.api
         [HttpGet]
         public IHttpActionResult Get(string participantId)
         {
-            var evn = _service.Get(GuidUtil.ToGuid(participantId));
+            var evn = _service.Get(participantId);
 
             // fetch existing event
             return Ok(evn);

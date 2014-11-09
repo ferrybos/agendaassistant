@@ -49,7 +49,7 @@
            .success(function (data) {
                $log.log("Event: " + JSON.stringify(data));
                //$scope.CurrentStepIndex = 2;
-               $location.path("/event/" + $scope.event.code);
+               $location.path("/event/" + $scope.event.id);
            })
            .error(function (error) {
                $log.log("Error: " + error.exceptionMessage);
@@ -92,7 +92,7 @@
                 departureStation: "AMS",
                 arrivalStation: "BCN",
                 beginDate: myDate.setDate(myDate.getDate() + 1),
-                endDate: myDate.setDate(myDate.getDate() + 8),
+                endDate: myDate.setDate(myDate.getDate() + 6),
                 flights: []
             };
         }

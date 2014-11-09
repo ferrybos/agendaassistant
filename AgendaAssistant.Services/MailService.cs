@@ -21,17 +21,17 @@ namespace AgendaAssistant.Services
 
         private string ConfirmEventUrl(Event evn)
         {
-            return RootUrl + string.Format("confirm/{0}", evn.Code);
+            return RootUrl + string.Format("confirm/{0}", evn.Id);
         }
 
         private string EventUrl(Event evn)
         {
-            return RootUrl + string.Format("event/{0}", evn.Code);
+            return RootUrl + string.Format("event/{0}", evn.Id);
         }
 
         private string AvailabilityUrl(Participant participant)
         {
-            return RootUrl + string.Format("availability/{0}", participant.Code);
+            return RootUrl + string.Format("availability/{0}", participant.Id);
         }
 
         public void Send(string recipient, string subject, EmailBody body)

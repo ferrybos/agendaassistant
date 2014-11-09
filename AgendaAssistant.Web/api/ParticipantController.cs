@@ -36,7 +36,7 @@ namespace AgendaAssistant.Web.api
         {
             try
             {
-                var participant = _service.Get(GuidUtil.ToGuid(participantId));
+                var participant = _service.Get(participantId);
                 return Ok(participant);
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace AgendaAssistant.Web.api
             {
                 var newParticipant = _service.Add(participant.EventId, participant.Person.Name, participant.Person.Email);
 
-                return Created(string.Format("api/participant/{0}", newParticipant.Code), Json(newParticipant).Content);
+                return Created(string.Format("api/participant/{0}", newParticipant.Id), Json(newParticipant).Content);
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace AgendaAssistant.Web.api
             // delete participant
             try
             {
-                _service.Delete(GuidUtil.ToGuid(id));
+                _service.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

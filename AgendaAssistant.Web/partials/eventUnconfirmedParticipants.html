@@ -6,7 +6,7 @@
         <table id="Table4" class="table table-condensed table-hover">
             <tbody>
                 <tr ng-repeat="participant in unconfirmedParticipants()">
-                    <td style="border-top: 0"><a href="{{::availabilityUrl}}/{{::participant.code}}">{{::participant.person.name}}</a></td>
+                    <td style="border-top: 0"><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
                 </tr>
             </tbody>
         </table>

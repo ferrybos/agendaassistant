@@ -4,7 +4,7 @@
 <div id="wrapper" ng-show="participant != null">
     <ol class="breadcrumb">
         <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
-        <li><a href="{{::eventUrl}}">Afspraak</a></li>
+        <li><a href="{{eventUrl}}">Afspraak</a></li>
         <li class="active">Boekingsgegevens wijzigen</li>
     </ol>
     <h1 class="page-header">Boekingsgegevens wijzigen</h1>
@@ -40,7 +40,7 @@
     
     <div class="form-group">
         <label class="control-label" for="gender">Ruim bagage</label><br />
-            <select id="Select1" class="form-control" ng-model="participant.baggage">
+            <select id="Select1" class="form-control" ng-model="participant.bagage">
                 <option value="">Geen</option>
                 <option value="B15">15 kg</option>
                 <option value="B20">20 kg</option>
