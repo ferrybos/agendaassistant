@@ -12,12 +12,12 @@
         <h4>Organisator</h4>
         <!--Naam-->
         <div class="form-group" show-errors='{showSuccess: true}'>
-            <input type="text" class="form-control" name="name" ng-model="event.organizer.name" required autofocus placeholder="Uw naam" style="width: 100%" />
+            <input type="text" class="form-control" name="name" ng-model="event.organizer.name" required autofocus placeholder="Uw naam" style="width: 100%" maxlength="50" />
             <p class="help-block" ng-if="eventForm.name.$error.required">De organisator's naam is verplicht</p>
         </div>
         <!--Email-->
         <div class="form-group" show-errors='{showSuccess: true}'>
-            <input type="text" class="form-control" name="email" ng-model="event.organizer.email" required autofocus placeholder="Uw emailadres" style="width: 100%" />
+            <input type="text" class="form-control" name="email" ng-model="event.organizer.email" required autofocus placeholder="Uw emailadres" style="width: 100%" maxlength="100" />
             <p class="help-block" ng-if="eventForm.email.$error.required">De organisator's email adres is verplicht</p>
             <p class="help-block" ng-if="eventForm.email.$error.email">De organisator's email adres is onjuist</p>
         </div>

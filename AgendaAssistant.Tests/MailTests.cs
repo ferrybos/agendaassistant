@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using AgendaAssistant.DB.Repositories;
 using AgendaAssistant.Entities;
 using AgendaAssistant.Mail;
 using AgendaAssistant.Repositories;
@@ -21,7 +22,7 @@ namespace AgendaAssistant.Tests
         [TestInitialize]
         public void Setup()
         {
-            _mailService = new MailService();
+            _mailService = new MailService(new AgendaAssistantDbContext());
 
             _event = new Event()
                 {
@@ -74,6 +75,12 @@ namespace AgendaAssistant.Tests
             reminderBuilder.AppendLine(_event.Organizer.Name);
 
             _mailService.SendMessage(_event, _participant, reminderBuilder.ToString());
+        }
+
+        [TestMethod]
+        public void SendAvailabilityUpdates()
+        {
+            _mailService.SendAvailabilityUpdates();
         }
     }
 }

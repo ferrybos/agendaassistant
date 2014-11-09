@@ -62,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AgendaAssistant.DB\AgendaAssistant.DB.csproj">
+      <Project>{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}</Project>
+      <Name>AgendaAssistant.DB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AgendaAssistant.Entities\AgendaAssistant.Entities.csproj">
       <Project>{CA95586A-1C6D-457F-BAE4-C0707D603633}</Project>
       <Name>AgendaAssistant.Entities</Name>
@@ -84,6 +88,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

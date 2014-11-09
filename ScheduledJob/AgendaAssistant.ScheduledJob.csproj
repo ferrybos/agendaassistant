@@ -79,6 +79,20 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AgendaAssistant.DB\AgendaAssistant.DB.csproj">
+      <Project>{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}</Project>
+      <Name>AgendaAssistant.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Services\AgendaAssistant.Services.csproj">
+      <Project>{54C07956-CC9D-4B6B-9BAB-7496F48630BD}</Project>
+      <Name>AgendaAssistant.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
+      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
+      <Name>AgendaAssistant.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

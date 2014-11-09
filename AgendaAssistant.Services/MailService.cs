@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.Entities;
 using AgendaAssistant.Mail;
+using AgendaAssistant.Repositories;
+using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Services
 {
@@ -18,6 +20,15 @@ namespace AgendaAssistant.Services
     {
         private const string From = "service@vluchtprikker.nl";
         private const string RootUrl = @"http://vluchtprikker.nl/#/";
+
+        //private readonly EmailRepository _repository;
+        private readonly IDbContext _dbContext;
+
+        public MailService(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+            //_repository = new EventRepository(_dbContext);
+        }
 
         private string ConfirmEventUrl(Event evn)
         {
@@ -62,6 +73,32 @@ namespace AgendaAssistant.Services
             Send(participant.Person.Email, subject, body);
         }
 
+        public void SendAvailabilityUpdates()
+        {
+            var eventRepository = new EventRepository(_dbContext);
+            var participantRepository = new ParticipantRepository(_dbContext);
+
+            // fetch all participants with updated availability
+            var dbParticipants = participantRepository.SelectAllWithAvailabilityUpdate();
+
+            foreach (var dbParticipant in dbParticipants)
+            {
+                var dbEvent = eventRepository.Single(dbParticipant.EventID);
+                var evn = EntityMapper.Map(dbEvent, includeFlights: false, includeParticipants: false);
+
+                SendToOrganizer(
+                    evn,
+                    string.Format("Beschikbaarheid ingevuld: {0}", evn.Title),
+                    string.Format("{0} heeft beschikbaarheid ingevuld voor de afspraak '<strong>{1}</strong>'.", dbParticipant.Person.Name, evn.Title),
+                    "Klik op de onderstaande link om de beschikbaarheid te bekijken.",
+                    EventUrl(evn),
+                    "Afspraak beheren");
+
+                dbParticipant.AvailabilityUpdateSent = true;
+                _dbContext.Current.SaveChanges();
+            }
+        }
+
         public void SendEventConfirmation(Event evn)
         {
             SendToOrganizer(
@@ -102,7 +139,7 @@ namespace AgendaAssistant.Services
             SendToOrganizer(
                 evn,
                 string.Format("Afspraak beheren: {0}", evn.Title),
-                string.Format("Uw uitnodigingen voor de afspraak '<strong>{0}</strong>' zijn verstuur.", evn.Title),
+                string.Format("Uw uitnodigingen voor de afspraak '<strong>{0}</strong>' zijn verstuurd.", evn.Title),
                 "Klik op de onderstaande link om de reacties te bekijken, de afspraak te wijzigen of af te ronden.",
                 EventUrl(evn),
                 "Afspraak beheren");
@@ -152,5 +189,7 @@ namespace AgendaAssistant.Services
 
         void SendToParticipant(Participant participant, string subject, string announcement, string action,
                                string linkUrl, string linkText);
+
+        void SendAvailabilityUpdates();
     }
 }
