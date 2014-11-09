@@ -84,15 +84,26 @@ namespace AgendaAssistant.Services
             foreach (var dbParticipant in dbParticipants)
             {
                 var dbEvent = eventRepository.Single(dbParticipant.EventID);
-                var evn = EntityMapper.Map(dbEvent, includeFlights: false, includeParticipants: false);
 
-                SendToOrganizer(
-                    evn,
-                    string.Format("Beschikbaarheid ingevuld: {0}", evn.Title),
-                    string.Format("{0} heeft beschikbaarheid ingevuld voor de afspraak '<strong>{1}</strong>'.", dbParticipant.Person.Name, evn.Title),
-                    "Klik op de onderstaande link om de beschikbaarheid te bekijken.",
-                    EventUrl(evn),
-                    "Afspraak beheren");
+                bool isOrganizer = dbEvent.OrganizerPersonID == dbParticipant.PersonID;
+
+                if (!isOrganizer)
+                {
+                    var evn = EntityMapper.Map(dbEvent, includeFlights: false, includeParticipants: false);
+
+                    var subject = string.Format("Beschikbaarheid ingevuld: {0}", evn.Title);
+
+                    Console.WriteLine("Send '{0}' to {1}", subject, dbParticipant.Person.Email);
+
+                    SendToOrganizer(
+                        evn,
+                        string.Format("Beschikbaarheid ingevuld: {0}", evn.Title),
+                        string.Format("{0} heeft beschikbaarheid ingevuld voor de afspraak '<strong>{1}</strong>'.",
+                                      dbParticipant.Person.Name, evn.Title),
+                        "Klik op de onderstaande link om de beschikbaarheid te bekijken.",
+                        EventUrl(evn),
+                        "Afspraak beheren");
+                }
 
                 dbParticipant.AvailabilityUpdateSent = true;
                 _dbContext.Current.SaveChanges();
