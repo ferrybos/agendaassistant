@@ -4,7 +4,7 @@
     $scope.activeFlightTabIndex = 0;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
-    $rootScope.errorMessage = "";
+    //$rootScope.errorMessage = "";
 
     getData();
     
@@ -16,7 +16,7 @@
                 $scope.eventUrl = "#/event/" + $scope.event.id; // + "/" + $routeParams.participantid;
             })
             .error(function(error) {
-                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
                 $scope.event = null;
             });
     };
@@ -38,7 +38,7 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $root
                 }, 3000);
             })
             .error(function(error) {
-                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
     };
     

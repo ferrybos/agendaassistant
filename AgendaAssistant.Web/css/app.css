@@ -49,6 +49,10 @@ body {
     font-weight: bold;
 }
 
+.modal-title {
+    color: darkred;
+}
+
 .alert {
     z-index: 1000;
     position: absolute;

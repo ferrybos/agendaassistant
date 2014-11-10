@@ -21,6 +21,10 @@
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
             <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
                 <p class="help-block">Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Er mogen maximaal 9 deelnemers worden toegevoegd.</p>
+                <div ng-if="isWaitingForNewEvent">
+                    <p class="help-block">Even geduld aub...</p>
+                    <ng-include src="'partials/loader.html'"></ng-include>
+                </div>
                 <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
                     <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
                     <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />

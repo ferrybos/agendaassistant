@@ -2,7 +2,7 @@
     $scope.participant = null;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
-    $rootScope.errorMessage = "";
+    //$rootScope.errorMessage = "";
     
     getData();
 
@@ -20,7 +20,7 @@
                 $scope.$watch('participant.bagage', debounceUpdate);
             })
             .error(function(error) {
-                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
                 $scope.participant = null;
             });
     };
@@ -36,7 +36,7 @@
                 }, 3000);
             })
             .error(function (error) {
-                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });        
     };
 

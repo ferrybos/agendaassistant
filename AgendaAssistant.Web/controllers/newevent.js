@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $rootScope, $filter, $exceptionHandler, Constants, eventFactory, eventService, participantService, insights) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, $modal, $exceptionHandler, Constants, eventFactory, eventService, participantService, insights) {
     console.log($exceptionHandler);
     insights.logEvent('NewEventCtrl Activated');
     
@@ -14,18 +14,19 @@
     $scope.inboundFlights = null;
 
     $scope.event = { id: "", title: "", description: "", organizer: { name: "", email: "" } };
+    $scope.isWaitingForNewEvent = false;
     
     var newEvent = function () {
         eventService.new($scope.event)
            .success(function (data) {
+               $scope.isWaitingForNewEvent = false;
                $log.log("Event: " + JSON.stringify(data));
                //$scope.CurrentStepIndex = 2;
                $scope.event = data;
            })
            .error(function (error) {
-               $log.log("Error: " + error.exceptionMessage);
-               $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
-               throw error.exceptionMessage;
+               $scope.isWaitingForNewEvent = false;
+               $modal({ title: error.message, content: error.exceptionMessage, show: true });
            });
     };
 
@@ -54,8 +55,7 @@
                $location.path("/event/" + $scope.event.id);
            })
            .error(function (error) {
-               $log.log("Error: " + error.exceptionMessage);
-               $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+               $modal({ title: error.message, content: error.exceptionMessage, show: true });
            });
     };
 
@@ -74,6 +74,7 @@
         insights.logEvent('User selects participants step');
         
         if ($scope.event.id == "") {
+            $scope.isWaitingForNewEvent = true;
             newEvent($scope.event);
         } else {
             //
@@ -136,7 +137,8 @@
                 $scope.event.participants.push(data);
             })
             .error(function (error) {
-                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                //$rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
 
         clearParticipantInput();
@@ -154,8 +156,7 @@
                 $scope.event.participants.splice(index, 1);
             })
             .error(function (error) {
-                $log.log("Error: " + error.exceptionMessage);
-                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
     };
 
