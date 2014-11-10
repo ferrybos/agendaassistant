@@ -1,4 +1,5 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $filter, Constants, eventFactory, eventService, participantService, insights) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $rootScope, $filter, $exceptionHandler, Constants, eventFactory, eventService, participantService, insights) {
+    console.log($exceptionHandler);
     insights.logEvent('NewEventCtrl Activated');
     
     $scope.constants = Constants;
@@ -24,6 +25,7 @@
            .error(function (error) {
                $log.log("Error: " + error.exceptionMessage);
                $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+               throw error.exceptionMessage;
            });
     };
 
@@ -128,13 +130,12 @@
         var participant = { eventId: $scope.event.id, person: { name: $scope.newParticipantName, email: $scope.newParticipantEmail } };
 
         participantService.post(participant)
-            .success(function (data) {
-                $log.log("Participant: " + JSON.stringify(data));
+            .success(function(data) {
+                //$log.log("Participant: " + JSON.stringify(data));
                 //$scope.event = data;
                 $scope.event.participants.push(data);
             })
             .error(function (error) {
-                $log.log("Error: " + error.exceptionMessage);
                 $rootScope.errorMessage = error.message + " " + error.exceptionMessage;
             });
 

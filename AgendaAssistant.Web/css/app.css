@@ -24,16 +24,21 @@ body {
     background-color: #fcfcfc;
 }
 
-.container {
+.center {
     width: auto;
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     /*padding: 0 15px;*/
-    padding: 10px;
-    background-color: #fcfcfc;
+    padding-left: 20px;
+    padding-right: 20px;
     /*required to position alerts inside container*/
     position: relative;
+}
+
+.container {
+    padding: 10px;
+    background-color: #fcfcfc;
 }
 
     .container .text-muted {

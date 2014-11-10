@@ -25,3 +25,12 @@ app.config(['$routeProvider', '$locationProvider', 'insightsProvider', function 
     // Add application insights id here
     insightsProvider.start('5845b2871415a79a1ee36e1f6326b3d7aefbe63c678950a');
 }]);
+
+app.config(function ($provide) {
+    $provide.decorator("$exceptionHandler", ['$delegate', function ($delegate) {
+        return function (exception, cause) {
+            $delegate(exception, cause);
+            alert(exception.message);
+        };
+    }]);
+});

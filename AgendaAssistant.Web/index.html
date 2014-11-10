@@ -56,8 +56,9 @@
 
     </script>
 </head>
-<body>
-    <div ng-view class="container"></div>
-    <!-- The SPA Views go here -->
-</body>
+    <body>
+        <div class="center alert alert-danger alert-dismissible" role="alert" ng-if="errorMessage.length > 0">{{errorMessage}}</div>
+        <div ng-view class="center container"></div>
+        <!-- The SPA Views go here -->
+    </body>
 </html>

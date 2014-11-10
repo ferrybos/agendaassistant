@@ -36,7 +36,7 @@ namespace AgendaAssistant.Repositories
 
         public Person AddOrGetExisting(string name, string email)
         {
-            var dbPerson = SingleOrDefault(name);
+            var dbPerson = SingleOrDefault(email);
 
             if (dbPerson == null)
             {
