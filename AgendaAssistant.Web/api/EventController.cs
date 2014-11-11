@@ -87,15 +87,7 @@ namespace AgendaAssistant.Web.api
         {
             try
             {
-                if (_service.Confirm(data.Id))
-                {
-                    var evn = _service.Get(data.Id);
-
-                    foreach (var participant in evn.Participants)
-                        _mailService.SendInvitation(evn, participant);
-
-                    _mailService.SendInvitationConfirmation(evn);
-                }
+                _service.Confirm(data.Id);
 
                 return Ok();
             }
@@ -128,7 +120,6 @@ namespace AgendaAssistant.Web.api
             try
             {
                 _service.Complete(value);
-                _mailService.SendEventConfirmation(value);
 
                 return Ok(string.Format("api/event/{0}", value.Id));
             }

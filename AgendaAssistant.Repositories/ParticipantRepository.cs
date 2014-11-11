@@ -62,10 +62,5 @@ namespace AgendaAssistant.Repositories
 
             DbContext.SaveChanges();
         }
-
-        public List<Participant> SelectAllWithAvailabilityUpdate()
-        {
-            return DbContext.Participants.Where(p => p.AvailabilityUpdateSent == false).ToList();
-        }
     }
 }

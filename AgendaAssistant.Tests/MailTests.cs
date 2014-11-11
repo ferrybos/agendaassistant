@@ -2,10 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using AgendaAssistant.DB;
 using AgendaAssistant.DB.Repositories;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Mail;
-using AgendaAssistant.Repositories;
+//using AgendaAssistant.Entities;
 using AgendaAssistant.Services;
 using AgendaAssistant.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -26,13 +25,13 @@ namespace AgendaAssistant.Tests
 
             _event = new Event()
                 {
-                    Id = GuidUtil.ToString(Guid.NewGuid()),
+                    ID = Guid.NewGuid(),
                     Title = "Weekendje Valencia",
-                    Organizer = new Person() {Email = "ferrybos@gmail.com", Name = "Ferry Bos"}
+                    Organizer = new DB.Person() {Email = "ferrybos@gmail.com", Name = "Ferry Bos"}
                 };
 
-            var person = new Person() {Id = GuidUtil.ToString(Guid.NewGuid()), Email = "ferrybos@gmail.com", Name = "Ferry"};
-            _participant = new Participant() {Id = GuidUtil.ToString(Guid.NewGuid()), EventId = _event.Id, Person = person};
+            var person = new Person() {ID = Guid.NewGuid(), Email = "ferrybos@gmail.com", Name = "Ferry"};
+            _participant = new Participant() {ID = Guid.NewGuid(), EventID = _event.ID, Person = person};
         }
 
         [TestMethod]
@@ -75,12 +74,6 @@ namespace AgendaAssistant.Tests
             reminderBuilder.AppendLine(_event.Organizer.Name);
 
             _mailService.SendMessage(_event, _participant, reminderBuilder.ToString());
-        }
-
-        [TestMethod]
-        public void SendAvailabilityUpdates()
-        {
-            _mailService.SendAvailabilityUpdates();
         }
     }
 }

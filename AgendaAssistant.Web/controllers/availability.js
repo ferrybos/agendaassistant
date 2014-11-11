@@ -1,9 +1,10 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, Constants, availabilityService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, Constants, availabilityService, emailService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
+    $scope.isConfirmed = false;
     //$rootScope.errorMessage = "";
 
     getData();
@@ -23,6 +24,11 @@
     
     $scope.SelectFlightTab = function (value) {
         $scope.activeFlightTabIndex = value;
+    };
+    
+    $scope.Confirm = function () {
+        $scope.isConfirmed = true;
+        emailService.sendAvailability({ participantid: $routeParams.participantid });
     };
 });
 

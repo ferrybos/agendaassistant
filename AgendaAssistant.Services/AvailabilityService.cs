@@ -84,12 +84,7 @@ namespace AgendaAssistant.Services
         {
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(availability.ParticipantId));
 
-            _repository.Update(GuidUtil.ToGuid(availability.ParticipantId), availability.FlightId, availability.Value,
-                               availability.CommentText);
-
-            // trigger new email to be sent by web job
-            dbParticipant.AvailabilityUpdateSent = false;
-            _dbContext.Current.SaveChanges();
+            _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value, availability.CommentText);
         }
     }
 }

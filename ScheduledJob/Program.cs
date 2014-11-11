@@ -12,8 +12,8 @@ namespace ScheduledJob
     {
         static void Main(string[] args)
         {
-            var mailService = new MailService(new AgendaAssistantDbContext());
-            mailService.SendAvailabilityUpdates();
+            //var mailService = new MailService(new AgendaAssistantDbContext());
+            //mailService.SendAvailabilityUpdates();
         }
     }
 }

@@ -162,7 +162,6 @@
           <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PersonID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Bagage" Type="varchar" MaxLength="4" />
-          <Property Name="AvailabilityUpdateSent" Type="bit" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -512,7 +511,6 @@
           <Property Type="Guid" Name="EventID" Nullable="false" />
           <Property Type="Guid" Name="PersonID" Nullable="false" />
           <Property Type="String" Name="Bagage" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Type="Boolean" Name="AvailabilityUpdateSent" />
           <NavigationProperty Name="Availabilities" Relationship="AgendaAssistantModel.FK_Availability_Participant" FromRole="Participant" ToRole="Availability" />
           <NavigationProperty Name="Comments" Relationship="AgendaAssistantModel.FK_Comment_Participant" FromRole="Participant" ToRole="Comment" />
           <NavigationProperty Name="Person" Relationship="AgendaAssistantModel.FK_Participant_Person" FromRole="Participant" ToRole="Person" />
@@ -800,7 +798,6 @@
           <EntitySetMapping Name="Participants">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Participant">
               <MappingFragment StoreEntitySet="Participant">
-                <ScalarProperty Name="AvailabilityUpdateSent" ColumnName="AvailabilityUpdateSent" />
                 <ScalarProperty Name="Bagage" ColumnName="Bagage" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
