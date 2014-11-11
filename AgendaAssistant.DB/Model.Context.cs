@@ -34,5 +34,7 @@ namespace AgendaAssistant.DB
         public DbSet<Person> Persons { get; set; }
         public DbSet<Email> Emails { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Route> Routes { get; set; }
+        public DbSet<Station> Stations { get; set; }
     }
 }

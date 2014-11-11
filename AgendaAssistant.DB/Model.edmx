@@ -16,6 +16,8 @@
           <EntitySet Name="Participant" EntityType="AgendaAssistantModel.Store.Participant" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Person" EntityType="AgendaAssistantModel.Store.Person" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Recipient" EntityType="AgendaAssistantModel.Store.Recipient" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Route" EntityType="AgendaAssistantModel.Store.Route" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Station" EntityType="AgendaAssistantModel.Store.Station" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_Availability_Flight" Association="AgendaAssistantModel.Store.FK_Availability_Flight">
             <End Role="Flight" EntitySet="Flight" />
             <End Role="Availability" EntitySet="Availability" />
@@ -181,6 +183,26 @@
           </Key>
           <Property Name="EmailID" Type="bigint" Nullable="false" />
           <Property Name="ParticipantID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="Origin" />
+            <PropertyRef Name="Destination" />
+          </Key>
+          <Property Name="Origin" Type="char" Nullable="false" MaxLength="3" />
+          <Property Name="Destination" Type="char" Nullable="false" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="char" Nullable="false" MaxLength="3" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
+          <Property Name="TimeZoneCode" Type="varchar" Nullable="false" MaxLength="4" />
+          <Property Name="Latitude" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="Longitude" Type="varchar" Nullable="false" MaxLength="11" />
+          <Property Name="CultureCode" Type="varchar" Nullable="false" MaxLength="17" />
+          <Property Name="CountryCode" Type="char" Nullable="false" MaxLength="2" />
         </EntityType>
         <Association Name="FK_Availability_Flight">
           <End Role="Flight" Type="AgendaAssistantModel.Store.Flight" Multiplicity="1" />
@@ -416,6 +438,8 @@
             <End Role="Event" EntitySet="Events" />
             <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
+          <EntitySet Name="Routes" EntityType="AgendaAssistantModel.Route" />
+          <EntitySet Name="Stations" EntityType="AgendaAssistantModel.Station" />
           </EntityContainer>
         <EntityType Name="Availability">
           <Key>
@@ -692,6 +716,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="Origin" />
+            <PropertyRef Name="Destination" />
+          </Key>
+          <Property Type="String" Name="Origin" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TimeZoneCode" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Longitude" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CultureCode" Nullable="false" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CountryCode" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -811,6 +855,27 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Routes">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Route">
+              <MappingFragment StoreEntitySet="Route">
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Origin" ColumnName="Origin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stations">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Station">
+              <MappingFragment StoreEntitySet="Station">
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="CultureCode" ColumnName="CultureCode" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="TimeZoneCode" ColumnName="TimeZoneCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

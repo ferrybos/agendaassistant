@@ -27,6 +27,8 @@
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_Organizer" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Event" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Route" Width="1.5" PointX="10.872520923089478" PointY="23.909397136377819" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Station" Width="1.5" PointX="1.3450282334094068" PointY="30.336972608387924" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -71,6 +71,12 @@ namespace AgendaAssistant.Repositories
 
         private Person Add(string name, string email)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new FormattedException("Cannot add person. Please specify a name");
+
+            if (string.IsNullOrWhiteSpace(email))
+                throw new FormattedException("Cannot add person. Please specify an email");
+
             var dbPerson = DbContext.Persons.Create();
             DbContext.Persons.Add(dbPerson);
 
