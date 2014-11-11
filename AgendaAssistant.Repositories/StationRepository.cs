@@ -16,9 +16,14 @@ namespace AgendaAssistant.Repositories
         {
         }
 
-        //public List<Route> GetAllRoutes()
-        //{
-            
-        //}
+        public List<Station> GetStations()
+        {
+            return DbContext.Stations.ToList();
+        }
+
+        public List<Route> GetRoutes()
+        {
+            return DbContext.Routes.ToList();
+        }
     }
 }

@@ -26,11 +26,12 @@ namespace AgendaAssistant.Web.Startup
                 {
                     c.For<IDbContext>().Add<AgendaAssistantDbContext>();
                     c.For<IFlightService>().Use<FlightService>();
-                    c.For<IFlightRepository>().Use<FlightRepository>();
                     c.For<IEventService>().Use<EventService>();
                     c.For<IAvailabilityService>().Use<AvailabilityService>();
                     c.For<IParticipantService>().Use<ParticipantService>();
+                    c.For<IStationService>().Use<StationService>();
                     c.For<IMailService>().Use<MailService>();
+                    c.For<IFlightRepository>().Use<FlightRepository>();
                 });
 
             return container;

@@ -1,7 +1,7 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, $modal, $exceptionHandler, Constants, eventFactory, eventService, participantService, insights) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, $modal, $exceptionHandler, Constants, stationService, eventService, participantService, insights) {
     console.log($exceptionHandler);
     insights.logEvent('NewEventCtrl Activated');
-    
+
     $scope.constants = Constants;
     $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
@@ -15,7 +15,26 @@
 
     $scope.event = { id: "", title: "", description: "", organizer: { name: "", email: "" } };
     $scope.isWaitingForNewEvent = false;
-    
+
+    // Get route information async
+    $scope.origins = null;
+    $scope.destinations = null;
+    $scope.routes = null;
+    getStationsAndRoutes();
+
+    function getStationsAndRoutes() {
+        stationService.get()
+            .success(function(data) {
+                $log.log("StationsAndRoutes: " + JSON.stringify(data));
+                $scope.origins = data.origins;
+                $scope.destinations = data.destinations;
+                $scope.routes = data.routes;
+            })
+            .error(function(error) {
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+            });
+    };
+
     var newEvent = function () {
         eventService.new($scope.event)
            .success(function (data) {
@@ -32,15 +51,15 @@
 
     $scope.CreateEvent = function () {
         insights.logEvent('User creates event');
-        
+
         $scope.CurrentStepIndex = 9; //saving event
-        
+
         // Create selected flights to the event object to be sent to the server
         var selectedOutboundFlights = getSelectedFlights($scope.outboundFlights);
         angular.forEach(selectedOutboundFlights, function (flight) {
             this.push(flight);
         }, $scope.event.outboundFlightSearch.flights);
-            
+
         var selectedInboundFlights = getSelectedFlights($scope.inboundFlights);
         angular.forEach(selectedInboundFlights, function (flight) {
             this.push(flight);
@@ -72,21 +91,21 @@
     $scope.isOrganizerAddedToParticipants = false;
     $scope.SelectStepParticipants = function () {
         insights.logEvent('User selects participants step');
-        
+
         if ($scope.event.id == "") {
             $scope.isWaitingForNewEvent = true;
             newEvent($scope.event);
         } else {
             //
         }
-        
+
         $scope.CurrentStepIndex = 2;
         $scope.$broadcast('focusParticipantName');
     };
 
     $scope.SelectStepOutbound = function () {
         insights.logEvent('User selects outbound step');
-        
+
         if ($scope.event.outboundFlightSearch == null) {
             // set defaults on first hit
             var myDate = new Date();
@@ -127,7 +146,7 @@
 
     $scope.AddParticipant = function () {
         insights.logEvent('User Creates participant');
-        
+
         if ($scope.newParticipantName.length == 0 || $scope.newParticipantEmail) {
             $modal({ title: "Deelnemer toevoegen", content: "Vul naam en email in", show: true });
         } else {
@@ -153,7 +172,7 @@
         insights.logEvent('User deletes participant');
 
         var participant = $scope.event.participants[index];
-        
+
         participantService.delete(participant)
             .success(function (data) {
                 $log.log("Delete participant: " + JSON.stringify(data));
@@ -168,10 +187,10 @@
         $scope.newParticipantName = "";
         $scope.newParticipantEmail = "";
     };
-    
+
     $scope.EnterTestEvent = function () {
         insights.logEvent('User selects test link');
-        
+
         $scope.event.title = "Weekendje Barcelona";
         $scope.event.description = "Dit is een test";
         $scope.event.organizer.name = "Ferry Bos";
@@ -188,15 +207,15 @@
     $scope.IsParticipantsStepValid = function () {
         return $scope.event != undefined && $scope.event.participants != undefined && $scope.event.participants.length > 0;
     };
-    
+
     function getSelectedFlights(flights) {
         return $filter('filter')(flights, { IsSelected: true }, true);
     };
-    
+
     $scope.IsOutboundStepValid = function () {
         return $scope.event != undefined && $scope.outboundFlights != null && getSelectedFlights($scope.outboundFlights).length > 0;
     };
-    
+
     $scope.IsInboundStepValid = function () {
         return $scope.event != undefined && $scope.inboundFlights != null && getSelectedFlights($scope.inboundFlights).length > 0;
     };

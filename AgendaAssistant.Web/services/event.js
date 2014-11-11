@@ -17,7 +17,7 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
     this.new = function(event) {
         return $http.post(urlBase, event);
     };
-
+    
     this.complete = function (event) {
         return $http.post(urlBase + '/complete', event);
     };

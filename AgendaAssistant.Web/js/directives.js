@@ -162,7 +162,7 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
     };
 });
 
-app.directive('flightSearchAvailability', function ($log, eventFactory) {
+app.directive('flightSearchAvailability', function ($log) {
     return {
         restrict: 'E',
         scope: {

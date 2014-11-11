@@ -120,5 +120,15 @@ namespace AgendaAssistant.Repositories
                 Bagage = dbParticipant.Bagage.Trim()
             };
         }
+
+        public static Station Map(DB.Station dbStation)
+        {
+            return new Station() {Code = dbStation.Code, Name = dbStation.Name};
+        }
+
+        public static Route Map(DB.Route dbRoute)
+        {
+            return new Route() {Origin = dbRoute.Origin, Destination = dbRoute.Destination};
+        }
     }
 }
