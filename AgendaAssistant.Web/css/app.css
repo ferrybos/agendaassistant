@@ -53,7 +53,7 @@ body {
     color: darkred;
 }
 
-.alert {
+.ontop {
     z-index: 1000;
     position: absolute;
     top: 2px;

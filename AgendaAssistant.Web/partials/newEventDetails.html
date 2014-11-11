@@ -1,10 +1,10 @@
 ﻿<div id="content_step_event">
-    <p class="help-block">Vul hier uw afspraak gegevens in.</p>
+    <div class="alert alert-warning" role="alert" style="color: black">Vul hier uw afspraak gegevens in.</div>
     <a ng-click="EnterTestEvent()" style="cursor: pointer">Test</a><br />
     <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
         <!--Title-->
         <div class="form-group" show-errors='{showSuccess: true}'>
-            <input type="text" class="form-control" name="title" ng-model="event.title" focus-on="focusEventTitle" required autofocus placeholder="Titel" maxlength="50" autocomplete="off" style="width: 100%" />
+            <input type="text" class="form-control" name="title" ng-model="event.title" focus-on="focusEventTitle" required autofocus placeholder="Titel (bijv. Weekendje Barcelona)" maxlength="50" autocomplete="off" style="width: 100%" />
             <p class="help-block" ng-if="eventForm.title.$error.required">De titel is verplicht</p>
         </div>
         <!--Description-->

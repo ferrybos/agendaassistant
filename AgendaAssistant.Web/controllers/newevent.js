@@ -127,22 +127,26 @@
 
     $scope.AddParticipant = function () {
         insights.logEvent('User Creates participant');
-       
-        var participant = { eventId: $scope.event.id, person: { name: $scope.newParticipantName, email: $scope.newParticipantEmail } };
+        
+        if ($scope.newParticipantName.length == 0 || $scope.newParticipantEmail) {
+            $modal({ title: "Deelnemer toevoegen", content: "Vul naam en email in", show: true });
+        } else {
+            var participant = { eventId: $scope.event.id, person: { name: $scope.newParticipantName, email: $scope.newParticipantEmail } };
 
-        participantService.post(participant)
-            .success(function(data) {
-                //$log.log("Participant: " + JSON.stringify(data));
-                //$scope.event = data;
-                $scope.event.participants.push(data);
-            })
-            .error(function (error) {
-                //$rootScope.errorMessage = error.message + " " + error.exceptionMessage;
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
-            });
+            participantService.post(participant)
+                .success(function (data) {
+                    //$log.log("Participant: " + JSON.stringify(data));
+                    //$scope.event = data;
+                    $scope.event.participants.push(data);
+                })
+                .error(function (error) {
+                    //$rootScope.errorMessage = error.message + " " + error.exceptionMessage;
+                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                });
 
-        clearParticipantInput();
-        $scope.$broadcast('focusParticipantName');
+            clearParticipantInput();
+            $scope.$broadcast('focusParticipantName');
+        }
     };
 
     $scope.DeleteParticipant = function (index) {

@@ -1,4 +1,4 @@
-﻿<div class="alert alert-success" role="alert" ng-if="infoMessage.length > 0">{{infoMessage}}</div>
+﻿<div class="alert alert-success ontop" role="alert" ng-if="infoMessage.length > 0">{{infoMessage}}</div>
 <div id="wrapper">
     <ol class="breadcrumb">
         <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
@@ -20,7 +20,7 @@
             <!--Step 2: Participants-->
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
             <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
-                <p class="help-block">Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Er mogen maximaal 9 deelnemers worden toegevoegd.</p>
+                <div class="alert alert-warning" role="alert" style="color: black">Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Maximaal 9 deelnemers is toegestaan.</div>
                 <div ng-if="isWaitingForNewEvent">
                     <p class="help-block">Even geduld aub...</p>
                     <ng-include src="'partials/loader.html'"></ng-include>
@@ -28,7 +28,7 @@
                 <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
                     <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
                     <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
-                    <button type="submit" ng-disabled="participantsForm.$invalid" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
+                    <button type="submit" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
                 </form>
                 <h4>Deelnemers ({{event.participants.length}})</h4>
                 <div class="list-group">
@@ -49,7 +49,7 @@
             <!--Step 3: Outbound flight search-->
             <!--<ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>-->
             <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
-                <p class="help-block">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren. Wanneer je alleen op specifieke dagen wilt, kun je weekdagen uit- of aanzetten. Met de maximum prijs kun je een budget per vlucht aangeven.</p>
+                <div class="alert alert-warning" role="alert" style="color: black">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren. Wanneer je alleen op specifieke dagen wilt reizen, kun je weekdagen uit- of aanzetten. Met de maximum prijs kun je een budget per vlucht aangeven.</div>
                 <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
@@ -60,7 +60,7 @@
             <!--Step 4: Inbound flight search-->
             <!-- <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
-                <p class="help-block">Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</p>
+                <div class="alert alert-warning" role="alert" style="color: black">Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</div>
                 <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>

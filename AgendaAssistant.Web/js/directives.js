@@ -101,6 +101,12 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
             $scope.maxprice = 0;
             $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
 
+            $scope.$watch('flightsearch.beginDate', function(value, key) {
+                if ($scope.flightsearch != undefined && $scope.flightsearch.endDate < $scope.flightsearch.beginDate) {
+                    $scope.flightsearch.endDate = $scope.flightsearch.beginDate;
+                }
+            });
+
             $scope.$watchCollection('[maxprice, maxpriceChecked]', function () {
                 if ($scope.flightsearch != undefined) {
                     $scope.flightsearch.maxPrice = selectedMaxPrice();

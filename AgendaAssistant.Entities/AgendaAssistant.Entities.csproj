@@ -50,6 +50,7 @@
     <Compile Include="FlightSearch.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Station.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
