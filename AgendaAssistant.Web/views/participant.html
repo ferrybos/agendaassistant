@@ -7,8 +7,11 @@
         <li><a href="{{eventUrl}}">Afspraak</a></li>
         <li class="active">Boekingsgegevens wijzigen</li>
     </ol>
-    <h1 class="page-header">Boekingsgegevens wijzigen</h1>
-    <p style="margin-bottom: 20px">Deelnemer: {{::participant.name}}</p>
+    <h1 class="page-header">{{::participant.person.name}}</h1>
+
+    <div class="alert alert-warning" role="alert" style="color: black">Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</div>
+    
+    <h4>Persoonsgegevens</h4>
 
     <!--FirstNameInPassport-->
     <div class="form-group">
@@ -22,7 +25,15 @@
         <input type="text" class="form-control" name="lastNameInPassport" ng-model="participant.person.lastNameInPassport" placeholder="Achternaam in paspoort" maxlength="100" autocomplete="off" style="width: 100%" />
     </div>
 
-    <div class="row">
+    <div class="form-group">
+        <label class="control-label" for="gender">Geslacht</label><br />
+        <select id="gender" class="form-control" ng-model="participant.person.gender">
+            <option value="0">Man</option>
+            <option value="1">Vrouw</option>
+        </select>
+    </div>
+
+    <!--<div class="row">
         <div class="col-xs-6" style="padding-left: 0;">
             <div class="form-group">
                 <label class="control-label" for="dateOfBirth">Geboortedatum</label>
@@ -30,20 +41,17 @@
             </div>
         </div>
         <div class="col-xs-6" style="padding-left: 15px; padding-right: 0">
-            <label class="control-label" for="gender">Geslacht</label><br />
-            <select id="gender" class="form-control" ng-model="participant.person.gender">
-                <option value="0">Man</option>
-                <option value="1">Vrouw</option>
-            </select>
         </div>
-    </div>
+    </div>-->
     
+    <h4>Ruim bagage</h4>
+
     <div class="form-group">
-        <label class="control-label" for="gender">Ruim bagage</label><br />
-            <select id="Select1" class="form-control" ng-model="participant.bagage">
-                <option value="">Geen</option>
-                <option value="B15">15 kg</option>
-                <option value="B20">20 kg</option>
-            </select>
+        <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
+        <select id="Select1" class="form-control" ng-model="participant.bagage">
+            <option value="">Geen</option>
+            <option value="B15">15 kg</option>
+            <option value="B20">20 kg</option>
+        </select>
     </div>
 </div>
