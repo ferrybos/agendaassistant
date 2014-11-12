@@ -300,11 +300,18 @@ div#contentFooter {
     opacity: 1;
 }
 
-    /* ending leave animation */
-    .alert.ng-leave.ng-leave-active {
-        opacity: 0;
-    }
+/* ending leave animation */
+.alert.ng-leave.ng-leave-active {
+    opacity: 0;
+}
 
+.leftcol {
+    padding-left: 0;
+}
+
+.rightcol {
+    padding-right: 0;
+}
 
 /* Large desktop */
 @media (min-width: 1200px) {
@@ -325,6 +332,13 @@ div#contentFooter {
 
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
+    .leftcol {
+        padding-right: 0;
+    }
+
+    .rightcol {
+        padding-left: 0;
+    }
 }
 
 /* Landscape phones and down */
