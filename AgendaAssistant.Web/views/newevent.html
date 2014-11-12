@@ -21,10 +21,7 @@
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
             <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
                 <info>Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Maximaal 9 deelnemers is toegestaan.</info>
-                <div ng-if="isWaitingForNewEvent">
-                    <p class="help-block">Even geduld aub...</p>
-                    <ng-include src="'partials/loader.html'"></ng-include>
-                </div>
+                <loader ng-if="isWaitingForNewEvent == true">Even geduld aub...</loader>
                 <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
                     <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
                     <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
@@ -67,11 +64,8 @@
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="!IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
-
-            <div id="creatingEventDiv" ng-if="CurrentStepIndex == 9">
-                <p class="help-block">Afspraak wordt nu aangemaakt. Even geduld aub...</p>
-                <ng-include src="'partials/loader.html'"></ng-include>
-            </div>
+            
+            <loader ng-if="CurrentStepIndex == 9">Afspraak wordt nu aangemaakt. Even geduld aub...</loader>
         </div>
     </div>
 </div>

@@ -8,6 +8,7 @@
     $scope.availabilityUrl = "#/availability/";
     $scope.participantUrl = "#/participant/";
     $scope.isPushPinSelected = false;
+    $scope.isRefreshingFlights = false;
     
     getEvent();
     
@@ -22,10 +23,11 @@
     };
 
     function refreshFlights() {
+        $scope.isRefreshingFlights = true;
         eventService.refreshFlights($scope.event.id)
             .success(function(data) {
                 $log.log("Updated event: " + JSON.stringify(data));
-
+                $scope.isRefreshingFlights = false;
                 for (i = 0; i < $scope.event.outboundFlightSearch.flights.length; i++) {
                     $scope.event.outboundFlightSearch.flights[i].price = data.outboundFlights[i].price;
                 }
@@ -33,7 +35,8 @@
                     $scope.event.inboundFlightSearch.flights[i].price = data.inboundFlights[i].price;
                 }
             })
-            .error(function(error) {
+            .error(function (error) {
+                $scope.isRefreshingFlights = false;
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
     }

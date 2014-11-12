@@ -221,3 +221,11 @@ app.directive('info', function() {
         template: '<div class="alert alert-warning" role="alert" style="color: black" ng-transclude></div>'
     };
 });
+
+app.directive('loader', function () {
+    return {
+        restrict: 'E',
+        transclude: true,
+        template: '<div class="loader"><img src="img/ajax-loader.gif" style="padding:10px" /><span class="help-block loadertext" ng-transclude></span></div>'
+    };
+});

@@ -1,19 +1,23 @@
-﻿<div ng-if="event == null">
-    <p class="help-block">Afspraak wordt ingeladen...</p>
-    <ng-include src="'partials/loader.html'"></ng-include>
-</div>
+﻿<loader ng-if="event == null">
+    Afspraak wordt ingeladen...
+</loader>
 <div ng-show="event != null">
     <ol class="breadcrumb">
         <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
         <li class="active">Afspraak</li>
     </ol>
     <h1 class="page-header">{{::event.title}}</h1>
+
     <ng-include src="'partials/eventNotConfirmed.html'"></ng-include>
     <div ng-if="event.isConfirmed">
         <ng-include src="'partials/eventOrganizedBy.html'"></ng-include>
         <ng-include src="'partials/eventActions.html'"></ng-include>
         <ng-include src="'partials/eventUnconfirmedParticipants.html'"></ng-include>
         <ng-include src="'partials/flightsearchtoggle.html'"></ng-include>
+        
+        <loader ng-if="isRefreshingFlights == true">
+            Vluchtprijzen worden opnieuw opgehaald...
+        </loader>
 
         <div class="list-group-item list-group-item-danger" ng-if="areSelectedFlightsInvalid()">
             De geprikte terugvlucht ligt voor de geprikte heenvlucht. Deze combinatie kunt u niet boeken.
