@@ -34,5 +34,11 @@ namespace AgendaAssistant.Repositories.Mocks
 
             return result;
         }
+
+        public Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode,
+                          short flightNumber, short paxCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

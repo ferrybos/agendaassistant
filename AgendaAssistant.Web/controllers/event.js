@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, Constants, eventFactory) {
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, Constants, eventFactory, eventService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
@@ -16,8 +16,27 @@
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
             $log.log("Event: " + JSON.stringify($scope.event));
+
+            refreshFlights();
         });
     };
+
+    function refreshFlights() {
+        eventService.refreshFlights($scope.event.id)
+            .success(function(data) {
+                $log.log("Updated event: " + JSON.stringify(data));
+
+                for (i = 0; i < $scope.event.outboundFlightSearch.flights.length; i++) {
+                    $scope.event.outboundFlightSearch.flights[i].price = data.outboundFlights[i].price;
+                }
+                for (i = 0; i < $scope.event.inboundFlightSearch.flights.length; i++) {
+                    $scope.event.inboundFlightSearch.flights[i].price = data.inboundFlights[i].price;
+                }
+            })
+            .error(function(error) {
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+            });
+    }
 
     $scope.selectPushPin = function () {
         $scope.isPushPinSelected = true;

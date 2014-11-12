@@ -20,6 +20,7 @@ namespace AgendaAssistant.Services
         void Confirm(string id);
 
         void SelectFlight(string eventId, long flightSearchId, long flightId);
+        Event RefreshFlights(string eventId);
     }
 
     /// <summary>
@@ -30,12 +31,15 @@ namespace AgendaAssistant.Services
         private readonly EventRepository _repository;
         private readonly IDbContext _dbContext;
         private readonly IMailService _mailService;
+        private readonly IFlightService _flightService;
 
-        public EventService(IDbContext dbContext, IMailService mailService)
+        public EventService(IDbContext dbContext, IMailService mailService, IFlightService flightService)
         {
+            _repository = new EventRepository(dbContext);
+
             _dbContext = dbContext;
             _mailService = mailService;
-            _repository = new EventRepository(_dbContext);
+            _flightService = flightService;
         }
 
         public Event Get(string id)
@@ -110,6 +114,40 @@ namespace AgendaAssistant.Services
 
             dbFlightySearch.SelectedFlightID = flightId;
             _dbContext.Current.SaveChanges();
+        }
+
+        public Event RefreshFlights(string eventId)
+        {
+            var dbEvent = _repository.Single(GuidUtil.ToGuid(eventId));
+            
+            // todo: async
+            UpdateFlights(dbEvent.OutboundFlightSearch, (short)dbEvent.Participants.Count);
+            UpdateFlights(dbEvent.InboundFlightSearch, (short)dbEvent.Participants.Count);
+
+            _dbContext.Current.SaveChanges();
+
+            return EntityMapper.Map(dbEvent);
+        }
+
+        private void UpdateFlights(FlightSearch flightSearch, short paxCount)
+        {
+            foreach (var flight in flightSearch.Flights)
+            {
+                var newFlight = _flightService.Get(flightSearch.DepartureStation,
+                                                   flightSearch.ArrivalStation, flight.DepartureDate,
+                                                   flight.CarrierCode,
+                                                   (short)flight.FlightNumber, paxCount);
+
+                if (newFlight != null)
+                {
+                    flight.Price = (int)(newFlight.Price * 100);
+                }
+                else
+                {
+                    // todo: disable flight with remark!
+                    flight.Price = 0;
+                }
+            }
         }
     }
 }

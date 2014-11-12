@@ -16,9 +16,15 @@ namespace AgendaAssistant.Web.api
         public string Email { get; set; }
     }
 
-    public class ConfirmData
+    public class InputData
     {
         public string Id { get; set; }
+    }
+
+    public class RefreshFlightsResponse
+    {
+        public List<Flight> OutboundFlights { get; set; }
+        public List<Flight> InboundFlights { get; set; }
     }
 
     [RoutePrefix("api/event")]
@@ -26,13 +32,13 @@ namespace AgendaAssistant.Web.api
     {
         private readonly IEventService _service;
         private readonly IAvailabilityService _availabilityService;
-        private readonly IMailService _mailService;
+        private readonly IFlightService _flightService;
 
-        public EventController(IEventService eventService, IAvailabilityService availabilityService, IMailService mailService)
+        public EventController(IEventService eventService, IAvailabilityService availabilityService, IFlightService flightService)
         {
             _service = eventService;
             _availabilityService = availabilityService;
-            _mailService = mailService;
+            _flightService = flightService;
         }
 
         // GET api/<controller>/5
@@ -42,7 +48,7 @@ namespace AgendaAssistant.Web.api
         {
             var evn = _service.Get(id);
 
-            var eventAvailabilities = _availabilityService.GetByEvent(evn.Id);
+            var eventAvailabilities = _availabilityService.GetByEvent(id);
             evn.AddAvailabilities(eventAvailabilities);
 
             // used to show participants that have not reacted yet (clicked the link in the confirmation email)
@@ -83,13 +89,35 @@ namespace AgendaAssistant.Web.api
 
         [Route("confirm")]
         [HttpPost]
-        public IHttpActionResult Confirm([FromBody]ConfirmData data)
+        public IHttpActionResult Confirm([FromBody]InputData data)
         {
             try
             {
                 _service.Confirm(data.Id);
 
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("refreshflights")]
+        [HttpPost]
+        public IHttpActionResult RefreshFlights([FromBody]InputData data)
+        {
+            try
+            {
+                var updatedEvent = _service.RefreshFlights(data.Id);
+
+                var response = new RefreshFlightsResponse()
+                    {
+                        OutboundFlights = updatedEvent.OutboundFlightSearch.Flights,
+                        InboundFlights = updatedEvent.InboundFlightSearch.Flights
+                    };
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
