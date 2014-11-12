@@ -1,9 +1,9 @@
-﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $routeParams, eventService, $timeout) {
-
-    eventService.confirm($routeParams.id);
-    
-    // Go to event details after 3 seconds
-    $timeout(function() {
-        $location.path("/event/" + $routeParams.id);
-    }, 100);
+﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $modal, $routeParams, eventService) {
+    eventService.confirm($routeParams.id)
+        .success(function (data) {
+            $location.path("/event/" + $routeParams.id);
+        })
+        .error(function (error) {
+            $modal({ title: error.message, content: error.exceptionMessage, show: true });
+        });
 });
