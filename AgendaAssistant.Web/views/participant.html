@@ -1,4 +1,4 @@
-﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="participant == null && infoMessage.length == 0 && errorMessage.length == 0" />
+﻿<img src="img/ajax-loader.gif" alt="" id="loader" ng-if="participant == null && infoMessage.length == 0" />
 <div class="alert alert-success ontop" role="alert" ng-if="infoMessage.length > 0">{{infoMessage}}</div>
 <!--<div class="alert alert-danger alert-dismissible" role="alert" ng-if="errorMessage.length > 0">{{errorMessage}}</div>-->
 <div id="wrapper" ng-show="participant != null">
@@ -9,7 +9,7 @@
     </ol>
     <h1 class="page-header">{{::participant.person.name}}</h1>
 
-    <div class="alert alert-warning" role="alert" style="color: black">Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</div>
+    <info>Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</info>
     
     <h4>Persoonsgegevens</h4>
 

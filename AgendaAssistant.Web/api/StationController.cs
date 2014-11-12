@@ -41,8 +41,8 @@ namespace AgendaAssistant.Web.api
 
             var data = new StationsAndRoutesData
                 {
-                    Origins = stations.Where(s => originCodes.Contains(s.Code)).ToList(),
-                    Destinations = stations.Where(s => destinationCodes.Contains(s.Code)).ToList(),
+                    Origins = stations.Where(s => originCodes.Contains(s.Code)).OrderBy(s => s.Name).ToList(),
+                    Destinations = stations.Where(s => destinationCodes.Contains(s.Code)).OrderBy(s => s.Name).ToList(),
                     Routes = routes
                 };
 

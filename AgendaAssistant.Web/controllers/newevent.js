@@ -25,7 +25,7 @@
     function getStationsAndRoutes() {
         stationService.get()
             .success(function(data) {
-                $log.log("StationsAndRoutes: " + JSON.stringify(data));
+                //$log.log("StationsAndRoutes: " + JSON.stringify(data));
                 $scope.origins = data.origins;
                 $scope.destinations = data.destinations;
                 $scope.routes = data.routes;
@@ -39,7 +39,7 @@
         eventService.new($scope.event)
            .success(function (data) {
                $scope.isWaitingForNewEvent = false;
-               $log.log("Event: " + JSON.stringify(data));
+               //$log.log("Event: " + JSON.stringify(data));
                //$scope.CurrentStepIndex = 2;
                $scope.event = data;
            })
@@ -69,7 +69,7 @@
 
         eventService.complete($scope.event)
            .success(function (data) {
-               $log.log("Event: " + JSON.stringify(data));
+               //$log.log("Event: " + JSON.stringify(data));
                //$scope.CurrentStepIndex = 2;
                $location.path("/event/" + $scope.event.id);
            })
@@ -111,8 +111,8 @@
             var myDate = new Date();
 
             $scope.event.outboundFlightSearch = {
-                departureStation: "AMS",
-                arrivalStation: "BCN",
+                departureStation: null,
+                arrivalStation: null,
                 beginDate: myDate.setDate(myDate.getDate() + 1),
                 endDate: myDate.setDate(myDate.getDate() + 6),
                 flights: []

@@ -20,7 +20,7 @@
             <!--Step 2: Participants-->
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
             <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
-                <div class="alert alert-warning" role="alert" style="color: black">Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Maximaal 9 deelnemers is toegestaan.</div>
+                <info>Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Maximaal 9 deelnemers is toegestaan.</info>
                 <div ng-if="isWaitingForNewEvent">
                     <p class="help-block">Even geduld aub...</p>
                     <ng-include src="'partials/loader.html'"></ng-include>
@@ -49,8 +49,8 @@
             <!--Step 3: Outbound flight search-->
             <!--<ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>-->
             <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
-                <div class="alert alert-warning" role="alert" style="color: black">Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren. Wanneer je alleen op specifieke dagen wilt reizen, kun je weekdagen uit- of aanzetten. Met de maximum prijs kun je een budget per vlucht aangeven.</div>
-                <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length"></flight-search>
+                <info>Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren. Wanneer je alleen op specifieke dagen wilt reizen, kun je weekdagen uit- of aanzetten. Met de maximum prijs kun je een budget per vlucht aangeven.</info>
+                <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length" departurestations="origins" arrivalstations="destinations" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="!IsOutboundStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
@@ -60,8 +60,8 @@
             <!--Step 4: Inbound flight search-->
             <!-- <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
-                <div class="alert alert-warning" role="alert" style="color: black">Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</div>
-                <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length"></flight-search>
+                <info>Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</info>
+                <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length" departurestations="destinations" arrivalstations="origins" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="!IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>

@@ -84,19 +84,20 @@ app.provider('showErrorsConfig', function () {
     };
 });
 
-app.directive('flightSearch', function ($log, flightService, stationsFactory) {
+app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
     return {
         restrict: 'E',
         scope: {
             paxcount: '=',
             isoutbound: '=',
             flights: '=',
-            flightsearch: '='
+            flightsearch: '=',
+            departurestations: '=',
+            arrivalstations: '=',
+            routes: '='
         },
         controller: function ($scope) {
             $scope.isloading = false;
-            $scope.departurestations = $scope.isoutbound ? stationsFactory.homeStations : stationsFactory.departureStations;
-            $scope.arrivalstations = $scope.isoutbound ? stationsFactory.departureStations : stationsFactory.homeStations;
             $scope.maxpriceChecked = false;
             $scope.maxprice = 0;
             $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
@@ -104,6 +105,22 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
             $scope.$watch('flightsearch.beginDate', function(value, key) {
                 if ($scope.flightsearch != undefined && $scope.flightsearch.endDate < $scope.flightsearch.beginDate) {
                     $scope.flightsearch.endDate = $scope.flightsearch.beginDate;
+                }
+            });
+
+            $scope.$watchCollection('[flightsearch.departureStation, flightsearch.arrivalStation]', function () {
+                if ($scope.flightsearch != undefined && $scope.flightsearch.departureStation != null && $scope.flightsearch.arrivalStation != null) {
+                    if ($scope.flightsearch.departureStation.length > 0 && $scope.flightsearch.arrivalStation.length > 0) {
+                        //$log.log("Dest: " + JSON.stringify($scope.flightsearch));
+                        var routesForArrivalStation = $filter('filter')($scope.routes, { destination: $scope.flightsearch.arrivalStation }, true);
+                        // zoek alle routes met arrival station
+                        var matchedRoute = $filter('filter')(routesForArrivalStation, { origin: $scope.flightsearch.departureStation }, true);
+                        $log.log("matchedRoute: " + JSON.stringify(matchedRoute));
+                        
+                        if (matchedRoute.length == 0) {
+                            $modal({ title: "Vlucht zoeken", content: "Route is niet beschikbaar.", show: true });
+                        }
+                    }
                 }
             });
 
@@ -141,10 +158,24 @@ app.directive('flightSearch', function ($log, flightService, stationsFactory) {
             }
 
             $scope.SearchFlights = function () {
+                var errors = "";
+                
+                if ($scope.flightsearch.departureStation == null) {
+                    errors = errors + "Vertrek station is niet ingevuld. ";
+                };
+
+                if ($scope.flightsearch.arrivalStation == null) {
+                    errors = errors + "Aankomst station is niet ingevuld.";
+                };
+                
+                if (errors.length > 0) {
+                    $modal({ title: "Vlucht zoeken", content: errors, show: true });
+                    return;
+                }
+
                 $scope.isloading = true;
                 // watches are not triggered on initial load
                 $scope.flightsearch.daysOfWeek = selectedDaysOfWeek();
-                $log.log("flightsearch: " + $scope.flightsearch);
                 flightService.getFlights($scope.flightsearch.departureStation, $scope.flightsearch.arrivalStation, $scope.flightsearch.beginDate, $scope.flightsearch.endDate, $scope.paxcount, selectedDaysOfWeek(), $scope.flightsearch.maxPrice)
                     .success(function (data) {
                         $scope.isloading = false;
@@ -180,5 +211,13 @@ app.directive('flightSearchAvailability', function ($log) {
             };
         },
         templateUrl: '../partials/flightsearchavailability.html'
+    };
+});
+
+app.directive('info', function() {
+    return {
+        restrict: 'E',
+        transclude: true,
+        template: '<div class="alert alert-warning" role="alert" style="color: black" ng-transclude></div>'
     };
 });
