@@ -27,9 +27,6 @@ namespace AgendaAssistant.Web.api
             _service = mailService;
         }
 
-        /// <summary>
-        /// Called to add new participants
-        /// </summary>
         [Route("availability")]
         [HttpPost]
         public IHttpActionResult Availability([FromBody] ParticipantEmailInput data)
@@ -38,6 +35,23 @@ namespace AgendaAssistant.Web.api
             try
             {
                 _service.SendAvailabilityUpdate(data.ParticipantId);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("bookingdetails")]
+        [HttpPost]
+        public IHttpActionResult BookingDetails([FromBody] ParticipantEmailInput data)
+        {
+            // new participant
+            try
+            {
+                _service.SendBookingDetails(data.ParticipantId);
 
                 return Ok();
             }

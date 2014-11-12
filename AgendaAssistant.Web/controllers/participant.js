@@ -1,15 +1,15 @@
-﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, $timeout, participantService) {
+﻿angular.module('app').controller('ParticipantCtrl', function ($scope, $rootScope, $modal, $log, $filter, $routeParams, $timeout, participantService, emailService) {
     $scope.participant = null;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
-    //$rootScope.errorMessage = "";
+    $scope.isConfirmed = false;
     
     getData();
 
     function getData() {
         participantService.get($routeParams.participantid)
             .success(function(data) {
-                $log.log("participant = " + JSON.stringify(data));
+                //$log.log("participant = " + JSON.stringify(data));
                 $scope.participant = data;
                 $scope.eventUrl = "#/event/" + data.eventId;
                 
@@ -47,5 +47,10 @@
             }
             timeout = $timeout(saveUpdates, 1000);
         }
+    };
+    
+    $scope.Confirm = function () {
+        $scope.isConfirmed = true;
+        emailService.sendBookingdetails({ participantid: $routeParams.participantid });
     };
 });

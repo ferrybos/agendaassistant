@@ -112,6 +112,21 @@ namespace AgendaAssistant.Services
                         "Afspraak beheren");
         }
 
+        public void SendBookingDetails(string participantId)
+        {
+            var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
+            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
+
+            SendToOrganizer(
+                        dbEvent,
+                        string.Format("Boekingsgegevens gewijzigd: {0} ({1})", dbEvent.Title, dbParticipant.Person.Name),
+                        string.Format("{0} heeft boekingsgegevens gewijzigd voor de afspraak '<strong>{1}</strong>'.",
+                                      dbParticipant.Person.Name, dbEvent.Title),
+                        "Klik op de onderstaande link om de afspraak te beheren.",
+                        EventUrl(dbEvent),
+                        "Afspraak beheren");
+        }
+
         public void SendMessage(Event evn, Participant participant, string text)
         {
             SendToParticipant(
@@ -173,6 +188,7 @@ namespace AgendaAssistant.Services
         void SendInvitation(Event evn, Participant participant);
         void SendInvitationConfirmation(Event evn);
         void SendAvailabilityUpdate(string participantId);
+        void SendBookingDetails(string participantId);
         void SendMessage(Event evn, Participant participant, string text);
 
         void SendToOrganizer(Event evn, string subject, string announcement, string action, string linkUrl,

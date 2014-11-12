@@ -1,11 +1,10 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $filter, $routeParams, Constants, availabilityService, emailService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, Constants, availabilityService, emailService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeFlightTabIndex = 0;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
     $scope.isConfirmed = false;
-    //$rootScope.errorMessage = "";
 
     getData();
     

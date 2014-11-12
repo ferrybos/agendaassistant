@@ -199,9 +199,9 @@
 
     $scope.IsEventStepValid = function () {
         return $scope.event != undefined
-            && $scope.event.title != undefined && $scope.event.title != null
-            && $scope.event.organizer.name != undefined && $scope.event.organizer.name != null
-            && $scope.event.organizer.email != undefined && $scope.event.organizer.email != null;
+            && $scope.event.title != undefined && $scope.event.title != null && $scope.event.title.length > 0
+            && $scope.event.organizer.name != undefined && $scope.event.organizer.name != null && $scope.event.organizer.name.length > 0
+            && $scope.event.organizer.email != undefined && $scope.event.organizer.email != null && $scope.event.organizer.email.length > 0;
     };
 
     $scope.IsParticipantsStepValid = function () {

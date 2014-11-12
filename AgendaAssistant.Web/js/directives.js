@@ -109,7 +109,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
             });
 
             $scope.$watchCollection('[flightsearch.departureStation, flightsearch.arrivalStation]', function () {
-                if ($scope.flightsearch != undefined && $scope.flightsearch.departureStation != null && $scope.flightsearch.arrivalStation != null) {
+                if ($scope.isoutbound && $scope.flightsearch != undefined && $scope.flightsearch.departureStation != null && $scope.flightsearch.arrivalStation != null) {
                     if ($scope.flightsearch.departureStation.length > 0 && $scope.flightsearch.arrivalStation.length > 0) {
                         //$log.log("Dest: " + JSON.stringify($scope.flightsearch));
                         var routesForArrivalStation = $filter('filter')($scope.routes, { destination: $scope.flightsearch.arrivalStation }, true);
