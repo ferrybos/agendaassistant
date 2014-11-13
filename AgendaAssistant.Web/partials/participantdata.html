@@ -1,6 +1,17 @@
 ﻿<info>Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</info>
 
-<h4>Persoonsgegevens</h4>
+<h4>Ruim bagage</h4>
+
+<div class="form-group">
+    <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
+    <select id="Select1" class="form-control" ng-model="participant.bagage">
+        <option value="">Geen</option>
+        <option value="B15">15 kg</option>
+        <option value="B20">20 kg</option>
+    </select>
+</div>
+
+<h4>Paspoort</h4>
 
 <!--FirstNameInPassport-->
 <div class="form-group">
@@ -33,15 +44,5 @@
                 </div>
             </div>-->
 
-<h4>Ruim bagage</h4>
-
-<div class="form-group">
-    <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
-    <select id="Select1" class="form-control" ng-model="participant.bagage">
-        <option value="">Geen</option>
-        <option value="B15">15 kg</option>
-        <option value="B20">20 kg</option>
-    </select>
-</div>
 <br/>
 <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()">Bevestigen</button>
