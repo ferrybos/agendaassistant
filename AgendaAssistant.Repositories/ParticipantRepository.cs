@@ -31,13 +31,15 @@ namespace AgendaAssistant.Repositories
             return dbParticipant;
         }
 
-        public void Update(Guid id, string bagage)
+        public Participant Update(Guid id, string bagage)
         {
             var dbParticipant = Single(id);
 
             dbParticipant.Bagage = bagage;
 
             DbContext.SaveChanges();
+
+            return dbParticipant;
         }
 
         public Participant Add(Guid eventId, Guid personId)

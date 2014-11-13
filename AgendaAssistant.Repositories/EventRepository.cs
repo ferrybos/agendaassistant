@@ -47,8 +47,7 @@ namespace AgendaAssistant.Repositories
 
             dbEvent.ID = Guid.NewGuid(); // used as id for redirect links in app and emails
             dbEvent.CreatedUtc = DateTime.UtcNow;
-            dbEvent.Status = "";
-            dbEvent.IsConfirmed = false;
+            dbEvent.StatusID = EventStatusEnum.New;
 
             DbContext.SaveChanges();
 
@@ -59,14 +58,12 @@ namespace AgendaAssistant.Repositories
         {
             var dbEvent = Single(id);
 
-            if (dbEvent.IsConfirmed)
+            if (dbEvent.StatusID >= EventStatusEnum.Confirmed)
             {
                 return false;
             }
 
-            dbEvent.IsConfirmed = true;
-            dbEvent.Status = "Uitnodigingen verstuurd";
-
+            dbEvent.StatusID = EventStatusEnum.Confirmed;
             DbContext.SaveChanges();
 
             return true;

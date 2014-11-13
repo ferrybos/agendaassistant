@@ -4,7 +4,7 @@ app.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {
         dateFormat: 'dd-MMM-yyyy',
         useNative: true,
-        autoClose: true,
+        autoclose: true,
         startWeek: 1
     });
 });

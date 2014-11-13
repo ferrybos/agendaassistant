@@ -1,10 +1,11 @@
 ﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, Constants, availabilityService, emailService) {
     $scope.constants = Constants;
     $scope.event = null;
-    $scope.activeFlightTabIndex = 0;
+    $scope.activeTabIndex = 0;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
     $scope.isConfirmed = false;
+    $scope.participant = null;
 
     getData();
     
@@ -14,6 +15,10 @@
                 $log.log("event = " + JSON.stringify(data));
                 $scope.event = data;
                 $scope.eventUrl = "#/event/" + $scope.event.id; // + "/" + $routeParams.participantid;
+                
+                // todo: find participant in event.participants
+                $log.log("participants: " + $scope.event.participants.length);
+                $scope.participant = $scope.event.participants[0];
             })
             .error(function(error) {
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
@@ -21,17 +26,14 @@
             });
     };
     
-    $scope.SelectFlightTab = function (value) {
-        $scope.activeFlightTabIndex = value;
-    };
-    
     $scope.Confirm = function () {
-        $scope.isConfirmed = true;
         emailService.sendAvailability({ participantid: $routeParams.participantid });
+        $scope.isConfirmed = true;
+        $modal({ title: "Beschikbaarheid", content: "Bedankt voor het invullen van uw beschikbaarheid. Er is een email verstuurd naar de organisator.", show: true });
     };
 });
 
-angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $timeout, $filter, $routeParams, Constants, availabilityService) {
+angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $modal, $timeout, $filter, $routeParams, Constants, availabilityService) {
     var timeout = null;
     
     var saveUpdates = function () {

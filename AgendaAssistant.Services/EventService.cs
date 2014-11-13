@@ -65,12 +65,16 @@ namespace AgendaAssistant.Services
         {
             var dbEvent = _repository.Single(GuidUtil.ToGuid(id));
 
-            foreach (var dbParticipant in dbEvent.Participants)
-                _mailService.SendInvitation(dbEvent, dbParticipant);
+            if (_repository.Confirm(GuidUtil.ToGuid(id)))
+            {
+                foreach (var dbParticipant in dbEvent.Participants)
+                    _mailService.SendInvitation(dbEvent, dbParticipant);
 
-            _mailService.SendInvitationConfirmation(dbEvent);
-            
-            _repository.Confirm(GuidUtil.ToGuid(id));
+                _mailService.SendInvitationConfirmation(dbEvent);
+
+                dbEvent.StatusID = EventStatusEnum.InvitationsSent;
+                _dbContext.Current.SaveChanges();
+            }
         }
 
         public void Complete(Event evn)
@@ -79,6 +83,7 @@ namespace AgendaAssistant.Services
 
             dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlightSearch);
             dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlightSearch);
+            dbEvent.StatusID = EventStatusEnum.NewCompleted;
             _dbContext.Current.SaveChanges();
 
             // send confirmation email

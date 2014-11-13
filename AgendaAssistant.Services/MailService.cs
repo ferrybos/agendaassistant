@@ -74,14 +74,14 @@ namespace AgendaAssistant.Services
             Send(participant.Person.Email, subject, body);
         }
 
-        public void SendEventConfirmation(Event evn)
+        public void SendEventConfirmation(Event dbEvent)
         {
             SendToOrganizer(
-                evn, 
-                string.Format("Uitnodigingen versturen: {0}", evn.Title),
-                string.Format("U heeft de afspraak '<strong>{0}</strong>' aangemaakt.", evn.Title), 
+                dbEvent, 
+                string.Format("Uitnodigingen versturen: {0}", dbEvent.Title),
+                string.Format("U heeft de afspraak '<strong>{0}</strong>' aangemaakt.", dbEvent.Title), 
                 "Klik op de onderstaande link om de uitnodigingen te versturen.",
-                ConfirmEventUrl(evn), 
+                ConfirmEventUrl(dbEvent), 
                 "Uitnodigingen versturen");
         }
 
@@ -112,9 +112,8 @@ namespace AgendaAssistant.Services
                         "Afspraak beheren");
         }
 
-        public void SendBookingDetails(string participantId)
+        public void SendBookingDetails(Participant dbParticipant)
         {
-            var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
             var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
             SendToOrganizer(
@@ -139,14 +138,14 @@ namespace AgendaAssistant.Services
                 );
         }
 
-        public void SendInvitationConfirmation(Event evn)
+        public void SendInvitationConfirmation(Event dbEvent)
         {
             SendToOrganizer(
-                evn,
-                string.Format("Afspraak beheren: {0}", evn.Title),
-                string.Format("Uw uitnodigingen voor de afspraak '<strong>{0}</strong>' zijn verstuurd.", evn.Title),
+                dbEvent,
+                string.Format("Afspraak beheren: {0}", dbEvent.Title),
+                string.Format("Uw uitnodigingen voor de afspraak '<strong>{0}</strong>' zijn verstuurd.", dbEvent.Title),
                 "Klik op de onderstaande link om de reacties te bekijken, de afspraak te wijzigen of af te ronden.",
-                EventUrl(evn),
+                EventUrl(dbEvent),
                 "Afspraak beheren");
         }
 
@@ -184,11 +183,11 @@ namespace AgendaAssistant.Services
         void Send(List<String> recipients, string subject, EmailBody body);
         void Send(string recipient, string subject, EmailBody body);
 
-        void SendEventConfirmation(Event evn);
+        void SendEventConfirmation(Event dbEvent);
         void SendInvitation(Event evn, Participant participant);
-        void SendInvitationConfirmation(Event evn);
+        void SendInvitationConfirmation(Event dbEvent);
         void SendAvailabilityUpdate(string participantId);
-        void SendBookingDetails(string participantId);
+        void SendBookingDetails(Participant dbParticipant);
         void SendMessage(Event evn, Participant participant, string text);
 
         void SendToOrganizer(Event evn, string subject, string announcement, string action, string linkUrl,

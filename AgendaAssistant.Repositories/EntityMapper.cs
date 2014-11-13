@@ -16,9 +16,9 @@ namespace AgendaAssistant.Repositories
                 {
                     Id = GuidUtil.ToString(dbEvent.ID),
                     Description = dbEvent.Description,
-                    Status = dbEvent.Status,
+                    Status = dbEvent.EventStatus.Description,
                     Title = dbEvent.Title,
-                    IsConfirmed = dbEvent.IsConfirmed,
+                    IsConfirmed = dbEvent.StatusID >= EventStatusEnum.Confirmed,
                     Organizer = Map(dbEvent.Organizer),
                     Participants = new List<Participant>()
                 };

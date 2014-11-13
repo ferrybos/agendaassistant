@@ -11,6 +11,7 @@
           <EntitySet Name="Email" EntityType="AgendaAssistantModel.Store.Email" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailType" EntityType="AgendaAssistantModel.Store.EmailType" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Event" EntityType="AgendaAssistantModel.Store.Event" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EventStatus" EntityType="AgendaAssistantModel.Store.EventStatus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Flight" EntityType="AgendaAssistantModel.Store.Flight" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="FlightSearch" EntityType="AgendaAssistantModel.Store.FlightSearch" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Participant" EntityType="AgendaAssistantModel.Store.Participant" store:Type="Tables" Schema="dbo" />
@@ -48,6 +49,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Event_OutboundFlightSearch" Association="AgendaAssistantModel.Store.FK_Event_OutboundFlightSearch">
             <End Role="FlightSearch" EntitySet="FlightSearch" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Status" Association="AgendaAssistantModel.Store.FK_Event_Status">
+            <End Role="EventStatus" EntitySet="EventStatus" />
             <End Role="Event" EntitySet="Event" />
           </AssociationSet>
           <AssociationSet Name="FK_Flight_FlightSearch" Association="AgendaAssistantModel.Store.FK_Flight_FlightSearch">
@@ -122,11 +127,20 @@
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
           <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
-          <Property Name="Status" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
           <Property Name="IsConfirmed" Type="bit" Nullable="false" />
           <Property Name="OutboundFlightSearchID" Type="bigint" />
           <Property Name="InboundFlightSearchID" Type="bigint" />
           <Property Name="OrganizerPersonID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusID" Type="smallint" />
+        </EntityType>
+        <EntityType Name="EventStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="smallint" Nullable="false" />
+          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -299,6 +313,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Event_Status">
+          <End Role="EventStatus" Type="AgendaAssistantModel.Store.EventStatus" Multiplicity="0..1" />
+          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Flight_FlightSearch">
           <End Role="FlightSearch" Type="AgendaAssistantModel.Store.FlightSearch" Multiplicity="1" />
           <End Role="Flight" Type="AgendaAssistantModel.Store.Flight" Multiplicity="*" />
@@ -416,6 +442,9 @@
             <End Role="Email" EntitySet="Emails" />
             <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
+          <EntitySet Name="Routes" EntityType="AgendaAssistantModel.Route" />
+          <EntitySet Name="Stations" EntityType="AgendaAssistantModel.Station" />
+          <EntitySet Name="EventStatus" EntityType="AgendaAssistantModel.EventStatus" />
           <EntitySet Name="Events" EntityType="AgendaAssistantModel.Event" />
           <AssociationSet Name="FK_Email_Event" Association="AgendaAssistantModel.FK_Email_Event">
             <End Role="Event" EntitySet="Events" />
@@ -433,12 +462,14 @@
             <End Role="FlightSearch" EntitySet="FlightSearches" />
             <End Role="Event" EntitySet="Events" />
           </AssociationSet>
+          <AssociationSet Name="FK_Event_Status" Association="AgendaAssistantModel.FK_Event_Status">
+            <End Role="EventStatuses" EntitySet="EventStatus" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
           <AssociationSet Name="FK_Participant_Event" Association="AgendaAssistantModel.FK_Participant_Event">
             <End Role="Event" EntitySet="Events" />
             <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
-          <EntitySet Name="Routes" EntityType="AgendaAssistantModel.Route" />
-          <EntitySet Name="Stations" EntityType="AgendaAssistantModel.Station" />
           </EntityContainer>
         <EntityType Name="Availability">
           <Key>
@@ -635,6 +666,35 @@
           <End Type="AgendaAssistantModel.Email" Role="Email" Multiplicity="*" />
           <End Type="AgendaAssistantModel.Participant" Role="Participant" Multiplicity="*" />
         </Association>
+        <EntityType Name="Route">
+          <Key>
+            <PropertyRef Name="Origin" />
+            <PropertyRef Name="Destination" />
+          </Key>
+          <Property Type="String" Name="Origin" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Destination" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Station">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TimeZoneCode" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Longitude" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CultureCode" Nullable="false" MaxLength="17" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CountryCode" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EventStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int16" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Events" Relationship="AgendaAssistantModel.FK_Event_Status" FromRole="EventStatuses" ToRole="Event" />
+        </EntityType>
         <EntityType Name="Event">
           <Key>
             <PropertyRef Name="ID" />
@@ -643,15 +703,17 @@
           <Property Type="DateTime" Name="CreatedUtc" Nullable="false" Precision="3" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Status" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsConfirmed" Nullable="false" />
           <Property Type="Int64" Name="OutboundFlightSearchID" />
           <Property Type="Int64" Name="InboundFlightSearchID" />
           <Property Type="Guid" Name="OrganizerPersonID" Nullable="false" />
+          <Property Type="Int16" Name="StatusID" />
           <NavigationProperty Name="Emails" Relationship="AgendaAssistantModel.FK_Email_Event" FromRole="Event" ToRole="Email" />
           <NavigationProperty Name="InboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_InboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
           <NavigationProperty Name="Organizer" Relationship="AgendaAssistantModel.FK_Event_Organizer" FromRole="Event" ToRole="Person" />
           <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
+          <NavigationProperty Name="EventStatus" Relationship="AgendaAssistantModel.FK_Event_Status" FromRole="Event" ToRole="EventStatuses" />
           <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Event" ToRole="Participant" />
         </EntityType>
         <Association Name="FK_Email_Event">
@@ -702,6 +764,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Event_Status">
+          <End Type="AgendaAssistantModel.EventStatus" Role="EventStatuses" Multiplicity="0..1" />
+          <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventStatuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Participant_Event">
           <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="1" />
           <End Type="AgendaAssistantModel.Participant" Role="Participant" Multiplicity="*" />
@@ -714,26 +788,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Route">
-          <Key>
-            <PropertyRef Name="Origin" />
-            <PropertyRef Name="Destination" />
-          </Key>
-          <Property Type="String" Name="Origin" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Type="String" Name="Destination" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Station">
-          <Key>
-            <PropertyRef Name="Code" />
-          </Key>
-          <Property Type="String" Name="Code" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TimeZoneCode" Nullable="false" MaxLength="4" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Latitude" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Longitude" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CultureCode" Nullable="false" MaxLength="17" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CountryCode" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -840,21 +894,6 @@
               <ScalarProperty Name="ID" ColumnName="EmailID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Events">
-            <EntityTypeMapping TypeName="AgendaAssistantModel.Event">
-              <MappingFragment StoreEntitySet="Event">
-                <ScalarProperty Name="OrganizerPersonID" ColumnName="OrganizerPersonID" />
-                <ScalarProperty Name="InboundFlightSearchID" ColumnName="InboundFlightSearchID" />
-                <ScalarProperty Name="OutboundFlightSearchID" ColumnName="OutboundFlightSearchID" />
-                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Routes">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Route">
               <MappingFragment StoreEntitySet="Route">
@@ -873,6 +912,31 @@
                 <ScalarProperty Name="TimeZoneCode" ColumnName="TimeZoneCode" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventStatus">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.EventStatus">
+              <MappingFragment StoreEntitySet="EventStatus">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="OrganizerPersonID" ColumnName="OrganizerPersonID" />
+                <ScalarProperty Name="InboundFlightSearchID" ColumnName="InboundFlightSearchID" />
+                <ScalarProperty Name="OutboundFlightSearchID" ColumnName="OutboundFlightSearchID" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

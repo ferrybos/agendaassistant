@@ -44,21 +44,21 @@ namespace AgendaAssistant.Web.api
             }
         }
 
-        [Route("bookingdetails")]
-        [HttpPost]
-        public IHttpActionResult BookingDetails([FromBody] ParticipantEmailInput data)
-        {
-            // new participant
-            try
-            {
-                _service.SendBookingDetails(data.ParticipantId);
+        //[Route("bookingdetails")]
+        //[HttpPost]
+        //public IHttpActionResult BookingDetails([FromBody] ParticipantEmailInput data)
+        //{
+        //    // new participant
+        //    try
+        //    {
+        //        _service.SendBookingDetails(data.ParticipantId);
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(ex);
-            }
-        }
+        //        return Ok();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return InternalServerError(ex);
+        //    }
+        //}
     }
 }

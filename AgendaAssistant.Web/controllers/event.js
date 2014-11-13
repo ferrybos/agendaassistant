@@ -18,7 +18,9 @@
             $scope.event = data;
             $log.log("Event: " + JSON.stringify($scope.event));
 
-            refreshFlights();
+            if ($scope.event.isConfirmed) {
+                refreshFlights();
+            }
         });
     };
 
@@ -37,7 +39,9 @@
             })
             .error(function (error) {
                 $scope.isRefreshingFlights = false;
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                if (error != null) {
+                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                }
             });
     }
 

@@ -22,13 +22,15 @@ namespace AgendaAssistant.Services
         private readonly IDbContext _dbContext;
         private readonly ParticipantRepository _repository;
         private readonly PersonRepository _personRepository;
+        private readonly IMailService _mailService;
 
-        public ParticipantService(IDbContext dbContext)
+        public ParticipantService(IDbContext dbContext, IMailService mailService)
         {
             _dbContext = dbContext;
 
             _repository = new ParticipantRepository(_dbContext);
             _personRepository = new PersonRepository(_dbContext);
+            _mailService = mailService;
         }
 
         public Participant Get(string id)
@@ -50,12 +52,14 @@ namespace AgendaAssistant.Services
 
         public void Update(Participant participant)
         {
-            _repository.Update(GuidUtil.ToGuid(participant.Id), participant.Bagage);
+            var dbParticipant = _repository.Update(GuidUtil.ToGuid(participant.Id), participant.Bagage);
             
             var person = participant.Person;
             _personRepository.Update(GuidUtil.ToGuid(person.Id),
                                      person.FirstNameInPassport, person.LastNameInPassport,
                                      person.DateOfBirth, person.Gender);
+
+            _mailService.SendBookingDetails(dbParticipant);
         }
 
         public void Delete(string id)

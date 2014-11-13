@@ -214,6 +214,47 @@ app.directive('flightSearchAvailability', function ($log) {
     };
 });
 
+app.directive('availabilitylist', function ($log) {
+    return {
+        restrict: 'E',
+        scope: {
+            flightsearch: '='
+        },
+        controller: function ($scope) {
+            //
+        },
+        templateUrl: '../partials/availabilitylist.html'
+    };
+});
+
+app.directive('participantdata', function ($log, participantService, $timeout, $modal, emailService) {
+    return {
+        restrict: 'E',
+        scope: {
+            participant: '='
+        },
+        controller: function ($scope) {
+            $scope.Confirm = function () {
+                //$scope.isConfirmed = true;
+                $log.log("Test: " + JSON.stringify($scope.participant));
+                
+                participantService.update($scope.participant)
+                    .success(function (data) {
+                        //$scope.isConfirmed = true;
+                        $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
+                    })
+                    .error(function (error) {
+                        $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                    });
+                
+                //emailService.sendBookingdetails({ participantid: $scope.participant.id });
+                //$modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
+            };
+        },
+        templateUrl: '../partials/participantdata.html'
+    };
+});
+
 app.directive('info', function() {
     return {
         restrict: 'E',

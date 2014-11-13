@@ -138,6 +138,7 @@
     <Content Include="lib\slider\angular-slider.js" />
     <Content Include="lib\slider\angular-slider.min.css" />
     <Content Include="lib\slider\angular-slider.min.js" />
+    <Content Include="partials\availabilityList.html" />
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />
     <Content Include="partials\eventOrganizedBy.html" />
@@ -146,7 +147,9 @@
     <Content Include="partials\flightsearch.html" />
     <Content Include="partials\flightsearchavailability.html" />
     <Content Include="partials\flightsearchtoggle.html" />
+    <Content Include="partials\legenda.html" />
     <Content Include="partials\newEventDetails.html" />
+    <Content Include="partials\participantdata.html" />
     <Content Include="services\constants.js" />
     <Content Include="services\availability.js" />
     <Content Include="services\flight.js" />
