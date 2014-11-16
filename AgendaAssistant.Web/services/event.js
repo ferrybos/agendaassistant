@@ -23,12 +23,14 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
     };
 
     this.confirm = function (id) {
-        $log.log("Confirm event " + id);
         return $http.post(urlBase + '/confirm', { id: id });
     };
     
     this.refreshFlights = function (id) {
-        $log.log("Refresh: " + id);
         return $http.post(urlBase + '/refreshflights', { id: id });
+    };
+
+    this.confirmFlightsToParticipants = function(id) {
+        return $http.post(urlBase + '/confirmflightstoparticipants', { id: id });
     };
 }]);

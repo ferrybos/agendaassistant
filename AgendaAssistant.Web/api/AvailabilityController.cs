@@ -12,6 +12,11 @@ using AgendaAssistant.Web.models;
 
 namespace AgendaAssistant.Web.api
 {
+    public class ParticipantId
+    {
+        public string Id { get; set; }
+    }
+
     [RoutePrefix("api/availability")]
     public class AvailabilityController : ApiController
     {
@@ -39,6 +44,26 @@ namespace AgendaAssistant.Web.api
             // update av
             _service.Update(availability);
             return Ok();
+        }
+
+        /// <summary>
+        /// Called to add new participants
+        /// </summary>
+        [Route("confirm")]
+        [HttpPost]
+        public IHttpActionResult Confirm([FromBody] ParticipantId data)
+        {
+            // new participant
+            try
+            {
+                _service.Confirm(data.Id);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
     }
 }

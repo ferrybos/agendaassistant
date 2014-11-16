@@ -15,6 +15,7 @@ namespace AgendaAssistant.Services
         List<Availability> GetByEvent(string eventId);
         short CalculateAvailabilityPercentage(Flight flight);
         void Update(Availability availability);
+        void Confirm(string participantId);
     }
 
     /// <summary>
@@ -24,11 +25,13 @@ namespace AgendaAssistant.Services
     {
         private readonly AvailabilityRepository _repository;
         private readonly IDbContext _dbContext;
+        private readonly IMailService _mailService;
 
-        public AvailabilityService(IDbContext dbContext)
+        public AvailabilityService(IDbContext dbContext, IMailService mailService)
         {
             _dbContext = dbContext;
             _repository = new AvailabilityRepository(_dbContext);
+            _mailService = mailService;
         }
 
         public short CalculateAvailabilityPercentage(Flight flight)
@@ -85,6 +88,14 @@ namespace AgendaAssistant.Services
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(availability.ParticipantId));
 
             _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value, availability.CommentText);
+        }
+
+        public void Confirm(string participantId)
+        {
+            var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
+            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
+
+            _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
         }
     }
 }

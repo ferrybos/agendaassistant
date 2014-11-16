@@ -227,7 +227,7 @@ app.directive('availabilitylist', function ($log) {
     };
 });
 
-app.directive('participantdata', function ($log, participantService, $timeout, $modal, emailService) {
+app.directive('participantdata', function ($log, participantService, $timeout, $modal) {
     return {
         restrict: 'E',
         scope: {
@@ -235,20 +235,15 @@ app.directive('participantdata', function ($log, participantService, $timeout, $
         },
         controller: function ($scope) {
             $scope.Confirm = function () {
-                //$scope.isConfirmed = true;
                 $log.log("Test: " + JSON.stringify($scope.participant));
                 
                 participantService.update($scope.participant)
                     .success(function (data) {
-                        //$scope.isConfirmed = true;
                         $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
                     })
                     .error(function (error) {
                         $modal({ title: error.message, content: error.exceptionMessage, show: true });
                     });
-                
-                //emailService.sendBookingdetails({ participantid: $scope.participant.id });
-                //$modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
             };
         },
         templateUrl: '../partials/participantdata.html'
@@ -287,7 +282,7 @@ app.directive('eventActions', function () {
         scope: {
             event: '='
         },
-        controller: function ($scope, $filter, $window, eventService) {
+        controller: function ($scope, $filter, $window, $modal, eventService) {
             $scope.openDeepLink = function () {
                 var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
 
@@ -308,7 +303,17 @@ app.directive('eventActions', function () {
 
                 $window.open(deeplinkUrl);
             };
-            
+
+            $scope.confirmFlightsToParticipants = function() {
+                eventService.confirmFlightsToParticipants($scope.event)
+                    .success(function (data) {
+                        $modal({ title: $scope.event.title, content: "Er is een email verstuurd naar alle deelnemers met de geprikte vlucht informatie.", show: true });
+                    })
+                    .error(function (error) {
+                        $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                    });
+            };
+
             $scope.areFlightsSelected = function () {
                 return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
             };

@@ -21,6 +21,7 @@ namespace AgendaAssistant.Services
 
         void SelectFlight(string eventId, long flightSearchId, long flightId);
         Event RefreshFlights(string eventId);
+        void ConfirmFlightsToParticipants(string id);
     }
 
     /// <summary>
@@ -132,6 +133,16 @@ namespace AgendaAssistant.Services
             _dbContext.Current.SaveChanges();
 
             return EntityMapper.Map(dbEvent);
+        }
+
+        public void ConfirmFlightsToParticipants(string id)
+        {
+            var dbEvent = _repository.Single(GuidUtil.ToGuid(id));
+
+            foreach (var dbParticipant in dbEvent.Participants)
+            {
+                _mailService.SendFlightsConfirmation(dbEvent, dbParticipant);
+            }
         }
 
         private void UpdateFlights(FlightSearch flightSearch, short paxCount)

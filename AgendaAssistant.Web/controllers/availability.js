@@ -1,10 +1,9 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, Constants, availabilityService, emailService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, Constants, availabilityService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeTabIndex = 0;
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
-    $scope.isConfirmed = false;
     $scope.participant = null;
 
     getData();
@@ -27,9 +26,14 @@
     };
     
     $scope.Confirm = function () {
-        emailService.sendAvailability({ participantid: $routeParams.participantid });
-        $scope.isConfirmed = true;
-        $modal({ title: "Beschikbaarheid", content: "Bedankt voor het invullen van uw beschikbaarheid. Er is een email verstuurd naar de organisator.", show: true });
+        availabilityService.confirm($scope.participant.id)
+            .success(function (data) {
+                $modal({ title: "Beschikbaarheid", content: "Bedankt voor het invullen van uw beschikbaarheid. Er is een email verstuurd naar de organisator.", show: true });
+                $scope.activeTabIndex = 1; // booking details
+            })
+            .error(function(error) {
+                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+            });
     };
 });
 

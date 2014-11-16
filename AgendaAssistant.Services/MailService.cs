@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,48 @@ namespace AgendaAssistant.Services
             mailer.SendMessage(msg);
         }
 
+        public void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant)
+        {
+            var selectedOutboundFlight = dbEvent.OutboundFlightSearch.SelectedFlight;
+            var selectedInboundFlight = dbEvent.InboundFlightSearch.SelectedFlight;
+
+            var subject = string.Format("{0}: Vluchten zijn geprikt!", dbEvent.Title);
+
+            var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
+            var announcement = string.Format("Hieronder vind u de vlucht informatie voor de afspraak '{0}'.", dbEvent.Title);
+
+            var htmlBuilder = new StringBuilder();
+            htmlBuilder.AppendLine(salutation);
+            htmlBuilder.AppendLine("<br /><br />");
+            htmlBuilder.AppendLine(announcement);
+            htmlBuilder.AppendLine("<br /><br />");            
+            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br /><br />");
+            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br /><br />");
+
+            var textBuilder = new StringBuilder();
+            textBuilder.AppendLine(salutation);
+            textBuilder.AppendLine("");
+            textBuilder.AppendLine(announcement);
+            textBuilder.AppendLine("");
+            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine("");
+            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+
+            var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
+
+            Send(dbParticipant.Person.Email, subject, body);
+        }
+
         public void SendToOrganizer(Event dbEvent, string subject, string announcement, string action, string linkUrl, string linkText)
         {
             var salutation = string.Format("Beste {0}", dbEvent.Organizer.Name);
@@ -66,12 +109,12 @@ namespace AgendaAssistant.Services
             Send(dbEvent.Organizer.Email, subject, body);
         }
 
-        public void SendToParticipant(Participant participant, string subject, string announcement, string action, string linkUrl, string linkText)
+        public void SendToParticipant(Participant dbParticipant, string subject, string announcement, string action, string linkUrl, string linkText)
         {
-            var salutation = string.Format("Beste {0}", participant.Person.Name);
+            var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
             var body = GenerateBody(salutation, announcement, action, linkUrl, linkText);
-            
-            Send(participant.Person.Email, subject, body);
+
+            Send(dbParticipant.Person.Email, subject, body);
         }
 
         public void SendEventConfirmation(Event dbEvent)
@@ -85,23 +128,20 @@ namespace AgendaAssistant.Services
                 "Uitnodigingen versturen");
         }
 
-        public void SendInvitation(Event evn, Participant participant)
+        public void SendInvitation(Event dbEvent, Participant dbParticipant)
         {
             SendToParticipant(
-                participant,
-                string.Format("Uitnodiging van {0}: {1}", evn.Organizer.Name, evn.Title),
-                string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.", evn.Organizer.Name, evn.Title),
+                dbParticipant,
+                string.Format("Uitnodiging van {0}: {1}", dbEvent.Organizer.Name, dbEvent.Title),
+                string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.", dbEvent.Organizer.Name, dbEvent.Title),
                 "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid op te geven. Bewaar deze email om later nog uw beschikbaarheid te kunnen wijzigen.",
-                AvailabilityUrl(participant),
+                AvailabilityUrl(dbParticipant),
                 "Beschikbaarheid invullen of wijzigen"
                 );
         }
 
-        public void SendAvailabilityUpdate(string participantId)
+        public void SendAvailabilityUpdate(Event dbEvent, Participant dbParticipant)
         {
-            var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
-            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
-
             SendToOrganizer(
                         dbEvent,
                         string.Format("Beschikbaarheid ingevuld: {0}", dbEvent.Title),
@@ -126,14 +166,14 @@ namespace AgendaAssistant.Services
                         "Afspraak beheren");
         }
 
-        public void SendMessage(Event evn, Participant participant, string text)
+        public void SendMessage(Event dbEvent, Participant dbParticipant, string text)
         {
             SendToParticipant(
-                participant,
-                string.Format("Extra bericht: {0}", evn.Title),
+                dbParticipant,
+                string.Format("Extra bericht: {0}", dbEvent.Title),
                 text,
                 "",
-                EventUrl(evn),
+                EventUrl(dbEvent),
                 "Afspraak bekijken"
                 );
         }
@@ -184,13 +224,15 @@ namespace AgendaAssistant.Services
         void Send(string recipient, string subject, EmailBody body);
 
         void SendEventConfirmation(Event dbEvent);
-        void SendInvitation(Event evn, Participant participant);
+        void SendInvitation(Event dbEvent, Participant dbParticipant);
         void SendInvitationConfirmation(Event dbEvent);
-        void SendAvailabilityUpdate(string participantId);
+        void SendAvailabilityUpdate(Event dbEvent, Participant dbParticipant);
         void SendBookingDetails(Participant dbParticipant);
-        void SendMessage(Event evn, Participant participant, string text);
+        void SendMessage(Event dbEvent, Participant dbParticipant, string text);
 
-        void SendToOrganizer(Event evn, string subject, string announcement, string action, string linkUrl,
+        void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant);
+
+        void SendToOrganizer(Event dbEvent, string subject, string announcement, string action, string linkUrl,
                              string linkText);
 
         void SendToParticipant(Participant participant, string subject, string announcement, string action,

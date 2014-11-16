@@ -102,7 +102,7 @@ namespace AgendaAssistant.Web.api
                 return InternalServerError(ex);
             }
         }
-
+        
         [Route("refreshflights")]
         [HttpPost]
         public IHttpActionResult RefreshFlights([FromBody]InputData data)
@@ -150,6 +150,22 @@ namespace AgendaAssistant.Web.api
                 _service.Complete(value);
 
                 return Ok(string.Format("api/event/{0}", value.Id));
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("confirmflightstoparticipants")]
+        [HttpPost]
+        public IHttpActionResult ConfirmFlightsToParticipants([FromBody]InputData data)
+        {
+            try
+            {
+                _service.ConfirmFlightsToParticipants(data.Id);
+
+                return Ok();
             }
             catch (Exception ex)
             {

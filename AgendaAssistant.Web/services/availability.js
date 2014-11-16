@@ -1,14 +1,4 @@
-﻿//app.factory("availabilityFactory", function ($resource) {
-//    return $resource(
-//        "/api/availability/:eventid/:personid",
-//        { eventid: "@eventid", personid: "@personid" },
-//        {
-//            update: { method: "PUT" }
-//        }
-//    );
-//});
-
-app.service('availabilityService', ['$http', '$log', function ($http, $log) {
+﻿app.service('availabilityService', ['$http', '$log', function ($http, $log) {
     var urlBase = '/api/availability';
 
     this.get = function (participantid) {
@@ -18,5 +8,9 @@ app.service('availabilityService', ['$http', '$log', function ($http, $log) {
     this.update = function (availability) {
         $log.log("Update availability: " + JSON.stringify(availability));
         return $http.post(urlBase, availability);
+    };
+
+    this.confirm = function(participantid) {
+        return $http.post(urlBase + '/confirm', { Id: participantid });
     };
 }]);
