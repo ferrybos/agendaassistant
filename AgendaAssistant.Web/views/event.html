@@ -10,11 +10,10 @@
 
     <ng-include src="'partials/eventNotConfirmed.html'"></ng-include>
     <div ng-if="event.isConfirmed">
-        <ng-include src="'partials/eventOrganizedBy.html'"></ng-include>
-        <ng-include src="'partials/eventActions.html'"></ng-include>
-        <ng-include src="'partials/eventUnconfirmedParticipants.html'"></ng-include>
-        <ng-include src="'partials/flightsearchtoggle.html'"></ng-include>
-        
+        <event-sub-title event="event"></event-sub-title>
+        <event-actions event="event"></event-actions>
+        <event-unconfirmed-participants event="event"></event-unconfirmed-participants>
+
         <loader ng-if="isRefreshingFlights == true">
             Vluchtprijzen worden opnieuw opgehaald...
         </loader>
@@ -23,11 +22,15 @@
             De geprikte terugvlucht ligt voor de geprikte heenvlucht. Deze combinatie kunt u niet boeken.
         </div>
 
-        <div id="outboundFlights" ng-show="activeFlightTabIndex == 0">
-            <flight-search-availability event="event" flightsearch="event.outboundFlightSearch" ispushpinselected="isPushPinSelected" availabilityurl="availabilityUrl"></flight-search-availability>
-        </div>
-        <div id="inboundFlights" ng-show="activeFlightTabIndex == 1">
-            <flight-search-availability event="event" flightsearch="event.inboundFlightSearch" ispushpinselected="isPushPinSelected" availabilityurl="availabilityUrl"></flight-search-availability>
+        <div class="row" style="margin-top:20px">
+            <div class="col-md-6 leftcol">
+                <h4>Heen vlucht ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
+                <flight-search-availability event="event" flightsearch="event.outboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
+            </div>
+            <div class="col-md-6 rightcol">
+                <h4>Terug vlucht ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
+                <flight-search-availability event="event" flightsearch="event.inboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
+            </div>
         </div>
     </div>
 </div>

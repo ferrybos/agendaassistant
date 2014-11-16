@@ -117,7 +117,7 @@ namespace AgendaAssistant.Services
 
             var dbFlightySearch = new FlightSearchRepository(_dbContext).Single(flightSearchId);
 
-            dbFlightySearch.SelectedFlightID = flightId;
+            dbFlightySearch.SelectedFlightID = flightId == 0 ? (long?)null : flightId;
             _dbContext.Current.SaveChanges();
         }
 

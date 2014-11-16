@@ -3,7 +3,7 @@
 <!--<div class="alert alert-danger alert-dismissible" role="alert" ng-if="errorMessage.length > 0">{{errorMessage}}</div>-->
 <div id="wrapper" ng-show="event != null">
     <h1 class="page-header">{{::event.title}}</h1>
-    <p style="margin-bottom: 20px">Georganiseerd door {{::event.organizer.name}} ({{::event.status}})</p>
+    <event-sub-title event="event"></event-sub-title>
 
     <div ng-show="isConfirmed == false">
         <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
@@ -14,13 +14,16 @@
         <div ng-show="activeTabIndex == 0">
             <info>Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.</info>
 
-            <h4>Heen vluchten ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
-            <availabilitylist flightsearch="event.outboundFlightSearch"></availabilitylist>
-
-            <br />
-
-            <h4>Terug vluchten ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
-            <availabilitylist flightsearch="event.inboundFlightSearch"></availabilitylist>
+            <div class="row">
+                <div class="col-md-6 leftcol">
+                    <h4>Heen vluchten ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
+                    <availabilitylist flightsearch="event.outboundFlightSearch"></availabilitylist>
+                </div>
+                <div class="col-md-6 rightcol">
+                    <h4>Terug vluchten ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
+                    <availabilitylist flightsearch="event.inboundFlightSearch"></availabilitylist>
+                </div>
+            </div>           
 
             <br />
             <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()">Bevestigen</button>

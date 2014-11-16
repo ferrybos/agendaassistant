@@ -16,7 +16,7 @@ namespace AgendaAssistant.Repositories
                 {
                     Id = GuidUtil.ToString(dbEvent.ID),
                     Description = dbEvent.Description,
-                    Status = dbEvent.EventStatus.Description,
+                    Status = Map(dbEvent.EventStatus),
                     Title = dbEvent.Title,
                     IsConfirmed = dbEvent.StatusID >= EventStatusEnum.Confirmed,
                     Organizer = Map(dbEvent.Organizer),
@@ -35,6 +35,11 @@ namespace AgendaAssistant.Repositories
             }
 
             return evn;
+        }
+
+        private static EventStatus Map(DB.EventStatus eventStatus)
+        {
+            return new EventStatus() {Id = eventStatus.ID, Description = eventStatus.Description};
         }
 
         public static Person Map(DB.Person dbPerson)

@@ -7,14 +7,20 @@ using AgendaAssistant.Shared;
 
 namespace AgendaAssistant.Entities
 {
+    public class EventStatus
+    {
+        public short Id { get; set; }
+        public string Description { get; set; }
+    }
+
     public class Event
     {
         public string Id { get; set; }
 
         public string Title { get; set; }
         public string Description { get; set; }
-        
-        public string Status { get; set; }
+
+        public EventStatus Status { get; set; }
         public bool IsConfirmed { get; set; }
 
         public string OrganizerParticipantCode { get; set; }

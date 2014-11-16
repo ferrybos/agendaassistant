@@ -199,14 +199,14 @@ app.directive('flightSearchAvailability', function ($log) {
         scope: {
             event: '=',
             flightsearch: '=',
-            ispushpinselected: '=',
             availabilityurl: '='
         },
         controller: function ($scope) {
             $scope.SelectFlight = function (flightSearch, flight) {
                 flightSearch.selectedFlight = flight;
+                var selectedFlightId = flight != null ? flight.id : 0;
 
-                $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: flight.id }, function () {
+                $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: selectedFlightId }, function () {
                 });
             };
         },
@@ -268,5 +268,86 @@ app.directive('loader', function () {
         restrict: 'E',
         transclude: true,
         template: '<div class="loader"><img src="img/ajax-loader.gif" style="padding:10px" /><span class="help-block loadertext" ng-transclude></span></div>'
+    };
+});
+
+app.directive('eventSubTitle', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            event: '='
+        },
+        template: '<p style="margin-bottom: 20px">Georganiseerd door {{event.organizer.name}} ({{event.status.description}})</p>'
+    };
+});
+
+app.directive('eventActions', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            event: '='
+        },
+        controller: function ($scope, $filter, $window, eventService) {
+            $scope.openDeepLink = function () {
+                var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
+
+                var deeplinkUrl = urlTemplate
+                    .replace('{from}', $scope.event.outboundFlightSearch.departureStation.trim())
+                    .replace('{fromMonth}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+                    .replace('{fromDay}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
+                    .replace('{to}', $scope.event.inboundFlightSearch.departureStation.trim())
+                    .replace('{toMonth}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+                    .replace('{toDay}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
+                    .replace('{adults}', $scope.event.participants.length)
+                    .replace('{flightNrUp1}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+                    .replace('{flightNrUp2}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
+                    .replace('{flightNrUp3}', $scope.event.outboundFlightSearch.selectedFlight.flightNumber)
+                    .replace('{flightNrDown1}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
+                    .replace('{flightNrDown2}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
+                    .replace('{flightNrDown3}', $scope.event.inboundFlightSearch.selectedFlight.flightNumber);
+
+                $window.open(deeplinkUrl);
+            };
+            
+            $scope.areFlightsSelected = function () {
+                return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
+            };
+
+            $scope.areSelectedFlightsValid = function () {
+                return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
+                    $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
+            };
+            
+            $scope.SetStatus = function () {
+                $log.log("SetStatus: ");
+
+                //eventService.update($scope.participant)
+                //    .success(function (data) {
+                //        //$scope.isConfirmed = true;
+                //        $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
+                //    })
+                //    .error(function (error) {
+                //        $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                //    });
+            };
+        },
+        templateUrl: '../partials/eventActions.html'
+    };
+});
+
+app.directive('eventUnconfirmedParticipants', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            event: '='
+        },
+        controller: function ($scope, $filter) {
+            $scope.isReminderSectionExpanded = false;
+            
+            $scope.unconfirmedParticipants = function () {
+                return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
+            };
+        },
+        templateUrl: '../partials/eventUnconfirmedParticipants.html'
     };
 });

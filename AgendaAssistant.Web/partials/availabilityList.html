@@ -1,5 +1,5 @@
 ﻿<div class="row" style="text-align: left; margin-bottom: 4px">
-    <span class="glyphicon glyphicon-ok" style="margin-right: 4px;color: green"></span>Ja
+    <span class="glyphicon glyphicon-ok" style="margin-right: 4px; color: green"></span>Ja
     <span class="glyphicon glyphicon-ok" style="color: orange; margin-left: 20px"></span><span class="glyphicon glyphicon-minus" style="color: orange; margin-left: -8px; margin-right: 4px; font-size: xx-small"></span>Liever niet
     <span class="glyphicon glyphicon-remove" style="color: darkred; margin-left: 20px; margin-right: 4px"></span>Nee
     <span class="glyphicon glyphicon-comment" style="margin-left: 20px; margin-right: 4px"></span>Opmerking
@@ -27,8 +27,22 @@
                                     </div>
                                 </div>
                                 <div style="float: left">
-                                    <span class="flighttime" style="padding: 8px; border-top: 0;">{{flight.std | date : 'HH:mm'}}</span>
-                                    <span class="badge price" style="line-height: 18px; margin-left: 20px">{{flight.price}} EUR</span>
+                                    <table class="table" style="width:230px;">
+                                        <thead>
+                                            <tr>
+                                                <th>Vertrek</th>
+                                                <th>Aankomst</th>
+                                                <th>Prijs</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{{flight.std | date : 'HH:mm'}}</td>
+                                                <td>{{flight.sta | date : 'HH:mm'}}</td>
+                                                <td>{{flight.price}} EUR</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">

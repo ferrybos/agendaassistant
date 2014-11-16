@@ -1,48 +1,70 @@
-﻿<div class="list-group" ng-if="flightsearch.selectedFlight != null" class="repeat-animation">
-    <div class="list-group-item list-group-item-warning">
-        <h4>{{flightsearch.selectedFlight.departureDate | date : 'EEE dd-MMM'}}   {{flightsearch.selectedFlight.carrierCode}}{{flightsearch.selectedFlight.flightNumber}}   {{flightsearch.selectedFlight.price}} EUR</h4>
-        <p>{{flightsearch.selectedFlight.std | date : 'HH:mm'}}      Vertrek: {{flightsearch.selectedFlight.departureStation}}</p>
-        <p>{{flightsearch.selectedFlight.sta | date : 'HH:mm'}}      Aankomst: {{flightsearch.selectedFlight.arrivalStation}}</p>
+﻿<div class="repeat-animation" ng-if="flightsearch.selectedFlight != null">
+    <div class="list-group" style="margin-bottom: 4px">
+        <div class="list-group-item list-group-item-success">
+            <p>Geprikte vlucht: <b>{{flightsearch.selectedFlight.carrierCode}} {{flightsearch.selectedFlight.flightNumber}}</b> op <b>{{flightsearch.selectedFlight.departureDate | date : 'EEE dd-MMM'}}</b></p>
+            <div class="row">
+                <div class="col-xs-4">Vertrek: {{flightsearch.selectedFlight.std | date : 'HH:mm'}}</div>
+                <div class="col-xs-4">Aankomst: {{flightsearch.selectedFlight.sta | date : 'HH:mm'}}</div>
+                <div class="col-xs-4"><span>Prijs: {{flightsearch.selectedFlight.price}} EUR</span></div>
+            </div>
+        </div>
     </div>
+    <span><a style="cursor: pointer" ng-click="SelectFlight(flightsearch, null)">Andere vlucht prikken</a></span>
 </div>
 
-<div class="list-group" ng-show="flightsearch.selectedFlight == null || ispushpinselected === true">
+<div class="list-group" ng-show="flightsearch.selectedFlight == null">
     <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in flightsearch.flights | groupBy: 'departureDate'">
         <div class="panel-heading departureDateHeader">{{ key | date : 'EEE dd-MMM' }}</div>
         <div class="panel-body" style="padding: 0">
-            <table id="outboundflights-table" class="table table-condensed">
+            <table class="table table-condensed">
                 <tbody>
                     <tr ng-repeat="flight in value">
                         <td>
                             <table class="table">
                                 <tr>
-                                    <td style="padding-right: 20px; border-top: 0;" ng-show="ispushpinselected === true">
-                                        <button type="button" class="btn btn-lg" ng-click="SelectFlight(flightsearch, flight)" ng-class="flightsearch.selectedFlight != null && flight.id == flightsearch.selectedFlight.id  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
+                                    <td style="padding-right: 20px; border-top: 0;" ng-show="event.isPushpinActive === true">
+                                        <button type="button" class="btn" ng-click="SelectFlight(flightsearch, flight)" ng-class="flightsearch.selectedFlight != null && flight.id == flightsearch.selectedFlight.id  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
                                             <span class="glyphicon glyphicon-pushpin"></span>
                                         </button>
                                     </td>
-                                    <td style="padding-right: 20px; border-top: 0;">
-                                        <span class="flighttime">{{flight.std | date : 'HH:mm'}}</span>
+                                    <td style="border-top: 0; padding: 0;">
+                                        <table class="table" style="width: 230px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vertrek</th>
+                                                    <th>Aankomst</th>
+                                                    <th>Prijs</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{flight.std | date : 'HH:mm'}}</td>
+                                                    <td>{{flight.sta | date : 'HH:mm'}}</td>
+                                                    <td>{{flight.price}} EUR</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </td>
-                                    <td style="padding-right: 30px; border-top: 0;">
-                                        <span class="badge price" style="line-height: 18px; margin-left: 5px">{{flight.price}} EUR</span>
-                                    </td>
-                                    <td style="width: 100%; padding-top: 10px; border-top: 0;">
+                                    <td style="width: 100%; padding-top: 10px; border-top: 0; padding-left: 20px">
                                         <div class="progress" style="width: 100%">
                                             <div class="progress-bar" ng-class="flight.availabilityPercentage >= 90 ? 'progress-bar-success' : flight.availabilityPercentage >= 50 ? 'progress-bar-warning' : 'progress-bar-danger'" role="progressbar" aria-valuenow="{{flight.availabilityPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{flight.availabilityPercentage}}%;">
                                                 {{flight.availabilityPercentage}}%
                                             </div>
                                         </div>
+                                        <div style="margin-top: 4px; float: right; font-size: x-small; cursor: pointer">
+                                            <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true">Toon deelnemers</a>
+                                            <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false">Verberg deelnemers</a>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
-                            <table id="Table2" class="table">
+                            <table id="Table2" class="table" ng-if="flight.participantsVisible === true">
                                 <tbody>
                                     <tr ng-repeat="(key, value) in flight.availabilities | groupBy: 'value'">
                                         <td style="width: 50px; border-top: 0">
-                                            <span class="glyphicon glyphicon-ok" ng-show="key == 100" style="font-size: 24px;color:green"></span>
-                                            <span ng-show="key == 50"><span class="glyphicon glyphicon-ok" style="font-size: 24px;color:orange"></span><span class="glyphicon glyphicon-minus" style="color:orange; margin-left: -8px; margin-right: 4px; font-size: xx-small"></span></span>
-                                            <span class="glyphicon glyphicon-remove" ng-show="key == 0" style="font-size: 24px;color:darkred"></span>
+                                            <span class="glyphicon glyphicon-ok" ng-show="key == 100" style="font-size: 16px; color: green"></span>
+                                            <span ng-show="key == 50"><span class="glyphicon glyphicon-ok" style="font-size: 16px; color: orange"></span><span class="glyphicon glyphicon-minus" style="color: orange; margin-left: -8px; margin-right: 4px; font-size: xx-small"></span></span>
+                                            <span class="glyphicon glyphicon-remove" ng-show="key == 0" style="font-size: 16px; color: darkred"></span>
                                         </td>
                                         <td style="border-top: 0; vertical-align: middle">
                                             <span ng-repeat="availability in value" style="margin-right: 20px">
