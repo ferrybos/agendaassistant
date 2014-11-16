@@ -22,7 +22,7 @@
             De geprikte terugvlucht ligt voor de geprikte heenvlucht. Deze combinatie kunt u niet boeken.
         </div>
 
-        <div class="row" style="margin-top:20px">
+        <div class="row" style="margin-top: 20px">
             <div class="col-md-6 leftcol">
                 <h4>Heen vlucht ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
                 <flight-search-availability event="event" flightsearch="event.outboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
@@ -31,6 +31,14 @@
                 <h4>Terug vlucht ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
                 <flight-search-availability event="event" flightsearch="event.inboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
             </div>
+        </div>
+
+        <div ng-if="true">
+            <h4>Passagiers</h4>
+            <p ng-repeat="participant in event.participants">{{participant.person.name}}</p>
+            
+
+            <button>Boeking is voltooid</button>
         </div>
     </div>
 </div>

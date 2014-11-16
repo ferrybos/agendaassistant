@@ -73,28 +73,35 @@ namespace AgendaAssistant.Services
             htmlBuilder.AppendLine(salutation);
             htmlBuilder.AppendLine("<br /><br />");
             htmlBuilder.AppendLine(announcement);
+            htmlBuilder.AppendLine("<br />Wanneer alle deelnemers hun boekingsgegevens hebben ingevuld, zal de organisator de vluchten definitief gaan boeken.");
             htmlBuilder.AppendLine("<br /><br />");            
-            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            htmlBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
-            htmlBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("<br />Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " + selectedOutboundFlight.FlightNumber.ToString());
             htmlBuilder.AppendLine("<br /><br />");
-            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            htmlBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
-            htmlBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("<br />Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " + selectedInboundFlight.FlightNumber.ToString());
             htmlBuilder.AppendLine("<br /><br />");
 
             var textBuilder = new StringBuilder();
             textBuilder.AppendLine(salutation);
             textBuilder.AppendLine("");
             textBuilder.AppendLine(announcement);
+            textBuilder.AppendLine("Wanneer alle deelnemers hun boekingsgegevens hebben ingevuld, zal de organisator de vluchten definitief gaan boeken.");
             textBuilder.AppendLine("");
-            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            htmlBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
-            htmlBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            textBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
+            textBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine("Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " + selectedOutboundFlight.FlightNumber.ToString());
             textBuilder.AppendLine("");
-            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("ddd d MMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            htmlBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
-            htmlBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            textBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
+            textBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine("Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " + selectedInboundFlight.FlightNumber.ToString());
+            textBuilder.AppendLine("");
 
             var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
 

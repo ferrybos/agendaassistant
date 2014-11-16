@@ -30,7 +30,8 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
         return $http.post(urlBase + '/refreshflights', { id: id });
     };
 
-    this.confirmFlightsToParticipants = function(id) {
+    this.confirmFlightsToParticipants = function (id) {
+        $log.log("confirmFlightsToParticipants: " + id)
         return $http.post(urlBase + '/confirmflightstoparticipants', { id: id });
     };
 }]);

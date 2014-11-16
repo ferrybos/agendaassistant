@@ -305,7 +305,7 @@ app.directive('eventActions', function () {
             };
 
             $scope.confirmFlightsToParticipants = function() {
-                eventService.confirmFlightsToParticipants($scope.event)
+                eventService.confirmFlightsToParticipants($scope.event.id)
                     .success(function (data) {
                         $modal({ title: $scope.event.title, content: "Er is een email verstuurd naar alle deelnemers met de geprikte vlucht informatie.", show: true });
                     })
