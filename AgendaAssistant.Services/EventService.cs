@@ -144,6 +144,9 @@ namespace AgendaAssistant.Services
             {
                 _mailService.SendFlightsConfirmation(dbEvent, dbParticipant);
             }
+
+            dbEvent.StatusID = EventStatusEnum.PushpinCompleted;
+            _dbContext.Current.SaveChanges();
         }
 
         public void SetPnr(string id, string pnr)
@@ -154,6 +157,7 @@ namespace AgendaAssistant.Services
                 throw new FormattedException("Event already has a PNR");
 
             dbEvent.PNR = pnr;
+            dbEvent.StatusID = EventStatusEnum.BookingCompleted;
             _dbContext.Current.SaveChanges();
 
             foreach (var dbParticipant in dbEvent.Participants)

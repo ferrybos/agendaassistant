@@ -4,9 +4,8 @@
 <div ng-show="event != null">
     <ol class="breadcrumb">
         <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
-        <li class="active">Afspraak</li>
+        <li class="active">{{::event.title}}</li>
     </ol>
-    <h1 class="page-header">{{::event.title}}</h1>
 
     <ng-include src="'partials/eventNotConfirmed.html'"></ng-include>
     <div ng-show="event.isConfirmed">

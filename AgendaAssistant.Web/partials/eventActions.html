@@ -4,7 +4,7 @@
     </div>-->
     <!--<div class="panel-body">-->
         <a href="" ng-show="!areFlightsSelected() && event.isPushpinActive !== true" ng-click="event.isPushpinActive = true" style="margin-right: 20px"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
-        <a href="" ng-show="areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Bevestiging sturen naar deelnemers</a>
+        <a href="" ng-show="event.pnr.length == 0 && areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Bevestiging sturen naar deelnemers</a>
         <!--<a href="" ng-click="areSelectedFlightsValid() ? openDeepLink() : null" ng-class="!areSelectedFlightsValid() ? 'disabled' : ''" style="margin-right: 20px"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</a>-->
     <!--</div>-->
 <!--</div>-->

@@ -14,7 +14,6 @@
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
-            $scope.event.pnr = ""; // todo: add field in entity and DB
             
             $log.log("Event: " + JSON.stringify($scope.event));
 
@@ -92,11 +91,11 @@
     };
     
     $scope.areFlightsSelected = function () {
-        return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
+        return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
     };
     
     $scope.areSelectedFlightsInvalid = function() {
-        return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
+        return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
             $scope.event.outboundFlightSearch.selectedFlight.std > $scope.event.inboundFlightSearch.selectedFlight.std;
     };
 

@@ -18,6 +18,8 @@ namespace AgendaAssistant.Repositories
                     Description = dbEvent.Description,
                     Status = Map(dbEvent.EventStatus),
                     Title = dbEvent.Title,
+                    Pnr = dbEvent.PNR,
+
                     IsConfirmed = dbEvent.StatusID >= EventStatusEnum.Confirmed,
                     Organizer = Map(dbEvent.Organizer),
                     Participants = new List<Participant>()

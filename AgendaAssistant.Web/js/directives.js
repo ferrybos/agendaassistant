@@ -104,7 +104,12 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
 
             $scope.$watch('flightsearch.beginDate', function(value, key) {
                 if ($scope.flightsearch != undefined && $scope.flightsearch.endDate < $scope.flightsearch.beginDate) {
-                    $scope.flightsearch.endDate = $scope.flightsearch.beginDate;
+                    var newDate = new Date($scope.flightsearch.beginDate.getFullYear(), $scope.flightsearch.beginDate.getMonth(), $scope.flightsearch.beginDate.getDay(), 0, 0, 0, 0);
+                    
+                    $scope.flightsearch.endDate = newDate;
+                    
+                    $log.log("Update endDate: " + newDate);
+                    //$log.log("Update endDate: " + $scope.flightsearch.beginDate);
                 }
             });
 
@@ -294,11 +299,11 @@ app.directive('eventActions', function () {
             };
 
             $scope.areFlightsSelected = function () {
-                return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
+                return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
             };
 
             $scope.areSelectedFlightsValid = function () {
-                return $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
+                return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
                     $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
             };
             
@@ -329,7 +334,9 @@ app.directive('eventUnconfirmedParticipants', function () {
             $scope.isReminderSectionExpanded = false;
             
             $scope.unconfirmedParticipants = function () {
-                return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
+                if ($scope.event != null)
+                    return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
+                else return [];
             };
         },
         templateUrl: '../partials/eventUnconfirmedParticipants.html'
