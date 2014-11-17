@@ -21,6 +21,12 @@ namespace AgendaAssistant.Web.api
         public string Id { get; set; }
     }
 
+    public class PnrData
+    {
+        public string Id { get; set; }
+        public string Pnr { get; set; }
+    }
+
     public class RefreshFlightsResponse
     {
         public List<Flight> OutboundFlights { get; set; }
@@ -164,6 +170,22 @@ namespace AgendaAssistant.Web.api
             try
             {
                 _service.ConfirmFlightsToParticipants(data.Id);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
+        [Route("setpnr")]
+        [HttpPost]
+        public IHttpActionResult SetPnr([FromBody]PnrData data)
+        {
+            try
+            {
+                _service.SetPnr(data.Id, data.Pnr);
 
                 return Ok();
             }

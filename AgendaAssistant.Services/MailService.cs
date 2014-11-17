@@ -52,18 +52,69 @@ namespace AgendaAssistant.Services
             Send(new List<string>() {recipient}, subject, body);
         }
 
-        public void Send(List<String> recipients, string subject, EmailBody body)
+        public void SendBookingCreatedEmail(Event dbEvent, Participant dbParticipant)
         {
-            var mailer = new SendGridMail();
-            var msg = mailer.CreateMessage(From, recipients, subject, body.Html, body.Text);
-            mailer.SendMessage(msg);
+            var subject = string.Format("{0}: Vluchten zijn geboekt!", dbEvent.Title);
+
+            var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
+            var announcement = string.Format("Hieronder vind u de definitieve vlucht informatie voor de afspraak '{0}'.", dbEvent.Title);
+
+            var htmlBuilder = new StringBuilder();
+            htmlBuilder.AppendLine(salutation);
+            htmlBuilder.AppendLine("<br /><br />");
+            htmlBuilder.AppendLine(announcement);
+            htmlBuilder.AppendLine("<br /><br />");
+
+            var textBuilder = new StringBuilder();
+            textBuilder.AppendLine(salutation);
+            textBuilder.AppendLine("");
+            textBuilder.AppendLine(announcement);
+            textBuilder.AppendLine("");
+
+            AddFlightInformation(dbEvent, htmlBuilder, textBuilder);
+
+            var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
+
+            Send(dbParticipant.Person.Email, subject, body);
         }
 
-        public void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant)
+        private void AddFlightInformation(Event dbEvent, StringBuilder htmlBuilder, StringBuilder textBuilder)
         {
             var selectedOutboundFlight = dbEvent.OutboundFlightSearch.SelectedFlight;
             var selectedInboundFlight = dbEvent.InboundFlightSearch.SelectedFlight;
 
+            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>",
+                                                 selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM",
+                                                                                               CultureInfo.GetCultureInfo(
+                                                                                                   "nl-NL"))));
+            htmlBuilder.AppendLine("<br />Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " +
+                                   selectedOutboundFlight.FlightNumber.ToString());
+            htmlBuilder.AppendLine("<br /><br />");
+            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>",
+                                                 selectedInboundFlight.DepartureDate.ToString("dddd d MMMM",
+                                                                                              CultureInfo.GetCultureInfo("nl-NL"))));
+            htmlBuilder.AppendLine("<br />Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            htmlBuilder.AppendLine("<br />Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " +
+                                   selectedInboundFlight.FlightNumber.ToString());
+            htmlBuilder.AppendLine("<br /><br />");
+
+            textBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            textBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
+            textBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine("Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " + selectedOutboundFlight.FlightNumber.ToString());
+            textBuilder.AppendLine("");
+            textBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            textBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
+            textBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
+            textBuilder.AppendLine("Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " + selectedInboundFlight.FlightNumber.ToString());
+            textBuilder.AppendLine("");
+        }
+
+        public void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant)
+        {
             var subject = string.Format("{0}: Vluchten zijn geprikt!", dbEvent.Title);
 
             var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
@@ -75,16 +126,6 @@ namespace AgendaAssistant.Services
             htmlBuilder.AppendLine(announcement);
             htmlBuilder.AppendLine("<br />Wanneer alle deelnemers hun boekingsgegevens hebben ingevuld, zal de organisator de vluchten definitief gaan boeken.");
             htmlBuilder.AppendLine("<br /><br />");            
-            htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            htmlBuilder.AppendLine("<br />Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
-            htmlBuilder.AppendLine("<br />Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
-            htmlBuilder.AppendLine("<br />Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " + selectedOutboundFlight.FlightNumber.ToString());
-            htmlBuilder.AppendLine("<br /><br />");
-            htmlBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            htmlBuilder.AppendLine("<br />Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
-            htmlBuilder.AppendLine("<br />Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
-            htmlBuilder.AppendLine("<br />Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " + selectedInboundFlight.FlightNumber.ToString());
-            htmlBuilder.AppendLine("<br /><br />");
 
             var textBuilder = new StringBuilder();
             textBuilder.AppendLine(salutation);
@@ -92,20 +133,19 @@ namespace AgendaAssistant.Services
             textBuilder.AppendLine(announcement);
             textBuilder.AppendLine("Wanneer alle deelnemers hun boekingsgegevens hebben ingevuld, zal de organisator de vluchten definitief gaan boeken.");
             textBuilder.AppendLine("");
-            textBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            textBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
-            textBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
-            textBuilder.AppendLine("Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " + selectedOutboundFlight.FlightNumber.ToString());
-            textBuilder.AppendLine("");
-            textBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
-            textBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
-            textBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
-            textBuilder.AppendLine("Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " + selectedInboundFlight.FlightNumber.ToString());
-            textBuilder.AppendLine("");
+
+            AddFlightInformation(dbEvent, htmlBuilder, textBuilder);
 
             var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
 
             Send(dbParticipant.Person.Email, subject, body);
+        }
+
+        public void Send(List<String> recipients, string subject, EmailBody body)
+        {
+            var mailer = new SendGridMail();
+            var msg = mailer.CreateMessage(From, recipients, subject, body.Html, body.Text);
+            mailer.SendMessage(msg);
         }
 
         public void SendToOrganizer(Event dbEvent, string subject, string announcement, string action, string linkUrl, string linkText)
@@ -230,6 +270,7 @@ namespace AgendaAssistant.Services
         void Send(List<String> recipients, string subject, EmailBody body);
         void Send(string recipient, string subject, EmailBody body);
 
+        void SendBookingCreatedEmail(Event dbEvent, Participant dbParticipant);
         void SendEventConfirmation(Event dbEvent);
         void SendInvitation(Event dbEvent, Participant dbParticipant);
         void SendInvitationConfirmation(Event dbEvent);

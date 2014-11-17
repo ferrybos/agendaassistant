@@ -133,6 +133,7 @@
           <Property Name="InboundFlightSearchID" Type="bigint" />
           <Property Name="OrganizerPersonID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StatusID" Type="smallint" />
+          <Property Name="PNR" Type="char" MaxLength="6" />
         </EntityType>
         <EntityType Name="EventStatus">
           <Key>
@@ -715,6 +716,7 @@
           <NavigationProperty Name="OutboundFlightSearch" Relationship="AgendaAssistantModel.FK_Event_OutboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
           <NavigationProperty Name="EventStatus" Relationship="AgendaAssistantModel.FK_Event_Status" FromRole="Event" ToRole="EventStatuses" />
           <NavigationProperty Name="Participants" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Event" ToRole="Participant" />
+          <Property Type="String" Name="PNR" MaxLength="6" FixedLength="true" Unicode="false" />
         </EntityType>
         <Association Name="FK_Email_Event">
           <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="1" />
@@ -927,6 +929,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="PNR" ColumnName="PNR" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
                 <ScalarProperty Name="OrganizerPersonID" ColumnName="OrganizerPersonID" />
                 <ScalarProperty Name="InboundFlightSearchID" ColumnName="InboundFlightSearchID" />

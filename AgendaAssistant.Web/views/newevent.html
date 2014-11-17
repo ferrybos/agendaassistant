@@ -4,13 +4,13 @@
         <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
         <li class="active">Nieuwe afspraak</li>
     </ol>
-    <h1 class="page-header">{{constants.newEventTitle}}</h1>
+    <!--<h1 class="page-header">{{constants.newEventTitle}}</h1>-->
     <div id="content">
         <div class="btn-group btn-group-justified" style="margin-bottom: 20px" ng-show="CurrentStepIndex != 9">
-            <a role="button" class="btn" ng-class="CurrentStepIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="SelectStepEvent()">Afspraak</a>
-            <a role="button" class="btn" ng-class="CurrentStepIndex == 2 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">Deelnemers</a>
-            <a role="button" class="btn" ng-class="CurrentStepIndex == 3 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">Heen</a>
-            <a role="button" class="btn" ng-class="CurrentStepIndex == 4 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() && IsOutboundStepValid() ? SelectStepInbound() : null">Terug</a>
+            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="SelectStepEvent()">Afspraak</a>
+            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 2 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">Deelnemers</a>
+            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 3 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">Heen</a>
+            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 4 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() && IsOutboundStepValid() ? SelectStepInbound() : null">Terug</a>
         </div>
 
         <div id="steps">

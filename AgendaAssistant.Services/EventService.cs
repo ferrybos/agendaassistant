@@ -22,6 +22,7 @@ namespace AgendaAssistant.Services
         void SelectFlight(string eventId, long flightSearchId, long flightId);
         Event RefreshFlights(string eventId);
         void ConfirmFlightsToParticipants(string id);
+        void SetPnr(string id, string pnr);
     }
 
     /// <summary>
@@ -142,6 +143,22 @@ namespace AgendaAssistant.Services
             foreach (var dbParticipant in dbEvent.Participants)
             {
                 _mailService.SendFlightsConfirmation(dbEvent, dbParticipant);
+            }
+        }
+
+        public void SetPnr(string id, string pnr)
+        {
+            var dbEvent = _repository.Single(GuidUtil.ToGuid(id));
+
+            if (!string.IsNullOrWhiteSpace(dbEvent.PNR))
+                throw new FormattedException("Event already has a PNR");
+
+            dbEvent.PNR = pnr;
+            _dbContext.Current.SaveChanges();
+
+            foreach (var dbParticipant in dbEvent.Participants)
+            {
+                _mailService.SendBookingCreatedEmail(dbEvent, dbParticipant);
             }
         }
 

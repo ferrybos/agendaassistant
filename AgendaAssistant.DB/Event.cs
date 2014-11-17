@@ -30,6 +30,7 @@ namespace AgendaAssistant.DB
         public Nullable<long> InboundFlightSearchID { get; set; }
         public System.Guid OrganizerPersonID { get; set; }
         public Nullable<short> StatusID { get; set; }
+        public string PNR { get; set; }
     
         public virtual ICollection<Email> Emails { get; set; }
         public virtual FlightSearch InboundFlightSearch { get; set; }

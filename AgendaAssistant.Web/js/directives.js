@@ -283,27 +283,6 @@ app.directive('eventActions', function () {
             event: '='
         },
         controller: function ($scope, $filter, $window, $modal, eventService) {
-            $scope.openDeepLink = function () {
-                var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
-
-                var deeplinkUrl = urlTemplate
-                    .replace('{from}', $scope.event.outboundFlightSearch.departureStation.trim())
-                    .replace('{fromMonth}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
-                    .replace('{fromDay}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
-                    .replace('{to}', $scope.event.inboundFlightSearch.departureStation.trim())
-                    .replace('{toMonth}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
-                    .replace('{toDay}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
-                    .replace('{adults}', $scope.event.participants.length)
-                    .replace('{flightNrUp1}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
-                    .replace('{flightNrUp2}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "dd"))
-                    .replace('{flightNrUp3}', $scope.event.outboundFlightSearch.selectedFlight.flightNumber)
-                    .replace('{flightNrDown1}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
-                    .replace('{flightNrDown2}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
-                    .replace('{flightNrDown3}', $scope.event.inboundFlightSearch.selectedFlight.flightNumber);
-
-                $window.open(deeplinkUrl);
-            };
-
             $scope.confirmFlightsToParticipants = function() {
                 eventService.confirmFlightsToParticipants($scope.event.id)
                     .success(function (data) {
