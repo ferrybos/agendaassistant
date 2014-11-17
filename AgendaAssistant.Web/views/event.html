@@ -59,12 +59,12 @@
                 </table>
             </div>
             <div class="col-sm-6 rightcol">
-                <div ng-show="event.pnr.length == 0 && isBookingWebsiteOpened !== true">
+                <div ng-show="event.pnr == null && isBookingWebsiteOpened !== true">
                     <h4>Boeking maken</h4>
                     <info>Ga naar de transavia.com website om de vluchten te boeken. De website wordt in een nieuw venster geopend, zodat u eenvoudig de passagiersgegevens van dit venster kunt overnemen.</info>
                     <button type="button" class="btn btn-primary" style="width: 100%" ng-click="OpenDeepLink()"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</button>
                 </div>
-                <div ng-show="event.pnr.length == 0 && isBookingWebsiteOpened === true">
+                <div ng-show="event.pnr == null && isBookingWebsiteOpened === true">
                     <h4>Boeking bevestigen</h4>
                     <info>Wanneer u de boeking heeft afgerond krijgt u van transavia een boekingsnummer. Vul hieronder het boekingsnummer in om de afspraak af te ronden en een mail te sturen naar alle deelnemers.</info>
                     <form name="bookingForm" novalidate>
@@ -74,7 +74,7 @@
                     </form>
                     <button type="button" class="btn btn-lg btn-primary" ng-click="ConfirmBookingCreated()" ng-disabled="bookingForm.$invalid" style="width: 100%">Boeking is voltooid</button>
                 </div>
-                <div class="repeat-animation" ng-if="event.pnr.length > 0">
+                <div class="repeat-animation" ng-if="event.pnr != null">
                     <h4>Boekingsnummer</h4>
                     <div class="list-group">
                         <div class="list-group-item list-group-item-success">

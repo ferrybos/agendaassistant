@@ -9,7 +9,7 @@
             </div>
         </div>
     </div>
-    <span ng-if="event.pnr.length == 0"><a style="cursor: pointer" ng-click="SelectFlight(flightsearch, null)">Andere vlucht prikken</a></span>
+    <span ng-if="event.pnr == null"><a style="cursor: pointer" ng-click="SelectFlight(flightsearch, null)">Andere vlucht prikken</a></span>
 </div>
 
 <div class="list-group" ng-show="flightsearch.selectedFlight == null">
