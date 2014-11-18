@@ -15,9 +15,10 @@ body {
 
 .content {
     background-color: #fcfcfc;
-    margin-top:50px;
+    margin-top: 50px;
     padding-top: 10px;
     padding-bottom: 10px;
+    border-radius: 4px;
 }
 
 .td {
@@ -58,8 +59,8 @@ body {
     margin-right: auto;
     padding-left: 20px;
     padding-right: 20px;*/
-    /*required to position alerts inside container*/
-    /*position: relative;
+/*required to position alerts inside container*/
+/*position: relative;
 }*/
 
 .container {
@@ -123,7 +124,7 @@ h1, h4 {
 }
 
 .navbar-brand {
-    color: #84b70b;
+    color: #2a6496;
     font-size: 28px;
     font-weight: bold;
 }
@@ -347,7 +348,7 @@ div#contentFooter {
 @media (min-width: 1200px) {
     body {
         /*background: url('../img/sky.jpg') no-repeat fixed center 0;*/
-        /*background-color: #19487d; /* Old browsers */*/
+        /*background-color: #19487d; /* Old browsers */ */;
     }
 
     /*.container {
@@ -369,6 +370,10 @@ div#contentFooter {
     .rightcol {
         padding-left: 0;
     }
+
+    .content {
+        border-radius: 0;
+    }
 }
 
 /* Landscape phones and down */
@@ -378,7 +383,7 @@ div#contentFooter {
     }
 
     h1 {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
     }
 }

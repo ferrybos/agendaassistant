@@ -12,3 +12,33 @@
         </table>
     </div>
 </div>
+
+<div class="panel panel-primary" ng-show="avUnconfirmedParticipants().length > 0" style="margin-top: 2px; margin-bottom: 0">
+    <div class="panel-heading" ng-click="isAvailabilityConfirmedSectionExpanded = !isAvailabilityConfirmedSectionExpanded" style="cursor: pointer">
+        <span ng-class="isAvailabilityConfirmedSectionExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Beschikbaarheid nog niet bevestigd ({{avUnconfirmedParticipants().length}})
+    </div>
+    <div class="panel-body" ng-show="isAvailabilityConfirmedSectionExpanded">
+        <table id="Table1" class="table table-condensed table-hover">
+            <tbody>
+                <tr ng-repeat="participant in avUnconfirmedParticipants()">
+                    <td style="border-top: 0"><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-primary" ng-show="bdUnconfirmedParticipants().length > 0" style="margin-top: 2px; margin-bottom: 0">
+    <div class="panel-heading" ng-click="isBookingDetailsConfirmedSectionExpanded = !isBookingDetailsConfirmedSectionExpanded" style="cursor: pointer">
+        <span ng-class="isBookingDetailsConfirmedSectionExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Boekingsdetails nog niet bevestigd ({{bdUnconfirmedParticipants().length}})
+    </div>
+    <div class="panel-body" ng-show="isBookingDetailsConfirmedSectionExpanded">
+        <table id="Table2" class="table table-condensed table-hover">
+            <tbody>
+                <tr ng-repeat="participant in bdUnconfirmedParticipants()">
+                    <td style="border-top: 0"><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

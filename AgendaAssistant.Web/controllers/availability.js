@@ -5,6 +5,7 @@
     $scope.eventUrl = "";
     $rootScope.infoMessage = "";
     $scope.participant = null;
+    $scope.isConfirming = false;
 
     getData();
     
@@ -18,6 +19,9 @@
                 // todo: find participant in event.participants
                 $log.log("participants: " + $scope.event.participants.length);
                 $scope.participant = $scope.event.participants[0];
+                
+                if ($scope.participant.avConfirmed)
+                    $scope.activeTabIndex = 1;
             })
             .error(function(error) {
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
@@ -26,12 +30,16 @@
     };
     
     $scope.Confirm = function () {
+        $scope.isConfirming = true;
         availabilityService.confirm($scope.participant.id)
             .success(function (data) {
+                $scope.isConfirming = false;
+                $scope.participant.avConfirmed = true;
                 $modal({ title: "Beschikbaarheid", content: "Bedankt voor het invullen van uw beschikbaarheid. Er is een email verstuurd naar de organisator.", show: true });
-                $scope.activeTabIndex = 1; // booking details
+                //$scope.activeTabIndex = 1; // booking details
             })
-            .error(function(error) {
+            .error(function (error) {
+                $scope.isConfirming = false;
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
     };

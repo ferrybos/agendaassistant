@@ -2,10 +2,7 @@
     Afspraak wordt ingeladen...
 </loader>
 <div ng-show="event != null">
-    <ol class="breadcrumb">
-        <li><a href="#"><span class="glyphicon glyphicon-home" title="Home"></span></a></li>
-        <li class="active">{{::event.title}}</li>
-    </ol>
+    <h1>{{::event.title}}</h1>
 
     <ng-include src="'partials/eventNotConfirmed.html'"></ng-include>
     <div ng-show="event.isConfirmed">
@@ -32,7 +29,7 @@
             </div>
         </div>
 
-        <div class="row" style="margin-top: 20px" ng-show="areFlightsSelected()">
+        <div class="row" style="margin-top: 20px" ng-show="bdConfirmedParticipants().length > 0">
             <div class="col-sm-6 leftcol">
                 <h4>Passagiers</h4>
                 <table class="table">
@@ -47,7 +44,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="participant in event.participants">
+                        <tr ng-repeat="participant in bdConfirmedParticipants()">
                             <td>{{$index+1}}</td>
                             <td>{{::participant.person.firstNameInPassport}}</td>
                             <td>{{::participant.person.lastNameInPassport}}</td>

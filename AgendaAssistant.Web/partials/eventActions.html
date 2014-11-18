@@ -1,10 +1,12 @@
 ﻿<!--<div class="panel panel-default" style="margin-bottom: 0">-->
-   <!-- <div class="panel-heading" ng-click="isActionsExpanded = !isActionsExpanded" style="cursor: pointer">
+<!-- <div class="panel-heading" ng-click="isActionsExpanded = !isActionsExpanded" style="cursor: pointer">
         <span ng-class="isActionsExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Acties
     </div>-->
-    <!--<div class="panel-body">-->
-        <a href="" ng-show="!areFlightsSelected() && event.isPushpinActive !== true" ng-click="event.isPushpinActive = true" style="margin-right: 20px"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
-        <a href="" ng-show="event.pnr == null && areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Bevestiging sturen naar deelnemers</a>
-        <!--<a href="" ng-click="areSelectedFlightsValid() ? openDeepLink() : null" ng-class="!areSelectedFlightsValid() ? 'disabled' : ''" style="margin-right: 20px"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</a>-->
-    <!--</div>-->
+<!--<div class="panel-body">-->
+<div style="margin-bottom: 20px">
+    <a href="" ng-show="!areFlightsSelected()" ng-click="event.isPushpinActive = true" style="margin-right: 20px"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
+    <a href="" ng-show="event.pnr == null && areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Bevestiging sturen naar deelnemers</a>
+</div>
+<!--<a href="" ng-click="areSelectedFlightsValid() ? openDeepLink() : null" ng-class="!areSelectedFlightsValid() ? 'disabled' : ''" style="margin-right: 20px"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</a>-->
+<!--</div>-->
 <!--</div>-->

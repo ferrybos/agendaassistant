@@ -60,6 +60,9 @@ namespace AgendaAssistant.Services
                                      person.DateOfBirth, person.Gender);
 
             _mailService.SendBookingDetails(dbParticipant);
+
+            dbParticipant.BookingDetailsConfirmed = true;
+            _dbContext.Current.SaveChanges();
         }
 
         public void Delete(string id)

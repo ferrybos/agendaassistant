@@ -125,7 +125,9 @@ namespace AgendaAssistant.Repositories
                 EventId = GuidUtil.ToString(dbParticipant.EventID),
                 Person = Map(dbParticipant.Person),
 
-                Bagage = dbParticipant.Bagage.Trim()
+                Bagage = dbParticipant.Bagage.Trim(),
+                AvailabilityConfirmed = dbParticipant.AvailabilityConfirmed,
+                BookingDetailsConfirmed = dbParticipant.BookingDetailsConfirmed
             };
         }
 

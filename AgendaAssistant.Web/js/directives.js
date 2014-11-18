@@ -239,14 +239,19 @@ app.directive('participantdata', function ($log, participantService, $timeout, $
             participant: '='
         },
         controller: function ($scope) {
+            $scope.isConfirming = false;
+            
             $scope.Confirm = function () {
-                $log.log("Test: " + JSON.stringify($scope.participant));
-                
+                $scope.isConfirming = true;
+
                 participantService.update($scope.participant)
                     .success(function (data) {
+                        $scope.isConfirming = false;
+                        $scope.participant.bdConfirmed = true;
                         $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
                     })
                     .error(function (error) {
+                        $scope.isConfirming = false;
                         $modal({ title: error.message, content: error.exceptionMessage, show: true });
                     });
             };
@@ -259,7 +264,7 @@ app.directive('info', function() {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="alert alert-warning" role="alert" style="color: black;border:0;" ng-transclude></div>'
+        template: '<div class="alert alert-warning" role="alert" style="border:0;" ng-transclude></div>'
     };
 });
 
@@ -332,10 +337,24 @@ app.directive('eventUnconfirmedParticipants', function () {
         },
         controller: function ($scope, $filter) {
             $scope.isReminderSectionExpanded = false;
+            $scope.isAvailabilityConfirmedSectionExpanded = false;
+            $scope.isBookingDetailsConfirmedSectionExpanded = false;
             
             $scope.unconfirmedParticipants = function () {
                 if ($scope.event != null)
                     return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
+                else return [];
+            };
+            
+            $scope.avUnconfirmedParticipants = function () {
+                if ($scope.event != null)
+                    return $filter('filter')($scope.event.participants, { hasConfirmed: true, avConfirmed: false }, true);
+                else return [];
+            };
+            
+            $scope.bdUnconfirmedParticipants = function () {
+                if ($scope.event != null)
+                    return $filter('filter')($scope.event.participants, { hasConfirmed: true, avConfirmed: true, bdConfirmed: false }, true);
                 else return [];
             };
         },

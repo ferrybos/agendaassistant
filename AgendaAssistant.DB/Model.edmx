@@ -175,6 +175,8 @@
           <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PersonID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Bagage" Type="varchar" MaxLength="4" />
+          <Property Name="AvailabilityConfirmed" Type="bit" Nullable="false" />
+          <Property Name="BookingDetailsConfirmed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -546,6 +548,8 @@
           <NavigationProperty Name="Person" Relationship="AgendaAssistantModel.FK_Participant_Person" FromRole="Participant" ToRole="Person" />
           <NavigationProperty Name="Emails" Relationship="AgendaAssistantModel.Recipient" FromRole="Participant" ToRole="Email" />
           <NavigationProperty Name="Event" Relationship="AgendaAssistantModel.FK_Participant_Event" FromRole="Participant" ToRole="Event" />
+          <Property Type="Boolean" Name="AvailabilityConfirmed" Nullable="false" />
+          <Property Type="Boolean" Name="BookingDetailsConfirmed" Nullable="false" />
         </EntityType>
         <EntityType Name="Person">
           <Key>
@@ -850,6 +854,8 @@
           <EntitySetMapping Name="Participants">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Participant">
               <MappingFragment StoreEntitySet="Participant">
+                <ScalarProperty Name="BookingDetailsConfirmed" ColumnName="BookingDetailsConfirmed" />
+                <ScalarProperty Name="AvailabilityConfirmed" ColumnName="AvailabilityConfirmed" />
                 <ScalarProperty Name="Bagage" ColumnName="Bagage" />
                 <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />

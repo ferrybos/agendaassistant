@@ -99,6 +99,12 @@
             $scope.event.outboundFlightSearch.selectedFlight.std > $scope.event.inboundFlightSearch.selectedFlight.std;
     };
 
+    $scope.bdConfirmedParticipants = function () {
+        if ($scope.event != null)
+            return $filter('filter')($scope.event.participants, { bdConfirmed: true }, true);
+        else return [];
+    };
+    
     $scope.genderDisplayName = function(gender) {
         if (gender == 0)
             return "M";

@@ -1,49 +1,58 @@
 ﻿<info>Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</info>
 
-<h4>Ruim bagage</h4>
+<form name="bookingDetailsForm" novalidate ng-submit="Confirm()">
+    <h4>Ruim bagage</h4>
 
-<div class="row">
-    <div class="col-sm-6 leftcol">
-        <!--Bagage-->
-        <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
-        <select id="Select1" class="form-control" ng-model="participant.bagage">
-            <option value="">Geen</option>
-            <option value="B15">15 kg</option>
-            <option value="B20">20 kg</option>
-        </select>
+    <div class="row">
+        <div class="col-sm-6 leftcol">
+            <!--Bagage-->
+            <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
+            <select id="Select1" class="form-control" ng-model="participant.bagage">
+                <option value="">Geen</option>
+                <option value="B15">15 kg</option>
+                <option value="B20">20 kg</option>
+            </select>
+        </div>
     </div>
-</div>
 
-<h4>Paspoort</h4>
+    <h4>Paspoort</h4>
 
-<div class="row">
-    <div class="col-sm-6 leftcol">
-        <!--FirstNameInPassport-->
-        <label class="control-label" for="firstNameInPassport">Voornaam</label><br />
-        <input type="text" class="form-control" name="firstNameInPassport" ng-model="participant.person.firstNameInPassport" focus-on="focusFirstNameInPassport" placeholder="Voornaam in paspoort" maxlength="100" autocomplete="off" style="width: 100%" />
+    <div class="row">
+        <div class="col-sm-6 leftcol">
+            <!--FirstNameInPassport-->
+            <div class="form-group" show-errors='{showSuccess: true}'>
+                <label class="control-label" for="firstNameInPassport">Voornaam *</label><br />
+                <input type="text" class="form-control" name="firstNameInPassport" ng-model="participant.person.firstNameInPassport" focus-on="focusFirstNameInPassport" placeholder="Voornaam in paspoort" maxlength="100" autocomplete="off" required />
+            </div>
+        </div>
+        <!--LastNameInPassport-->
+        <div class="col-sm-6 rightcol">
+            <div class="form-group" show-errors='{showSuccess: true}'>
+                <label class="control-label" for="lastNameInPassport">Achternaam *</label><br />
+                <input type="text" class="form-control" name="lastNameInPassport" ng-model="participant.person.lastNameInPassport" placeholder="Achternaam in paspoort" maxlength="100" autocomplete="off" required />
+            </div>
+        </div>
     </div>
-    <!--LastNameInPassport-->
-    <div class="col-sm-6 rightcol">
-        <label class="control-label" for="lastNameInPassport">Achternaam</label><br />
-        <input type="text" class="form-control" name="lastNameInPassport" ng-model="participant.person.lastNameInPassport" placeholder="Achternaam in paspoort" maxlength="100" autocomplete="off" style="width: 100%" />
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-6 leftcol">
-        <!--Gender-->
-        <label class="control-label" for="gender">Geslacht</label><br />
-        <select id="gender" class="form-control" ng-model="participant.person.gender">
-            <option value="0">Man</option>
-            <option value="1">Vrouw</option>
-        </select>
+    <div class="row">
+        <div class="col-sm-6 leftcol">
+            <!--Gender-->
+            <div class="form-group" show-errors='{showSuccess: true}'>
+                <label class="control-label" for="gender">Geslacht *</label><br />
+                <select id="gender" class="form-control" name="gender" ng-model="participant.person.gender" required>
+                    <option value="0">Man</option>
+                    <option value="1">Vrouw</option>
+                </select>
+            </div>
+        </div>
+        <!--DateOfBirth-->
+        <div class="col-sm-6 rightcol">
+            <div class="form-group" show-errors='{showSuccess: true}'>
+                <label class="control-label" for="dateOfBirth">Geboortedatum *</label>
+                <input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control" ng-model="participant.person.dateOfBirth" data-max-date="today" bs-datepicker required>
+            </div>
+        </div>
     </div>
-    <!--DateOfBirth-->
-    <div class="col-sm-6 rightcol">
-        <label class="control-label" for="dateOfBirth">Geboortedatum</label>
-        <input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control" ng-model="participant.person.dateOfBirth" data-max-date="today" bs-datepicker>
-    </div>
-</div>
-
-<br />
-<button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()">Bevestigen</button>
+    <br />
+    <button type="submit" class="btn btn-lg btn-primary" ng-disabled="bookingDetailsForm.$invalid || isConfirming === true" style="width: 100%">Bevestigen</button>
+</form>

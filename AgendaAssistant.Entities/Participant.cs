@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AgendaAssistant.Shared;
+using Newtonsoft.Json;
 
 namespace AgendaAssistant.Entities
 {
@@ -18,6 +19,13 @@ namespace AgendaAssistant.Entities
         public bool HasConfirmed { get; set; }
 
         public string Bagage { get; set; }
+
+        [JsonProperty(PropertyName = "AvConfirmed")]
+        public bool AvailabilityConfirmed { get; set; }
+
+        [JsonProperty(PropertyName = "BdConfirmed")]
+        public bool BookingDetailsConfirmed { get; set; }
+
 
     }
 }

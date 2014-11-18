@@ -12,24 +12,36 @@
         </div>
 
         <div ng-show="activeTabIndex == 0">
-            <info>Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.</info>
+            <div ng-show="participant.avConfirmed === true">
+                <div class="alert alert-success" role="alert">U heeft uw beschikbaarheid al bevestigd.</div>
+                <a ng-click="participant.avConfirmed = false" style="cursor: pointer">Beschikbaarheid wijzigen</a>
+            </div>
+            <div ng-show="participant.avConfirmed !== true">
+                <info>Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.</info>
 
-            <div class="row">
-                <div class="col-md-6 leftcol">
-                    <h4>Heen vluchten ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
-                    <availabilitylist flightsearch="event.outboundFlightSearch"></availabilitylist>
+                <div class="row">
+                    <div class="col-md-6 leftcol">
+                        <h4>Heen vluchten ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
+                        <availabilitylist flightsearch="event.outboundFlightSearch"></availabilitylist>
+                    </div>
+                    <div class="col-md-6 rightcol">
+                        <h4>Terug vluchten ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
+                        <availabilitylist flightsearch="event.inboundFlightSearch"></availabilitylist>
+                    </div>
                 </div>
-                <div class="col-md-6 rightcol">
-                    <h4>Terug vluchten ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
-                    <availabilitylist flightsearch="event.inboundFlightSearch"></availabilitylist>
-                </div>
-            </div>           
 
-            <br />
-            <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()">Bevestigen</button>
+                <br />
+                <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()" ng-disabled="isConfirming === true">Bevestigen</button>
+            </div>
         </div>
         <div ng-show="activeTabIndex == 1">
-            <participantdata participant="participant"></participantdata>
+            <div ng-show="participant.bdConfirmed === true">
+                <div class="alert alert-success" role="alert">U heeft uw boekingsgegevens al bevestigd.</div>
+                <a ng-click="participant.bdConfirmed = false" style="cursor: pointer">Boekingsgegevens wijzigen</a>
+            </div>
+            <div ng-show="participant.bdConfirmed !== true">
+                <participantdata participant="participant"></participantdata>
+            </div>
         </div>
     </div>
 </div>

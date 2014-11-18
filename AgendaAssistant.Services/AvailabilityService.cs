@@ -88,6 +88,9 @@ namespace AgendaAssistant.Services
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(availability.ParticipantId));
 
             _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value, availability.CommentText);
+
+            dbParticipant.AvailabilityConfirmed = true;
+            _dbContext.Current.SaveChanges();
         }
 
         public void Confirm(string participantId)
