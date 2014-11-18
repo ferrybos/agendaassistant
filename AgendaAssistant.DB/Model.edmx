@@ -127,8 +127,6 @@
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
           <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
-          <Property Name="Status" Type="varchar" MaxLength="50" />
-          <Property Name="IsConfirmed" Type="bit" Nullable="false" />
           <Property Name="OutboundFlightSearchID" Type="bigint" />
           <Property Name="InboundFlightSearchID" Type="bigint" />
           <Property Name="OrganizerPersonID" Type="uniqueidentifier" Nullable="false" />
@@ -704,8 +702,6 @@
           <Property Type="DateTime" Name="CreatedUtc" Nullable="false" Precision="3" />
           <Property Type="String" Name="Title" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="Boolean" Name="IsConfirmed" Nullable="false" />
           <Property Type="Int64" Name="OutboundFlightSearchID" />
           <Property Type="Int64" Name="InboundFlightSearchID" />
           <Property Type="Guid" Name="OrganizerPersonID" Nullable="false" />
@@ -934,8 +930,6 @@
                 <ScalarProperty Name="OrganizerPersonID" ColumnName="OrganizerPersonID" />
                 <ScalarProperty Name="InboundFlightSearchID" ColumnName="InboundFlightSearchID" />
                 <ScalarProperty Name="OutboundFlightSearchID" ColumnName="OutboundFlightSearchID" />
-                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />

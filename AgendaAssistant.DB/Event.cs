@@ -24,8 +24,6 @@ namespace AgendaAssistant.DB
         public System.DateTime CreatedUtc { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Status { get; set; }
-        public bool IsConfirmed { get; set; }
         public Nullable<long> OutboundFlightSearchID { get; set; }
         public Nullable<long> InboundFlightSearchID { get; set; }
         public System.Guid OrganizerPersonID { get; set; }

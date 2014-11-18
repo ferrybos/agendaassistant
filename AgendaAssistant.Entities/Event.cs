@@ -20,7 +20,8 @@ namespace AgendaAssistant.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Pnr { get; set; }
-
+        public bool PushpinCompleted { get; set; }
+        
         public EventStatus Status { get; set; }
         public bool IsConfirmed { get; set; }
 

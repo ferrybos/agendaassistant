@@ -19,6 +19,7 @@ namespace AgendaAssistant.Repositories
                     Status = Map(dbEvent.EventStatus),
                     Title = dbEvent.Title,
                     Pnr = dbEvent.PNR,
+                    PushpinCompleted = dbEvent.StatusID >= EventStatusEnum.PushpinCompleted,
 
                     IsConfirmed = dbEvent.StatusID >= EventStatusEnum.Confirmed,
                     Organizer = Map(dbEvent.Organizer),

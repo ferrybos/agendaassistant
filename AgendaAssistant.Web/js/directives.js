@@ -259,7 +259,7 @@ app.directive('info', function() {
     return {
         restrict: 'E',
         transclude: true,
-        template: '<div class="alert alert-warning" role="alert" style="color: black" ng-transclude></div>'
+        template: '<div class="alert alert-warning" role="alert" style="color: black;border:0;" ng-transclude></div>'
     };
 });
 
@@ -277,7 +277,7 @@ app.directive('eventSubTitle', function() {
         scope: {
             event: '='
         },
-        template: '<p style="margin-bottom: 20px">Georganiseerd door {{event.organizer.name}} ({{event.status.description}})</p>'
+        template: '<p class="subtitle">Georganiseerd door {{event.organizer.name}} ({{event.status.description}})</p>'
     };
 });
 
