@@ -135,6 +135,10 @@ h1, h4 {
     font-size: x-small;
 }
 
+.description {
+    margin-bottom: 20px;
+}
+
 .tab_navigation {
     width: 100%;
     overflow: hidden;

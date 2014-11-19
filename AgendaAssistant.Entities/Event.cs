@@ -25,17 +25,20 @@ namespace AgendaAssistant.Entities
         public EventStatus Status { get; set; }
         public bool IsConfirmed { get; set; }
 
-        public string OrganizerParticipantCode { get; set; }
-
         public Person Organizer { get; set; }
+        public string OrganizerName { get; set; }
         public List<Participant> Participants { get; set; }
         public FlightSearch OutboundFlightSearch { get; set; }
         public FlightSearch InboundFlightSearch { get; set; }
 
-        public void AddAvailabilities(List<Availability> availabilities)
+        public List<Availability> Availabilities()
         {
-            OutboundFlightSearch.AddAvailabilities(availabilities);
-            InboundFlightSearch.AddAvailabilities(availabilities);
+            var result = new List<Availability>();
+
+            OutboundFlightSearch.Flights.ForEach(f => result.AddRange(f.Availabilities));
+            InboundFlightSearch.Flights.ForEach(f => result.AddRange(f.Availabilities));
+
+            return result;
         }
     }
 }

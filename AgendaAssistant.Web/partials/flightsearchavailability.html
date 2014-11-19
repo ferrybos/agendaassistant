@@ -47,8 +47,8 @@
                                     </td>
                                     <td style="width: 100%; padding-top: 10px; border-top: 0; padding-left: 20px">
                                         <div class="progress" style="width: 100%">
-                                            <div class="progress-bar" ng-class="flight.availabilityPercentage >= 90 ? 'progress-bar-success' : flight.availabilityPercentage >= 50 ? 'progress-bar-warning' : 'progress-bar-danger'" role="progressbar" aria-valuenow="{{flight.availabilityPercentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{flight.availabilityPercentage}}%;">
-                                                {{flight.availabilityPercentage}}%
+                                            <div class="progress-bar" ng-class="flight.perc >= 90 ? 'progress-bar-success' : flight.perc >= 50 ? 'progress-bar-warning' : 'progress-bar-danger'" role="progressbar" aria-valuenow="{{flight.perc}}" aria-valuemin="0" aria-valuemax="100" style="width: {{flight.perc}}%;">
+                                                {{flight.perc}}%
                                             </div>
                                         </div>
                                         <div style="margin-top: 4px; float: right; font-size: x-small; cursor: pointer">
@@ -58,22 +58,7 @@
                                     </td>
                                 </tr>
                             </table>
-                            <table id="Table2" class="table" ng-if="flight.participantsVisible === true">
-                                <tbody>
-                                    <tr ng-repeat="(key, value) in flight.availabilities | groupBy: 'value'">
-                                        <td style="width: 50px; border-top: 0">
-                                            <span class="glyphicon glyphicon-ok" ng-show="key == 100" style="font-size: 16px; color: green"></span>
-                                            <span ng-show="key == 50"><span class="glyphicon glyphicon-ok" style="font-size: 16px; color: orange"></span><span class="glyphicon glyphicon-minus" style="color: orange; margin-left: -8px; margin-right: 4px; font-size: xx-small"></span></span>
-                                            <span class="glyphicon glyphicon-remove" ng-show="key == 0" style="font-size: 16px; color: darkred"></span>
-                                        </td>
-                                        <td style="border-top: 0; vertical-align: middle">
-                                            <span ng-repeat="availability in value" style="margin-right: 20px">
-                                                <a href="#/availability/{{::availability.participantId}}">{{::availability.name}}</a><span class="comment" ng-show="availability.commentText != null" style="margin-left: 5px">({{::availability.commentText}})</span>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <participants flight="flight"></participants>
                         </td>
                     </tr>
                 </tbody>

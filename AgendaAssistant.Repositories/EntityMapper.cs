@@ -10,7 +10,7 @@ namespace AgendaAssistant.Repositories
 {
     public static class EntityMapper
     {
-        public static Event Map(DB.Event dbEvent, bool includeParticipants = true, bool includeFlights = true)
+        public static Event Map(DB.Event dbEvent, bool includeParticipants = true, bool includeFlights = true, bool includeAvailability = true)
         {
             var evn = new Event()
                 {
@@ -22,7 +22,9 @@ namespace AgendaAssistant.Repositories
                     PushpinCompleted = dbEvent.StatusID >= EventStatusEnum.PushpinCompleted,
 
                     IsConfirmed = dbEvent.StatusID >= EventStatusEnum.Confirmed,
+                    OrganizerName = dbEvent.Organizer.Name,
                     Organizer = Map(dbEvent.Organizer),
+
                     Participants = new List<Participant>()
                 };
 
@@ -33,8 +35,8 @@ namespace AgendaAssistant.Repositories
 
             if (includeFlights)
             {
-                evn.OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch);
-                evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch);
+                evn.OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch, includeAvailability);
+                evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch, includeAvailability);
             }
 
             return evn;
@@ -42,14 +44,14 @@ namespace AgendaAssistant.Repositories
 
         private static EventStatus Map(DB.EventStatus eventStatus)
         {
-            return new EventStatus() {Id = eventStatus.ID, Description = eventStatus.Description};
+            return new EventStatus() { Id = eventStatus.ID, Description = eventStatus.Description };
         }
 
         public static Person Map(DB.Person dbPerson)
         {
             return new Person
                 {
-                    Id = GuidUtil.ToString(dbPerson.ID),
+                    //Id = GuidUtil.ToString(dbPerson.ID),
                     Name = dbPerson.Name,
                     Email = dbPerson.Email,
                     FirstNameInPassport = dbPerson.FirstNameInPassport,
@@ -59,7 +61,7 @@ namespace AgendaAssistant.Repositories
                 };
         }
 
-        public static FlightSearch Map(DB.FlightSearch dbFlightSearch)
+        public static FlightSearch Map(DB.FlightSearch dbFlightSearch, bool includeAvailability)
         {
             if (dbFlightSearch == null)
                 return null;
@@ -76,7 +78,19 @@ namespace AgendaAssistant.Repositories
                     Flights = new List<Flight>()
                 };
 
-            dbFlightSearch.Flights.ToList().ForEach(f => flightSearch.Flights.Add(Map(f)));
+            foreach (var dbFlight in dbFlightSearch.Flights)
+            {
+                var flight = Map(dbFlight);
+                flightSearch.Flights.Add(flight);
+
+                if (includeAvailability)
+                {
+                    foreach (var a in dbFlight.Availabilities.ToList())
+                    {
+                        flight.Availabilities.Add(Map(a));
+                    }
+                }
+            }
 
             // link selected flight from collection
             if (dbFlightSearch.SelectedFlightID.HasValue)
@@ -133,12 +147,12 @@ namespace AgendaAssistant.Repositories
 
         public static Station Map(DB.Station dbStation)
         {
-            return new Station() {Code = dbStation.Code, Name = dbStation.Name};
+            return new Station() { Code = dbStation.Code, Name = dbStation.Name };
         }
 
         public static Route Map(DB.Route dbRoute)
         {
-            return new Route() {Origin = dbRoute.Origin, Destination = dbRoute.Destination};
+            return new Route() { Origin = dbRoute.Origin, Destination = dbRoute.Destination };
         }
     }
 }

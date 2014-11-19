@@ -4,8 +4,9 @@
 <div id="wrapper" ng-show="event != null">
     <h1>{{::event.title}}</h1>
     <event-sub-title event="event"></event-sub-title>
+    <event-description event="event"></event-description>
 
-    <div>
+    <div ng-if="event.pnr == null">
         <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
             <a role="button" class="btn" ng-class="activeTabIndex == 0 ? 'btn-primary' : 'btn-default'" ng-click="activeTabIndex = 0">Beschikbaarheid</a>
             <a role="button" class="btn" ng-class="activeTabIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="activeTabIndex = 1">Boekingsgegevens</a>
@@ -43,5 +44,9 @@
                 <participantdata participant="participant"></participantdata>
             </div>
         </div>
+    </div>
+
+    <div ng-if="event.pnr !== null">
+        <info>Er is al een boeking voor deze afspraak gemaakt.</info>
     </div>
 </div>

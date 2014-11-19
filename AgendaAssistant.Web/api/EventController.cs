@@ -54,20 +54,6 @@ namespace AgendaAssistant.Web.api
         {
             var evn = _service.Get(id);
 
-            var eventAvailabilities = _availabilityService.GetByEvent(id);
-            evn.AddAvailabilities(eventAvailabilities);
-
-            // used to show participants that have not reacted yet (clicked the link in the confirmation email)
-            foreach (var participant in evn.Participants)
-            {
-                participant.HasConfirmed = eventAvailabilities.Any(a => a.ParticipantId == participant.Id);
-            }
-
-            var organizerParticipant = evn.Participants.SingleOrDefault(p => p.Person.Id.Equals(evn.Organizer.Id));
-
-            if (organizerParticipant != null)
-                evn.OrganizerParticipantCode = organizerParticipant.Id;
-
             return evn;
         }
 

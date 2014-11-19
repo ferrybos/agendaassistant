@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace AgendaAssistant.Entities
 {
@@ -19,6 +20,7 @@ namespace AgendaAssistant.Entities
         public short FlightNumber { get; set; }
         public decimal Price { get; set; }
 
+        [JsonProperty(PropertyName = "Perc")]
         public short AvailabilityPercentage
         {
             get
@@ -27,6 +29,10 @@ namespace AgendaAssistant.Entities
             }
         }
 
+        [JsonProperty(PropertyName = "av")]
         public List<Availability> Availabilities = new List<Availability>();
+
+        [JsonProperty(PropertyName = "paav")]
+        public Availability ParticipantAvailability { get; set; }
     }
 }

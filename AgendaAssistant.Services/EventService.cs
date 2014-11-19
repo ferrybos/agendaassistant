@@ -48,8 +48,18 @@ namespace AgendaAssistant.Services
         {
             // fetch event (including complete tree)
             var dbEvent = _repository.Single(GuidUtil.ToGuid(id));
+            var eventIsActive = dbEvent.PNR == null;
 
-            return EntityMapper.Map(dbEvent);
+            var evn = EntityMapper.Map(dbEvent, includeAvailability: eventIsActive);
+
+            // used to show participants that have not reacted yet (clicked the link in the confirmation email)
+            var eventAvailabilities = evn.Availabilities();
+            foreach (var participant in evn.Participants)
+            {
+                participant.HasConfirmed = eventAvailabilities.Any(a => a.ParticipantId == participant.Id);
+            }
+
+            return evn;
         }
 
         public Event Create(string title, string description, string name, string email)

@@ -49,7 +49,7 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $root
     var timeout = null;
     
     var saveUpdates = function () {
-        availabilityService.update($scope.flight.availabilities[0])
+        availabilityService.update($scope.flight.paav)
             .success(function(data) {
                 $rootScope.infoMessage = "Gegevens zijn opgeslagen";
                 $timeout(function () {
@@ -74,6 +74,6 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $root
         flight.isCommentExpanded = !flight.isCommentExpanded;
     };
 
-    $scope.$watch('flight.availabilities[0].value', debounceUpdate);
-    $scope.$watch('flight.availabilities[0].commentText', debounceUpdate);
+    $scope.$watch('flight.paav.value', debounceUpdate);
+    $scope.$watch('flight.paav.commentText', debounceUpdate);
 });

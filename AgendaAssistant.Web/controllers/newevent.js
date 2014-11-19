@@ -24,30 +24,18 @@
 
     function getStationsAndRoutes() {
         stationService.get()
-            .success(function(data) {
+            .success(function (data) {
                 //$log.log("StationsAndRoutes: " + JSON.stringify(data));
                 $scope.origins = data.origins;
                 $scope.destinations = data.destinations;
                 $scope.routes = data.routes;
             })
-            .error(function(error) {
+            .error(function (error) {
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
-    };
+    }
 
-    var newEvent = function () {
-        eventService.new($scope.event)
-           .success(function (data) {
-               $scope.isWaitingForNewEvent = false;
-               //$log.log("Event: " + JSON.stringify(data));
-               //$scope.CurrentStepIndex = 2;
-               $scope.event = data;
-           })
-           .error(function (error) {
-               $scope.isWaitingForNewEvent = false;
-               $modal({ title: error.message, content: error.exceptionMessage, show: true });
-           });
-    };
+    ;
 
     $scope.CreateEvent = function () {
         insights.logEvent('User creates event');
@@ -94,9 +82,19 @@
 
         if ($scope.event.id == "") {
             $scope.isWaitingForNewEvent = true;
-            newEvent($scope.event);
-        } else {
-            //
+
+            eventService.new($scope.event)
+               .success(function (data) {
+                   $scope.isWaitingForNewEvent = false;
+                   //$log.log("Event: " + JSON.stringify(data));
+                   //$scope.CurrentStepIndex = 2;
+                   $scope.event = data;
+               })
+               .error(function (error) {
+                   $scope.isWaitingForNewEvent = false;
+                   $scope.CurrentStepIndex = 1; // back to step 1
+                   $modal({ title: error.message, content: error.exceptionMessage, show: true });
+               });
         }
 
         $scope.CurrentStepIndex = 2;

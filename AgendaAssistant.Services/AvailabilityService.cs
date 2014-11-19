@@ -13,7 +13,6 @@ namespace AgendaAssistant.Services
     {
         Event Get(string participantId);
         List<Availability> GetByEvent(string eventId);
-        short CalculateAvailabilityPercentage(Flight flight);
         void Update(Availability availability);
         void Confirm(string participantId);
     }
@@ -34,11 +33,6 @@ namespace AgendaAssistant.Services
             _mailService = mailService;
         }
 
-        public short CalculateAvailabilityPercentage(Flight flight)
-        {
-            return flight.Availabilities.Count == 0 ? (short) 0 : (short) (flight.Availabilities.Average(a => a.Value));
-        }
-
         public List<Availability> GetByEvent(string eventId)
         {
             var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
@@ -56,31 +50,58 @@ namespace AgendaAssistant.Services
 
         public Event Get(string participantId)
         {
-            Guid id = GuidUtil.ToGuid(participantId);
+            var id = GuidUtil.ToGuid(participantId);
 
             var dbParticipant = new ParticipantRepository(_dbContext).Single(id);
             var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
-            var evn = EntityMapper.Map(dbEvent, includeParticipants: false);
-            evn.Participants.Add(EntityMapper.Map(dbParticipant));
+            var eventIsActive = dbEvent.PNR == null;
 
-            var dbAvailabilities = _repository.SelectAll(id);
+            // als vluchten zijn geprikt, hoeven overige vluchten niet meer geladen te worden
 
-            if (dbAvailabilities.Count == 0)
+            var evn = EntityMapper.Map(dbEvent, includeParticipants: false, includeFlights: eventIsActive,
+                                       includeAvailability: eventIsActive);
+
+            // don't add other participant data
+            evn.Participants.Add(EntityMapper.Map(dbParticipant)); 
+
+            if (eventIsActive)
             {
-                // create if not exist yet (first time participant visits the event)
-                dbAvailabilities.AddRange(evn.OutboundFlightSearch.Flights.Select(flight => _repository.Create(id, flight.Id)));
-                dbAvailabilities.AddRange(evn.InboundFlightSearch.Flights.Select(flight => _repository.Create(id, flight.Id)));
+                var participantHasAvailability = evn.Availabilities().Any(a => a.ParticipantId.Equals(participantId));
+
+                if (!participantHasAvailability)
+                {
+                    // first visit, create if not exist yet (first time participant visits the event)
+                    _repository.Create(dbEvent.OutboundFlightSearch, id);
+                    _repository.Create(dbEvent.InboundFlightSearch, id);
+
+                    // re-map availabilities (todo: only add new availabilities)
+                    evn.OutboundFlightSearch = EntityMapper.Map(dbEvent.OutboundFlightSearch, true);
+                    evn.InboundFlightSearch = EntityMapper.Map(dbEvent.InboundFlightSearch, true);
+                }
+
+                MoveParticipantAvailability(participantId, evn.OutboundFlightSearch);
+                MoveParticipantAvailability(participantId, evn.InboundFlightSearch);
             }
 
-            var availabilities = new List<Availability>();
-            dbAvailabilities.ForEach(a => availabilities.Add(EntityMapper.Map(a)));
-
-            // map availabilities to flightsearch
-            evn.OutboundFlightSearch.AddAvailabilities(availabilities);
-            evn.InboundFlightSearch.AddAvailabilities(availabilities);
+            // remove personal data
+            evn.Organizer = null;
 
             return evn;
+        }
+
+        private void MoveParticipantAvailability(string participantId, FlightSearch flightSearch)
+        {
+            foreach (var flight in flightSearch.Flights)
+            {
+                flight.ParticipantAvailability =
+                    flight.Availabilities.Single(a => a.ParticipantId.Equals(participantId));
+
+                flight.Availabilities.Remove(flight.ParticipantAvailability);
+
+                // reduce JSON response
+                flight.Availabilities.ForEach(a => a.ParticipantId = "");
+            }
         }
 
         public void Update(Availability availability)
@@ -89,8 +110,7 @@ namespace AgendaAssistant.Services
 
             _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value, availability.CommentText);
 
-            dbParticipant.AvailabilityConfirmed = true;
-            _dbContext.Current.SaveChanges();
+            
         }
 
         public void Confirm(string participantId)
@@ -99,6 +119,9 @@ namespace AgendaAssistant.Services
             var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
             _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
+
+            dbParticipant.AvailabilityConfirmed = true;
+            _dbContext.Current.SaveChanges();
         }
     }
 }

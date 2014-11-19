@@ -53,11 +53,10 @@ namespace AgendaAssistant.Services
         public void Update(Participant participant)
         {
             var dbParticipant = _repository.Update(GuidUtil.ToGuid(participant.Id), participant.Bagage);
-            
+
             var person = participant.Person;
-            _personRepository.Update(GuidUtil.ToGuid(person.Id),
-                                     person.FirstNameInPassport, person.LastNameInPassport,
-                                     person.DateOfBirth, person.Gender);
+            new PersonRepository(_dbContext).Update(dbParticipant.Person, person.FirstNameInPassport,
+                                                    person.LastNameInPassport, person.DateOfBirth, person.Gender);
 
             _mailService.SendBookingDetails(dbParticipant);
 

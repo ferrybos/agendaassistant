@@ -232,6 +232,19 @@ app.directive('availabilitylist', function ($log) {
     };
 });
 
+app.directive('participants', function ($log) {
+    return {
+        restrict: 'E',
+        scope: {
+            flight: '='
+        },
+        controller: function ($scope) {
+            //
+        },
+        templateUrl: '../partials/participants.html'
+    };
+});
+
 app.directive('participantdata', function ($log, participantService, $timeout, $modal) {
     return {
         restrict: 'E',
@@ -282,7 +295,17 @@ app.directive('eventSubTitle', function() {
         scope: {
             event: '='
         },
-        template: '<p class="subtitle">Georganiseerd door {{event.organizer.name}} ({{event.status.description}})</p>'
+        template: '<p class="subtitle">Georganiseerd door {{event.organizerName}} ({{event.status.description}})</p>'
+    };
+});
+
+app.directive('eventDescription', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            event: '='
+        },
+        template: '<p class="description">{{event.description}}</p>'
     };
 });
 

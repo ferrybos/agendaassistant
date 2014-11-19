@@ -49,16 +49,12 @@ namespace AgendaAssistant.Repositories
             return dbPerson;
         }
 
-        public void Update(Guid id, string firstNameInPassport, string lastNameInPassport, DateTime? dateOfBirth, Gender? gender)
+        public void Update(Person dbPerson, string firstNameInPassport, string lastNameInPassport, DateTime? dateOfBirth, Gender? gender)
         {
-            var dbPerson = Single(id);
-
             dbPerson.FirstNameInPassport = firstNameInPassport;
             dbPerson.LastNameInPassport = lastNameInPassport;
             dbPerson.DateOfBirth = dateOfBirth;
             dbPerson.Gender = gender.HasValue ? (byte)gender : (byte?)null;
-
-            DbContext.SaveChanges();
         }
 
         /// <summary>

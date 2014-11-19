@@ -16,14 +16,16 @@
             $scope.event = data;
             
             $log.log("Event: " + JSON.stringify($scope.event));
-
-            if ($scope.event.isConfirmed) {
-                //refreshFlights();
-            }
+            
+            refreshFlights();
         });
     };
 
     function refreshFlights() {
+        if ($scope.event.isConfirmed || $scope.event.pnr != null || $scope.areFlightsSelected()) {
+            return;
+        }
+        
         $scope.isRefreshingFlights = true;
         eventService.refreshFlights($scope.event.id)
             .success(function(data) {
@@ -92,6 +94,11 @@
     
     $scope.areFlightsSelected = function () {
         return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
+    };
+    
+    $scope.areSelectedFlightsValid = function () {
+        return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
+            $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
     };
     
     $scope.areSelectedFlightsInvalid = function() {
