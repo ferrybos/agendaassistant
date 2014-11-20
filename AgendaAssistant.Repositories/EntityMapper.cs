@@ -39,7 +39,7 @@ namespace AgendaAssistant.Repositories
                 evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch);
             }
 
-            if (includeAvailability)
+            if (includeAvailability && evn.IsConfirmed) // confirmed event has flights and participants
             {
                 var flightsDictionary = new Dictionary<long, Flight>();
                 evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
@@ -49,7 +49,7 @@ namespace AgendaAssistant.Repositories
                 {
                     foreach (var dbAvailability in dbParticipant.Availabilities)
                     {
-                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(Map(dbAvailability));
+                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(Map(dbAvailability, dbParticipant.Name));
                     }
                 }
             }
@@ -107,7 +107,7 @@ namespace AgendaAssistant.Repositories
                 };
         }
 
-        public static Availability Map(DB.Availability dbAvailability)
+        public static Availability Map(DB.Availability dbAvailability, string name)
         {
             return new Availability
             {
@@ -115,7 +115,7 @@ namespace AgendaAssistant.Repositories
                 FlightId = dbAvailability.FlightID,
                 Value = dbAvailability.Value ?? 0,
                 CommentText = dbAvailability.Comment.Trim(),
-                Name = dbAvailability.Participant.Name
+                Name = name
             };
         }
 

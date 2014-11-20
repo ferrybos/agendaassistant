@@ -81,16 +81,23 @@ namespace AgendaAssistant.Services
                     {
                         _repository.Create(dbParticipant, dbFlight);
                     }
+
+                    _dbContext.Current.SaveChanges();
                 }
 
                 // attach availability to flights
-                var flightsDictionary = new Dictionary<long, Flight>();
-                evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
-                evn.InboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
-
-                foreach (var dbAvailability in dbParticipant.Availabilities)
+                if (!dbParticipant.AvailabilityConfirmed) // else the availability is already included
                 {
-                    flightsDictionary[dbAvailability.FlightID].Availabilities.Add(EntityMapper.Map(dbAvailability));
+                    var flightsDictionary = new Dictionary<long, Flight>();
+                    evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
+                    evn.InboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
+
+                    foreach (var dbAvailability in dbParticipant.Availabilities)
+                    {
+                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(EntityMapper.Map(dbAvailability,
+                                                                                                       dbParticipant
+                                                                                                           .Name));
+                    }
                 }
 
                 MoveParticipantAvailability(participantId, evn.OutboundFlightSearch);
