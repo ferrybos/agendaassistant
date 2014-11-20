@@ -22,8 +22,8 @@ namespace AgendaAssistant.Repositories
                     PushpinCompleted = dbEvent.StatusID >= EventStatusEnum.PushpinCompleted,
 
                     IsConfirmed = dbEvent.StatusID >= EventStatusEnum.Confirmed,
-                    OrganizerName = dbEvent.Organizer.Name,
-                    Organizer = Map(dbEvent.Organizer),
+                    OrganizerName = dbEvent.OrganizerName,
+                    OrganizerEmail = dbEvent.OrganizerEmail,
 
                     Participants = new List<Participant>()
                 };
@@ -35,8 +35,23 @@ namespace AgendaAssistant.Repositories
 
             if (includeFlights)
             {
-                evn.OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch, includeAvailability);
-                evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch, includeAvailability);
+                evn.OutboundFlightSearch = Map(dbEvent.OutboundFlightSearch);
+                evn.InboundFlightSearch = Map(dbEvent.InboundFlightSearch);
+            }
+
+            if (includeAvailability)
+            {
+                var flightsDictionary = new Dictionary<long, Flight>();
+                evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
+                evn.InboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
+
+                foreach (var dbParticipant in dbEvent.Participants.Where(p => p.AvailabilityConfirmed))
+                {
+                    foreach (var dbAvailability in dbParticipant.Availabilities)
+                    {
+                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(Map(dbAvailability));
+                    }
+                }
             }
 
             return evn;
@@ -47,21 +62,7 @@ namespace AgendaAssistant.Repositories
             return new EventStatus() { Id = eventStatus.ID, Description = eventStatus.Description };
         }
 
-        public static Person Map(DB.Person dbPerson)
-        {
-            return new Person
-                {
-                    //Id = GuidUtil.ToString(dbPerson.ID),
-                    Name = dbPerson.Name,
-                    Email = dbPerson.Email,
-                    FirstNameInPassport = dbPerson.FirstNameInPassport,
-                    LastNameInPassport = dbPerson.LastNameInPassport,
-                    DateOfBirth = dbPerson.DateOfBirth,
-                    Gender = dbPerson.Gender.HasValue ? (Gender)dbPerson.Gender.Value : (Gender?)null
-                };
-        }
-
-        public static FlightSearch Map(DB.FlightSearch dbFlightSearch, bool includeAvailability)
+        public static FlightSearch Map(DB.FlightSearch dbFlightSearch)
         {
             if (dbFlightSearch == null)
                 return null;
@@ -78,19 +79,7 @@ namespace AgendaAssistant.Repositories
                     Flights = new List<Flight>()
                 };
 
-            foreach (var dbFlight in dbFlightSearch.Flights)
-            {
-                var flight = Map(dbFlight);
-                flightSearch.Flights.Add(flight);
-
-                if (includeAvailability)
-                {
-                    foreach (var a in dbFlight.Availabilities.ToList())
-                    {
-                        flight.Availabilities.Add(Map(a));
-                    }
-                }
-            }
+            dbFlightSearch.Flights.ToList().ForEach(f => flightSearch.Flights.Add(Map(f)));
 
             // link selected flight from collection
             if (dbFlightSearch.SelectedFlightID.HasValue)
@@ -126,23 +115,32 @@ namespace AgendaAssistant.Repositories
                 FlightId = dbAvailability.FlightID,
                 Value = dbAvailability.Value ?? 0,
                 CommentText = dbAvailability.Comment.Trim(),
-                Name = dbAvailability.Participant.Person.Name // todo: improve!!!
+                Name = dbAvailability.Participant.Name
             };
         }
 
         public static Participant Map(DB.Participant dbParticipant)
         {
-            return new Participant
+            var participant = new Participant
             {
                 Id = GuidUtil.ToString(dbParticipant.ID),
 
                 EventId = GuidUtil.ToString(dbParticipant.EventID),
-                Person = Map(dbParticipant.Person),
-
+                Person = new Person()
+                {
+                    Name = dbParticipant.Name,
+                    Email = dbParticipant.Email,
+                    FirstNameInPassport = dbParticipant.FirstNameInPassport,
+                    LastNameInPassport = dbParticipant.LastNameInPassport,
+                    DateOfBirth = dbParticipant.DateOfBirth,
+                    Gender = dbParticipant.Gender.HasValue ? (Gender)dbParticipant.Gender.Value : (Gender?)null
+                },
                 Bagage = dbParticipant.Bagage.Trim(),
                 AvailabilityConfirmed = dbParticipant.AvailabilityConfirmed,
                 BookingDetailsConfirmed = dbParticipant.BookingDetailsConfirmed
             };
+
+            return participant;
         }
 
         public static Station Map(DB.Station dbStation)

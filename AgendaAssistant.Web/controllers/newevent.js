@@ -191,15 +191,15 @@
 
         $scope.event.title = "Weekendje Barcelona";
         $scope.event.description = "Dit is een test";
-        $scope.event.organizer.name = "Ferry Bos";
-        $scope.event.organizer.email = "ferry.bos@transavia.com";
+        $scope.event.organizerName = "Ferry Bos";
+        $scope.event.organizerEmail = "ferry.bos@transavia.com";
     };
 
     $scope.IsEventStepValid = function () {
         return $scope.event != undefined
             && $scope.event.title != undefined && $scope.event.title != null && $scope.event.title.length > 0
-            && $scope.event.organizer.name != undefined && $scope.event.organizer.name != null && $scope.event.organizer.name.length > 0
-            && $scope.event.organizer.email != undefined && $scope.event.organizer.email != null && $scope.event.organizer.email.length > 0;
+            && $scope.event.organizerName != undefined && $scope.event.organizerName != null && $scope.event.organizerName.length > 0
+            && $scope.event.organizerEmail != undefined && $scope.event.organizerEmail != null && $scope.event.organizerEmail.length > 0;
     };
 
     $scope.IsParticipantsStepValid = function () {

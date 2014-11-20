@@ -363,21 +363,21 @@ app.directive('eventUnconfirmedParticipants', function () {
             $scope.isAvailabilityConfirmedSectionExpanded = false;
             $scope.isBookingDetailsConfirmedSectionExpanded = false;
             
-            $scope.unconfirmedParticipants = function () {
-                if ($scope.event != null)
-                    return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
-                else return [];
-            };
+            //$scope.unconfirmedParticipants = function () {
+            //    if ($scope.event != null)
+            //        return $filter('filter')($scope.event.participants, { hasConfirmed: false }, true);
+            //    else return [];
+            //};
             
             $scope.avUnconfirmedParticipants = function () {
                 if ($scope.event != null)
-                    return $filter('filter')($scope.event.participants, { hasConfirmed: true, avConfirmed: false }, true);
+                    return $filter('filter')($scope.event.participants, { avConfirmed: false }, true);
                 else return [];
             };
             
             $scope.bdUnconfirmedParticipants = function () {
                 if ($scope.event != null)
-                    return $filter('filter')($scope.event.participants, { hasConfirmed: true, avConfirmed: true, bdConfirmed: false }, true);
+                    return $filter('filter')($scope.event.participants, { avConfirmed: true, bdConfirmed: false }, true);
                 else return [];
             };
         },

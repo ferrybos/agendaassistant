@@ -142,7 +142,6 @@
     <Content Include="partials\availabilityList.html" />
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />
-    <Content Include="partials\eventOrganizedBy.html" />
     <Content Include="partials\eventUnconfirmedParticipants.html" />
     <Content Include="partials\participants.html" />
     <Content Include="partials\flightFromApi.html" />

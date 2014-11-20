@@ -19,20 +19,17 @@ namespace AgendaAssistant.Repositories
         {
         }
 
-        public void Create(FlightSearch dbFlightSearch, Guid participantId)
+        public Availability Create(Participant dbParticipant, Flight dbFlight)
         {
-            foreach (var dbFlight in dbFlightSearch.Flights)
-            {
-                var dbAvailability = DbContext.Availabilities.Create();
-                dbFlight.Availabilities.Add(dbAvailability);
 
-                dbAvailability.Comment = "";
-                dbAvailability.ParticipantID = participantId;
-                dbAvailability.FlightID = dbFlight.ID;
-                dbAvailability.Value = null;
-            }
+            var dbAvailability = DbContext.Availabilities.Create();
+            dbParticipant.Availabilities.Add(dbAvailability);
 
-            DbContext.SaveChanges();
+            dbAvailability.FlightID = dbFlight.ID;
+            dbAvailability.Comment = "";
+            dbAvailability.Value = null;
+
+            return dbAvailability;
         }
 
         //public Availability Create(Guid participantId, long flightId)

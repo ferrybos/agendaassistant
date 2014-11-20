@@ -21,7 +21,6 @@ namespace AgendaAssistant.Services
     {
         private readonly IDbContext _dbContext;
         private readonly ParticipantRepository _repository;
-        private readonly PersonRepository _personRepository;
         private readonly IMailService _mailService;
 
         public ParticipantService(IDbContext dbContext, IMailService mailService)
@@ -29,7 +28,6 @@ namespace AgendaAssistant.Services
             _dbContext = dbContext;
 
             _repository = new ParticipantRepository(_dbContext);
-            _personRepository = new PersonRepository(_dbContext);
             _mailService = mailService;
         }
 
@@ -43,20 +41,19 @@ namespace AgendaAssistant.Services
         public Participant Add(string eventId, string name, string email)
         {
             var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
-            var dbPerson = _personRepository.AddOrGetExisting(name, email);
             
-            var dbParticipant = _repository.Add(dbEvent.ID, dbPerson.ID);
+            var dbParticipant = _repository.Add(dbEvent.ID, name, email);
             
             return EntityMapper.Map(dbParticipant);
         }
 
         public void Update(Participant participant)
         {
-            var dbParticipant = _repository.Update(GuidUtil.ToGuid(participant.Id), participant.Bagage);
-
-            var person = participant.Person;
-            new PersonRepository(_dbContext).Update(dbParticipant.Person, person.FirstNameInPassport,
-                                                    person.LastNameInPassport, person.DateOfBirth, person.Gender);
+            var gender = participant.Person.Gender.HasValue ? (byte)participant.Person.Gender : (byte?)null;
+            var dbParticipant = _repository.Update(GuidUtil.ToGuid(participant.Id), participant.Bagage,
+                                                   participant.Person.FirstNameInPassport,
+                                                   participant.Person.LastNameInPassport, participant.Person.DateOfBirth,
+                                                   gender);
 
             _mailService.SendBookingDetails(dbParticipant);
 

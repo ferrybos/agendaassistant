@@ -29,10 +29,11 @@ namespace AgendaAssistant.DB
         public System.Guid OrganizerPersonID { get; set; }
         public Nullable<short> StatusID { get; set; }
         public string PNR { get; set; }
+        public string OrganizerName { get; set; }
+        public string OrganizerEmail { get; set; }
     
         public virtual ICollection<Email> Emails { get; set; }
         public virtual FlightSearch InboundFlightSearch { get; set; }
-        public virtual Person Organizer { get; set; }
         public virtual FlightSearch OutboundFlightSearch { get; set; }
         public virtual EventStatus EventStatus { get; set; }
         public virtual ICollection<Participant> Participants { get; set; }

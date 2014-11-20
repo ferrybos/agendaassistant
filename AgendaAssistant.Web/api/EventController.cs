@@ -67,7 +67,7 @@ namespace AgendaAssistant.Web.api
             // create new event
             try
             {
-                var newEvent = _service.Create(data.Title, data.Description, data.Organizer.Name, data.Organizer.Email);
+                var newEvent = _service.Create(data.Title, data.Description, data.OrganizerName, data.OrganizerEmail, true);
 
                 //Json(new { Event = newEvent }).Content);
                 return Created(string.Format("api/event/{0}", newEvent.Id), Json(newEvent).Content);

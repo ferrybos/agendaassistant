@@ -31,25 +31,30 @@ namespace AgendaAssistant.Repositories
             return dbParticipant;
         }
 
-        public Participant Update(Guid id, string bagage)
+        public Participant Update(Guid id, string bagage, string firstNameInPassport, string lastNameInPassport, DateTime? dateOfBirth, byte? gender)
         {
             var dbParticipant = Single(id);
 
             dbParticipant.Bagage = bagage;
+            dbParticipant.FirstNameInPassport = firstNameInPassport;
+            dbParticipant.LastNameInPassport = lastNameInPassport;
+            dbParticipant.DateOfBirth = dateOfBirth;
+            dbParticipant.Gender = gender;
 
             DbContext.SaveChanges();
 
             return dbParticipant;
         }
 
-        public Participant Add(Guid eventId, Guid personId)
+        public Participant Add(Guid eventId, string name, string email)
         {
             var dbParticipant = DbContext.Participants.Create();
             DbContext.Participants.Add(dbParticipant);
 
             dbParticipant.ID = Guid.NewGuid();
             dbParticipant.EventID = eventId;
-            dbParticipant.PersonID = personId;
+            dbParticipant.Name = name;
+            dbParticipant.Email = email;
             dbParticipant.Bagage = "";
 
             DbContext.SaveChanges();

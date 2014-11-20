@@ -27,11 +27,11 @@ namespace AgendaAssistant.Tests
                 {
                     ID = Guid.NewGuid(),
                     Title = "Weekendje Valencia",
-                    Organizer = new DB.Person() {Email = "ferrybos@gmail.com", Name = "Ferry Bos"}
+                    OrganizerName = "Ferry Bos",
+                    OrganizerEmail = "ferrybos@gmail.com"
                 };
 
-            var person = new Person() {ID = Guid.NewGuid(), Email = "ferrybos@gmail.com", Name = "Ferry"};
-            _participant = new Participant() {ID = Guid.NewGuid(), EventID = _event.ID, Person = person};
+            _participant = new Participant() { ID = Guid.NewGuid(), EventID = _event.ID, Email = "ferrybos@gmail.com", Name = "Ferry" };
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace AgendaAssistant.Tests
             reminderBuilder.AppendLine("");
             reminderBuilder.AppendLine("Met vriendelijke groet,");
             reminderBuilder.AppendLine(""); 
-            reminderBuilder.AppendLine(_event.Organizer.Name);
+            reminderBuilder.AppendLine(_event.OrganizerName);
 
             _mailService.SendMessage(_event, _participant, reminderBuilder.ToString());
         }

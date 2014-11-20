@@ -25,8 +25,9 @@ namespace AgendaAssistant.Entities
         public EventStatus Status { get; set; }
         public bool IsConfirmed { get; set; }
 
-        public Person Organizer { get; set; }
         public string OrganizerName { get; set; }
+        public string OrganizerEmail { get; set; }
+
         public List<Participant> Participants { get; set; }
         public FlightSearch OutboundFlightSearch { get; set; }
         public FlightSearch InboundFlightSearch { get; set; }

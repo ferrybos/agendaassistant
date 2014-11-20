@@ -36,14 +36,15 @@ namespace AgendaAssistant.Repositories
             return dbEvent;
         }
 
-        public Event Create(string title, string description, Person organizer)
+        public Event Create(string title, string description, string organizerName, string organizerEmail)
         {
             var dbEvent = DbContext.Events.Create();
             DbContext.Events.Add(dbEvent);
 
             dbEvent.Title = title;
             dbEvent.Description = description;
-            dbEvent.Organizer = organizer;
+            dbEvent.OrganizerName = organizerName;
+            dbEvent.OrganizerEmail = organizerEmail;
 
             dbEvent.ID = Guid.NewGuid(); // used as id for redirect links in app and emails
             dbEvent.CreatedUtc = DateTime.UtcNow;

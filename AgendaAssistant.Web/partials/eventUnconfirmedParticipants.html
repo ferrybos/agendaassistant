@@ -1,21 +1,6 @@
-﻿<div class="panel panel-primary" ng-show="unconfirmedParticipants().length > 0" style="margin-top: 2px; margin-bottom: 0">
-    <div class="panel-heading" ng-click="isReminderSectionExpanded = !isReminderSectionExpanded" style="cursor: pointer">
-        <span ng-class="isReminderSectionExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Nog niet gereageerd ({{unconfirmedParticipants().length}})
-    </div>
-    <div class="panel-body" ng-show="isReminderSectionExpanded">
-        <table id="Table4" class="table table-condensed table-hover">
-            <tbody>
-                <tr ng-repeat="participant in unconfirmedParticipants()">
-                    <td style="border-top: 0"><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="panel panel-primary" ng-show="avUnconfirmedParticipants().length > 0" style="margin-top: 2px; margin-bottom: 0">
+﻿<div class="panel panel-primary" ng-show="avUnconfirmedParticipants().length > 0" style="margin-top: 2px; margin-bottom: 0">
     <div class="panel-heading" ng-click="isAvailabilityConfirmedSectionExpanded = !isAvailabilityConfirmedSectionExpanded" style="cursor: pointer">
-        <span ng-class="isAvailabilityConfirmedSectionExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Beschikbaarheid nog niet bevestigd ({{avUnconfirmedParticipants().length}})
+        <span ng-class="isAvailabilityConfirmedSectionExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Nog niet gereageerd ({{avUnconfirmedParticipants().length}})
     </div>
     <div class="panel-body" ng-show="isAvailabilityConfirmedSectionExpanded">
         <table id="Table1" class="table table-condensed table-hover">

@@ -56,7 +56,7 @@ namespace AgendaAssistant.Services
         {
             var subject = string.Format("{0}: Vluchten zijn geboekt!", dbEvent.Title);
 
-            var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
+            var salutation = string.Format("Beste {0}", dbParticipant.Name);
             var announcement = string.Format("Hieronder vind u de definitieve vlucht informatie voor de afspraak '{0}'.", dbEvent.Title);
 
             var htmlBuilder = new StringBuilder();
@@ -75,7 +75,7 @@ namespace AgendaAssistant.Services
 
             var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
 
-            Send(dbParticipant.Person.Email, subject, body);
+            Send(dbParticipant.Email, subject, body);
         }
 
         private void AddFlightInformation(Event dbEvent, StringBuilder htmlBuilder, StringBuilder textBuilder)
@@ -117,7 +117,7 @@ namespace AgendaAssistant.Services
         {
             var subject = string.Format("{0}: Vluchten zijn geprikt!", dbEvent.Title);
 
-            var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
+            var salutation = string.Format("Beste {0}", dbParticipant.Name);
             var announcement = string.Format("Hieronder vind u de vlucht informatie voor de afspraak '{0}'.", dbEvent.Title);
 
             var htmlBuilder = new StringBuilder();
@@ -138,7 +138,7 @@ namespace AgendaAssistant.Services
 
             var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
 
-            Send(dbParticipant.Person.Email, subject, body);
+            Send(dbParticipant.Email, subject, body);
         }
 
         public void Send(List<String> recipients, string subject, EmailBody body)
@@ -150,18 +150,18 @@ namespace AgendaAssistant.Services
 
         public void SendToOrganizer(Event dbEvent, string subject, string announcement, string action, string linkUrl, string linkText)
         {
-            var salutation = string.Format("Beste {0}", dbEvent.Organizer.Name);
+            var salutation = string.Format("Beste {0}", dbEvent.OrganizerName);
             var body = GenerateBody(salutation, announcement, action, linkUrl, linkText);
 
-            Send(dbEvent.Organizer.Email, subject, body);
+            Send(dbEvent.OrganizerEmail, subject, body);
         }
 
         public void SendToParticipant(Participant dbParticipant, string subject, string announcement, string action, string linkUrl, string linkText)
         {
-            var salutation = string.Format("Beste {0}", dbParticipant.Person.Name);
+            var salutation = string.Format("Beste {0}", dbParticipant.Name);
             var body = GenerateBody(salutation, announcement, action, linkUrl, linkText);
 
-            Send(dbParticipant.Person.Email, subject, body);
+            Send(dbParticipant.Email, subject, body);
         }
 
         public void SendEventConfirmation(Event dbEvent)
@@ -179,8 +179,8 @@ namespace AgendaAssistant.Services
         {
             SendToParticipant(
                 dbParticipant,
-                string.Format("Uitnodiging van {0}: {1}", dbEvent.Organizer.Name, dbEvent.Title),
-                string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.", dbEvent.Organizer.Name, dbEvent.Title),
+                string.Format("Uitnodiging van {0}: {1}", dbEvent.OrganizerName, dbEvent.Title),
+                string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.", dbEvent.OrganizerName, dbEvent.Title),
                 "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid op te geven. Bewaar deze email om later nog uw beschikbaarheid te kunnen wijzigen.",
                 AvailabilityUrl(dbParticipant),
                 "Beschikbaarheid invullen of wijzigen"
@@ -193,7 +193,7 @@ namespace AgendaAssistant.Services
                         dbEvent,
                         string.Format("Beschikbaarheid ingevuld: {0}", dbEvent.Title),
                         string.Format("{0} heeft beschikbaarheid ingevuld voor de afspraak '<strong>{1}</strong>'.",
-                                      dbParticipant.Person.Name, dbEvent.Title),
+                                      dbParticipant.Name, dbEvent.Title),
                         "Klik op de onderstaande link om de beschikbaarheid te bekijken.",
                         EventUrl(dbEvent),
                         "Afspraak beheren");
@@ -205,9 +205,9 @@ namespace AgendaAssistant.Services
 
             SendToOrganizer(
                         dbEvent,
-                        string.Format("Boekingsgegevens gewijzigd: {0} ({1})", dbEvent.Title, dbParticipant.Person.Name),
+                        string.Format("Boekingsgegevens gewijzigd: {0} ({1})", dbEvent.Title, dbParticipant.Name),
                         string.Format("{0} heeft boekingsgegevens gewijzigd voor de afspraak '<strong>{1}</strong>'.",
-                                      dbParticipant.Person.Name, dbEvent.Title),
+                                      dbParticipant.Name, dbEvent.Title),
                         "Klik op de onderstaande link om de afspraak te beheren.",
                         EventUrl(dbEvent),
                         "Afspraak beheren");

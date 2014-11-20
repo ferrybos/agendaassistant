@@ -35,8 +35,12 @@
             .success(function (data) {
                 $scope.isConfirming = false;
                 $scope.participant.avConfirmed = true;
-                $modal({ title: "Beschikbaarheid", content: "Bedankt voor het invullen van uw beschikbaarheid. Er is een email verstuurd naar de organisator.", show: true });
-                //$scope.activeTabIndex = 1; // booking details
+
+                var msgContent = "Bedankt voor het invullen van uw beschikbaarheid. ";
+                if ($scope.participant.person.email != $scope.event.organizerEmail)
+                    msgContent += "Er is een email verstuurd naar de organisator.";
+                
+                $modal({ title: "Beschikbaarheid", content: msgContent, show: true });
             })
             .error(function (error) {
                 $scope.isConfirming = false;

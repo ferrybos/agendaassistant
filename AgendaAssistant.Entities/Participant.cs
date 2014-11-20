@@ -15,9 +15,7 @@ namespace AgendaAssistant.Entities
         public string EventId { get; set; }
         
         public Person Person { get; set; }
-
-        public bool HasConfirmed { get; set; }
-
+        
         public string Bagage { get; set; }
 
         [JsonProperty(PropertyName = "AvConfirmed")]

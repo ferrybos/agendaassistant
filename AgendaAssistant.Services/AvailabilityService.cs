@@ -12,7 +12,7 @@ namespace AgendaAssistant.Services
     public interface IAvailabilityService
     {
         Event Get(string participantId);
-        List<Availability> GetByEvent(string eventId);
+        //List<Availability> GetByEvent(string eventId);
         void Update(Availability availability);
         void Confirm(string participantId);
     }
@@ -33,20 +33,20 @@ namespace AgendaAssistant.Services
             _mailService = mailService;
         }
 
-        public List<Availability> GetByEvent(string eventId)
-        {
-            var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
+        //public List<Availability> GetByEvent(string eventId)
+        //{
+        //    var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
 
-            var result = new List<Availability>();
+        //    var result = new List<Availability>();
 
-            if (dbEvent.OutboundFlightSearchID.HasValue)
-                _repository.SelectAll(dbEvent.OutboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
+        //    if (dbEvent.OutboundFlightSearchID.HasValue)
+        //        _repository.SelectAll(dbEvent.OutboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
 
-            if (dbEvent.InboundFlightSearchID.HasValue)
-                _repository.SelectAll(dbEvent.InboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
+        //    if (dbEvent.InboundFlightSearchID.HasValue)
+        //        _repository.SelectAll(dbEvent.InboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public Event Get(string participantId)
         {
@@ -67,17 +67,30 @@ namespace AgendaAssistant.Services
 
             if (eventIsActive)
             {
-                var participantHasAvailability = evn.Availabilities().Any(a => a.ParticipantId.Equals(participantId));
+                bool participantHasAvailability = dbParticipant.Availabilities.Any();
 
                 if (!participantHasAvailability)
                 {
                     // first visit, create if not exist yet (first time participant visits the event)
-                    _repository.Create(dbEvent.OutboundFlightSearch, id);
-                    _repository.Create(dbEvent.InboundFlightSearch, id);
+                    foreach (var dbFlight in dbEvent.OutboundFlightSearch.Flights)
+                    {
+                        _repository.Create(dbParticipant, dbFlight);
+                    }
 
-                    // re-map availabilities (todo: only add new availabilities)
-                    evn.OutboundFlightSearch = EntityMapper.Map(dbEvent.OutboundFlightSearch, true);
-                    evn.InboundFlightSearch = EntityMapper.Map(dbEvent.InboundFlightSearch, true);
+                    foreach (var dbFlight in dbEvent.InboundFlightSearch.Flights)
+                    {
+                        _repository.Create(dbParticipant, dbFlight);
+                    }
+                }
+
+                // attach availability to flights
+                var flightsDictionary = new Dictionary<long, Flight>();
+                evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
+                evn.InboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
+
+                foreach (var dbAvailability in dbParticipant.Availabilities)
+                {
+                    flightsDictionary[dbAvailability.FlightID].Availabilities.Add(EntityMapper.Map(dbAvailability));
                 }
 
                 MoveParticipantAvailability(participantId, evn.OutboundFlightSearch);
@@ -85,7 +98,6 @@ namespace AgendaAssistant.Services
             }
 
             // remove personal data
-            evn.Organizer = null;
 
             return evn;
         }
@@ -118,7 +130,9 @@ namespace AgendaAssistant.Services
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
             var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
-            _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
+            // dont send to myself if the organizer is a participant also
+            if (!dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
+                _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
 
             dbParticipant.AvailabilityConfirmed = true;
             _dbContext.Current.SaveChanges();

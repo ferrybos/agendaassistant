@@ -14,7 +14,7 @@ namespace AgendaAssistant.Services
     public interface IEventService
     {
         Event Get(string id);
-        Event Create(string title, string description, string name, string email);
+        Event Create(string title, string description, string name, string email, bool addOrganizerAsParticipant);
 
         void Complete(Event evn);
         void Confirm(string id);
@@ -52,23 +52,19 @@ namespace AgendaAssistant.Services
 
             var evn = EntityMapper.Map(dbEvent, includeAvailability: eventIsActive);
 
-            // used to show participants that have not reacted yet (clicked the link in the confirmation email)
-            var eventAvailabilities = evn.Availabilities();
-            foreach (var participant in evn.Participants)
-            {
-                participant.HasConfirmed = eventAvailabilities.Any(a => a.ParticipantId == participant.Id);
-            }
-
             return evn;
         }
 
-        public Event Create(string title, string description, string name, string email)
+        public Event Create(string title, string description, string name, string email, bool addOrganizerAsParticipant)
         {
-            var dbOrganizerPerson = new PersonRepository(_dbContext).AddOrGetExisting(name, email);
-            var dbEvent = _repository.Create(title, description, dbOrganizerPerson);
+            var dbEvent = _repository.Create(title, description, name, email);
 
             // by default, add organizer as participant
-            new ParticipantRepository(_dbContext).Add(dbEvent.ID, dbOrganizerPerson.ID);
+            if (addOrganizerAsParticipant)
+            {
+                var dbParticipant = new ParticipantRepository(_dbContext).Add(dbEvent.ID, name, email);
+                dbEvent.Participants.Add(dbParticipant);
+            }
 
             return EntityMapper.Map(dbEvent);
         }
