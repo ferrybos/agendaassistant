@@ -22,7 +22,8 @@
     };
 
     function refreshFlights() {
-        if ($scope.event.isConfirmed || $scope.event.pnr != null || $scope.areFlightsSelected()) {
+        if (!$scope.event.isConfirmed || $scope.event.pnr != null || $scope.areFlightsSelected()) {
+            $log.log("No refresh");
             return;
         }
         

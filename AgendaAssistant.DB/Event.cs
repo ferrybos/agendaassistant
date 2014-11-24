@@ -31,6 +31,7 @@ namespace AgendaAssistant.DB
         public string PNR { get; set; }
         public string OrganizerName { get; set; }
         public string OrganizerEmail { get; set; }
+        public Nullable<System.DateTime> LastModifiedPricesUtc { get; set; }
     
         public virtual ICollection<Email> Emails { get; set; }
         public virtual FlightSearch InboundFlightSearch { get; set; }

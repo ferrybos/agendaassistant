@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -137,12 +139,21 @@ namespace AgendaAssistant.Services
         public Event RefreshFlights(string eventId)
         {
             var dbEvent = _repository.Single(GuidUtil.ToGuid(eventId));
-            
-            // todo: async
-            UpdateFlights(dbEvent.OutboundFlightSearch, (short)dbEvent.Participants.Count);
-            UpdateFlights(dbEvent.InboundFlightSearch, (short)dbEvent.Participants.Count);
 
-            _dbContext.Current.SaveChanges();
+            bool isRefreshAllowed = string.IsNullOrEmpty(dbEvent.PNR) &&
+                                    (!dbEvent.LastModifiedPricesUtc.HasValue ||
+                                     dbEvent.LastModifiedPricesUtc.Value.AddMinutes(30) < DateTime.UtcNow);
+
+            if (isRefreshAllowed)
+            {
+                dbEvent.LastModifiedPricesUtc = DateTime.UtcNow;
+
+                // todo: async
+                UpdateFlights(dbEvent.OutboundFlightSearch, (short) dbEvent.Participants.Count);
+                UpdateFlights(dbEvent.InboundFlightSearch, (short) dbEvent.Participants.Count);
+
+                _dbContext.Current.SaveChanges();
+            }
 
             return EntityMapper.Map(dbEvent);
         }
@@ -179,23 +190,35 @@ namespace AgendaAssistant.Services
 
         private void UpdateFlights(FlightSearch flightSearch, short paxCount)
         {
-            foreach (var flight in flightSearch.Flights)
-            {
-                var newFlight = _flightService.Get(flightSearch.DepartureStation,
-                                                   flightSearch.ArrivalStation, flight.DepartureDate,
-                                                   flight.CarrierCode,
-                                                   (short)flight.FlightNumber, paxCount);
+            var bitArray = new BitArray(BitConverter.GetBytes(flightSearch.DaysOfWeek));
+            var updatedFlights = _flightService.Search(flightSearch.DepartureStation, flightSearch.ArrivalStation, flightSearch.StartDate, flightSearch.EndDate, paxCount, bitArray, (short?)flightSearch.MaxPrice);
 
-                if (newFlight != null)
+            foreach (var dbFlight in flightSearch.Flights)
+            {
+                Entities.Flight updatedFlight = null;
+
+                if (dbFlight.DepartureDate >= DateTime.Today)
                 {
-                    flight.Price = (int)(newFlight.Price * 100);
+                    updatedFlight = updatedFlights.SingleOrDefault(
+                        f =>
+                        f.DepartureDate.Equals(dbFlight.DepartureDate) && f.CarrierCode.Equals(dbFlight.CarrierCode) &&
+                        f.FlightNumber.Equals((short) dbFlight.FlightNumber));
+                }
+
+                if (updatedFlight != null)
+                {
+                    dbFlight.STD = updatedFlight.STD;
+                    dbFlight.STA = updatedFlight.STA;
+                    dbFlight.Price = (int)(updatedFlight.Price * 100);
+                    dbFlight.Status = "";
                 }
                 else
                 {
-                    // todo: disable flight with remark!
-                    flight.Price = 0;
+                    dbFlight.Status = "Niet meer beschikbaar";
                 }
             }
+
+            _dbContext.Current.SaveChanges();
         }
     }
 }

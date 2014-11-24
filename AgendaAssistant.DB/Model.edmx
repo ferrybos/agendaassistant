@@ -125,6 +125,7 @@
           <Property Name="PNR" Type="char" MaxLength="6" />
           <Property Name="OrganizerName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="OrganizerEmail" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="LastModifiedPricesUtc" Type="datetime" />
         </EntityType>
         <EntityType Name="EventStatus">
           <Key>
@@ -146,6 +147,7 @@
           <Property Name="FlightSearchID" Type="bigint" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
           <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FlightSearch">
           <Key>
@@ -471,6 +473,7 @@
           <NavigationProperty Name="Availabilities" Relationship="AgendaAssistantModel.FK_Availability_Flight" FromRole="Flight" ToRole="Availability" />
           <NavigationProperty Name="FlightSearch" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="Flight" ToRole="FlightSearch" />
           <NavigationProperty Name="FlightSearches" Relationship="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" FromRole="Flight" ToRole="FlightSearch" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
+          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="FlightSearch">
           <Key>
@@ -651,6 +654,7 @@
           <Property Type="String" Name="PNR" MaxLength="6" FixedLength="true" Unicode="false" />
           <Property Type="String" Name="OrganizerName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="OrganizerEmail" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastModifiedPricesUtc" Precision="3" />
         </EntityType>
         <Association Name="FK_Email_Event">
           <End Type="AgendaAssistantModel.Event" Role="Event" Multiplicity="1" />
@@ -748,6 +752,7 @@
           <EntitySetMapping Name="Flights">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Flight">
               <MappingFragment StoreEntitySet="Flight">
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="FlightSearchID" ColumnName="FlightSearchID" />
@@ -846,6 +851,7 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="LastModifiedPricesUtc" ColumnName="LastModifiedPricesUtc" />
                 <ScalarProperty Name="OrganizerEmail" ColumnName="OrganizerEmail" />
                 <ScalarProperty Name="OrganizerName" ColumnName="OrganizerName" />
                 <ScalarProperty Name="PNR" ColumnName="PNR" />
