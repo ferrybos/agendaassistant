@@ -46,14 +46,7 @@
                                         </table>
                                     </td>
                                     <td style="width: 100%; padding-top: 10px; border-top: 0; padding-left: 20px">
-                                        <div class="progress" style="width: 100%">
-                                            <div class="progress-bar" ng-class="flight.perc >= 90 ? 'progress-bar-success' : flight.perc >= 50 ? 'progress-bar-warning' : 'progress-bar-danger'" role="progressbar" aria-valuenow="{{flight.perc}}" aria-valuemin="0" aria-valuemax="100" style="width: {{flight.perc}}%;">
-                                            </div>
-                                        </div>
-                                        <div style="margin-top: 4px; float: right; font-size: x-small; cursor: pointer">
-                                            <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true">Toon deelnemers</a>
-                                            <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false">Verberg deelnemers</a>
-                                        </div>
+                                        <availabilitybar flight="flight"></availabilitybar>
                                     </td>
                                 </tr>
                             </table>

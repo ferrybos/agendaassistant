@@ -139,6 +139,7 @@
     <Content Include="lib\slider\angular-slider.js" />
     <Content Include="lib\slider\angular-slider.min.css" />
     <Content Include="lib\slider\angular-slider.min.js" />
+    <Content Include="partials\availabilitybar.html" />
     <Content Include="partials\availabilityList.html" />
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />

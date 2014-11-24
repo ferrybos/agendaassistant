@@ -33,21 +33,6 @@ namespace AgendaAssistant.Services
             _mailService = mailService;
         }
 
-        //public List<Availability> GetByEvent(string eventId)
-        //{
-        //    var dbEvent = new EventRepository(_dbContext).Single(GuidUtil.ToGuid(eventId));
-
-        //    var result = new List<Availability>();
-
-        //    if (dbEvent.OutboundFlightSearchID.HasValue)
-        //        _repository.SelectAll(dbEvent.OutboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
-
-        //    if (dbEvent.InboundFlightSearchID.HasValue)
-        //        _repository.SelectAll(dbEvent.InboundFlightSearchID.Value).ForEach(a => result.Add(EntityMapper.Map(a)));
-
-        //    return result;
-        //}
-
         public Event Get(string participantId)
         {
             var id = GuidUtil.ToGuid(participantId);
@@ -116,7 +101,7 @@ namespace AgendaAssistant.Services
                 flight.ParticipantAvailability =
                     flight.Availabilities.Single(a => a.ParticipantId.Equals(participantId));
 
-                flight.Availabilities.Remove(flight.ParticipantAvailability);
+                //flight.Availabilities.Remove(flight.ParticipantAvailability);
 
                 // reduce JSON response
                 flight.Availabilities.ForEach(a => a.ParticipantId = "");

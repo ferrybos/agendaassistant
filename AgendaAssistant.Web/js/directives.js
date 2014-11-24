@@ -245,6 +245,19 @@ app.directive('participants', function ($log) {
     };
 });
 
+app.directive('availabilitybar', function ($log) {
+    return {
+        restrict: 'E',
+        scope: {
+            flight: '='
+        },
+        controller: function ($scope) {
+            //
+        },
+        templateUrl: '../partials/availabilitybar.html'
+    };
+});
+
 app.directive('participantdata', function ($log, participantService, $timeout, $modal) {
     return {
         restrict: 'E',

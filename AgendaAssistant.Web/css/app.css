@@ -50,6 +50,11 @@ body {
 
 .progress {
     margin-bottom: 0;
+    width: 100%;
+    max-width:250px;
+    height:10px;
+    float: right;
+    border: 1px solid lightgray;
 }
 
 /*.center {

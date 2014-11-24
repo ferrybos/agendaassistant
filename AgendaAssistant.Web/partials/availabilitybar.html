@@ -1,0 +1,10 @@
+﻿<div class="progress">
+    <div style="float: left; width: {{flight.green}}%; background-color: green">&nbsp;</div>
+    <div style="float: left; width: {{flight.orange}}%; background-color: orange">&nbsp;</div>
+    <div style="float: left; width: {{flight.red}}%; background-color: red">&nbsp;</div>
+</div>
+<div style="margin-top: 4px; float: right; font-size: x-small; cursor: pointer">
+    <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true">Toon deelnemers</a>
+    <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false">Verberg deelnemers</a>
+</div>
+

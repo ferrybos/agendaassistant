@@ -34,5 +34,44 @@ namespace AgendaAssistant.Entities
 
         [JsonProperty(PropertyName = "paav")]
         public Availability ParticipantAvailability { get; set; }
+
+        public decimal Green
+        {
+            get
+            {
+                decimal count = Availabilities.Count;
+
+                if (count == 0)
+                    return 0;
+
+                return (Availabilities.Count(a => a.Value == 100)/count)*100;
+            }
+        }
+
+        public decimal Orange
+        {
+            get
+            {
+                decimal count = Availabilities.Count;
+
+                if (count == 0)
+                    return 0;
+
+                return (Availabilities.Count(a => a.Value == 50) / count) * 100;
+            }
+        }
+
+        public decimal Red
+        {
+            get
+            {
+                decimal count = Availabilities.Count;
+
+                if (count == 0)
+                    return 0;
+
+                return (Availabilities.Count(a => a.Value == 0) / count) * 100;
+            }
+        }
     }
 }

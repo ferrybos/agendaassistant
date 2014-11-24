@@ -26,9 +26,8 @@
                                         </button>
                                     </div>
                                     <br />
-                                    <div style="margin-top: 10px; float: right; font-size: x-small; cursor: pointer">
-                                        <a ng-show="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true">Toon deelnemers</a>
-                                        <a ng-show="flight.participantsVisible === true" ng-click="flight.participantsVisible = false">Verberg deelnemers</a>
+                                    <div style="margin-top: 10px; float: right;width:100%">
+                                        <availabilitybar flight="flight"></availabilitybar>
                                     </div>
                                 </div>
                                 <div style="float: left">
@@ -49,6 +48,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                
                             </div>
                             <div class="row">
                                 <textarea class="form-control" name="comment" rows="4" ng-model="flight.paav.commentText" ng-show="flight.isCommentExpanded === true" placeholder="Opmerking" style="width: 100%" onkeypress="if (this.value.length > 100) { return false; }"></textarea>
