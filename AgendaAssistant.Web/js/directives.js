@@ -188,7 +188,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                         //$log.log("Flights = " + JSON.stringify(data));
                     })
                     .error(function (error) {
-                        $scope.status = 'Unable to retrieve flights: ' + error.message;
+                        $modal({ title: error.message, content: error.exceptionMessage, show: true });
                         $scope.isloading = false;
                         $scope.flights = null;
                     });
@@ -319,6 +319,58 @@ app.directive('eventDescription', function () {
             event: '='
         },
         template: '<p class="description">{{event.description}}</p>'
+    };
+});
+
+app.directive('neweventdetails', function () {
+    return {
+        restrict: 'E',
+        scope: {
+            event: '=',
+            currentstepindex: '=currentstepindex',
+            iswaitingfornewevent: '=iswaitingfornewevent'
+        },
+        controller: function ($scope, insights, $log, $filter, $modal, $location, eventService) {
+            $scope.addParticipant = true;
+
+            $scope.EnterTestEvent = function () {
+                insights.logEvent('User selects test link');
+
+                $scope.event.title = "Weekendje Barcelona";
+                $scope.event.description = "Dit is een test";
+                $scope.event.organizerName = "Ferry Bos";
+                $scope.event.organizerEmail = "ferry.bos@transavia.com";
+            };
+            
+            $scope.CancelNewEvent = function () {
+                insights.logEvent('User cancels new event');
+                $location.path("/");
+            };
+            
+            $scope.SelectStepParticipants = function () {
+                insights.logEvent('User selects participants step');
+
+                if ($scope.event.id == "") {
+                    $scope.iswaitingfornewevent = true;
+
+                    $log.log("addParticipant: " + $scope.addParticipant);
+                    eventService.new($scope.event.title, $scope.event.description, $scope.event.organizerName, $scope.event.organizerEmail, $scope.addParticipant)
+                       .success(function (data) {
+                           $scope.iswaitingfornewevent = false;
+                           $scope.event = data;
+                       })
+                       .error(function (error) {
+                           $scope.iswaitingfornewevent = false;
+                           $scope.currentstepindex = 1; // back to step 1
+                           $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                       });
+                }
+
+                $scope.currentstepindex = 2;
+                $scope.$broadcast('focusParticipantName');
+            };
+        },
+        templateUrl: '../partials/newEventDetails.html'
     };
 });
 

@@ -14,8 +14,9 @@
 app.service('eventService', ['$http', '$log', function ($http, $log) {
     var urlBase = '/api/event';
 
-    this.new = function(event) {
-        return $http.post(urlBase, event);
+    this.new = function (title, description, organizerName, organizerEmail, addParticipant) {
+        var data = { title: title, description: description, organizerName: organizerName, organizerEmail: organizerEmail, addParticipant: addParticipant };
+        return $http.post(urlBase, data);
     };
     
     this.complete = function (event) {

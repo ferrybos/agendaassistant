@@ -11,7 +11,7 @@
 
         <div id="steps">
             <!--Step 1: Event-->
-            <ng-include src="'partials/newEventDetails.html'" ng-show="CurrentStepIndex == 1"></ng-include>
+            <neweventdetails event="event" iswaitingfornewevent="isWaitingForNewEvent" currentstepindex="CurrentStepIndex" ng-show="CurrentStepIndex == 1"></neweventdetails>
 
             <!--Step 2: Participants-->
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->

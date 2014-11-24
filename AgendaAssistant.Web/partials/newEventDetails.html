@@ -1,4 +1,4 @@
-﻿<div id="content_step_event">
+﻿<div>
     <info>Vul hier uw afspraak gegevens in.</info>
     <a ng-click="EnterTestEvent()" style="cursor: pointer">Test</a><br />
     <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
@@ -21,6 +21,11 @@
             <p class="help-block" ng-if="eventForm.email.$error.required">De organisator's email adres is verplicht</p>
             <p class="help-block" ng-if="eventForm.email.$error.email">De organisator's email adres is onjuist</p>
         </div>
+
+        <div class="form-group" ng-show="event.id == ''">
+            <input type="checkbox" ng-model="addParticipant" style="margin-right: 10px">Toevoegen als deelnemer aan de groep
+        </div>
+
         <!--Buttons-->
         <div class="tab_navigation">
             <button type="button" class="btn btn-lg btn-link" style="float: left" id="cancelButton" ng-click="CancelNewEvent()">Annuleren</button>

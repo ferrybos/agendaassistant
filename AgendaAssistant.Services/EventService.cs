@@ -89,6 +89,11 @@ namespace AgendaAssistant.Services
         {
             var dbEvent = _repository.Single(GuidUtil.ToGuid(evn.Id));
 
+            dbEvent.Title = evn.Title;
+            dbEvent.Description = evn.Description;
+            dbEvent.OrganizerName = evn.OrganizerName;
+            dbEvent.OrganizerEmail = evn.OrganizerEmail;
+
             dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlightSearch);
             dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlightSearch);
             dbEvent.StatusID = EventStatusEnum.NewCompleted;

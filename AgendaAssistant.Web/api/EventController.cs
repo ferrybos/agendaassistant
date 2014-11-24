@@ -12,8 +12,9 @@ namespace AgendaAssistant.Web.api
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
+        public string OrganizerName { get; set; }
+        public string OrganizerEmail { get; set; }
+        public bool AddParticipant { get; set; }
     }
 
     public class InputData
@@ -60,14 +61,14 @@ namespace AgendaAssistant.Web.api
         // POST api/<controller>
         [Route("")]
         [HttpPost]
-        public IHttpActionResult Post([FromBody]Event data)
+        public IHttpActionResult Post(NewEventData data)
         {
             //System.Threading.Thread.Sleep(2000);
 
             // create new event
             try
             {
-                var newEvent = _service.Create(data.Title, data.Description, data.OrganizerName, data.OrganizerEmail, true);
+                var newEvent = _service.Create(data.Title, data.Description, data.OrganizerName, data.OrganizerEmail, data.AddParticipant);
 
                 //Json(new { Event = newEvent }).Content);
                 return Created(string.Format("api/event/{0}", newEvent.Id), Json(newEvent).Content);

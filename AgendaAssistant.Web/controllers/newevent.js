@@ -5,6 +5,7 @@
     $scope.constants = Constants;
     $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
+    $scope.isWaitingForNewEvent = false;
 
     // Participants default
     clearParticipantInput();
@@ -12,10 +13,8 @@
     // Flights default
     $scope.outboundFlights = null;
     $scope.inboundFlights = null;
-
-    $scope.event = { id: "", title: "", description: "", organizer: { name: "", email: "" } };
-    $scope.isWaitingForNewEvent = false;
-
+    $scope.event = {id:"", title: "", description: "", organizerName: "", organizerEmail: ""};
+    
     // Get route information async
     $scope.origins = null;
     $scope.destinations = null;
@@ -33,9 +32,7 @@
             .error(function (error) {
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
             });
-    }
-
-    ;
+    };
 
     $scope.CreateEvent = function () {
         insights.logEvent('User creates event');
@@ -66,39 +63,9 @@
            });
     };
 
-    $scope.CancelNewEvent = function () {
-        insights.logEvent('User cancels new event');
-        $location.path("/");
-    };
-
     $scope.SelectStepEvent = function () {
         $scope.$broadcast('focusEventTitle');
         $scope.CurrentStepIndex = 1;
-    };
-
-    $scope.isOrganizerAddedToParticipants = false;
-    $scope.SelectStepParticipants = function () {
-        insights.logEvent('User selects participants step');
-
-        if ($scope.event.id == "") {
-            $scope.isWaitingForNewEvent = true;
-
-            eventService.new($scope.event)
-               .success(function (data) {
-                   $scope.isWaitingForNewEvent = false;
-                   //$log.log("Event: " + JSON.stringify(data));
-                   //$scope.CurrentStepIndex = 2;
-                   $scope.event = data;
-               })
-               .error(function (error) {
-                   $scope.isWaitingForNewEvent = false;
-                   $scope.CurrentStepIndex = 1; // back to step 1
-                   $modal({ title: error.message, content: error.exceptionMessage, show: true });
-               });
-        }
-
-        $scope.CurrentStepIndex = 2;
-        $scope.$broadcast('focusParticipantName');
     };
 
     $scope.SelectStepOutbound = function () {
@@ -184,15 +151,6 @@
     function clearParticipantInput() {
         $scope.newParticipantName = "";
         $scope.newParticipantEmail = "";
-    };
-
-    $scope.EnterTestEvent = function () {
-        insights.logEvent('User selects test link');
-
-        $scope.event.title = "Weekendje Barcelona";
-        $scope.event.description = "Dit is een test";
-        $scope.event.organizerName = "Ferry Bos";
-        $scope.event.organizerEmail = "ferry.bos@transavia.com";
     };
 
     $scope.IsEventStepValid = function () {
