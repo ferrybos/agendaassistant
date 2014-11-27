@@ -1,3 +1,13 @@
-﻿<loader ng-if="isWaitingForNewEvent == true">
-    Uitnodigingen worden verstuurd...
-</loader>
+﻿<div ng-if="event != null">
+    <h1>{{event.title}}</h1>
+    <div ng-show="event != null && event.isConfirmed == false">
+        <loader ng-if="isConfirming === true">
+        Uitnodigingen worden verstuurd...
+    </loader>
+        <div ng-if="isConfirmSucceeded === true">
+            <h4>De uitnodigingen zijn verstuurd!</h4>
+            <p>Er is ter bevestiging een email naar jou gestuurd op {{::event.organizerEmail}}.</p>
+            <button type="button" class="btn btn-lg btn-primary" ng-click="GoToEvent()">Afspraak beheren</button>
+        </div>
+    </div>
+</div>

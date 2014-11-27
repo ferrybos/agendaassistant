@@ -149,7 +149,6 @@
     <Content Include="partials\flightsearchavailability.html" />
     <Content Include="partials\flightsearchtoggle.html" />
     <Content Include="partials\legenda.html" />
-    <Content Include="partials\newEventDetails.html" />
     <Content Include="partials\participantdata.html" />
     <Content Include="services\constants.js" />
     <Content Include="services\availability.js" />

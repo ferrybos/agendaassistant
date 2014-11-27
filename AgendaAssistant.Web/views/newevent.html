@@ -11,7 +11,41 @@
 
         <div id="steps">
             <!--Step 1: Event-->
-            <neweventdetails event="event" iswaitingfornewevent="isWaitingForNewEvent" currentstepindex="CurrentStepIndex" ng-show="CurrentStepIndex == 1"></neweventdetails>
+            <!--<neweventdetails event="event" iswaitingfornewevent="isWaitingForNewEvent" currentstepindex="CurrentStepIndex" ng-show="CurrentStepIndex == 1"></neweventdetails>-->
+            <div ng-show="CurrentStepIndex == 1">
+                <info ng-click="EnterTestEvent()">Vul hier uw afspraak gegevens in.</info>
+                <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
+                    <!--Title-->
+                    <div class="form-group" show-errors='{showSuccess: true}'>
+                        <input type="text" class="form-control" name="title" ng-model="event.title" focus-on="focusEventTitle" required autofocus placeholder="Titel (bijv. Weekendje Barcelona)" maxlength="50" autocomplete="off" style="width: 100%" />
+                        <p class="help-block" ng-if="eventForm.title.$error.required">De titel is verplicht</p>
+                    </div>
+                    <!--Description-->
+                    <textarea class="form-control" name="description" ng-model="event.description" rows="4" placeholder="Omschrijving" style="width: 100%"></textarea>
+                    <h4>Organisator</h4>
+                    <!--Naam-->
+                    <div class="form-group" show-errors='{showSuccess: true}'>
+                        <input type="text" class="form-control" name="name" ng-model="event.organizerName" required autofocus placeholder="Uw naam" style="width: 100%" maxlength="50" />
+                        <p class="help-block" ng-if="eventForm.name.$error.required">De organisator's naam is verplicht</p>
+                    </div>
+                    <!--Email-->
+                    <div class="form-group" show-errors='{showSuccess: true}'>
+                        <input type="text" class="form-control" name="email" ng-model="event.organizerEmail" required autofocus placeholder="Uw emailadres" style="width: 100%" maxlength="100" />
+                        <p class="help-block" ng-if="eventForm.email.$error.required">De organisator's email adres is verplicht</p>
+                        <p class="help-block" ng-if="eventForm.email.$error.email">De organisator's email adres is onjuist</p>
+                    </div>
+
+                    <div class="form-group" ng-show="event.id == ''">
+                        <input type="checkbox" ng-model="addParticipant" style="margin-right: 10px">Toevoegen als deelnemer aan de groep
+                    </div>
+
+                    <!--Buttons-->
+                    <div class="tab_navigation">
+                        <button type="button" class="btn btn-lg btn-link" style="float: left" id="cancelButton" ng-click="CancelNewEvent()">Annuleren</button>
+                        <button type="submit" class="btn btn-lg btn-primary" style="float: right" ng-disabled="eventForm.$invalid">Volgende <span class="glyphicon glyphicon-arrow-right" style="margin-left: 4px"></span></button>
+                    </div>
+                </form>
+            </div>
 
             <!--Step 2: Participants-->
             <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
@@ -60,7 +94,7 @@
                     <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="!IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
-            
+
             <loader ng-if="CurrentStepIndex == 9">Afspraak wordt nu aangemaakt. Even geduld aub...</loader>
         </div>
     </div>
