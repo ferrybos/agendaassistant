@@ -11,9 +11,8 @@
 
         <div id="steps">
             <!--Step 1: Event-->
-            <!--<neweventdetails event="event" iswaitingfornewevent="isWaitingForNewEvent" currentstepindex="CurrentStepIndex" ng-show="CurrentStepIndex == 1"></neweventdetails>-->
             <div ng-show="CurrentStepIndex == 1">
-                <info ng-click="EnterTestEvent()">Vul hier uw afspraak gegevens in.</info>
+                <info ng-click="EnterTestEvent()">Wat houd uw reis in?</info>
                 <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
                     <!--Title-->
                     <div class="form-group" show-errors='{showSuccess: true}'>
@@ -48,15 +47,20 @@
             </div>
 
             <!--Step 2: Participants-->
-            <!--<ng-include src="'partials/newEventParticipants.html'" ng-show="CurrentStepIndex == 2"></ng-include>-->
-            <div id="content_step_participants" ng-show="CurrentStepIndex == 2">
+            <div ng-show="CurrentStepIndex == 2">
                 <info>Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Maximaal 9 deelnemers is toegestaan.</info>
                 <loader ng-if="isWaitingForNewEvent == true">Even geduld aub...</loader>
                 <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
-                    <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
-                    <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
-                    <button type="submit" class="btn btn-sm btn-primary" style="width: 100%; margin-top: 10px"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
-                </form>
+                    <div class="row" style="padding-left:0;padding-right:0">
+                        <div class="col-sm-10 leftcol" style="padding-left:0">
+                            <input ng-model="newParticipantName" focus-on="focusParticipantName" type="text" name="participant_name" id="participant_name" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
+                            <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
+                        </div>
+                        <div class="col-sm-2 rightcol" style="padding-left:0;padding-right:0">
+                            <button type="submit" class="btn btn-primary addParticipantButton" style="width: 100%; margin-top: 4px"><span class="glyphicon glyphicon-plus"></span>Toevoegen</button>
+                        </div>
+                    </div>
+                </form><br/>
                 <h4>Deelnemers ({{event.participants.length}})</h4>
                 <div class="list-group">
                     <div ng-repeat="participant in event.participants" class="repeat-animation">
@@ -74,9 +78,11 @@
             </div>
 
             <!--Step 3: Outbound flight search-->
-            <!--<ng-include src="'partials/newEventOutbound.html'" ng-show="CurrentStepIndex == 3"></ng-include>-->
             <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
-                <info>Voeg heenvluchten toe door beschikbare vluchten te zoeken en te selecteren. Wanneer je alleen op specifieke dagen wilt reizen, kun je weekdagen uit- of aanzetten. Met de maximum prijs kun je een budget per vlucht aangeven.</info>
+                <info>Kies op dit scherm je luchthaven van vertrek en de bestemming. Geef daarna aan in welke periode je vluchten wilt zoeken naar je gekozen bestemming.
+Je kunt ook aangeven als je alleen op specifieke weekdagen wilt vliegen. Bijvoorbeeld alleen in het weekend. Zet voorkeurs vertrekdagen naar keus, aan of uit door ze groen te maken.
+Als laatste kun je de maximale prijs per persoon aangeven. De vluchtprikker gaat zoeken naar alle beschikbare vluchten binnen de opgeven data, op de aangeven dagen tot de opgegeven maximale prijs.
+</info>
                 <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length" departurestations="origins" arrivalstations="destinations" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
@@ -87,7 +93,7 @@
             <!--Step 4: Inbound flight search-->
             <!-- <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>-->
             <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
-                <info>Voeg terugvluchten toe door beschikbare vluchten te zoeken en te selecteren.</info>
+                <info>Selecteer de periode waarin je de retourvluchten wilt zoeken. Geef aan op welke dagen je wilt vliegen en verander de prijs als die niet gelijk is aan de maximum prijs opgegeven voor de heenvlucht.</info>
                 <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length" departurestations="destinations" arrivalstations="origins" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>

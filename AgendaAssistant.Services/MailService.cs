@@ -177,10 +177,16 @@ namespace AgendaAssistant.Services
 
         public void SendInvitation(Event dbEvent, Participant dbParticipant)
         {
+            string announcement = string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.",
+                                                dbEvent.OrganizerName, dbEvent.Title);
+
+            if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
+                announcement = "Vul voor jezelf ook je voorkeuren in. Tegelijk kun je ook je boekinggegevens als paspoortnaam en bagage invullen.";
+
             SendToParticipant(
                 dbParticipant,
                 string.Format("Uitnodiging van {0}: {1}", dbEvent.OrganizerName, dbEvent.Title),
-                string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.", dbEvent.OrganizerName, dbEvent.Title),
+                announcement,
                 "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid op te geven. Bewaar deze email om later nog uw beschikbaarheid te kunnen wijzigen.",
                 AvailabilityUrl(dbParticipant),
                 "Beschikbaarheid invullen of wijzigen"

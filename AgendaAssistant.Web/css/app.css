@@ -364,6 +364,14 @@ div#contentFooter {
     padding-right: 0;
 }
 
+.addParticipantButton {
+    height: 72px;
+}
+
+.btn.disabled, .btn[disabled] {
+    opacity: .3;
+}
+
 /* Large desktop */
 @media (min-width: 1200px) {
     body {
@@ -393,6 +401,10 @@ div#contentFooter {
 
     .content {
         border-radius: 0;
+    }
+
+    .addParticipantButton {
+        height: 32px;
     }
 }
 
