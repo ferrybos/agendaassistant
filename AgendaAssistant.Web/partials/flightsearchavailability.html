@@ -20,15 +20,15 @@
                 <tbody>
                     <tr ng-repeat="flight in value">
                         <td>
-                            <table class="table">
+                            <table class="table" ng-class="{disabled: flight.enabled === false }" >
                                 <tr>
                                     <td style="padding-right: 20px; border-top: 0;" ng-show="event.isPushpinActive === true">
-                                        <button type="button" class="btn" ng-click="SelectFlight(flightsearch, flight)" ng-class="flightsearch.selectedFlight != null && flight.id == flightsearch.selectedFlight.id  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
+                                        <button type="button" class="btn" ng-show="flight.enabled === true" ng-click="SelectFlight(flightsearch, flight)" ng-class="flightsearch.selectedFlight != null && flight.id == flightsearch.selectedFlight.id  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
                                             <span class="glyphicon glyphicon-pushpin"></span>
                                         </button>
                                     </td>
                                     <td style="border-top: 0; padding: 0;">
-                                        <table class="table" style="width: 230px;">
+                                        <table class="table" style="width: 230px; background-color: transparent">
                                             <thead>
                                                 <tr>
                                                     <th>Vertrek</th>
@@ -45,8 +45,11 @@
                                             </tbody>
                                         </table>
                                     </td>
-                                    <td style="width: 100%; padding-top: 10px; border-top: 0; padding-left: 20px">
-                                        <availabilitybar flight="flight"></availabilitybar>
+                                    <td style="width: 100%; padding-top: 10px; border-top: 0; padding-left: 20px;">
+                                        <div ng-show="flight.enabled === false" style="float: right; text-align: right;">
+                                            <span style="color: red">Niet meer beschikbaar</span>
+                                        </div>
+                                        <availabilitybar flight="flight" ng-show="flight.enabled === true"></availabilitybar>
                                     </td>
                                 </tr>
                             </table>

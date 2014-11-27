@@ -51,6 +51,7 @@ namespace AgendaAssistant.Repositories
             dbFlight.Price = price;
             dbFlight.STA = sta;
             dbFlight.STD = std;
+            dbFlight.Enabled = true;
 
             DbContext.SaveChanges();
         }

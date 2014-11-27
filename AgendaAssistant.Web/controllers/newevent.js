@@ -39,6 +39,12 @@
 
         $scope.CurrentStepIndex = 9; //saving event
 
+        // timezone workaround!
+        $scope.event.outboundFlightSearch.beginDate = $filter('date')($scope.event.outboundFlightSearch.beginDate, "yyyy-MM-dd");
+        $scope.event.outboundFlightSearch.endDate = $filter('date')($scope.event.outboundFlightSearch.endDate, "yyyy-MM-dd");
+        $scope.event.inboundFlightSearch.beginDate = $filter('date')($scope.event.inboundFlightSearch.beginDate, "yyyy-MM-dd");
+        $scope.event.inboundFlightSearch.endDate = $filter('date')($scope.event.inboundFlightSearch.endDate, "yyyy-MM-dd");
+        
         // Create selected flights to the event object to be sent to the server
         var selectedOutboundFlights = getSelectedFlights($scope.outboundFlights);
         angular.forEach(selectedOutboundFlights, function (flight) {
@@ -51,7 +57,7 @@
         }, $scope.event.inboundFlightSearch.flights);
 
         $log.log("Complete: " + JSON.stringify($scope.event));
-
+        
         eventService.complete($scope.event)
            .success(function (data) {
                //$log.log("Event: " + JSON.stringify(data));

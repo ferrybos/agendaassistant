@@ -13,7 +13,7 @@ namespace AgendaAssistant.Services
     public interface IFlightService
     {
         List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, BitArray daysOfWeek, short? maxPrice);
-        Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode, short flightNumber, short paxCount);
+        //Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode, short flightNumber, short paxCount);
     }
 
     public class FlightService : IFlightService
@@ -30,11 +30,11 @@ namespace AgendaAssistant.Services
             return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount, daysOfWeek, maxPrice);
         }
 
-        public Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode, short flightNumber,
-                        short paxCount)
-        {
-            return _repository.Get(departureStation, arrivalStation, departureDate, carrierCode, flightNumber, paxCount);
-        }
+        //public Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode, short flightNumber,
+        //                short paxCount)
+        //{
+        //    return _repository.Get(departureStation, arrivalStation, departureDate, carrierCode, flightNumber, paxCount);
+        //}
 
     }
 }

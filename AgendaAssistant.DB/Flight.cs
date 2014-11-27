@@ -28,7 +28,7 @@ namespace AgendaAssistant.DB
         public long FlightSearchID { get; set; }
         public int Price { get; set; }
         public long ID { get; set; }
-        public string Status { get; set; }
+        public bool Enabled { get; set; }
     
         public virtual ICollection<Availability> Availabilities { get; set; }
         public virtual FlightSearch FlightSearch { get; set; }

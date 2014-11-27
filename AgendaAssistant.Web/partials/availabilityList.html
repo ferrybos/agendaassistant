@@ -14,7 +14,7 @@
                     <tr ng-repeat="flight in value" ng-controller="AvailabilityItemCtrl">
                         <td class="animated">
                             <div class="row">
-                                <div class="btn-toolbar" role="toolbar" style="float: right; margin-bottom: 4px">
+                                <div class="btn-toolbar" ng-show="flight.enabled === true" role="toolbar" style="float: right; margin-bottom: 4px">
                                     <div class="btn-group">
                                         <button type="button" class="btn" ng-class="flight.paav.value === 100 ? 'btn-success' : 'btn-default'" ng-click="flight.paav.value = 100" title="Ja"><span class="glyphicon glyphicon-ok"></span></button>
                                         <button type="button" class="btn" ng-class="flight.paav.value === 50 ? 'btn-warning' : 'btn-default'" ng-click="flight.paav.value = 50" title="Liever niet"><span class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-minus" style="margin-left: -8px; font-size: xx-small"></span></button>
@@ -26,9 +26,12 @@
                                         </button>
                                     </div>
                                     <br />
-                                    <div style="margin-top: 10px; float: right;width:100%">
+                                    <div style="margin-top: 10px; float: right; width: 100%">
                                         <availabilitybar flight="flight"></availabilitybar>
                                     </div>
+                                </div>
+                                <div ng-show="flight.enabled === false" style="float: right; text-align: right;padding-top: 10px;">
+                                    <span style="color: red">Niet meer beschikbaar</span>
                                 </div>
                                 <div style="float: left">
                                     <table class="table" style="width: 230px;">
@@ -48,13 +51,13 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                
+
                             </div>
                             <div class="row">
                                 <textarea class="form-control" name="comment" rows="4" ng-model="flight.paav.commentText" ng-show="flight.isCommentExpanded === true" placeholder="Opmerking" style="width: 100%" onkeypress="if (this.value.length > 100) { return false; }"></textarea>
                                 <p class="comment" ng-show="!flight.isCommentExpanded && flight.av[0].commentText != ''" style="padding-left: 8px">{{flight.paav.commentText}}</p>
                             </div>
-                            
+
                             <participants flight="flight"></participants>
                         </td>
                     </tr>

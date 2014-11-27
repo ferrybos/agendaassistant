@@ -118,6 +118,11 @@ a.disabled {
     margin-bottom: 0;
 }
 
+.table.disabled {
+    background-color: #f5f5f5;
+    color: gray;
+}
+
 ul {
     list-style: none;
     padding: 0;

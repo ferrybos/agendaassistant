@@ -147,7 +147,7 @@
           <Property Name="FlightSearchID" Type="bigint" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
           <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FlightSearch">
           <Key>
@@ -473,7 +473,7 @@
           <NavigationProperty Name="Availabilities" Relationship="AgendaAssistantModel.FK_Availability_Flight" FromRole="Flight" ToRole="Availability" />
           <NavigationProperty Name="FlightSearch" Relationship="AgendaAssistantModel.FK_Flight_FlightSearch" FromRole="Flight" ToRole="FlightSearch" />
           <NavigationProperty Name="FlightSearches" Relationship="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" FromRole="Flight" ToRole="FlightSearch" a:GetterAccess="Internal" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" />
-          <Property Type="String" Name="Status" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="Enabled" Nullable="false" />
         </EntityType>
         <EntityType Name="FlightSearch">
           <Key>
@@ -752,7 +752,7 @@
           <EntitySetMapping Name="Flights">
             <EntityTypeMapping TypeName="AgendaAssistantModel.Flight">
               <MappingFragment StoreEntitySet="Flight">
-                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="FlightSearchID" ColumnName="FlightSearchID" />

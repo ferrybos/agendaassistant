@@ -19,6 +19,7 @@ namespace AgendaAssistant.Entities
         public string CarrierCode { get; set; }
         public short FlightNumber { get; set; }
         public decimal Price { get; set; }
+        public bool Enabled { get; set; }
 
         [JsonProperty(PropertyName = "Perc")]
         public short AvailabilityPercentage

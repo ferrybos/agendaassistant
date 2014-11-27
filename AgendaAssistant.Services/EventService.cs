@@ -155,7 +155,7 @@ namespace AgendaAssistant.Services
                 _dbContext.Current.SaveChanges();
             }
 
-            return EntityMapper.Map(dbEvent);
+            return EntityMapper.Map(dbEvent, includeFlights: true, includeParticipants:false, includeAvailability: false);
         }
 
         public void ConfirmFlightsToParticipants(string id)
@@ -210,15 +210,13 @@ namespace AgendaAssistant.Services
                     dbFlight.STD = updatedFlight.STD;
                     dbFlight.STA = updatedFlight.STA;
                     dbFlight.Price = (int)(updatedFlight.Price * 100);
-                    dbFlight.Status = "";
+                    dbFlight.Enabled = true;
                 }
                 else
                 {
-                    dbFlight.Status = "Niet meer beschikbaar";
+                    dbFlight.Enabled = false;
                 }
             }
-
-            _dbContext.Current.SaveChanges();
         }
     }
 }

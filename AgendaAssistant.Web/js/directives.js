@@ -104,11 +104,12 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
 
             $scope.$watch('flightsearch.beginDate', function(value, key) {
                 if ($scope.flightsearch != undefined && $scope.flightsearch.endDate < $scope.flightsearch.beginDate) {
-                    var newDate = new Date($scope.flightsearch.beginDate.getFullYear(), $scope.flightsearch.beginDate.getMonth(), $scope.flightsearch.beginDate.getDay(), 0, 0, 0, 0);
-                    
-                    $scope.flightsearch.endDate = newDate;
+                    var selectedBeginDate = $scope.flightsearch.beginDate;
+                    var newDate = new Date(selectedBeginDate.getFullYear(), selectedBeginDate.getMonth(), selectedBeginDate.getDate(), 0, 0, 0, 0);
                     
                     $log.log("Update endDate: " + newDate);
+                    $scope.flightsearch.endDate = newDate;
+                    
                     //$log.log("Update endDate: " + $scope.flightsearch.beginDate);
                 }
             });

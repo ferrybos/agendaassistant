@@ -101,7 +101,7 @@ namespace AgendaAssistant.Services
                 flight.ParticipantAvailability =
                     flight.Availabilities.Single(a => a.ParticipantId.Equals(participantId));
 
-                //flight.Availabilities.Remove(flight.ParticipantAvailability);
+                flight.Availabilities.Remove(flight.ParticipantAvailability);
 
                 // reduce JSON response
                 flight.Availabilities.ForEach(a => a.ParticipantId = "");

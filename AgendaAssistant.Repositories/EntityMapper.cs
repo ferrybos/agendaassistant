@@ -103,7 +103,8 @@ namespace AgendaAssistant.Repositories
                     DepartureDate = dbFlight.DepartureDate,
                     STA = dbFlight.STA,
                     STD = dbFlight.STD,
-                    Price = dbFlight.Price / 100M
+                    Price = dbFlight.Price / 100M,
+                    Enabled = dbFlight.Enabled
                 };
         }
 
