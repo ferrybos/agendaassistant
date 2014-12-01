@@ -35,27 +35,25 @@
             });
     };
 
-    $scope.CreateEvent = function () {
+    $scope.CompleteEvent = function () {
         insights.logEvent('User creates event');
 
         $scope.CurrentStepIndex = 9; //saving event
 
         // timezone workaround!
-        $scope.event.outboundFlightSearch.beginDate = $filter('date')($scope.event.outboundFlightSearch.beginDate, "yyyy-MM-dd");
-        $scope.event.outboundFlightSearch.endDate = $filter('date')($scope.event.outboundFlightSearch.endDate, "yyyy-MM-dd");
-        $scope.event.inboundFlightSearch.beginDate = $filter('date')($scope.event.inboundFlightSearch.beginDate, "yyyy-MM-dd");
-        $scope.event.inboundFlightSearch.endDate = $filter('date')($scope.event.inboundFlightSearch.endDate, "yyyy-MM-dd");
+        $scope.event.beginDate = $filter('date')($scope.event.beginDate, "yyyy-MM-dd");
+        $scope.event.endDate = $filter('date')($scope.event.endDate, "yyyy-MM-dd");
         
         // Create selected flights to the event object to be sent to the server
         var selectedOutboundFlights = getSelectedFlights($scope.outboundFlights);
         angular.forEach(selectedOutboundFlights, function (flight) {
             this.push(flight);
-        }, $scope.event.outboundFlightSearch.flights);
+        }, $scope.event.outboundFlights);
 
         var selectedInboundFlights = getSelectedFlights($scope.inboundFlights);
         angular.forEach(selectedInboundFlights, function (flight) {
             this.push(flight);
-        }, $scope.event.inboundFlightSearch.flights);
+        }, $scope.event.inboundFlights);
 
         $log.log("Complete: " + JSON.stringify($scope.event));
         
@@ -100,6 +98,11 @@
                .success(function (data) {
                    $scope.iswaitingfornewevent = false;
                    $scope.event = data;
+                   
+                   // set defaults on first hit
+                   var myDate = new Date();
+                   $scope.event.beginDate = myDate.setDate(myDate.getDate() + 1);
+                   $scope.event.endDate = myDate.setDate(myDate.getDate() + 6);
                })
                .error(function (error) {
                    $scope.iswaitingfornewevent = false;
@@ -114,43 +117,8 @@
     
     $scope.SelectStepOutbound = function () {
         insights.logEvent('User selects outbound step');
-
-        if ($scope.event.outboundFlightSearch == null) {
-            // set defaults on first hit
-            var myDate = new Date();
-
-            $scope.event.outboundFlightSearch = {
-                departureStation: null,
-                arrivalStation: null,
-                beginDate: myDate.setDate(myDate.getDate() + 1),
-                endDate: myDate.setDate(myDate.getDate() + 6),
-                flights: []
-            };
-        }
-
-        //$log.log($scope.event);
-
-        //$scope.$apply();
+        
         $scope.CurrentStepIndex = 3;
-    };
-
-    $scope.areInboundDefaultsSet = false;
-    $scope.SelectStepInbound = function () {
-        insights.logEvent('User selects inbound step');
-
-        if ($scope.event.inboundFlightSearch == null) {
-            // set defaults on first hit
-            $scope.event.inboundFlightSearch = {
-                departureStation: $scope.event.outboundFlightSearch.arrivalStation,
-                arrivalStation: $scope.event.outboundFlightSearch.departureStation,
-                beginDate: $scope.event.outboundFlightSearch.beginDate,
-                endDate: $scope.event.outboundFlightSearch.endDate,
-                flights: []
-            };
-        }
-
-        //$scope.$apply();
-        $scope.CurrentStepIndex = 4;
     };
 
     $scope.AddParticipant = function () {

@@ -5,14 +5,13 @@
         <div class="btn-group btn-group-justified" style="margin-bottom: 20px" ng-show="CurrentStepIndex != 9">
             <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="SelectStepEvent()">Afspraak</a>
             <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 2 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() ? SelectStepParticipants() : null">Deelnemers</a>
-            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 3 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">Heen</a>
-            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 4 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() && IsOutboundStepValid() ? SelectStepInbound() : null">Terug</a>
+            <a role="button" class="sectionButton btn" ng-class="CurrentStepIndex == 3 ? 'btn-primary' : 'btn-default'" ng-click="IsEventStepValid() && IsParticipantsStepValid() ? SelectStepOutbound() : null">Vluchten</a>
         </div>
 
         <div id="steps">
             <!--Step 1: Event-->
             <div ng-show="CurrentStepIndex == 1">
-                <info ng-click="EnterTestEvent()">Wat houd uw reis in?</info>
+                <info ng-click="EnterTestEvent()">Wat houdt uw reis in?</info>
                 <form name="eventForm" novalidate ng-submit="SelectStepParticipants()">
                     <!--Title-->
                     <div class="form-group" show-errors='{showSuccess: true}'>
@@ -35,7 +34,7 @@
                     </div>
 
                     <div class="form-group" ng-show="event.id == ''">
-                        <input type="checkbox" ng-model="addParticipant" style="margin-right: 10px">Toevoegen als deelnemer aan de groep
+                        <input type="checkbox" ng-model="addParticipant" style="margin-right: 10px">Ik ga zelf mee
                     </div>
 
                     <!--Buttons-->
@@ -77,29 +76,30 @@
                 </div>
             </div>
 
-            <!--Step 3: Outbound flight search-->
-            <div id="content_step_outbound" ng-show="CurrentStepIndex == 3">
+            <!--Step 3: Vluchten-->
+            <div ng-show="CurrentStepIndex == 3">
                 <info>Kies op dit scherm je luchthaven van vertrek en de bestemming. Geef daarna aan in welke periode je vluchten wilt zoeken naar je gekozen bestemming.
 Je kunt ook aangeven als je alleen op specifieke weekdagen wilt vliegen. Bijvoorbeeld alleen in het weekend. Zet voorkeurs vertrekdagen naar keus, aan of uit door ze groen te maken.
-Als laatste kun je de maximale prijs per persoon aangeven. De vluchtprikker gaat zoeken naar alle beschikbare vluchten binnen de opgeven data, op de aangeven dagen tot de opgegeven maximale prijs.
-</info>
-                <flight-search flightsearch="event.outboundFlightSearch" isoutbound="true" flights="outboundFlights" paxcount="event.participants.length" departurestations="origins" arrivalstations="destinations" routes="routes"></flight-search>
+                    Als laatste kun je de maximale prijs per persoon aangeven. De vluchtprikker gaat zoeken naar alle beschikbare vluchten binnen de opgeven data, op de aangeven dagen tot de opgegeven maximale prijs.
+                </info>
+                
+                <flight-search event="event" outbound-flights="outboundFlights" inbound-flights="inboundFlights" departurestations="origins" arrivalstations="destinations" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-primary" style="float: right" ng-click="SelectStepInbound()" ng-disabled="!IsOutboundStepValid()">Volgende <span class="glyphicon glyphicon-arrow-right"></span></button>
+                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CompleteEvent()" ng-disabled="!IsOutboundStepValid() || !IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
 
             <!--Step 4: Inbound flight search-->
             <!-- <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>-->
-            <div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
+            <!--<div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
                 <info>Selecteer de periode waarin je de retourvluchten wilt zoeken. Geef aan op welke dagen je wilt vliegen en verander de prijs als die niet gelijk is aan de maximum prijs opgegeven voor de heenvlucht.</info>
                 <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length" departurestations="destinations" arrivalstations="origins" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CreateEvent()" ng-disabled="!IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CompleteEvent()" ng-disabled="!IsOutboundStepValid() || !IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
-            </div>
+            </div>-->
 
             <loader ng-if="CurrentStepIndex == 9">Afspraak wordt nu aangemaakt. Even geduld aub...</loader>
         </div>

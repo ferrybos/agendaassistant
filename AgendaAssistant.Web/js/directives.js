@@ -88,10 +88,9 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
     return {
         restrict: 'E',
         scope: {
-            paxcount: '=',
-            isoutbound: '=',
-            flights: '=',
-            flightsearch: '=',
+            event: '=',
+            outboundFlights: '=',
+            inboundFlights: '=',
             departurestations: '=',
             arrivalstations: '=',
             routes: '='
@@ -101,26 +100,24 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
             $scope.maxpriceChecked = true;
             $scope.maxprice = 250;
             $scope.weekdays = [{ day: 'Ma', value: 1 }, { day: 'Di', value: 1 }, { day: 'Wo', value: 1 }, { day: 'Do', value: 1 }, { day: 'Vr', value: 1 }, { day: 'Za', value: 1 }, { day: 'Zo', value: 1 }];
-
-            $scope.$watch('flightsearch.beginDate', function(value, key) {
-                if ($scope.flightsearch != undefined && $scope.flightsearch.endDate < $scope.flightsearch.beginDate) {
-                    var selectedBeginDate = $scope.flightsearch.beginDate;
+            
+            $scope.$watch('event.beginDate', function(value, key) {
+                if ($scope.event != undefined && $scope.event.endDate < $scope.event.beginDate) {
+                    var selectedBeginDate = $scope.event.beginDate;
                     var newDate = new Date(selectedBeginDate.getFullYear(), selectedBeginDate.getMonth(), selectedBeginDate.getDate(), 0, 0, 0, 0);
                     
                     $log.log("Update endDate: " + newDate);
-                    $scope.flightsearch.endDate = newDate;
-                    
-                    //$log.log("Update endDate: " + $scope.flightsearch.beginDate);
+                    $scope.event.endDate = newDate;
                 }
             });
 
-            $scope.$watchCollection('[flightsearch.departureStation, flightsearch.arrivalStation]', function () {
-                if ($scope.isoutbound && $scope.flightsearch != undefined && $scope.flightsearch.departureStation != null && $scope.flightsearch.arrivalStation != null) {
-                    if ($scope.flightsearch.departureStation.length > 0 && $scope.flightsearch.arrivalStation.length > 0) {
+            $scope.$watchCollection('[event.origin, event.destination]', function () {
+                if ($scope.event != undefined && $scope.event.departureStation != null && $scope.event.arrivalStation != null) {
+                    if ($scope.event.departureStation.length > 0 && $scope.event.arrivalStation.length > 0) {
                         //$log.log("Dest: " + JSON.stringify($scope.flightsearch));
-                        var routesForArrivalStation = $filter('filter')($scope.routes, { destination: $scope.flightsearch.arrivalStation }, true);
+                        var routesForDestination = $filter('filter')($scope.routes, { destination: $scope.event.destination }, true);
                         // zoek alle routes met arrival station
-                        var matchedRoute = $filter('filter')(routesForArrivalStation, { origin: $scope.flightsearch.departureStation }, true);
+                        var matchedRoute = $filter('filter')(routesForDestination, { origin: $scope.event.origin }, true);
                         $log.log("matchedRoute: " + JSON.stringify(matchedRoute));
                         
                         if (matchedRoute.length == 0) {
@@ -131,29 +128,19 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
             });
 
             $scope.$watchCollection('[maxprice, maxpriceChecked]', function () {
-                if ($scope.flightsearch != undefined) {
-                    $scope.flightsearch.maxPrice = selectedMaxPrice();
+                if ($scope.event != undefined) {
+                    $scope.event.maxPrice = selectedMaxPrice();
                 }
             });
 
             angular.forEach($scope.weekdays, function (value, key) {
                 $scope.$watch('weekdays[' + key + '].value', function () {
-                    if ($scope.flightsearch != undefined) {
-                        $scope.flightsearch.daysOfWeek = selectedDaysOfWeek();
-                        $log.log("DaysOfWeek: " + $scope.flightsearch.daysOfWeek);
+                    if ($scope.event != undefined) {
+                        $scope.event.daysOfWeek = selectedDaysOfWeek();
+                        $log.log("DaysOfWeek: " + $scope.event.daysOfWeek);
                     }
                 });
             });
-
-            $scope.toggleIsSelected = function (flight) {
-                flight.IsSelected = flight.IsSelected === true ? false : true;
-            };
-
-            $scope.selectAllFlights = function (value) {
-                angular.forEach($scope.flights, function (flight) {
-                    flight.IsSelected = value;
-                });
-            };
 
             function selectedMaxPrice() {
                 return $scope.maxpriceChecked ? $scope.maxprice : null;
@@ -166,11 +153,11 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
             $scope.SearchFlights = function () {
                 var errors = "";
                 
-                if ($scope.flightsearch.departureStation == null) {
+                if ($scope.event.origin == null) {
                     errors = errors + "Vertrek station is niet ingevuld. ";
                 };
 
-                if ($scope.flightsearch.arrivalStation == null) {
+                if ($scope.event.destination == null) {
                     errors = errors + "Aankomst station is niet ingevuld.";
                 };
                 
@@ -181,21 +168,44 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
 
                 $scope.isloading = true;
                 // watches are not triggered on initial load
-                $scope.flightsearch.daysOfWeek = selectedDaysOfWeek();
-                flightService.getFlights($scope.flightsearch.departureStation, $scope.flightsearch.arrivalStation, $scope.flightsearch.beginDate, $scope.flightsearch.endDate, $scope.paxcount, selectedDaysOfWeek(), $scope.flightsearch.maxPrice)
+                $scope.event.daysOfWeek = selectedDaysOfWeek();
+                flightService.getFlights($scope.event.origin, $scope.event.destination, $scope.event.beginDate, $scope.event.endDate, $scope.event.participants.length, selectedDaysOfWeek(), $scope.event.maxPrice)
                     .success(function (data) {
                         $scope.isloading = false;
-                        $scope.flights = data;
-                        //$log.log("Flights = " + JSON.stringify(data));
+                        $scope.outboundFlights = data.outboundFlights;
+                        $scope.inboundFlights = data.inboundFlights;
+                        $log.log("Flights = " + JSON.stringify(data));
                     })
                     .error(function (error) {
                         $modal({ title: error.message, content: error.exceptionMessage, show: true });
                         $scope.isloading = false;
-                        $scope.flights = null;
+                        $scope.outboundFlights = null;
+                        $scope.inboundFlights = null;
                     });
             };
         },
         templateUrl: '../partials/flightsearch.html'
+    };
+});
+
+app.directive('flightlist', function ($log) {
+    return {
+        restrict: 'E',
+        scope: {
+            flights: '='
+        },
+        controller: function ($scope) {
+            $scope.toggleIsSelected = function (flight) {
+                flight.IsSelected = flight.IsSelected === true ? false : true;
+            };
+
+            $scope.selectAllFlights = function (value) {
+                angular.forEach($scope.flights, function (flight) {
+                    flight.IsSelected = value;
+                });
+            };
+        },
+        templateUrl: '../partials/flightlist.html'
     };
 });
 
@@ -237,7 +247,8 @@ app.directive('participants', function ($log) {
     return {
         restrict: 'E',
         scope: {
-            flight: '='
+            flight: '=',
+            showparticipantlink: '='
         },
         controller: function ($scope) {
             //
@@ -309,7 +320,7 @@ app.directive('eventSubTitle', function() {
         scope: {
             event: '='
         },
-        template: '<p class="subtitle">Georganiseerd door {{event.organizerName}} ({{event.status.description}})</p>'
+        template: '<p class="subtitle">Georganiseerd door {{event.organizerName}}</p>'
     };
 });
 

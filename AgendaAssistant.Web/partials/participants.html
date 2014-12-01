@@ -8,7 +8,9 @@
             </td>
             <td style="border-top: 0; vertical-align: middle">
                 <span ng-repeat="availability in value" style="margin-right: 20px">
-                    <a href="#/availability/{{::availability.participantId}}">{{::availability.name}}</a><span class="comment" ng-show="availability.commentText.length > 0" style="margin-left: 5px">({{::availability.commentText}})</span>
+                    <span ng-if="showparticipantlink !== true">{{::availability.name}}</span>
+                    <a ng-if="showparticipantlink === true" href="#/availability/{{::availability.participantId}}">{{::availability.name}}</a>
+                    <span class="comment" ng-show="availability.commentText.length > 0" style="margin-left: 5px">({{::availability.commentText}})</span>
                 </span>
             </td>
         </tr>

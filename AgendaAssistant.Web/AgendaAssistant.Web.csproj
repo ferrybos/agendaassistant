@@ -143,11 +143,11 @@
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />
     <Content Include="partials\eventUnconfirmedParticipants.html" />
+    <Content Include="partials\flightlist.html" />
     <Content Include="partials\participants.html" />
     <Content Include="partials\flightFromApi.html" />
     <Content Include="partials\flightsearch.html" />
     <Content Include="partials\flightsearchavailability.html" />
-    <Content Include="partials\flightsearchtoggle.html" />
     <Content Include="partials\legenda.html" />
     <Content Include="partials\participantdata.html" />
     <Content Include="services\constants.js" />

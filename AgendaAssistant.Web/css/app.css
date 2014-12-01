@@ -29,6 +29,15 @@ body {
     background-color: #f5f5f5;
 }
 
+.glyphicon-check {
+    color: green;
+}
+
+.glyphicon-unchecked {
+    color: darkred;
+    opacity: .3;
+}
+
 .footer {
     /*position: absolute;*/
     /*bottom: 0;*/
@@ -135,6 +144,10 @@ h1, h4 {
 
 h1 {
     margin-top: 0;
+}
+
+h4 {
+    margin-top: 20px;
 }
 
 .navbar-brand {
@@ -372,6 +385,10 @@ div#contentFooter {
     opacity: .3;
 }
 
+.flightsearchbutton {
+    min-width: 200px;
+}
+
 /* Large desktop */
 @media (min-width: 1200px) {
     body {
@@ -405,6 +422,10 @@ div#contentFooter {
 
     .addParticipantButton {
         height: 32px;
+    }
+
+    .flightsearchbutton {
+         width: 100%;
     }
 }
 

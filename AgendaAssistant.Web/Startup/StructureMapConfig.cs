@@ -25,7 +25,6 @@ namespace AgendaAssistant.Web.Startup
             var container = new Container(c =>
                 {
                     c.For<IDbContext>().Add<AgendaAssistantDbContext>();
-                    c.For<IFlightService>().Use<FlightService>();
                     c.For<IEventService>().Use<EventService>();
                     c.For<IAvailabilityService>().Use<AvailabilityService>();
                     c.For<IParticipantService>().Use<ParticipantService>();

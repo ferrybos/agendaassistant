@@ -35,15 +35,15 @@ namespace AgendaAssistant.Services
         private readonly EventRepository _repository;
         private readonly IDbContext _dbContext;
         private readonly IMailService _mailService;
-        private readonly IFlightService _flightService;
+        private readonly IFlightRepository _flightRepository;
 
-        public EventService(IDbContext dbContext, IMailService mailService, IFlightService flightService)
+        public EventService(IDbContext dbContext, IMailService mailService, IFlightRepository flightRepository)
         {
             _repository = new EventRepository(dbContext);
 
             _dbContext = dbContext;
             _mailService = mailService;
-            _flightService = flightService;
+            _flightRepository = flightRepository;
         }
 
         public Event Get(string id)
@@ -96,8 +96,9 @@ namespace AgendaAssistant.Services
             dbEvent.OrganizerName = evn.OrganizerName;
             dbEvent.OrganizerEmail = evn.OrganizerEmail;
 
-            dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlightSearch);
-            dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlightSearch);
+            
+            dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlights, evn.Origin, evn.Destination, evn.BeginDate, evn.EndDate, evn.DaysOfWeek, evn.MaxPrice);
+            dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlights, evn.Destination, evn.Origin, evn.BeginDate, evn.EndDate, evn.DaysOfWeek, evn.MaxPrice);
             dbEvent.StatusID = EventStatusEnum.NewCompleted;
             _dbContext.Current.SaveChanges();
 
@@ -105,19 +106,19 @@ namespace AgendaAssistant.Services
             _mailService.SendEventConfirmation(dbEvent);
         }
 
-        private FlightSearch AddFlightSearch(Entities.FlightSearch flightSearch)
+        private FlightSearch AddFlightSearch(IEnumerable<Entities.Flight> flights, string origin, string destination, DateTime beginDate, DateTime endDate, short daysOfWeek, short? maxPrice)
         {
             var flightSearchRepository = new FlightSearchRepository(_dbContext);
 
             var dbFlightSearch = flightSearchRepository.Add(
-                flightSearch.DepartureStation,
-                flightSearch.ArrivalStation,
-                flightSearch.BeginDate,
-                flightSearch.EndDate,
-                flightSearch.DaysOfWeek,
-                flightSearch.MaxPrice);
+                origin,
+                destination,
+                beginDate,
+                endDate,
+                daysOfWeek,
+                maxPrice);
 
-            foreach (var flight in flightSearch.Flights)
+            foreach (var flight in flights)
             {
                 flightSearchRepository.AddFlight(dbFlightSearch, flight.CarrierCode, flight.FlightNumber,
                                                  flight.DepartureDate, flight.STA, flight.STD, (int)(flight.Price*100));
@@ -149,8 +150,11 @@ namespace AgendaAssistant.Services
                 dbEvent.LastModifiedPricesUtc = DateTime.UtcNow;
 
                 // todo: async
-                UpdateFlights(dbEvent.OutboundFlightSearch, (short) dbEvent.Participants.Count);
-                UpdateFlights(dbEvent.InboundFlightSearch, (short) dbEvent.Participants.Count);
+                var bitArray = new BitArray(BitConverter.GetBytes(dbEvent.OutboundFlightSearch.DaysOfWeek));
+                var response = _flightRepository.Search(dbEvent.OutboundFlightSearch.DepartureStation, dbEvent.OutboundFlightSearch.ArrivalStation, dbEvent.OutboundFlightSearch.StartDate, dbEvent.OutboundFlightSearch.EndDate, (short)dbEvent.Participants.Count, bitArray, (short?)dbEvent.OutboundFlightSearch.MaxPrice);
+
+                UpdateFlights(dbEvent.OutboundFlightSearch, response.OutboundFlights);
+                UpdateFlights(dbEvent.InboundFlightSearch, response.InboundFlights);
 
                 _dbContext.Current.SaveChanges();
             }
@@ -188,18 +192,15 @@ namespace AgendaAssistant.Services
             }
         }
 
-        private void UpdateFlights(FlightSearch flightSearch, short paxCount)
+        private void UpdateFlights(FlightSearch flightSearch, List<Entities.Flight> flights)
         {
-            var bitArray = new BitArray(BitConverter.GetBytes(flightSearch.DaysOfWeek));
-            var updatedFlights = _flightService.Search(flightSearch.DepartureStation, flightSearch.ArrivalStation, flightSearch.StartDate, flightSearch.EndDate, paxCount, bitArray, (short?)flightSearch.MaxPrice);
-
             foreach (var dbFlight in flightSearch.Flights)
             {
                 Entities.Flight updatedFlight = null;
 
                 if (dbFlight.DepartureDate >= DateTime.Today)
                 {
-                    updatedFlight = updatedFlights.SingleOrDefault(
+                    updatedFlight = flights.SingleOrDefault(
                         f =>
                         f.DepartureDate.Equals(dbFlight.DepartureDate) && f.CarrierCode.Equals(dbFlight.CarrierCode) &&
                         f.FlightNumber.Equals((short) dbFlight.FlightNumber));

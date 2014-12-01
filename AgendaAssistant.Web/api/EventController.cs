@@ -39,14 +39,10 @@ namespace AgendaAssistant.Web.api
     public class EventController : ApiController
     {
         private readonly IEventService _service;
-        private readonly IAvailabilityService _availabilityService;
-        private readonly IFlightService _flightService;
 
-        public EventController(IEventService eventService, IAvailabilityService availabilityService, IFlightService flightService)
+        public EventController(IEventService eventService)
         {
             _service = eventService;
-            _availabilityService = availabilityService;
-            _flightService = flightService;
         }
 
         // GET api/<controller>/5

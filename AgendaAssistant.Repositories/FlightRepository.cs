@@ -13,13 +13,12 @@ namespace AgendaAssistant.Repositories
 {
     public interface IFlightRepository
     {
-        List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, BitArray daysOfWeek, short? maxPrice);
-        Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode, short flightNumber, short paxCount);
+        FlightSearchResponse Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, BitArray daysOfWeek, short? maxPrice);
     }
 
     public class FlightRepository : IFlightRepository
     {
-        private PaxPriceType[] PaxPriceTypes
+        private static PaxPriceType[] PaxPriceTypes
         {
             get
             {
@@ -27,16 +26,26 @@ namespace AgendaAssistant.Repositories
             }
         }
 
-        public List<Flight> Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount,
+        public FlightSearchResponse Search(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount,
             BitArray daysOfWeek, short? maxPrice)
         {
+            var response = FlightSearchResponseFactory.New();
+
             var esbClient = new EsbApi34();
 
             esbClient.LogOn();
             try
             {
-                var availabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(departureStation.Trim(),
+                var outboundAvailabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(departureStation.Trim(),
                                                                                              arrivalStation.Trim(),
+                                                                                             beginDate, endDate,
+                                                                                             carrierCode: null,
+                                                                                             paxCount: paxCount,
+                                                                                             paxPriceTypes:
+                                                                                                 PaxPriceTypes);
+
+                var inboundAvailabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(arrivalStation.Trim(),
+                                                                                             departureStation.Trim(),
                                                                                              beginDate, endDate,
                                                                                              carrierCode: null,
                                                                                              paxCount: paxCount,
@@ -46,103 +55,46 @@ namespace AgendaAssistant.Repositories
                 var availabilityResponse =
                     esbClient.BookingManager.GetAvailability(new TripAvailabilityRequest()
                         {
-                            AvailabilityRequests = new[] { availabilityRequest }
+                            AvailabilityRequests = new[] { outboundAvailabilityRequest, inboundAvailabilityRequest }
                         });
 
                 var journeys = availabilityResponse.Journeys();
 
-                var result = new List<Flight>();
                 foreach (var journey in journeys)
                 {
                     var availableFare = (AvailableFare)journey.Fares().FirstOrDefault();
 
-                    if (availableFare != null)
-                    {
-                        var segment = journey.Segments[0];
+                    if (availableFare == null) continue;
 
-                        var departureDate = segment.STD.Date;
-                        var price = FarePrice(availableFare);
+                    var segment = journey.Segments[0];
 
-                        if (maxPrice.HasValue && price > maxPrice.Value)
-                            continue;
-
-                        if (ContainsDayOfWeek(daysOfWeek, departureDate.DayOfWeek))
-                        {
-                            result.Add(new Flight()
-                            {
-                                DepartureStation = segment.DepartureStation,
-                                ArrivalStation = segment.ArrivalStation,
-                                DepartureDate = departureDate,
-                                CarrierCode = segment.FlightDesignator.CarrierCode,
-                                FlightNumber = short.Parse(segment.FlightDesignator.FlightNumber),
-                                STD = segment.STD,
-                                STA = segment.STA,
-                                Price = price
-                            });
-                        }
-                    }
-                }
-
-                return result;
-            }
-            finally
-            {
-                esbClient.LogOut();
-            }
-        }
-
-        public Flight Get(string departureStation, string arrivalStation, DateTime departureDate, string carrierCode,
-                          short flightNumber, short paxCount)
-        {
-            var esbClient = new EsbApi34();
-
-            esbClient.LogOn();
-            try
-            {
-                // add 
-                var availabilityRequest = esbClient.BookingManager.CreateAvailabilityRequest(departureStation.Trim(),
-                                                                                             arrivalStation.Trim(),
-                                                                                             departureDate.Date,
-                                                                                             departureDate.Date,
-                                                                                             carrierCode,
-                                                                                             flightNumber.ToString()
-                                                                                                         .PadLeft(4, ' '),
-                                                                                             paxCount,
-                                                                                             paxPriceTypes:
-                                                                                                 PaxPriceTypes
-                    );
-
-                var availabilityResponse =
-                    esbClient.BookingManager.GetAvailability(new TripAvailabilityRequest()
-                    {
-                        AvailabilityRequests = new[] { availabilityRequest }
-                    });
-
-                var journey = availabilityResponse.Journeys().Single();
-                var segment = journey.Segments[0];
-
-                var availableFare = (AvailableFare)journey.Fares().FirstOrDefault();
-
-                if (availableFare != null)
-                {
+                    var departureDate = segment.STD.Date;
                     var price = FarePrice(availableFare);
 
-                    return new Flight()
+                    if (maxPrice.HasValue && price > maxPrice.Value)
+                        continue;
+
+                    if (!ContainsDayOfWeek(daysOfWeek, departureDate.DayOfWeek)) continue;
+
+                    var flight = new Flight()
                         {
                             DepartureStation = segment.DepartureStation,
                             ArrivalStation = segment.ArrivalStation,
-                            DepartureDate = segment.STD.Date,
+                            DepartureDate = departureDate,
                             CarrierCode = segment.FlightDesignator.CarrierCode,
                             FlightNumber = short.Parse(segment.FlightDesignator.FlightNumber),
                             STD = segment.STD,
                             STA = segment.STA,
                             Price = price
                         };
+
+                    if (flight.DepartureStation.Equals(departureStation.Trim()))
+                        response.OutboundFlights.Add(flight);
+                    else
+                        response.InboundFlights.Add(flight);
                 }
-                else
-                {
-                    return null;
-                }
+
+                return response;
             }
             finally
             {
