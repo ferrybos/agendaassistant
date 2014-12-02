@@ -49,7 +49,24 @@
         <div class="col-sm-6 rightcol">
             <div class="form-group" show-errors='{showSuccess: true}'>
                 <label class="control-label" for="dateOfBirth">Geboortedatum *</label>
-                <input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control" ng-model="participant.person.dateOfBirth" data-max-date="today" bs-datepicker required>
+                <div>
+                    <div style="float: left">
+                        <select name="day" class="form-control" ng-model="day" style="display: table-cell" required>
+                            <option ng-repeat="d in days" value="{{d}}">{{d}}</option>
+                        </select>
+                    </div>
+                    <div style="float: left">
+                        <select name="month" class="form-control" ng-model="month" style="display: table-cell" required>
+                            <option ng-repeat="m in months" value="{{$index}}">{{m}}</option>
+                        </select>
+                    </div>
+                    <div style="float: left">
+                        <select name="month" class="form-control" ng-model="year" style="display: table-cell" required>
+                            <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                        </select>
+                    </div>
+                </div>
+                <!--<input type="text" id="dateOfBirth" name="dateOfBirth" class="form-control" ng-model="participant.person.dateOfBirth" data-max-date="today" bs-datepicker required>-->
             </div>
         </div>
     </div>

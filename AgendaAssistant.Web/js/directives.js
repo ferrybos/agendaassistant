@@ -270,7 +270,7 @@ app.directive('availabilitybar', function ($log) {
     };
 });
 
-app.directive('participantdata', function ($log, participantService, $timeout, $modal) {
+app.directive('participantdata', function ($log, $filter, participantService, $timeout, $modal) {
     return {
         restrict: 'E',
         scope: {
@@ -278,10 +278,41 @@ app.directive('participantdata', function ($log, participantService, $timeout, $
         },
         controller: function ($scope) {
             $scope.isConfirming = false;
+            $scope.day = null;
+            $scope.month = null;
+            $scope.year = null;
+            $scope.days = [];
+            $scope.months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+            $scope.years = [];
+
+            $scope.$watch('participant', function (value, key) {
+                if ($scope.participant != undefined) {
+                    $log.log($scope.participant.person.dateOfBirth);
+
+                    if ($scope.participant.person.dateOfBirth != null) {
+                        var date = new Date($scope.participant.person.dateOfBirth);
+                        $scope.day = date.getDate();
+                        $scope.month = date.getMonth();
+                        $scope.year = date.getFullYear();
+                    }
+                }
+            });
+
+            for (var d = 1; d <= 31 ; d++) {
+                $scope.days.push(d);
+            }
             
+            for (var y = new Date().getFullYear(); y >= 1900; y--) {
+                $scope.years.push(y);
+            }
+
             $scope.Confirm = function () {
                 $scope.isConfirming = true;
 
+                var selectedDob = new Date().setFullYear($scope.year, $scope.month, $scope.day);
+                $scope.participant.person.dateOfBirth = $filter('date')(selectedDob, "yyyy-MM-dd");
+                $log.log($scope.participant.person.dateOfBirth);
+                
                 participantService.update($scope.participant)
                     .success(function (data) {
                         $scope.isConfirming = false;
