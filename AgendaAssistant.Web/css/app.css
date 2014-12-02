@@ -94,6 +94,11 @@ body {
     color: darkred;
 }
 
+.unconfirmed {
+    color: red;
+    font-weight: bold;
+}
+
 .ontop {
     z-index: 1000;
     position: absolute;

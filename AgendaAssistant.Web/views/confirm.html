@@ -6,8 +6,23 @@
     </loader>
         <div ng-if="isConfirmSucceeded === true">
             <h4>De uitnodigingen zijn verstuurd!</h4>
+            <p>Naar de volgende deelnemers is een uitnodiging verstuurd:</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="participant in event.participants">
+                        <td>{{participant.person.name}}</td>
+                        <td>{{participant.person.email}}</td>
+                    </tr>
+                </tbody>
+            </table>
             <p>Er is ter bevestiging een email naar jou gestuurd op {{::event.organizerEmail}}.</p>
-            <button type="button" class="btn btn-lg btn-primary" ng-click="GoToEvent()">Afspraak beheren</button>
+            <button type="button" class="btn btn-lg btn-primary" ng-click="GoToEvent()" style="margin-top:20px">Afspraak beheren</button>
         </div>
     </div>
 </div>

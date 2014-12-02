@@ -197,7 +197,7 @@ namespace AgendaAssistant.Services
         {
             SendToOrganizer(
                         dbEvent,
-                        string.Format("Beschikbaarheid ingevuld: {0}", dbEvent.Title),
+                        string.Format("Beschikbaarheid van {0} voor {1}", dbParticipant.Name, dbEvent.Title),
                         string.Format("{0} heeft beschikbaarheid ingevuld voor de afspraak '<strong>{1}</strong>'.",
                                       dbParticipant.Name, dbEvent.Title),
                         "Klik op de onderstaande link om de beschikbaarheid te bekijken.",

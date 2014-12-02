@@ -27,10 +27,13 @@
                                     </div>
                                     <br />
                                     <div style="margin-top: 10px; float: right; width: 100%">
-                                        <availabilitybar flight="flight"></availabilitybar>
+                                        <div style="float: right; text-align: right">
+                                            <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true" style="font-size: x-small; cursor: pointer">Toon deelnemers</a>
+                                            <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false" style="font-size: x-small; cursor: pointer">Verberg deelnemers</a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div ng-show="flight.enabled === false" style="float: right; text-align: right;padding-top: 10px;">
+                                <div ng-show="flight.enabled === false" style="float: right; text-align: right; padding-top: 10px;">
                                     <span style="color: red">Niet meer beschikbaar</span>
                                 </div>
                                 <div style="float: left">

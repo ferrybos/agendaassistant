@@ -90,17 +90,6 @@ Je kunt ook aangeven als je alleen op specifieke weekdagen wilt vliegen. Bijvoor
                 </div>
             </div>
 
-            <!--Step 4: Inbound flight search-->
-            <!-- <ng-include src="'partials/newEventInbound.html'" ng-show="CurrentStepIndex == 4"></ng-include>-->
-            <!--<div id="content_step_inbound" ng-show="CurrentStepIndex == 4">
-                <info>Selecteer de periode waarin je de retourvluchten wilt zoeken. Geef aan op welke dagen je wilt vliegen en verander de prijs als die niet gelijk is aan de maximum prijs opgegeven voor de heenvlucht.</info>
-                <flight-search flightsearch="event.inboundFlightSearch" isoutbound="false" flights="inboundFlights" paxcount="event.participants.length" departurestations="destinations" arrivalstations="origins" routes="routes"></flight-search>
-                <div class="tab_navigation">
-                    <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepOutbound()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CompleteEvent()" ng-disabled="!IsOutboundStepValid() || !IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
-                </div>
-            </div>-->
-
             <loader ng-if="CurrentStepIndex == 9">Afspraak wordt nu aangemaakt. Even geduld aub...</loader>
         </div>
     </div>

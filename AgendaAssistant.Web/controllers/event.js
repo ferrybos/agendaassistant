@@ -130,4 +130,13 @@
         else
             return "Geen";
     };
+    
+    $scope.participantStatus = function (participant) {
+        if (participant.bdConfirmed == true)
+            return "Boekingsgegevens bevestigd";
+        else if (participant.avConfirmed == true)
+            return "Beschikbaarheid bevestigd";
+        else
+            return "Nog niet gereageerd";
+    };
 });

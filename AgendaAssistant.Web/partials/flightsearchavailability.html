@@ -16,11 +16,11 @@
     <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in flightsearch.flights | groupBy: 'departureDate'">
         <div class="panel-heading departureDateHeader">{{ key | date : 'EEE dd-MMM' }}</div>
         <div class="panel-body" style="padding: 0">
-            <table class="table table-condensed">
+            <table class="table table-condensed table-responsive">
                 <tbody>
                     <tr ng-repeat="flight in value">
                         <td>
-                            <table class="table" ng-class="{disabled: flight.enabled === false }" >
+                            <table class="table" ng-class="{disabled: flight.enabled === false }">
                                 <tr>
                                     <td style="padding-right: 20px; border-top: 0;" ng-show="event.isPushpinActive === true">
                                         <button type="button" class="btn" ng-show="flight.enabled === true" ng-click="SelectFlight(flightsearch, flight)" ng-class="flightsearch.selectedFlight != null && flight.id == flightsearch.selectedFlight.id  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
@@ -49,7 +49,15 @@
                                         <div ng-show="flight.enabled === false" style="float: right; text-align: right;">
                                             <span style="color: red">Niet meer beschikbaar</span>
                                         </div>
-                                        <availabilitybar flight="flight" ng-show="flight.enabled === true"></availabilitybar>
+                                        <div class="progress" ng-show="flight.enabled === true">
+                                            <div style="float: left; width: {{flight.green}}%; background-color: green">&nbsp;</div>
+                                            <div style="float: left; width: {{flight.orange}}%; background-color: orange">&nbsp;</div>
+                                            <div style="float: left; width: {{flight.red}}%; background-color: red">&nbsp;</div>
+                                        </div>
+                                        <div ng-show="flight.enabled === true" style="margin-top: 4px; float: right; text-align: right">
+                                            <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true" style="font-size: x-small; cursor: pointer">Toon deelnemers</a>
+                                            <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false" style="font-size: x-small; cursor: pointer">Verberg deelnemers</a>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
