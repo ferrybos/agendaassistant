@@ -48,11 +48,11 @@ namespace AgendaAssistant.Repositories
                 evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
                 evn.InboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
 
-                foreach (var dbParticipant in dbEvent.Participants.Where(p => p.AvailabilityConfirmed))
+                foreach (var dbParticipant in dbEvent.Participants)
                 {
                     foreach (var dbAvailability in dbParticipant.Availabilities)
                     {
-                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(Map(dbAvailability, dbParticipant.Name));
+                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(Map(dbAvailability, dbParticipant));
                     }
                 }
             }
@@ -111,15 +111,15 @@ namespace AgendaAssistant.Repositories
                 };
         }
 
-        public static Availability Map(DB.Availability dbAvailability, string name)
+        public static Availability Map(DB.Availability dbAvailability, DB.Participant dbParticipant)
         {
             return new Availability
             {
                 ParticipantId = GuidUtil.ToString(dbAvailability.ParticipantID),
                 FlightId = dbAvailability.FlightID,
-                Value = dbAvailability.Value ?? 0,
+                Value = dbAvailability.Value,
                 CommentText = dbAvailability.Comment.Trim(),
-                Name = name
+                Name = dbParticipant.Name
             };
         }
 

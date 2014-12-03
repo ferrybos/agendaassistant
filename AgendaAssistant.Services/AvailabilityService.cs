@@ -70,23 +70,8 @@ namespace AgendaAssistant.Services
                     _dbContext.Current.SaveChanges();
                 }
 
-                // attach availability to flights
-                if (!dbParticipant.AvailabilityConfirmed) // else the availability is already included
-                {
-                    var flightsDictionary = new Dictionary<long, Flight>();
-                    evn.OutboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
-                    evn.InboundFlightSearch.Flights.ForEach(f => flightsDictionary.Add(f.Id, f));
-
-                    foreach (var dbAvailability in dbParticipant.Availabilities)
-                    {
-                        flightsDictionary[dbAvailability.FlightID].Availabilities.Add(EntityMapper.Map(dbAvailability,
-                                                                                                       dbParticipant
-                                                                                                           .Name));
-                    }
-                }
-
-                MoveParticipantAvailability(participantId, evn.OutboundFlightSearch);
-                MoveParticipantAvailability(participantId, evn.InboundFlightSearch);
+                CopyParticipantAvailability(participantId, evn.OutboundFlightSearch);
+                CopyParticipantAvailability(participantId, evn.InboundFlightSearch);
             }
 
             // remove personal data
@@ -94,17 +79,15 @@ namespace AgendaAssistant.Services
             return evn;
         }
 
-        private void MoveParticipantAvailability(string participantId, FlightSearch flightSearch)
+        private void CopyParticipantAvailability(string participantId, FlightSearch flightSearch)
         {
             foreach (var flight in flightSearch.Flights)
             {
                 flight.ParticipantAvailability =
                     flight.Availabilities.Single(a => a.ParticipantId.Equals(participantId));
 
-                flight.Availabilities.Remove(flight.ParticipantAvailability);
-
                 // reduce JSON response
-                flight.Availabilities.ForEach(a => a.ParticipantId = "");
+                //flight.Availabilities.ForEach(a => a.ParticipantId = "");
             }
         }
 
@@ -112,9 +95,7 @@ namespace AgendaAssistant.Services
         {
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(availability.ParticipantId));
 
-            _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value, availability.CommentText);
-
-            
+            _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value.Value, availability.CommentText);
         }
 
         public void Confirm(string participantId)

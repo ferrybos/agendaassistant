@@ -5,11 +5,11 @@
                 <span class="glyphicon glyphicon-ok" ng-show="key == 100" style="font-size: 16px; color: green"></span>
                 <span ng-show="key == 50"><span class="glyphicon glyphicon-ok" style="font-size: 16px; color: orange"></span><span class="glyphicon glyphicon-minus" style="color: orange; margin-left: -8px; margin-right: 4px; font-size: xx-small"></span></span>
                 <span class="glyphicon glyphicon-remove" ng-show="key == 0" style="font-size: 16px; color: darkred"></span>
+                <span class="glyphicon glyphicon-time" ng-show="key == null" style="font-size: 16px; color: gray"></span>
             </td>
             <td style="border-top: 0; vertical-align: middle">
                 <span ng-repeat="availability in value" style="margin-right: 20px">
-                    <span ng-if="showparticipantlink !== true">{{::availability.name}}</span>
-                    <a ng-if="showparticipantlink === true" href="#/availability/{{::availability.participantId}}">{{::availability.name}}</a>
+                    <span>{{::availability.name}}</span>
                     <span class="comment" ng-show="availability.commentText.length > 0" style="margin-left: 5px">({{::availability.commentText}})</span>
                 </span>
             </td>

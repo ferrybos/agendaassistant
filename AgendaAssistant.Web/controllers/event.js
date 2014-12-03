@@ -137,6 +137,6 @@
         else if (participant.avConfirmed == true)
             return "Beschikbaarheid bevestigd";
         else
-            return "Nog niet gereageerd";
+            return "Nog niet bevestigd";
     };
 });

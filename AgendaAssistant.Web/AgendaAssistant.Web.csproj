@@ -142,7 +142,6 @@
     <Content Include="partials\availabilityList.html" />
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />
-    <Content Include="partials\eventUnconfirmedParticipants.html" />
     <Content Include="partials\flightlist.html" />
     <Content Include="partials\participants.html" />
     <Content Include="partials\flightFromApi.html" />
@@ -166,15 +165,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="api\AvailabilityController.cs" />
+    <Compile Include="api\OrganizerController.cs" />
     <Compile Include="api\StationController.cs" />
-    <Compile Include="api\EmailController.cs" />
     <Compile Include="api\ParticipantController.cs" />
     <Compile Include="api\FlightController.cs" />
     <Compile Include="api\EventController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="models\Availability.cs" />
+    <Compile Include="models\AvailabilitySummary.cs" />
     <Compile Include="models\AvailabilityModel.cs" />
+    <Compile Include="models\ConfirmEventViewModel.cs" />
+    <Compile Include="models\Event.cs" />
+    <Compile Include="models\Flight.cs" />
+    <Compile Include="models\FlightSearch.cs" />
+    <Compile Include="models\NewEventViewModel.cs" />
+    <Compile Include="models\OrganizerEventViewModel.cs" />
+    <Compile Include="models\ParticipantViewModel.cs" />
+    <Compile Include="models\Person.cs" />
+    <Compile Include="models\Stretch.cs" />
+    <Compile Include="models\Participant.cs" />
+    <Compile Include="models\Participants.cs" />
+    <Compile Include="models\Station.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\StructureMapConfig.cs" />
     <Compile Include="Startup\StructureMapDependencyResolver.cs" />

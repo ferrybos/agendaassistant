@@ -39,7 +39,7 @@ namespace AgendaAssistant.Web.api
 
         [Route("")]
         [HttpPost]
-        public IHttpActionResult Post([FromBody] Availability availability)
+        public IHttpActionResult Post([FromBody] Entities.Availability availability)
         {
             // update av
             _service.Update(availability);

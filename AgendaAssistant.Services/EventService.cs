@@ -101,18 +101,23 @@ namespace AgendaAssistant.Services
             dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlights, evn.Origin, evn.Destination, evn.BeginDate, evn.EndDate, evn.DaysOfWeek, evn.MaxPrice);
             dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlights, evn.Destination, evn.Origin, evn.BeginDate, evn.EndDate, evn.DaysOfWeek, evn.MaxPrice);
             
-            // add green availability for all flights for organizer
-            var organizerParticipant = dbEvent.Participants.SingleOrDefault(p => p.Email.Equals(dbEvent.OrganizerEmail));
-            if (organizerParticipant != null)
+            // create avaiablities for all participants
+            var availabilityRepository = new AvailabilityRepository(_dbContext);
+            foreach (var dbParticipant in dbEvent.Participants)
             {
-                var availabilityRepository = new AvailabilityRepository(_dbContext);
+                bool isOrganizer = dbParticipant.Email.Equals(dbEvent.OrganizerEmail);
+
+                short? value = isOrganizer ? (short?)100 : null;
 
                 foreach (var dbFlight in dbEvent.OutboundFlightSearch.Flights)
-                    availabilityRepository.Create(organizerParticipant, dbFlight, 100);
+                    availabilityRepository.Create(dbParticipant, dbFlight, value);
                 foreach (var dbFlight in dbEvent.InboundFlightSearch.Flights)
-                    availabilityRepository.Create(organizerParticipant, dbFlight, 100);
+                    availabilityRepository.Create(dbParticipant, dbFlight, value);
 
-                organizerParticipant.AvailabilityConfirmed = true;
+                if (isOrganizer)
+                {
+                    dbParticipant.AvailabilityConfirmed = true;
+                }
             }
 
             dbEvent.StatusID = EventStatusEnum.NewCompleted;
