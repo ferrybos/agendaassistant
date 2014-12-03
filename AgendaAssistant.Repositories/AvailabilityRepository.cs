@@ -19,7 +19,7 @@ namespace AgendaAssistant.Repositories
         {
         }
 
-        public Availability Create(Participant dbParticipant, Flight dbFlight)
+        public Availability Create(Participant dbParticipant, Flight dbFlight, short? value = null)
         {
 
             var dbAvailability = DbContext.Availabilities.Create();
@@ -27,7 +27,7 @@ namespace AgendaAssistant.Repositories
 
             dbAvailability.FlightID = dbFlight.ID;
             dbAvailability.Comment = "";
-            dbAvailability.Value = null;
+            dbAvailability.Value = value;
 
             return dbAvailability;
         }

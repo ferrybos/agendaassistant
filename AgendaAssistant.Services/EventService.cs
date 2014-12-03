@@ -91,14 +91,30 @@ namespace AgendaAssistant.Services
         {
             var dbEvent = _repository.Single(GuidUtil.ToGuid(evn.Id));
 
+            // update event details
             dbEvent.Title = evn.Title;
             dbEvent.Description = evn.Description;
             dbEvent.OrganizerName = evn.OrganizerName;
             dbEvent.OrganizerEmail = evn.OrganizerEmail;
-
             
+            // add selected flights
             dbEvent.OutboundFlightSearch = AddFlightSearch(evn.OutboundFlights, evn.Origin, evn.Destination, evn.BeginDate, evn.EndDate, evn.DaysOfWeek, evn.MaxPrice);
             dbEvent.InboundFlightSearch = AddFlightSearch(evn.InboundFlights, evn.Destination, evn.Origin, evn.BeginDate, evn.EndDate, evn.DaysOfWeek, evn.MaxPrice);
+            
+            // add green availability for all flights for organizer
+            var organizerParticipant = dbEvent.Participants.SingleOrDefault(p => p.Email.Equals(dbEvent.OrganizerEmail));
+            if (organizerParticipant != null)
+            {
+                var availabilityRepository = new AvailabilityRepository(_dbContext);
+
+                foreach (var dbFlight in dbEvent.OutboundFlightSearch.Flights)
+                    availabilityRepository.Create(organizerParticipant, dbFlight, 100);
+                foreach (var dbFlight in dbEvent.InboundFlightSearch.Flights)
+                    availabilityRepository.Create(organizerParticipant, dbFlight, 100);
+
+                organizerParticipant.AvailabilityConfirmed = true;
+            }
+
             dbEvent.StatusID = EventStatusEnum.NewCompleted;
             _dbContext.Current.SaveChanges();
 
