@@ -74,7 +74,7 @@ namespace AgendaAssistant.Repositories
                 DbContext.Availabilities.Where(a => a.ParticipantID.Equals(participantId)).ToList();
         }
 
-        public void Update(Guid participantId, long flightId, short value, string comment)
+        public void Update(Guid participantId, long flightId, short? value, string comment)
         {
             var dbAvailability = Single(participantId, flightId);
 

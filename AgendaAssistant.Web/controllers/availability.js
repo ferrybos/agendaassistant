@@ -2,7 +2,6 @@
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeTabIndex = 0;
-    $scope.eventUrl = "";
     $rootScope.infoMessage = "";
     $scope.participant = null;
     $scope.isConfirming = false;
@@ -14,10 +13,8 @@
             .success(function(data) {
                 $log.log("event = " + JSON.stringify(data));
                 $scope.event = data;
-                $scope.eventUrl = "#/event/" + $scope.event.id; // + "/" + $routeParams.participantid;
                 
-                // todo: find participant in event.participants
-                $log.log("participants: " + $scope.event.participants.length);
+                //$scope.participant = $filter('filter')($scope.event.participants, { id: $routeParams.participantid }, true);
                 $scope.participant = $scope.event.participants[0];
                 
                 if ($scope.participant.avConfirmed)

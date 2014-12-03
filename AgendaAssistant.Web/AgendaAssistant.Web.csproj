@@ -96,7 +96,6 @@
     <Content Include="controllers\event.js" />
     <Content Include="controllers\home.js" />
     <Content Include="controllers\newevent.js" />
-    <Content Include="controllers\participant.js" />
     <Content Include="css\app.css" />
     <Content Include="css\extra.css" />
     <Content Include="directives\flightSearch.js" />
