@@ -28,6 +28,10 @@
     
     $scope.Confirm = function () {
         $scope.isConfirming = true;
+
+        // check if all availability is set
+        
+        
         availabilityService.confirm($scope.participant.id)
             .success(function (data) {
                 $scope.isConfirming = false;
@@ -41,7 +45,7 @@
             })
             .error(function (error) {
                 $scope.isConfirming = false;
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
             });
     };
 });

@@ -11,9 +11,7 @@
             $log.log(JSON.stringify($scope.event));
             
             if ($scope.event.isConfirmed) {
-                //$scope.GoToEvent();
-                $scope.isConfirmSucceeded = true;
-                $scope.isConfirming = false;
+                $scope.GoToEvent();
                 $log.log("Al bevestigd");
             } else {
                 eventService.confirm($routeParams.id)
@@ -38,12 +36,12 @@
                 if (participant.person.email != $scope.event.organizerEmail)
                     this.push(participant);
             }, result);
-
-            return result;
         }
+        
+        return result;
     };
     
     $scope.GoToEvent = function () {
-        //$location.path("/event/" + $routeParams.id);
+        $location.path("/event/" + $routeParams.id);
     };
 });

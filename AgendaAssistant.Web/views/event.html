@@ -10,7 +10,7 @@
         <event-description event="event"></event-description>
         <event-actions event="event"></event-actions>
 
-        <div class="row" style="margin-top: 20px">
+        <div class="row">
             <h4>Deelnemers</h4>
             <table class="table table-responsive">
                 <thead>
@@ -29,7 +29,7 @@
                         <td><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
                         <td>{{::participant.person.email}}</td>
                         <td>{{::participant.person.firstNameInPassport}} {{::participant.person.lastNameInPassport}} ({{::genderDisplayName(participant.person.gender)}}) {{::participant.person.dateOfBirth | date : 'dd-MMM-yyyy'}}</td>
-                        <td>{{::bagageDisplayName(participant.bagage)}}</td>
+                        <td>{{::bagageDisplayName(participant)}}</td>
                         <td ng-class="{unconfirmed: participant.avConfirmed == false}">{{::participantStatus(participant)}}</td>
                     </tr>
                 </tbody>
@@ -40,7 +40,7 @@
             Vluchtprijzen worden opnieuw opgehaald...
         </loader>
 
-        <div class="row" style="margin-top: 20px">
+        <div class="row">
             <div class="col-md-6 leftcol">
                 <h4>Heen vlucht ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
                 <flight-search-availability event="event" flightsearch="event.outboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>

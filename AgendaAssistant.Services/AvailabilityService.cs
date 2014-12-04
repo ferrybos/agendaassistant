@@ -101,6 +101,13 @@ namespace AgendaAssistant.Services
         public void Confirm(string participantId)
         {
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
+
+            var isNotComplete = dbParticipant.Availabilities.Any(a => !a.Value.HasValue);
+            if (isNotComplete)
+            {
+                throw new ApplicationException("U heeft nog niet alle beschikbaarheid ingevuld.");
+            }
+
             var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
             // dont send to myself if the organizer is a participant also

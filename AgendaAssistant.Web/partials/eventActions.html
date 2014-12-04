@@ -3,9 +3,11 @@
         <span ng-class="isActionsExpanded === true ? 'glyphicon glyphicon-chevron-down' : 'glyphicon glyphicon-chevron-up'" style="margin-right: 4px"></span>Acties
     </div>-->
 <!--<div class="panel-body">-->
-<div style="margin-bottom: 20px">
-    <a href="" ng-show="!areFlightsSelected()" ng-click="event.isPushpinActive = true" style="margin-right: 20px"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
-    <a href="" ng-show="event.pnr == null && areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Bevestiging sturen naar deelnemers</a>
+<h4>Opties</h4>
+<!--<info>Alle deelnemers hebben hun beschikbaarheid ingevuld. U kunt nu de vluchten prikken!</info>-->
+<div>
+    <a href="" ng-show="!areFlightsSelected()" ng-click="event.isPushpinActive = true" style="margin-right: 20px;font-weight:bold"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
+    <a href="" ng-show="event.pnr == null && areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px;font-weight:bold"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Herinnering sturen naar deelnemers</a>
 </div>
 <!--<a href="" ng-click="areSelectedFlightsValid() ? openDeepLink() : null" ng-class="!areSelectedFlightsValid() ? 'disabled' : ''" style="margin-right: 20px"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</a>-->
 <!--</div>-->

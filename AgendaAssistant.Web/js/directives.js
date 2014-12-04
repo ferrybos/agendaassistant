@@ -317,7 +317,7 @@ app.directive('participantdata', function ($log, $filter, participantService, $t
                     .success(function (data) {
                         $scope.isConfirming = false;
                         $scope.participant.bdConfirmed = true;
-                        $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
+                        $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens.", show: true });
                     })
                     .error(function (error) {
                         $scope.isConfirming = false;
@@ -389,19 +389,6 @@ app.directive('eventActions', function () {
             $scope.areSelectedFlightsValid = function () {
                 return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
                     $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
-            };
-            
-            $scope.SetStatus = function () {
-                $log.log("SetStatus: ");
-
-                //eventService.update($scope.participant)
-                //    .success(function (data) {
-                //        //$scope.isConfirmed = true;
-                //        $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens. Er is een email verstuurd naar de organisator.", show: true });
-                //    })
-                //    .error(function (error) {
-                //        $modal({ title: error.message, content: error.exceptionMessage, show: true });
-                //    });
             };
         },
         templateUrl: '../partials/eventActions.html'

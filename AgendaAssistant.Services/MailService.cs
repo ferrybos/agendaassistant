@@ -170,24 +170,24 @@ namespace AgendaAssistant.Services
                 dbEvent, 
                 string.Format("Uitnodigingen versturen: {0}", dbEvent.Title),
                 string.Format("U heeft de afspraak '<strong>{0}</strong>' aangemaakt.", dbEvent.Title), 
-                "Klik op de onderstaande link om de uitnodigingen te versturen.",
+                "Klik op de onderstaande link om de uitnodigingen te versturen. Deze link kunt u later ook gebruiken om de afspraak te beheren.",
                 ConfirmEventUrl(dbEvent), 
                 "Uitnodigingen versturen");
         }
 
         public void SendInvitation(Event dbEvent, Participant dbParticipant)
         {
+            if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
+                return;
+
             string announcement = string.Format("{0} wil een vlucht prikken voor de afspraak '{1}'.",
                                                 dbEvent.OrganizerName, dbEvent.Title);
-
-            if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
-                announcement = "Vul voor jezelf ook je voorkeuren in. Tegelijk kun je ook je boekinggegevens als paspoortnaam en bagage invullen.";
-
+           
             SendToParticipant(
                 dbParticipant,
                 string.Format("Uitnodiging van {0}: {1}", dbEvent.OrganizerName, dbEvent.Title),
                 announcement,
-                "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid op te geven. Bewaar deze email om later nog uw beschikbaarheid te kunnen wijzigen.",
+                "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid en boekingsgegevens op te geven. Bewaar deze email om later nog uw beschikbaarheid en boekingsgegevens te kunnen wijzigen.",
                 AvailabilityUrl(dbParticipant),
                 "Beschikbaarheid invullen of wijzigen"
                 );
@@ -204,20 +204,6 @@ namespace AgendaAssistant.Services
                         EventUrl(dbEvent),
                         "Afspraak beheren");
         }
-
-        //public void SendBookingDetails(Participant dbParticipant)
-        //{
-        //    var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
-
-        //    SendToOrganizer(
-        //                dbEvent,
-        //                string.Format("Boekingsgegevens gewijzigd: {0} ({1})", dbEvent.Title, dbParticipant.Name),
-        //                string.Format("{0} heeft boekingsgegevens gewijzigd voor de afspraak '<strong>{1}</strong>'.",
-        //                              dbParticipant.Name, dbEvent.Title),
-        //                "Klik op de onderstaande link om de afspraak te beheren.",
-        //                EventUrl(dbEvent),
-        //                "Afspraak beheren");
-        //}
 
         public void SendMessage(Event dbEvent, Participant dbParticipant, string text)
         {
@@ -281,7 +267,6 @@ namespace AgendaAssistant.Services
         void SendInvitation(Event dbEvent, Participant dbParticipant);
         void SendInvitationConfirmation(Event dbEvent);
         void SendAvailabilityUpdate(Event dbEvent, Participant dbParticipant);
-        //void SendBookingDetails(Participant dbParticipant);
         void SendMessage(Event dbEvent, Participant dbParticipant, string text);
 
         void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant);

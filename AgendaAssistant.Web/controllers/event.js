@@ -122,10 +122,12 @@
             return "?";
     };
     
-    $scope.bagageDisplayName = function (bagage) {
-        if (bagage == "B15")
+    $scope.bagageDisplayName = function (participant) {
+        if (!participant.bdConfirmed)
+            return "";
+        if (participant.bagage == "B15")
             return "15 kg";
-        else if (bagage == "B20")
+        else if (participant.bagage == "B20")
             return "20 kg";
         else
             return "Geen";
