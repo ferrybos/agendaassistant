@@ -55,7 +55,7 @@ namespace AgendaAssistant.Services
                                                    participant.Person.LastNameInPassport, participant.Person.DateOfBirth,
                                                    gender);
 
-            _mailService.SendBookingDetails(dbParticipant);
+            //_mailService.SendBookingDetails(dbParticipant);
 
             dbParticipant.BookingDetailsConfirmed = true;
             _dbContext.Current.SaveChanges();

@@ -2,8 +2,9 @@
     <h1>{{event.title}}</h1>
     <div ng-show="event != null && event.isConfirmed == false">
         <loader ng-if="isConfirming === true">
-        Uitnodigingen worden verstuurd...
-    </loader>
+            Uitnodigingen worden verstuurd...
+        </loader>
+        
         <div ng-if="isConfirmSucceeded === true">
             <h4>De uitnodigingen zijn verstuurd!</h4>
             <p>Naar de volgende deelnemers is een uitnodiging verstuurd:</p>
@@ -15,14 +16,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="participant in event.participants">
+                    <tr ng-repeat="participant in participantsToDisplay()">
                         <td>{{participant.person.name}}</td>
                         <td>{{participant.person.email}}</td>
                     </tr>
                 </tbody>
             </table>
-            <p>Er is ter bevestiging een email naar jou gestuurd op {{::event.organizerEmail}}.</p>
-            <button type="button" class="btn btn-lg btn-primary" ng-click="GoToEvent()" style="margin-top:20px">Afspraak beheren</button>
+            
+            <button type="button" class="btn btn-lg btn-primary" ng-click="GoToEvent()" style="margin-top: 20px">Afspraak beheren</button>
         </div>
     </div>
 </div>

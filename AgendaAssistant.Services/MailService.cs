@@ -205,19 +205,19 @@ namespace AgendaAssistant.Services
                         "Afspraak beheren");
         }
 
-        public void SendBookingDetails(Participant dbParticipant)
-        {
-            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
+        //public void SendBookingDetails(Participant dbParticipant)
+        //{
+        //    var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
 
-            SendToOrganizer(
-                        dbEvent,
-                        string.Format("Boekingsgegevens gewijzigd: {0} ({1})", dbEvent.Title, dbParticipant.Name),
-                        string.Format("{0} heeft boekingsgegevens gewijzigd voor de afspraak '<strong>{1}</strong>'.",
-                                      dbParticipant.Name, dbEvent.Title),
-                        "Klik op de onderstaande link om de afspraak te beheren.",
-                        EventUrl(dbEvent),
-                        "Afspraak beheren");
-        }
+        //    SendToOrganizer(
+        //                dbEvent,
+        //                string.Format("Boekingsgegevens gewijzigd: {0} ({1})", dbEvent.Title, dbParticipant.Name),
+        //                string.Format("{0} heeft boekingsgegevens gewijzigd voor de afspraak '<strong>{1}</strong>'.",
+        //                              dbParticipant.Name, dbEvent.Title),
+        //                "Klik op de onderstaande link om de afspraak te beheren.",
+        //                EventUrl(dbEvent),
+        //                "Afspraak beheren");
+        //}
 
         public void SendMessage(Event dbEvent, Participant dbParticipant, string text)
         {
@@ -281,7 +281,7 @@ namespace AgendaAssistant.Services
         void SendInvitation(Event dbEvent, Participant dbParticipant);
         void SendInvitationConfirmation(Event dbEvent);
         void SendAvailabilityUpdate(Event dbEvent, Participant dbParticipant);
-        void SendBookingDetails(Participant dbParticipant);
+        //void SendBookingDetails(Participant dbParticipant);
         void SendMessage(Event dbEvent, Participant dbParticipant, string text);
 
         void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant);

@@ -78,9 +78,12 @@ namespace AgendaAssistant.Services
             if (_repository.Confirm(GuidUtil.ToGuid(id)))
             {
                 foreach (var dbParticipant in dbEvent.Participants)
+                {
+                    if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail)) continue;
                     _mailService.SendInvitation(dbEvent, dbParticipant);
+                }
 
-                _mailService.SendInvitationConfirmation(dbEvent);
+                //_mailService.SendInvitationConfirmation(dbEvent);
 
                 dbEvent.StatusID = EventStatusEnum.InvitationsSent;
                 _dbContext.Current.SaveChanges();

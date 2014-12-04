@@ -11,8 +11,10 @@
             $log.log(JSON.stringify($scope.event));
             
             if ($scope.event.isConfirmed) {
-                $scope.GoToEvent();
-                //$log.log("Al bevestigd");
+                //$scope.GoToEvent();
+                $scope.isConfirmSucceeded = true;
+                $scope.isConfirming = false;
+                $log.log("Al bevestigd");
             } else {
                 eventService.confirm($routeParams.id)
                     .success(function (data) {
@@ -28,7 +30,20 @@
         });
     };
 
+    $scope.participantsToDisplay = function() {
+        var result = [];
+
+        if ($scope.event != null) {
+            angular.forEach($scope.event.participants, function(participant) {
+                if (participant.person.email != $scope.event.organizerEmail)
+                    this.push(participant);
+            }, result);
+
+            return result;
+        }
+    };
+    
     $scope.GoToEvent = function () {
-        $location.path("/event/" + $routeParams.id);
+        //$location.path("/event/" + $routeParams.id);
     };
 });

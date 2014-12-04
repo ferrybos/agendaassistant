@@ -124,8 +124,8 @@
     $scope.AddParticipant = function () {
         insights.logEvent('User Creates participant');
 
-        if ($scope.newParticipantName.length == 0 || $scope.newParticipantEmail.length == 0) {
-            $modal({ title: "Deelnemer toevoegen", content: "Vul naam en email in", show: true });
+        if ($scope.newParticipantName.length == 0 || $scope.newParticipantEmail == undefined || $scope.newParticipantEmail.length == 0) {
+            $modal({ title: "Deelnemer toevoegen", content: "Vul naam en geldig email in", show: true });
         } else {
             var participant = { eventId: $scope.event.id, person: { name: $scope.newParticipantName, email: $scope.newParticipantEmail } };
 
