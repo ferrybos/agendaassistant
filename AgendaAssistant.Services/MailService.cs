@@ -83,6 +83,8 @@ namespace AgendaAssistant.Services
             var selectedOutboundFlight = dbEvent.OutboundFlightSearch.SelectedFlight;
             var selectedInboundFlight = dbEvent.InboundFlightSearch.SelectedFlight;
 
+            htmlBuilder.AppendLine(string.Format("Transavia boekingsnummer: <strong>{0}</strong><br /><br />", dbEvent.PNR));
+
             htmlBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>",
                                                  selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM",
                                                                                                CultureInfo.GetCultureInfo(
@@ -101,12 +103,14 @@ namespace AgendaAssistant.Services
                                    selectedInboundFlight.FlightNumber.ToString());
             htmlBuilder.AppendLine("<br /><br />");
 
-            textBuilder.AppendLine(string.Format("<strong>Heen vlucht: {0}</strong>", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            textBuilder.AppendLine(string.Format("Transavia boekingsnummer: {0}", dbEvent.PNR));
+
+            textBuilder.AppendLine(string.Format("Heen vlucht: {0}", selectedOutboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
             textBuilder.AppendLine("Vertrek: " + selectedOutboundFlight.STD.ToString("HH:mm"));
             textBuilder.AppendLine("Aankomst: " + selectedOutboundFlight.STA.ToString("HH:mm"));
             textBuilder.AppendLine("Vluchtnummer: " + selectedOutboundFlight.CarrierCode + " " + selectedOutboundFlight.FlightNumber.ToString());
             textBuilder.AppendLine("");
-            textBuilder.AppendLine(string.Format("<strong>Terug vlucht: {0}</strong>", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
+            textBuilder.AppendLine(string.Format("Terug vlucht: {0}", selectedInboundFlight.DepartureDate.ToString("dddd d MMMM", CultureInfo.GetCultureInfo("nl-NL"))));
             textBuilder.AppendLine("Vertrek: " + selectedInboundFlight.STD.ToString("HH:mm"));
             textBuilder.AppendLine("Aankomst: " + selectedInboundFlight.STA.ToString("HH:mm"));
             textBuilder.AppendLine("Vluchtnummer: " + selectedInboundFlight.CarrierCode + " " + selectedInboundFlight.FlightNumber.ToString());

@@ -9,8 +9,12 @@
             <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
             <select id="Select1" class="form-control" ng-model="participant.bagage">
                 <option value="">Geen</option>
-                <option value="B15">15 kg</option>
-                <option value="B20">20 kg</option>
+                <option value="B15">15 kg (15 EUR)</option>
+                <option value="B20">20 kg (20 EUR)</option>
+                <option value="B25">25 kg (25 EUR)</option>
+                <option value="B30">30 kg (35 EUR)</option>
+                <option value="B40">40 kg (45 EUR)</option>
+                <option value="B50">50 kg (75 EUR)</option>
             </select>
         </div>
     </div>
@@ -50,17 +54,17 @@
             <div class="form-group" show-errors='{showSuccess: true}'>
                 <label class="control-label" for="dateOfBirth">Geboortedatum *</label>
                 <div>
-                    <div style="float: left">
+                    <div style="float: left;margin-right: 2px">
                         <select name="day" class="form-control" ng-model="day" style="display: table-cell" required>
                             <option ng-repeat="d in days" value="{{d}}">{{d}}</option>
                         </select>
                     </div>
-                    <div style="float: left">
+                    <div style="float: left;margin-right: 2px">
                         <select name="month" class="form-control" ng-model="month" style="display: table-cell" required>
                             <option ng-repeat="m in months" value="{{$index}}">{{m}}</option>
                         </select>
                     </div>
-                    <div style="float: left">
+                    <div style="float: left;margin-right: 2px">
                         <select name="month" class="form-control" ng-model="year" style="display: table-cell" required>
                             <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
                         </select>

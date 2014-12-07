@@ -5,7 +5,8 @@
     <h1>{{::event.title}}</h1>
     <event-sub-title event="event"></event-sub-title>
     <event-description event="event"></event-description>
-    <h4>Deelnemer {{participant.person.name}}</h4>View:{{view}}
+    <h4>Deelnemer {{participant.person.name}}</h4>
+    View:{{view}}
     <div ng-if="event.pnr == null">
         <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
             <a role="button" class="btn" ng-class="activeTabIndex == 0 ? 'btn-primary' : 'btn-default'" ng-click="activeTabIndex = 0">Beschikbaarheid</a>
@@ -18,7 +19,12 @@
                 <a ng-click="participant.avConfirmed = false" style="cursor: pointer">Beschikbaarheid wijzigen</a>
             </div>
             <div ng-show="participant.avConfirmed !== true">
-                <info>Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.</info>
+                <info>
+                    Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.
+                    <p>
+                Prijzen zijn vanaf-prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
+            </p>
+                </info>
 
                 <div class="row">
                     <div class="col-md-6 leftcol">
