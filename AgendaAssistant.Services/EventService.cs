@@ -22,7 +22,7 @@ namespace AgendaAssistant.Services
 
         void SelectFlight(string eventId, long flightSearchId, long flightId);
         Event RefreshFlights(string eventId);
-        void ConfirmFlightsToParticipants(string id);
+        void SendReminder(string eventId);
         void SetPnr(string id, string pnr);
     }
 
@@ -185,17 +185,17 @@ namespace AgendaAssistant.Services
             return EntityMapper.Map(dbEvent, includeFlights: true, includeParticipants:false, includeAvailability: false);
         }
 
-        public void ConfirmFlightsToParticipants(string id)
+        public void SendReminder(string eventId)
         {
-            var dbEvent = _repository.Single(GuidUtil.ToGuid(id));
+            var dbEvent = _repository.Single(GuidUtil.ToGuid(eventId));
 
             foreach (var dbParticipant in dbEvent.Participants)
             {
-                _mailService.SendFlightsConfirmation(dbEvent, dbParticipant);
+                _mailService.SendReminder(dbEvent, dbParticipant);
             }
 
-            dbEvent.StatusID = EventStatusEnum.PushpinCompleted;
-            _dbContext.Current.SaveChanges();
+            //dbEvent.StatusID = EventStatusEnum.PushpinCompleted;
+            //_dbContext.Current.SaveChanges();
         }
 
         public void SetPnr(string id, string pnr)

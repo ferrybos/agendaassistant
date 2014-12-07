@@ -147,13 +147,13 @@ namespace AgendaAssistant.Web.api
             }
         }
 
-        [Route("confirmflightstoparticipants")]
+        [Route("sendreminder")]
         [HttpPost]
-        public IHttpActionResult ConfirmFlightsToParticipants([FromBody]InputData data)
+        public IHttpActionResult SendReminder([FromBody]InputData data)
         {
             try
             {
-                _service.ConfirmFlightsToParticipants(data.Id);
+                _service.SendReminder(data.Id);
 
                 return Ok();
             }

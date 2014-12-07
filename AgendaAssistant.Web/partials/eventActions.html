@@ -4,11 +4,17 @@
     </div>-->
 <!--<div class="panel-body">-->
 <h4>Opties</h4>
-<!--<info>Alle deelnemers hebben hun beschikbaarheid ingevuld. U kunt nu de vluchten prikken!</info>-->
-<div>
-    <a href="" ng-show="!areFlightsSelected()" ng-click="event.isPushpinActive = true" style="margin-right: 20px;font-weight:bold"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a>
-    <a href="" ng-show="event.pnr == null && areSelectedFlightsValid()" ng-click="areSelectedFlightsValid() ? confirmFlightsToParticipants() : null" style="margin-right: 20px;font-weight:bold"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Herinnering sturen naar deelnemers</a>
+<div class="row" ng-show="organizerIsParticipant()" style="margin-bottom:10px">
+    <div style="float:left;width:300px">
+    <a href="#/availability/{{organizerId()}}?view=av" ng-show="true" ng-click="" style="margin-right: 20px; font-weight: bold"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid wijzigen</a></div>
+    <div style="float:left;width:300px"><a href="#/availability/{{organizerId()}}?view=bd" ng-show="true" ng-click="" style="margin-right: 20px; font-weight: bold"><span class="glyphicon glyphicon-briefcase" style="margin-right: 4px"></span>Boekingsgegevens wijzigen</a></div>
 </div>
+<div class="row" style="margin-bottom:10px">
+    <div style="float:left;width:300px"><a href="" ng-show="!areFlightsSelected()" ng-click="event.isPushpinActive = true" style="margin-right: 20px; font-weight: bold"><span class="glyphicon glyphicon-pushpin" style="margin-right: 4px"></span>Vluchten prikken</a></div>
+    <div style="float:left;width:300px"><a href="" ng-show="event.pnr == null" ng-click="sendReminder()" style="margin-right: 20px; font-weight: bold"><span class="glyphicon glyphicon-envelope" style="margin-right: 4px"></span>Herinnering sturen naar deelnemers</a></div>
+</div>
+
+<info ng-show="hilightSelectFlight()">Alle deelnemers hebben hun beschikbaarheid ingevuld. U kunt nu de vluchten prikken!</info>
 <!--<a href="" ng-click="areSelectedFlightsValid() ? openDeepLink() : null" ng-class="!areSelectedFlightsValid() ? 'disabled' : ''" style="margin-right: 20px"><span class="glyphicon glyphicon-plane" style="margin-right: 4px"></span>Boeken op transavia.com</a>-->
 <!--</div>-->
 <!--</div>-->

@@ -1,13 +1,13 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, Constants, availabilityService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, $location, Constants, availabilityService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeTabIndex = 0;
     $rootScope.infoMessage = "";
     $scope.participant = null;
     $scope.isConfirming = false;
-
-    getData();
     
+    getData();
+
     function getData() {
         availabilityService.get($routeParams.participantid)
             .success(function(data) {
@@ -16,9 +16,19 @@
                 
                 //$scope.participant = $filter('filter')($scope.event.participants, { id: $routeParams.participantid }, true);
                 $scope.participant = $scope.event.participants[0];
-                
-                if ($scope.participant.avConfirmed)
-                    $scope.activeTabIndex = 1;
+
+                var view = $location.search().view;
+                if (view != undefined) {
+                    if (view == "av") {
+                        $scope.activeTabIndex = 0;
+                    } else if (view == "bd") {
+                        $scope.activeTabIndex = 1;
+                    }
+                } else {
+                    if ($scope.participant.avConfirmed) {
+                        $scope.activeTabIndex = 1;
+                    }
+                }
             })
             .error(function(error) {
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });

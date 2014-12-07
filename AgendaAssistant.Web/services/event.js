@@ -31,8 +31,8 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
         return $http.post(urlBase + '/refreshflights', { id: id });
     };
 
-    this.confirmFlightsToParticipants = function (id) {
-        return $http.post(urlBase + '/confirmflightstoparticipants', { id: id });
+    this.sendReminder = function (id) {
+        return $http.post(urlBase + '/sendReminder', { id: id });
     };
 
     this.setpnr = function(id, pnr) {

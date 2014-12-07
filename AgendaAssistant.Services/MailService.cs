@@ -113,32 +113,33 @@ namespace AgendaAssistant.Services
             textBuilder.AppendLine("");
         }
 
-        public void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant)
+        public void SendReminder(Event dbEvent, Participant dbParticipant)
         {
-            var subject = string.Format("{0}: Vluchten zijn geprikt!", dbEvent.Title);
+            if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
+                return;
 
-            var salutation = string.Format("Beste {0}", dbParticipant.Name);
-            var announcement = string.Format("Hieronder vind u de vlucht informatie voor de afspraak '{0}'.", dbEvent.Title);
+            if (dbParticipant.AvailabilityConfirmed && dbParticipant.BookingDetailsConfirmed)
+                return;
 
-            var htmlBuilder = new StringBuilder();
-            htmlBuilder.AppendLine(salutation);
-            htmlBuilder.AppendLine("<br /><br />");
-            htmlBuilder.AppendLine(announcement);
-            htmlBuilder.AppendLine("<br />Wanneer alle deelnemers hun boekingsgegevens hebben ingevuld, zal de organisator de vluchten definitief gaan boeken.");
-            htmlBuilder.AppendLine("<br /><br />");            
+            string confirmedText = "";
+            if (!dbParticipant.AvailabilityConfirmed && !dbParticipant.BookingDetailsConfirmed)
+                confirmedText = "beschikbaarheid en boekingsgegevens";
+            else if (!dbParticipant.AvailabilityConfirmed && dbParticipant.BookingDetailsConfirmed)
+                confirmedText = "beschikbaarheid";
+            else if (dbParticipant.AvailabilityConfirmed && !dbParticipant.BookingDetailsConfirmed)
+                confirmedText = "boekingsgegevens";
 
-            var textBuilder = new StringBuilder();
-            textBuilder.AppendLine(salutation);
-            textBuilder.AppendLine("");
-            textBuilder.AppendLine(announcement);
-            textBuilder.AppendLine("Wanneer alle deelnemers hun boekingsgegevens hebben ingevuld, zal de organisator de vluchten definitief gaan boeken.");
-            textBuilder.AppendLine("");
+            string announcement = string.Format("U heeft uw {0} nog niet bevestigd voor de afspraak '{1}'.",
+                                                confirmedText, dbEvent.Title);
 
-            AddFlightInformation(dbEvent, htmlBuilder, textBuilder);
-
-            var body = new EmailBody() { Html = htmlBuilder.ToString(), Text = textBuilder.ToString() };
-
-            Send(dbParticipant.Email, subject, body);
+            SendToParticipant(
+                dbParticipant,
+                string.Format("{0}: Herinnering", dbEvent.Title),
+                announcement,
+                "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid en boekingsgegevens op te geven.",
+                AvailabilityUrl(dbParticipant),
+                "Beschikbaarheid invullen of wijzigen"
+                );
         }
 
         public void Send(List<String> recipients, string subject, EmailBody body)
@@ -269,7 +270,7 @@ namespace AgendaAssistant.Services
         void SendAvailabilityUpdate(Event dbEvent, Participant dbParticipant);
         void SendMessage(Event dbEvent, Participant dbParticipant, string text);
 
-        void SendFlightsConfirmation(Event dbEvent, Participant dbParticipant);
+        void SendReminder(Event dbEvent, Participant dbParticipant);
 
         void SendToOrganizer(Event dbEvent, string subject, string announcement, string action, string linkUrl,
                              string linkText);
