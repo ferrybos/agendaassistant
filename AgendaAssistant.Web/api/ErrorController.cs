@@ -6,12 +6,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Services;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Entities;
+using Vluchtprikker.Repositories;
+using Vluchtprikker.Services;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Web.api
+namespace Vluchtprikker.Web.api
 {
     public class ClientException
     {

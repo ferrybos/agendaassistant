@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Entities;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Repositories
+namespace Vluchtprikker.Repositories
 {
     public static class EntityMapper
     {
-        public static Event Map(DB.Event dbEvent, bool includeParticipants = true, bool includeFlights = true, bool includeAvailability = true)
+        public static Event Map(Vluchtprikker.DB.Event dbEvent, bool includeParticipants = true, bool includeFlights = true, bool includeAvailability = true)
         {
             var evn = new Event()
                 {
@@ -65,7 +65,7 @@ namespace AgendaAssistant.Repositories
         //    return new EventStatus() { Id = eventStatus.ID, Description = eventStatus.Description };
         //}
 
-        public static FlightSearch Map(DB.FlightSearch dbFlightSearch)
+        public static FlightSearch Map(Vluchtprikker.DB.FlightSearch dbFlightSearch)
         {
             if (dbFlightSearch == null)
                 return null;
@@ -94,7 +94,7 @@ namespace AgendaAssistant.Repositories
             return flightSearch;
         }
 
-        public static Flight Map(DB.Flight dbFlight)
+        public static Flight Map(Vluchtprikker.DB.Flight dbFlight)
         {
             return new Flight
                 {
@@ -111,7 +111,7 @@ namespace AgendaAssistant.Repositories
                 };
         }
 
-        public static Availability Map(DB.Availability dbAvailability, DB.Participant dbParticipant)
+        public static Availability Map(Vluchtprikker.DB.Availability dbAvailability, Vluchtprikker.DB.Participant dbParticipant)
         {
             return new Availability
             {
@@ -123,7 +123,7 @@ namespace AgendaAssistant.Repositories
             };
         }
 
-        public static Participant Map(DB.Participant dbParticipant)
+        public static Participant Map(Vluchtprikker.DB.Participant dbParticipant)
         {
             var participant = new Participant
             {
@@ -147,12 +147,12 @@ namespace AgendaAssistant.Repositories
             return participant;
         }
 
-        public static Station Map(DB.Station dbStation)
+        public static Station Map(Vluchtprikker.DB.Station dbStation)
         {
             return new Station() { Code = dbStation.Code, Name = dbStation.Name };
         }
 
-        public static Route Map(DB.Route dbRoute)
+        public static Route Map(Vluchtprikker.DB.Route dbRoute)
         {
             return new Route() { Origin = dbRoute.Origin, Destination = dbRoute.Destination };
         }

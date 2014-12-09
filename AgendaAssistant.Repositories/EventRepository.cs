@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.DB;
-using AgendaAssistant.DB.Repositories;
-using AgendaAssistant.Extensions;
-using AgendaAssistant.Shared;
+using Vluchtprikker.DB;
+using Vluchtprikker.DB.Repositories;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Repositories
+namespace Vluchtprikker.Repositories
 {
     /// <summary>
     /// Contains all logic to interface with data(base)

@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Entities;
+using Vluchtprikker.Entities;
 using ESB_API_34;
 using ESB_API_34.API34;
 using ESB_API_34.API34.BookingManager;
 
-namespace AgendaAssistant.Repositories
+namespace Vluchtprikker.Repositories
 {
     public interface IFlightRepository
     {

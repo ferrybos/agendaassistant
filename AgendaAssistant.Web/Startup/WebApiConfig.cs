@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
 
-namespace AgendaAssistant.Web.Startup
+namespace Vluchtprikker.Web.Startup
 {
     public static class WebApiConfig
     {

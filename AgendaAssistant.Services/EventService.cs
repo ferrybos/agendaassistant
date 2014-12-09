@@ -5,12 +5,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.DB;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Shared;
-using Event = AgendaAssistant.Entities.Event;
+using Vluchtprikker.Entities;
+using DB = Vluchtprikker.DB;
+using Vluchtprikker.Repositories;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Services
+namespace Vluchtprikker.Services
 {
     public interface IEventService
     {
@@ -129,7 +129,7 @@ namespace AgendaAssistant.Services
             _mailService.SendEventConfirmation(dbEvent);
         }
 
-        private FlightSearch AddFlightSearch(IEnumerable<Entities.Flight> flights, string origin, string destination, DateTime beginDate, DateTime endDate, short daysOfWeek, short? maxPrice)
+        private DB.FlightSearch AddFlightSearch(IEnumerable<Flight> flights, string origin, string destination, DateTime beginDate, DateTime endDate, short daysOfWeek, short? maxPrice)
         {
             var flightSearchRepository = new FlightSearchRepository(_dbContext);
 
@@ -215,11 +215,11 @@ namespace AgendaAssistant.Services
             }
         }
 
-        private void UpdateFlights(FlightSearch flightSearch, List<Entities.Flight> flights)
+        private void UpdateFlights(DB.FlightSearch flightSearch, List<Flight> flights)
         {
             foreach (var dbFlight in flightSearch.Flights)
             {
-                Entities.Flight updatedFlight = null;
+                Flight updatedFlight = null;
 
                 if (dbFlight.DepartureDate >= DateTime.Today)
                 {

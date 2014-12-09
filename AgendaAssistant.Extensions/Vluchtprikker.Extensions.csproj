@@ -7,8 +7,8 @@
     <ProjectGuid>{21283148-9AD7-49FD-BF0D-A7027F2C7551}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgendaAssistant.Extensions</RootNamespace>
-    <AssemblyName>AgendaAssistant.Extensions</AssemblyName>
+    <RootNamespace>Vluchtprikker.Extensions</RootNamespace>
+    <AssemblyName>Vluchtprikker.Extensions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,9 +43,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.Entities\AgendaAssistant.Entities.csproj">
+    <ProjectReference Include="..\AgendaAssistant.Entities\Vluchtprikker.Entities.csproj">
       <Project>{CA95586A-1C6D-457F-BAE4-C0707D603633}</Project>
-      <Name>AgendaAssistant.Entities</Name>
+      <Name>Vluchtprikker.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

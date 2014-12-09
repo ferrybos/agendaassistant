@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Shared;
 using Newtonsoft.Json;
 
-namespace AgendaAssistant.Entities
+namespace Vluchtprikker.Entities
 {
     public class Participant
     {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Services;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Entities;
+using Vluchtprikker.Services;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Web.api
+namespace Vluchtprikker.Web.api
 {
     public class NewEventData
     {

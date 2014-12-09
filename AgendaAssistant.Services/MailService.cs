@@ -4,13 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using AgendaAssistant.Entities;
-using AgendaAssistant.DB;
-using AgendaAssistant.Mail;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Shared;
+using Vluchtprikker.DB;
+using Vluchtprikker.Mail;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Services
+namespace Vluchtprikker.Services
 {
     public class EmailBody
     {

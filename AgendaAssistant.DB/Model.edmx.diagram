@@ -5,30 +5,30 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5fa6680d7dec4eb0a957df681893af5e" Name="Diagram1" ZoomLevel="75">
-        <EntityTypeShape EntityType="AgendaAssistantModel.Availability" Width="1.5" PointX="10" PointY="2.375" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Comment" Width="1.5" PointX="10" PointY="5.5" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.EmailType" Width="1.5" PointX="3.25" PointY="7.625" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Flight" Width="1.5" PointX="1.75" PointY="11.75" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.FlightSearch" Width="1.5" PointX="1" PointY="6.75" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Participant" Width="1.5" PointX="7.75" PointY="1.375" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Flight" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Participant" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Comment_Participant" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Flight_FlightSearch" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_FlightSearch_SelectedFlight" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Email" Width="1.5" PointX="5.5" PointY="1.875" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Email_EmailType" />
-        <AssociationConnector Association="AgendaAssistantModel.Recipient" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Route" Width="1.5" PointX="5.75" PointY="6.75" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Station" Width="1.5" PointX="7.75" PointY="8.75" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.EventStatus" Width="1.75" PointX="0.75" PointY="2.5" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Event" Width="1.5" PointX="3.25" PointY="1.25" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Email_Event" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Event_InboundFlightSearch" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Event_Status" />
-        <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Event" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Error" Width="1.5" PointX="9.75" PointY="8.75" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Availability" Width="1.5" PointX="10" PointY="2.375" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Comment" Width="1.5" PointX="10" PointY="5.5" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.EmailType" Width="1.5" PointX="3.25" PointY="7.625" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Flight" Width="1.5" PointX="1.75" PointY="11.75" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.FlightSearch" Width="1.5" PointX="1" PointY="6.75" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Participant" Width="1.5" PointX="7.75" PointY="1.375" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Availability_Flight" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Availability_Participant" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Comment_Participant" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Flight_FlightSearch" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_FlightSearch_SelectedFlight" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Email" Width="1.5" PointX="5.5" PointY="1.875" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Email_EmailType" />
+        <AssociationConnector Association="VluchtprikkerModel.Recipient" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Route" Width="1.5" PointX="5.75" PointY="6.75" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Station" Width="1.5" PointX="7.75" PointY="8.75" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.EventStatus" Width="1.75" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Event" Width="1.5" PointX="3.25" PointY="1.25" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Email_Event" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Event_InboundFlightSearch" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Event_OutboundFlightSearch" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Event_Status" />
+        <AssociationConnector Association="VluchtprikkerModel.FK_Participant_Event" />
+        <EntityTypeShape EntityType="VluchtprikkerModel.Error" Width="1.5" PointX="9.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

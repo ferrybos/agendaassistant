@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgendaAssistant.DB
+namespace Vluchtprikker.DB
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class AgendaAssistantEntities : DbContext
+    public partial class VluchtprikkerEntities : DbContext
     {
-        public AgendaAssistantEntities()
-            : base("name=AgendaAssistantEntities")
+        public VluchtprikkerEntities()
+            : base("name=VluchtprikkerEntities")
         {
         }
     

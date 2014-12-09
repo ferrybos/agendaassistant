@@ -7,7 +7,7 @@ using System.Web.Http.Dependencies;
 using System.Web.Http.Dispatcher;
 using StructureMap;
 
-namespace AgendaAssistant.Web.Startup
+namespace Vluchtprikker.Web.Startup
 {
     // https://github.com/WebApiContrib/WebApiContrib.IoC.StructureMap
     // http://www.asp.net/web-api/overview/extensibility/using-the-web-api-dependency-resolver

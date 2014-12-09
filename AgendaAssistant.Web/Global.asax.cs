@@ -9,9 +9,9 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Security;
 using System.Web.SessionState;
-using AgendaAssistant.Web.Startup;
+using Vluchtprikker.Web.Startup;
 
-namespace AgendaAssistant.Web
+namespace Vluchtprikker.Web
 {
     public class Global : System.Web.HttpApplication
     {

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Services;
-using AgendaAssistant.Shared;
-using AgendaAssistant.Web.models;
+using Vluchtprikker.Repositories;
+using Vluchtprikker.Services;
+using Vluchtprikker.Shared;
+using Vluchtprikker.Entities;
 
-namespace AgendaAssistant.Web.api
+namespace Vluchtprikker.Web.api
 {
     public class ParticipantId
     {
@@ -39,7 +38,7 @@ namespace AgendaAssistant.Web.api
 
         [Route("")]
         [HttpPost]
-        public IHttpActionResult Post([FromBody] Entities.Availability availability)
+        public IHttpActionResult Post([FromBody] Availability availability)
         {
             // update av
             _service.Update(availability);

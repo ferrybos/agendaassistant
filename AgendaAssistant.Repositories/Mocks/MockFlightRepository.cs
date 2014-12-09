@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Entities;
+using Vluchtprikker.Entities;
 
-namespace AgendaAssistant.Repositories.Mocks
+namespace Vluchtprikker.Repositories.Mocks
 {
     public class MockFlightRepository : IFlightRepository
     {

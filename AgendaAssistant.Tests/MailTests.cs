@@ -2,11 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using AgendaAssistant.DB;
-using AgendaAssistant.DB.Repositories;
-//using AgendaAssistant.Entities;
-using AgendaAssistant.Services;
-using AgendaAssistant.Shared;
+using Vluchtprikker.DB;
+using Vluchtprikker.DB.Repositories;
+//using Vluchtprikker.Entities;
+using Vluchtprikker.Services;
+using Vluchtprikker.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AgendaAssistant.Tests
@@ -21,7 +21,7 @@ namespace AgendaAssistant.Tests
         [TestInitialize]
         public void Setup()
         {
-            _mailService = new MailService(new AgendaAssistantDbContext());
+            _mailService = new MailService(new VluchtprikkerDbContext());
 
             _event = new Event()
                 {

@@ -3,13 +3,13 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
-//using AgendaAssistant.DB;
-//using AgendaAssistant.DB.Repositories;
-//using AgendaAssistant.Entities;
-//using Participant = AgendaAssistant.Entities.Participant;
-//using Person = AgendaAssistant.Entities.Person;
+//using Vluchtprikker.DB;
+//using Vluchtprikker.DB.Repositories;
+//using Vluchtprikker.Entities;
+//using Participant = Vluchtprikker.Entities.Participant;
+//using Person = Vluchtprikker.Entities.Person;
 
-//namespace AgendaAssistant.Repositories
+//namespace Vluchtprikker.Repositories
 //{
 //    public interface IEmailRepository
 //    {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AgendaAssistant.Entities
+namespace Vluchtprikker.Entities
 {
     public class FlightSearch
     {

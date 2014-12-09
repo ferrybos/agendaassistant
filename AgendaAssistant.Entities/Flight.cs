@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace AgendaAssistant.Entities
+namespace Vluchtprikker.Entities
 {
     public class Flight
     {

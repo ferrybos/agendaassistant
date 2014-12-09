@@ -7,8 +7,8 @@
     <ProjectGuid>{58E14833-3D4A-4CD5-8D26-0FAB8C16814E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScheduledJob</RootNamespace>
-    <AssemblyName>ScheduledJob</AssemblyName>
+    <RootNamespace>Vluchtprikker.ScheduledJob</RootNamespace>
+    <AssemblyName>Vluchtprikker.ScheduledJob</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -95,17 +95,17 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.DB\AgendaAssistant.DB.csproj">
+    <ProjectReference Include="..\AgendaAssistant.DB\Vluchtprikker.DB.csproj">
       <Project>{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}</Project>
-      <Name>AgendaAssistant.DB</Name>
+      <Name>Vluchtprikker.DB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Services\AgendaAssistant.Services.csproj">
+    <ProjectReference Include="..\AgendaAssistant.Services\Vluchtprikker.Services.csproj">
       <Project>{54C07956-CC9D-4B6B-9BAB-7496F48630BD}</Project>
-      <Name>AgendaAssistant.Services</Name>
+      <Name>Vluchtprikker.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
+    <ProjectReference Include="..\AgendaAssistant.Shared\Vluchtprikker.Shared.csproj">
       <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
-      <Name>AgendaAssistant.Shared</Name>
+      <Name>Vluchtprikker.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

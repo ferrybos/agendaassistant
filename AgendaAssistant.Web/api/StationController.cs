@@ -5,10 +5,10 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Services;
+using Vluchtprikker.Entities;
+using Vluchtprikker.Services;
 
-namespace AgendaAssistant.Web.api
+namespace Vluchtprikker.Web.api
 {
     public class StationsAndRoutesData
     {

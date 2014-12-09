@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AgendaAssistant.DB
+namespace Vluchtprikker.DB
 {
     using System;
     using System.Collections.Generic;

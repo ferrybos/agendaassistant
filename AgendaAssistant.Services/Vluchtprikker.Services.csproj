@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CA95586A-1C6D-457F-BAE4-C0707D603633}</ProjectGuid>
+    <ProjectGuid>{54C07956-CC9D-4B6B-9BAB-7496F48630BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgendaAssistant.Entities</RootNamespace>
-    <AssemblyName>AgendaAssistant.Entities</AssemblyName>
+    <RootNamespace>Vluchtprikker.Services</RootNamespace>
+    <AssemblyName>Vluchtprikker.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -34,8 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\Sendgrid.5.0.0\lib\SendGridMail.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,24 +49,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Availability.cs" />
-    <Compile Include="FlightSearchResponse.cs" />
-    <Compile Include="Participant.cs" />
-    <Compile Include="Event.cs" />
-    <Compile Include="Flight.cs" />
-    <Compile Include="FlightSearch.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="AvailabilityService.cs" />
+    <Compile Include="StationService.cs" />
+    <Compile Include="EventService.cs" />
+    <Compile Include="FlightService.cs" />
+    <Compile Include="MailService.cs" />
+    <Compile Include="ParticipantService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Station.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.Shared\AgendaAssistant.Shared.csproj">
-      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
-      <Name>AgendaAssistant.Shared</Name>
+    <ProjectReference Include="..\AgendaAssistant.DB\Vluchtprikker.DB.csproj">
+      <Project>{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}</Project>
+      <Name>Vluchtprikker.DB</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\AgendaAssistant.Entities\Vluchtprikker.Entities.csproj">
+      <Project>{ca95586a-1c6d-457f-bae4-c0707d603633}</Project>
+      <Name>Vluchtprikker.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Mail\Vluchtprikker.Mail.csproj">
+      <Project>{4E4A7A75-AE5F-4D99-B649-985D1E340CB4}</Project>
+      <Name>Vluchtprikker.Mail</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Repositories\Vluchtprikker.Repositories.csproj">
+      <Project>{3059cb2f-61ae-48a6-9c87-6febe53d3de3}</Project>
+      <Name>Vluchtprikker.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AgendaAssistant.Shared\Vluchtprikker.Shared.csproj">
+      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
+      <Name>Vluchtprikker.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

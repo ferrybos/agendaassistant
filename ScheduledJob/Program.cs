@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.DB.Repositories;
-using AgendaAssistant.Services;
+using Vluchtprikker.DB.Repositories;
+using Vluchtprikker.Services;
 
 namespace ScheduledJob
 {
@@ -12,7 +12,7 @@ namespace ScheduledJob
     {
         static void Main(string[] args)
         {
-            //var mailService = new MailService(new AgendaAssistantDbContext());
+            //var mailService = new MailService(new VluchtprikkerDbContext());
             //mailService.SendAvailabilityUpdates();
         }
     }

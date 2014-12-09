@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Repositories
+namespace Vluchtprikker.Repositories
 {
     public static class CodeString
     {

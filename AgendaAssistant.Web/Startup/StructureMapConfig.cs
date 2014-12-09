@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
-using AgendaAssistant.DB.Repositories;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Repositories.Mocks;
-using AgendaAssistant.Services;
-using AgendaAssistant.Shared;
+using Vluchtprikker.DB.Repositories;
+using Vluchtprikker.Repositories;
+using Vluchtprikker.Repositories.Mocks;
+using Vluchtprikker.Services;
+using Vluchtprikker.Shared;
 using StructureMap;
 
-namespace AgendaAssistant.Web.Startup
+namespace Vluchtprikker.Web.Startup
 {
     public static class StructureMapConfig
     {
@@ -24,7 +24,7 @@ namespace AgendaAssistant.Web.Startup
         {
             var container = new Container(c =>
                 {
-                    c.For<IDbContext>().Add<AgendaAssistantDbContext>();
+                    c.For<IDbContext>().Add<VluchtprikkerDbContext>();
                     c.For<IEventService>().Use<EventService>();
                     c.For<IAvailabilityService>().Use<AvailabilityService>();
                     c.For<IParticipantService>().Use<ParticipantService>();

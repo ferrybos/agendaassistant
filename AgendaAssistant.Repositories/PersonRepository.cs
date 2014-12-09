@@ -4,13 +4,13 @@
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
-//using AgendaAssistant.DB.Repositories;
-//using AgendaAssistant.Entities;
-//using AgendaAssistant.Extensions;
-//using AgendaAssistant.Shared;
-//using Person = AgendaAssistant.DB.Person;
+//using Vluchtprikker.DB.Repositories;
+//using Vluchtprikker.Entities;
+//using Vluchtprikker.Extensions;
+//using Vluchtprikker.Shared;
+//using Person = Vluchtprikker.DB.Person;
 
-//namespace AgendaAssistant.Repositories
+//namespace Vluchtprikker.Repositories
 //{
 //    /// <summary>
 //    /// Contains all logic to interface with data(base)

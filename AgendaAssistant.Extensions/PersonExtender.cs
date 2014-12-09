@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Entities;
+using Vluchtprikker.Entities;
 
-namespace AgendaAssistant.Extensions
+namespace Vluchtprikker.Extensions
 {
     public static class PersonExtender
     {

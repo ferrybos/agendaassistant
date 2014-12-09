@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Web", "AgendaAssistant.Web\AgendaAssistant.Web.csproj", "{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Web", "AgendaAssistant.Web\Vluchtprikker.Web.csproj", "{E26D959F-2D6A-43D7-8BDD-A835B2EFD1B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Entities", "AgendaAssistant.Entities\AgendaAssistant.Entities.csproj", "{CA95586A-1C6D-457F-BAE4-C0707D603633}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Entities", "AgendaAssistant.Entities\Vluchtprikker.Entities.csproj", "{CA95586A-1C6D-457F-BAE4-C0707D603633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Services", "AgendaAssistant.Services\AgendaAssistant.Services.csproj", "{54C07956-CC9D-4B6B-9BAB-7496F48630BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Services", "AgendaAssistant.Services\Vluchtprikker.Services.csproj", "{54C07956-CC9D-4B6B-9BAB-7496F48630BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Repositories", "AgendaAssistant.Repositories\AgendaAssistant.Repositories.csproj", "{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Repositories", "AgendaAssistant.Repositories\Vluchtprikker.Repositories.csproj", "{3059CB2F-61AE-48A6-9C87-6FEBE53D3DE3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9C8F87B5-0E9A-4800-BD71-CF1483F6461D}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,19 +15,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9C8F87
 		Common\HVUtil.dll = Common\HVUtil.dll
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Tests", "AgendaAssistant.Tests\AgendaAssistant.Tests.csproj", "{49D97F65-12AB-414F-A494-A31E6E9E5980}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Tests", "AgendaAssistant.Tests\Vluchtprikker.Tests.csproj", "{49D97F65-12AB-414F-A494-A31E6E9E5980}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.DB", "AgendaAssistant.DB\AgendaAssistant.DB.csproj", "{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.DB", "AgendaAssistant.DB\Vluchtprikker.DB.csproj", "{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Extensions", "AgendaAssistant.Extensions\AgendaAssistant.Extensions.csproj", "{21283148-9AD7-49FD-BF0D-A7027F2C7551}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Extensions", "AgendaAssistant.Extensions\Vluchtprikker.Extensions.csproj", "{21283148-9AD7-49FD-BF0D-A7027F2C7551}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.Shared", "AgendaAssistant.Shared\AgendaAssistant.Shared.csproj", "{9FBF6799-25E8-461A-80B4-940E8730607C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Shared", "AgendaAssistant.Shared\Vluchtprikker.Shared.csproj", "{9FBF6799-25E8-461A-80B4-940E8730607C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.SendGrid", "AgendaAssistant.Mail\AgendaAssistant.SendGrid.csproj", "{4E4A7A75-AE5F-4D99-B649-985D1E340CB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.Mail", "AgendaAssistant.Mail\Vluchtprikker.Mail.csproj", "{4E4A7A75-AE5F-4D99-B649-985D1E340CB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaAssistant.ScheduledJob", "ScheduledJob\AgendaAssistant.ScheduledJob.csproj", "{58E14833-3D4A-4CD5-8D26-0FAB8C16814E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{518A2857-135D-4C29-896D-716BB2B44264}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vluchtprikker.ScheduledJob", "ScheduledJob\Vluchtprikker.ScheduledJob.csproj", "{58E14833-3D4A-4CD5-8D26-0FAB8C16814E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -289,30 +287,6 @@ Global
 		{58E14833-3D4A-4CD5-8D26-0FAB8C16814E}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{58E14833-3D4A-4CD5-8D26-0FAB8C16814E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{58E14833-3D4A-4CD5-8D26-0FAB8C16814E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Ad-Hoc|Any CPU.Build.0 = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Ad-Hoc|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Ad-Hoc|Mixed Platforms.Build.0 = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.AppStore|Any CPU.Build.0 = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.AppStore|iPhone.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.AppStore|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.AppStore|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.AppStore|Mixed Platforms.Build.0 = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Release|Any CPU.Build.0 = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{518A2857-135D-4C29-896D-716BB2B44264}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

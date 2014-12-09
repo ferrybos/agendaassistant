@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Entities;
+using Vluchtprikker.Repositories;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Services
+namespace Vluchtprikker.Services
 {
     public interface IParticipantService
     {

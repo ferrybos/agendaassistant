@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AgendaAssistant.Mail;
-using AgendaAssistant.Repositories;
+using Vluchtprikker.Mail;
+using Vluchtprikker.Repositories;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgendaAssistant.Tests
+namespace Vluchtprikker.Tests
 {
     [TestClass]
     public class UnitTest1

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AgendaAssistant.Repositories;
-using AgendaAssistant.Entities;
-using AgendaAssistant.Shared;
+using Vluchtprikker.Repositories;
+using Vluchtprikker.Entities;
+using Vluchtprikker.Shared;
 
-namespace AgendaAssistant.Services
+namespace Vluchtprikker.Services
 {
     public interface IStationService
     {

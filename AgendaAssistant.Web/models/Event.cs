@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace AgendaAssistant.Web.models
-{
-    public class Event
-    {
-        public string Id { get; set; }
+//namespace Vluchtprikker.Web.models
+//{
+//    public class Event
+//    {
+//        public string Id { get; set; }
 
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public Person Organizer { get; set; }
+//        public string Title { get; set; }
+//        public string Description { get; set; }
+//        public Person Organizer { get; set; }
 
-        public string Pnr { get; set; }
-        public bool IsConfirmed { get; set; }
-    }
-}
+//        public string Pnr { get; set; }
+//        public bool IsConfirmed { get; set; }
+//    }
+//}

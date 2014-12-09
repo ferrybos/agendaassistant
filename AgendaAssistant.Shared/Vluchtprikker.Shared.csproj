@@ -7,8 +7,8 @@
     <ProjectGuid>{9FBF6799-25E8-461A-80B4-940E8730607C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AgendaAssistant.Shared</RootNamespace>
-    <AssemblyName>AgendaAssistant.Shared</AssemblyName>
+    <RootNamespace>Vluchtprikker.Shared</RootNamespace>
+    <AssemblyName>Vluchtprikker.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

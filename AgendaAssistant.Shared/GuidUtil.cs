@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AgendaAssistant.Shared
+namespace Vluchtprikker.Shared
 {
     public static class GuidUtil
     {
