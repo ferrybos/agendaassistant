@@ -9,7 +9,7 @@ using Vluchtprikker.Services;
 using Vluchtprikker.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AgendaAssistant.Tests
+namespace Vluchtprikker.Tests
 {
     [TestClass]
     public class MailTests

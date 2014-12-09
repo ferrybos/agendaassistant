@@ -25,7 +25,6 @@
     function getStationsAndRoutes() {
         stationService.get()
             .success(function (data) {
-                //$log.log("StationsAndRoutes: " + JSON.stringify(data));
                 $scope.origins = data.origins;
                 $scope.destinations = data.destinations;
                 $scope.routes = data.routes;

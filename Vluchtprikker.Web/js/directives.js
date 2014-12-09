@@ -137,7 +137,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                 $scope.$watch('weekdays[' + key + '].value', function () {
                     if ($scope.event != undefined) {
                         $scope.event.daysOfWeek = selectedDaysOfWeek();
-                        $log.log("DaysOfWeek: " + $scope.event.daysOfWeek);
+                        //$log.log("DaysOfWeek: " + $scope.event.daysOfWeek);
                     }
                 });
             });

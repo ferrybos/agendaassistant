@@ -2,7 +2,7 @@
 
     insights.logEvent('HomeCtrl Activated');
     
-    $scope.Title = 'Agenda Assistent';
+    $scope.Title = 'Vluchtprikker';
     $scope.constants = Constants;
     $scope.userAgent = $window.navigator.userAgent;
     

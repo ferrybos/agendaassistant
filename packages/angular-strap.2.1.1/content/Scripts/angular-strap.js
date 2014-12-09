@@ -174,7 +174,7 @@ angular.module('mgcrea.ngStrap.affix', ['mgcrea.ngStrap.helpers.dimensions', 'mg
 
           if(options.offsetBottom) {
             if(options.offsetParent && options.offsetBottom.match(/^[-+]\d+$/)) {
-              // Create 1 pixel due to rounding problems...
+              // add 1 pixel due to rounding problems...
               offsetBottom = getScrollHeight() - (dimensions.offset(parent[0]).top + dimensions.height(parent[0])) + (options.offsetBottom * 1) + 1;
             }
             else {
@@ -763,7 +763,7 @@ angular.module('mgcrea.ngStrap.collapse', [])
         function render() {
           var index = bsCollapseCtrl.$targets.indexOf(element);
           var active = bsCollapseCtrl.$targets.$active;
-          $animate[index === active ? 'CreateClass' : 'removeClass'](element, bsCollapseCtrl.$options.activeClass);
+          $animate[index === active ? 'addClass' : 'removeClass'](element, bsCollapseCtrl.$options.activeClass);
         }
 
         bsCollapseCtrl.$viewChangeListeners.push(function() {
@@ -1841,7 +1841,7 @@ angular.module('mgcrea.ngStrap.helpers.dimensions', [])
       if(outer) {
         value += fn.css(element, 'marginTop', true) + fn.css(element, 'marginBottom', true);
       } else {
-        value -= fn.css(element, 'pCreateingTop', true) + fn.css(element, 'pCreateingBottom', true) + fn.css(element, 'borderTopWidth', true) + fn.css(element, 'borderBottomWidth', true);
+        value -= fn.css(element, 'paddingTop', true) + fn.css(element, 'paddingBottom', true) + fn.css(element, 'borderTopWidth', true) + fn.css(element, 'borderBottomWidth', true);
       }
       return value;
     };
@@ -1858,7 +1858,7 @@ angular.module('mgcrea.ngStrap.helpers.dimensions', [])
       if(outer) {
         value += fn.css(element, 'marginLeft', true) + fn.css(element, 'marginRight', true);
       } else {
-        value -= fn.css(element, 'pCreateingLeft', true) + fn.css(element, 'pCreateingRight', true) + fn.css(element, 'borderLeftWidth', true) + fn.css(element, 'borderRightWidth', true);
+        value -= fn.css(element, 'paddingLeft', true) + fn.css(element, 'paddingRight', true) + fn.css(element, 'borderLeftWidth', true) + fn.css(element, 'borderRightWidth', true);
       }
       return value;
     };
@@ -3145,7 +3145,7 @@ angular.module('mgcrea.ngStrap.tab', [])
         function render() {
           var index = bsTabsCtrl.$panes.indexOf(scope);
           var active = bsTabsCtrl.$panes.$active;
-          $animate[index === active ? 'CreateClass' : 'removeClass'](element, bsTabsCtrl.$options.activeClass);
+          $animate[index === active ? 'addClass' : 'removeClass'](element, bsTabsCtrl.$options.activeClass);
         }
 
         bsTabsCtrl.$viewChangeListeners.push(function() {
