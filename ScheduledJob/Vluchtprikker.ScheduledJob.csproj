@@ -95,17 +95,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.DB\Vluchtprikker.DB.csproj">
-      <Project>{D29F1907-FDD5-4EA6-BF77-FD290FA072D1}</Project>
+    <ProjectReference Include="..\Vluchtprikker.DB\Vluchtprikker.DB.csproj">
+      <Project>{d29f1907-fdd5-4ea6-bf77-fd290fa072d1}</Project>
       <Name>Vluchtprikker.DB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Services\Vluchtprikker.Services.csproj">
-      <Project>{54C07956-CC9D-4B6B-9BAB-7496F48630BD}</Project>
+    <ProjectReference Include="..\Vluchtprikker.Services\Vluchtprikker.Services.csproj">
+      <Project>{54c07956-cc9d-4b6b-9bab-7496f48630bd}</Project>
       <Name>Vluchtprikker.Services</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Shared\Vluchtprikker.Shared.csproj">
-      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
-      <Name>Vluchtprikker.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

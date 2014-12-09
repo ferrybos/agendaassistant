@@ -57,13 +57,13 @@
     <Compile Include="Station.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.Shared\Vluchtprikker.Shared.csproj">
-      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
-      <Name>Vluchtprikker.Shared</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Vluchtprikker.Shared\Vluchtprikker.Shared.csproj">
+      <Project>{9fbf6799-25e8-461a-80b4-940e8730607c}</Project>
+      <Name>Vluchtprikker.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

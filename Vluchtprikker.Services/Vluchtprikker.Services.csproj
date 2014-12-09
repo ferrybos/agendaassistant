@@ -4,13 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{21283148-9AD7-49FD-BF0D-A7027F2C7551}</ProjectGuid>
+    <ProjectGuid>{54C07956-CC9D-4B6B-9BAB-7496F48630BD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Vluchtprikker.Extensions</RootNamespace>
-    <AssemblyName>Vluchtprikker.Extensions</AssemblyName>
+    <RootNamespace>Vluchtprikker.Services</RootNamespace>
+    <AssemblyName>Vluchtprikker.Services</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="SendGridMail">
+      <HintPath>..\packages\Sendgrid.5.0.0\lib\SendGridMail.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,13 +49,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PersonExtender.cs" />
+    <Compile Include="AvailabilityService.cs" />
+    <Compile Include="StationService.cs" />
+    <Compile Include="EventService.cs" />
+    <Compile Include="FlightService.cs" />
+    <Compile Include="MailService.cs" />
+    <Compile Include="ParticipantService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.Entities\Vluchtprikker.Entities.csproj">
-      <Project>{CA95586A-1C6D-457F-BAE4-C0707D603633}</Project>
+    <ProjectReference Include="..\Vluchtprikker.DB\Vluchtprikker.DB.csproj">
+      <Project>{d29f1907-fdd5-4ea6-bf77-fd290fa072d1}</Project>
+      <Name>Vluchtprikker.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vluchtprikker.Entities\Vluchtprikker.Entities.csproj">
+      <Project>{ca95586a-1c6d-457f-bae4-c0707d603633}</Project>
       <Name>Vluchtprikker.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vluchtprikker.Mail\Vluchtprikker.Mail.csproj">
+      <Project>{4e4a7a75-ae5f-4d99-b649-985d1e340cb4}</Project>
+      <Name>Vluchtprikker.Mail</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vluchtprikker.Repositories\Vluchtprikker.Repositories.csproj">
+      <Project>{3059cb2f-61ae-48a6-9c87-6febe53d3de3}</Project>
+      <Name>Vluchtprikker.Repositories</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Vluchtprikker.Shared\Vluchtprikker.Shared.csproj">
+      <Project>{9fbf6799-25e8-461a-80b4-940e8730607c}</Project>
+      <Name>Vluchtprikker.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

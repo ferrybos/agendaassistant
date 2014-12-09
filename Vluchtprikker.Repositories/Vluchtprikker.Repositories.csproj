@@ -87,20 +87,20 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AgendaAssistant.DB\Vluchtprikker.DB.csproj">
+    <ProjectReference Include="..\Vluchtprikker.DB\Vluchtprikker.DB.csproj">
       <Project>{d29f1907-fdd5-4ea6-bf77-fd290fa072d1}</Project>
       <Name>Vluchtprikker.DB</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Entities\Vluchtprikker.Entities.csproj">
+    <ProjectReference Include="..\Vluchtprikker.Entities\Vluchtprikker.Entities.csproj">
       <Project>{ca95586a-1c6d-457f-bae4-c0707d603633}</Project>
       <Name>Vluchtprikker.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Extensions\Vluchtprikker.Extensions.csproj">
-      <Project>{21283148-9AD7-49FD-BF0D-A7027F2C7551}</Project>
+    <ProjectReference Include="..\Vluchtprikker.Extensions\Vluchtprikker.Extensions.csproj">
+      <Project>{21283148-9ad7-49fd-bf0d-a7027f2c7551}</Project>
       <Name>Vluchtprikker.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AgendaAssistant.Shared\Vluchtprikker.Shared.csproj">
-      <Project>{9FBF6799-25E8-461A-80B4-940E8730607C}</Project>
+    <ProjectReference Include="..\Vluchtprikker.Shared\Vluchtprikker.Shared.csproj">
+      <Project>{9fbf6799-25e8-461a-80b4-940e8730607c}</Project>
       <Name>Vluchtprikker.Shared</Name>
     </ProjectReference>
   </ItemGroup>
