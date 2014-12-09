@@ -11,12 +11,12 @@ using Vluchtprikker.Services;
 
 namespace Vluchtprikker.Web.api
 {
-    [RoutePrefix("api/flight")]
-    public class FlightController : ApiController
+    [RoutePrefix("api/flights")]
+    public class FlightsController : ApiController
     {
         private readonly IFlightRepository _repository;
 
-        public FlightController(IFlightRepository repository)
+        public FlightsController(IFlightRepository repository)
         {
             _repository = repository;
         }

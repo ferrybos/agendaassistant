@@ -1,5 +1,5 @@
 ﻿app.service('flightService', ['$http', '$log', '$filter', function ($http, $log, $filter) {
-    var urlBase = '/api/flight';
+    var urlBase = '/api/flights';
 
     this.getFlights = function (departureStation, arrivalStation, beginDate, endDate, paxCount, daysOfWeek, maxPrice) {
         //$log.log(weekDays);

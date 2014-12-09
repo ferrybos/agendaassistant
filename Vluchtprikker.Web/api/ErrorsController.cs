@@ -22,11 +22,11 @@ namespace Vluchtprikker.Web.api
     }
 
     [RoutePrefix("api/errors")]
-    public class ErrorController : ApiController
+    public class ErrorsController : ApiController
     {
         private readonly ErrorRepository _repository;
 
-        public ErrorController(IDbContext dbContext)
+        public ErrorsController(IDbContext dbContext)
         {
             _repository = new ErrorRepository(dbContext);
         }

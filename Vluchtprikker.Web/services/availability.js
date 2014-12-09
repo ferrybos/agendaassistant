@@ -1,5 +1,5 @@
 ﻿app.service('availabilityService', ['$http', '$log', function ($http, $log) {
-    var urlBase = '/api/availability';
+    var urlBase = '/api/availabilities';
 
     this.get = function (participantid) {
         return $http.get(urlBase + "/" + participantid);

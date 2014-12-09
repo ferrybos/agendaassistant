@@ -17,12 +17,12 @@ namespace Vluchtprikker.Web.api
         public List<Route> Routes { get; set; }
     }
 
-    [RoutePrefix("api/station")]
-    public class StationController : ApiController
+    [RoutePrefix("api/stations")]
+    public class StationsController : ApiController
     {
         private readonly IStationService _service;
 
-        public StationController(IStationService stationService)
+        public StationsController(IStationService stationService)
         {
             _service = stationService;
         }

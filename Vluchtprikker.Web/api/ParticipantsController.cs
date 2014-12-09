@@ -18,12 +18,12 @@ namespace Vluchtprikker.Web.api
         public string Email { get; set; }
     }
 
-    [RoutePrefix("api/participant")]
-    public class ParticipantController : ApiController
+    [RoutePrefix("api/participants")]
+    public class ParticipantsController : ApiController
     {
         private readonly IParticipantService _service;
 
-        public ParticipantController(IParticipantService participantService)
+        public ParticipantsController(IParticipantService participantService)
         {
             _service = participantService;
         }
@@ -57,7 +57,7 @@ namespace Vluchtprikker.Web.api
             {
                 var newParticipant = _service.Add(participant.EventId, participant.Person.Name, participant.Person.Email);
 
-                return Created(string.Format("api/participant/{0}", newParticipant.Id), Json(newParticipant).Content);
+                return Created(string.Format("api/participants/{0}", newParticipant.Id), Json(newParticipant).Content);
             }
             catch (Exception ex)
             {

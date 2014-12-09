@@ -177,13 +177,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="api\AvailabilityController.cs" />
-    <Compile Include="api\ErrorController.cs" />
+    <Compile Include="api\AvailabilitiesController.cs" />
+    <Compile Include="api\StationsController.cs" />
+    <Compile Include="api\HelloWorldController.cs" />
+    <Compile Include="api\ErrorsController.cs" />
     <Compile Include="api\OrganizerController.cs" />
-    <Compile Include="api\StationController.cs" />
-    <Compile Include="api\ParticipantController.cs" />
-    <Compile Include="api\FlightController.cs" />
-    <Compile Include="api\EventController.cs" />
+    <Compile Include="api\ParticipantsController.cs" />
+    <Compile Include="api\FlightsController.cs" />
+    <Compile Include="api\EventsController.cs" />
+    <Compile Include="api\StationController2.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

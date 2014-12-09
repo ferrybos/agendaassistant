@@ -16,12 +16,12 @@ namespace Vluchtprikker.Web.api
         public string Id { get; set; }
     }
 
-    [RoutePrefix("api/availability")]
-    public class AvailabilityController : ApiController
+    [RoutePrefix("api/availabilities")]
+    public class AvailabilitiesController : ApiController
     {
         private readonly IAvailabilityService _service;
 
-        public AvailabilityController(IAvailabilityService availabilityService)
+        public AvailabilitiesController(IAvailabilityService availabilityService)
         {
             _service = availabilityService;
         }

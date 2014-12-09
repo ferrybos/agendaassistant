@@ -1,5 +1,5 @@
 ﻿app.service('participantService', ['$http', '$log', function ($http, $log) {
-    var urlBase = '/api/participant';
+    var urlBase = '/api/participants';
 
     this.get = function (participantid) {
         return $http.get(urlBase + "/" + participantid);

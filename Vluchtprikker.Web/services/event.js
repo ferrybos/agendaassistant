@@ -1,18 +1,18 @@
 ﻿app.factory("eventFactory", function ($resource) {
     return $resource(
-        "/api/event/:id",
+        "/api/events/:id",
         {id: "@id"},
         {
             save: { method: 'POST', isArray: false },
             update: { method: "PUT" },
-            confirm: { method: "POST", url: 'api/event/confirm', isArray: false },
-            selectflight: { method: "POST", url: 'api/event/selectflight', isArray: false }
+            confirm: { method: "POST", url: 'api/events/confirm', isArray: false },
+            selectflight: { method: "POST", url: 'api/events/selectflight', isArray: false }
         }
     );
 });
 
 app.service('eventService', ['$http', '$log', function ($http, $log) {
-    var urlBase = '/api/event';
+    var urlBase = '/api/events';
 
     this.new = function (title, description, organizerName, organizerEmail, addParticipant) {
         var data = { title: title, description: description, organizerName: organizerName, organizerEmail: organizerEmail, addParticipant: addParticipant };

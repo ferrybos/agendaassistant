@@ -35,12 +35,12 @@ namespace Vluchtprikker.Web.api
         public List<Flight> InboundFlights { get; set; }
     }
 
-    [RoutePrefix("api/event")]
-    public class EventController : ApiController
+    [RoutePrefix("api/events")]
+    public class EventsController : ApiController
     {
         private readonly IEventService _service;
 
-        public EventController(IEventService eventService)
+        public EventsController(IEventService eventService)
         {
             _service = eventService;
         }
@@ -68,7 +68,7 @@ namespace Vluchtprikker.Web.api
                 var newEvent = _service.Create(data.Title, data.Description, data.OrganizerName, data.OrganizerEmail, data.AddParticipant);
 
                 //Json(new { Event = newEvent }).Content);
-                return Created(string.Format("api/event/{0}", newEvent.Id), Json(newEvent).Content);
+                return Created(string.Format("api/events/{0}", newEvent.Id), Json(newEvent).Content);
             }
             catch (Exception ex)
             {
@@ -139,7 +139,7 @@ namespace Vluchtprikker.Web.api
             {
                 _service.Complete(value);
 
-                return Ok(string.Format("api/event/{0}", value.Id));
+                return Ok(string.Format("api/events/{0}", value.Id));
             }
             catch (Exception ex)
             {
