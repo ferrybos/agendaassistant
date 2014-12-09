@@ -219,6 +219,8 @@
     <None Include="Properties\PublishProfiles\ferrybos - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikker - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\vluchtprikkertest - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\vluchtprikkertest - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -261,7 +263,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>56178</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:47457/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
