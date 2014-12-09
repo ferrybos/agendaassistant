@@ -10,6 +10,7 @@
           <EntitySet Name="Comment" EntityType="AgendaAssistantModel.Store.Comment" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Email" EntityType="AgendaAssistantModel.Store.Email" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EmailType" EntityType="AgendaAssistantModel.Store.EmailType" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Error" EntityType="AgendaAssistantModel.Store.Error" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Event" EntityType="AgendaAssistantModel.Store.Event" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="EventStatus" EntityType="AgendaAssistantModel.Store.EventStatus" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Flight" EntityType="AgendaAssistantModel.Store.Flight" store:Type="Tables" Schema="dbo" />
@@ -109,6 +110,19 @@
           </Key>
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="ID" Type="smallint" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Error">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
+          <Property Name="Source" Type="varchar" Nullable="false" MaxLength="8" />
+          <Property Name="Message" Type="varchar(max)" />
+          <Property Name="StackTrace" Type="varchar(max)" />
+          <Property Name="EventID" Type="uniqueidentifier" />
+          <Property Name="RequestUrl" Type="varchar(max)" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -427,6 +441,7 @@
             <End Role="Event" EntitySet="Events" />
             <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
+          <EntitySet Name="Errors" EntityType="AgendaAssistantModel.Error" />
           </EntityContainer>
         <EntityType Name="Availability">
           <Key>
@@ -716,6 +731,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Error">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedUtc" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Source" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Message" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="StackTrace" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="EventID" />
+          <Property Type="String" Name="RequestUrl" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="IPAddress" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -861,6 +889,20 @@
                 <ScalarProperty Name="OutboundFlightSearchID" ColumnName="OutboundFlightSearchID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Errors">
+            <EntityTypeMapping TypeName="AgendaAssistantModel.Error">
+              <MappingFragment StoreEntitySet="Error">
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="RequestUrl" ColumnName="RequestUrl" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
                 <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

@@ -7,7 +7,9 @@
     $scope.isLoading = false;
     $scope.isWaitingForNewEvent = false;
     $scope.addParticipant = true;
-    
+
+    $log.log(test);
+
     // Participants default
     clearParticipantInput();
 

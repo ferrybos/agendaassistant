@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="AgendaAssistantModel.Availability" Width="1.5" PointX="10" PointY="2.375" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Comment" Width="1.5" PointX="10" PointY="5.5" />
         <EntityTypeShape EntityType="AgendaAssistantModel.EmailType" Width="1.5" PointX="3.25" PointY="7.625" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Flight" Width="1.5" PointX="1.75" PointY="10.875" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Flight" Width="1.5" PointX="1.75" PointY="11.75" />
         <EntityTypeShape EntityType="AgendaAssistantModel.FlightSearch" Width="1.5" PointX="1" PointY="6.75" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Participant" Width="1.5" PointX="7.75" PointY="1.375" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Availability_Flight" />
@@ -22,12 +22,13 @@
         <EntityTypeShape EntityType="AgendaAssistantModel.Route" Width="1.5" PointX="5.75" PointY="6.75" />
         <EntityTypeShape EntityType="AgendaAssistantModel.Station" Width="1.5" PointX="7.75" PointY="8.75" />
         <EntityTypeShape EntityType="AgendaAssistantModel.EventStatus" Width="1.75" PointX="0.75" PointY="2.5" />
-        <EntityTypeShape EntityType="AgendaAssistantModel.Event" Width="1.5" PointX="3.25" PointY="1.375" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Event" Width="1.5" PointX="3.25" PointY="1.25" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Email_Event" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_InboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_OutboundFlightSearch" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Event_Status" />
         <AssociationConnector Association="AgendaAssistantModel.FK_Participant_Event" />
+        <EntityTypeShape EntityType="AgendaAssistantModel.Error" Width="1.5" PointX="9.75" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

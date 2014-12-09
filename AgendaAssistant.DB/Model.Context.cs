@@ -36,5 +36,6 @@ namespace AgendaAssistant.DB
         public DbSet<Station> Stations { get; set; }
         public DbSet<EventStatus> EventStatus { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Error> Errors { get; set; }
     }
 }
