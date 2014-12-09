@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, $location, Constants, availabilityService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, $location, Constants, availabilityService, eventService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.activeTabIndex = 0;
@@ -29,6 +29,8 @@
                         $scope.activeTabIndex = 1;
                     }
                 }
+
+                refreshFlights();
             })
             .error(function(error) {
                 $modal({ title: error.message, content: error.exceptionMessage, show: true });
@@ -36,6 +38,33 @@
             });
     };
     
+    // todo: refactor to reusable code (is also in event controller!)
+    function refreshFlights() {
+        if (!$scope.event.isConfirmed || $scope.event.pnr != null) {
+           // $log.log("No refresh");
+            return;
+        }
+
+        $scope.isRefreshingFlights = true;
+        eventService.refreshFlights($scope.event.id)
+            .success(function (data) {
+                //$log.log("Updated event: " + JSON.stringify(data));
+                $scope.isRefreshingFlights = false;
+                for (i = 0; i < $scope.event.outboundFlightSearch.flights.length; i++) {
+                    $scope.event.outboundFlightSearch.flights[i].price = data.outboundFlights[i].price;
+                }
+                for (i = 0; i < $scope.event.inboundFlightSearch.flights.length; i++) {
+                    $scope.event.inboundFlightSearch.flights[i].price = data.inboundFlights[i].price;
+                }
+            })
+            .error(function (error) {
+                $scope.isRefreshingFlights = false;
+                if (error != null) {
+                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                }
+            });
+    }
+
     $scope.Confirm = function () {
         $scope.isConfirming = true;
 

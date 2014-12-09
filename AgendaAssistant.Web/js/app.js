@@ -30,7 +30,8 @@ app.config(function ($provide) {
     $provide.decorator("$exceptionHandler", ['$delegate', function ($delegate) {
         return function (exception, cause) {
             $delegate(exception, cause);
-            alert(exception.message);
+            alert(exception.toString());
+            // todo: call exceptionservice to store exception server side
         };
     }]);
 });

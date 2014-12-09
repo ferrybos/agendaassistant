@@ -15,7 +15,7 @@
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
             
-            $log.log("Event: " + JSON.stringify($scope.event));
+            //$log.log("Event: " + JSON.stringify($scope.event));
             
             refreshFlights();
         });
@@ -23,14 +23,14 @@
 
     function refreshFlights() {
         if (!$scope.event.isConfirmed || $scope.event.pnr != null || $scope.areFlightsSelected()) {
-            $log.log("No refresh");
+            //$log.log("No refresh");
             return;
         }
         
         $scope.isRefreshingFlights = true;
         eventService.refreshFlights($scope.event.id)
             .success(function(data) {
-                $log.log("Updated event: " + JSON.stringify(data));
+                //$log.log("Updated event: " + JSON.stringify(data));
                 $scope.isRefreshingFlights = false;
                 for (i = 0; i < $scope.event.outboundFlightSearch.flights.length; i++) {
                     $scope.event.outboundFlightSearch.flights[i].price = data.outboundFlights[i].price;
