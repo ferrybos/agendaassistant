@@ -381,7 +381,7 @@ app.directive('eventActions', function () {
 
             function getOrganizer() {
                 if ($scope.event != null) {
-                    for (i = 0; i < $scope.event.participants.length; i++) {
+                    for (var i = 0; i < $scope.event.participants.length; i++) {
                         var participant = $scope.event.participants[i];
                         if (participant.person.email == $scope.event.organizerEmail)
                             return participant;
@@ -418,6 +418,15 @@ app.directive('eventActions', function () {
                         return unconfirmedParticipants.length == 0;
                     }
                 } 
+
+                return false;
+            };
+
+            $scope.showSendReminder = function() {
+                if ($scope.event !== null && $scope.event.pnr === null) {
+                    var unconfirmedParticipants = $filter('filter')($scope.event.participants, { bdConfirmed: false }, true);
+                    return unconfirmedParticipants.length > 0;
+                }
 
                 return false;
             };

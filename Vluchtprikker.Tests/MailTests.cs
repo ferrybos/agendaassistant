@@ -21,7 +21,7 @@ namespace Vluchtprikker.Tests
         [TestInitialize]
         public void Setup()
         {
-            _mailService = new MailService(new VluchtprikkerDbContext());
+            _mailService = new MailService();
 
             _event = new Event()
                 {

@@ -24,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="participant in event.participants">
+                    <tr ng-repeat="participant in event.participants | orderBy : 'person.name'">
                         <td>{{$index+1}}</td>
                         <td><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
                         <td>{{::participant.person.email}}</td>

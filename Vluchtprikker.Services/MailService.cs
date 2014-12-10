@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Vluchtprikker.DB;
 using Vluchtprikker.Mail;
 using Vluchtprikker.Shared;
@@ -18,31 +19,30 @@ namespace Vluchtprikker.Services
 
     public class MailService: IMailService
     {
-        private const string From = "service@vluchtprikker.nl";
-        private const string RootUrl = @"http://vluchtprikker.nl/#/";
+        private readonly string _from = "service@vluchtprikker.nl";
+        private readonly string _rootUrl = @"http://vluchtprikker.nl";
 
-        //private readonly EmailRepository _repository;
-        private readonly IDbContext _dbContext;
-
-        public MailService(IDbContext dbContext)
+        public MailService()
         {
-            _dbContext = dbContext;
-            //_repository = new EventRepository(_dbContext);
+            if (HttpContext.Current != null)
+            {
+                _rootUrl = HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.PathAndQuery, "");
+            }
         }
 
         private string ConfirmEventUrl(Event dbEvent)
         {
-            return RootUrl + string.Format("confirm/{0}", GuidUtil.ToString(dbEvent.ID));
+            return _rootUrl + string.Format("/#/confirm/{0}", GuidUtil.ToString(dbEvent.ID));
         }
         
         private string EventUrl(Event dbEvent)
         {
-            return RootUrl + string.Format("event/{0}", GuidUtil.ToString(dbEvent.ID));
+            return _rootUrl + string.Format("/#/event/{0}", GuidUtil.ToString(dbEvent.ID));
         }
 
         private string AvailabilityUrl(Participant dbParticipant)
         {
-            return RootUrl + string.Format("availability/{0}", GuidUtil.ToString(dbParticipant.ID));
+            return _rootUrl + string.Format("/#/availability/{0}", GuidUtil.ToString(dbParticipant.ID));
         }
 
         public void Send(string recipient, string subject, EmailBody body)
@@ -147,7 +147,7 @@ namespace Vluchtprikker.Services
         public void Send(List<String> recipients, string subject, EmailBody body)
         {
             var mailer = new SendGridMail();
-            var msg = mailer.CreateMessage(From, recipients, subject, body.Html, body.Text);
+            var msg = mailer.CreateMessage(_from, recipients, subject, body.Html, body.Text);
             mailer.SendMessage(msg);
         }
 

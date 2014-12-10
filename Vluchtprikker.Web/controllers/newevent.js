@@ -30,7 +30,7 @@
                 $scope.routes = data.routes;
             })
             .error(function (error) {
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                $modal({ title: "Ooops!", content: JSON.stringify(error), show: true });
             });
     };
 

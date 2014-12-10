@@ -205,7 +205,7 @@ namespace Vluchtprikker.Services
             if (!string.IsNullOrWhiteSpace(dbEvent.PNR))
                 throw new FormattedException("Event already has a PNR");
 
-            dbEvent.PNR = pnr;
+            dbEvent.PNR = pnr.ToUpper();
             dbEvent.StatusID = EventStatusEnum.BookingCompleted;
             _dbContext.Current.SaveChanges();
 

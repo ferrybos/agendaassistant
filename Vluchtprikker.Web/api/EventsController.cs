@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 using Vluchtprikker.DB.Repositories;
 using Vluchtprikker.Entities;
@@ -62,8 +63,6 @@ namespace Vluchtprikker.Web.api
         [HttpPost]
         public IHttpActionResult Post(NewEventData data)
         {
-            //System.Threading.Thread.Sleep(2000);
-
             // create new event
             try
             {
