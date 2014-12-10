@@ -166,7 +166,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                 $scope.isloading = true;
                 // watches are not triggered on initial load
                 $scope.event.daysOfWeek = selectedDaysOfWeek();
-                flightService.getFlights($scope.event.origin, $scope.event.destination, $scope.event.beginDate, $scope.event.endDate, $scope.event.participants.length, selectedDaysOfWeek(), $scope.event.maxPrice)
+                flightService.search($scope.event.origin, $scope.event.destination, $scope.event.beginDate, $scope.event.endDate, $scope.event.participants.length, selectedDaysOfWeek(), $scope.event.maxPrice)
                     .success(function (data) {
                         $scope.isloading = false;
                         $scope.outboundFlights = data.outboundFlights;

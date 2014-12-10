@@ -25,10 +25,20 @@ namespace Vluchtprikker.Web.api
         // Optional fields should be added as query string parameters, for example max price
         [Route("{departureStation}/{arrivalStation}/{beginDate:DateTime}/{endDate:DateTime}/{paxCount}/{daysOfWeek}")]
         [HttpGet]
-        public FlightSearchResponse Get(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short daysOfWeek, short? maxPrice = null)
+        public IHttpActionResult Get(string departureStation, string arrivalStation, DateTime beginDate, DateTime endDate, short paxCount, short daysOfWeek, short? maxPrice = null)
         {
-            var bitArray = new BitArray(BitConverter.GetBytes(daysOfWeek));
-            return _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount, bitArray, maxPrice);
+            try
+            {
+                var bitArray = new BitArray(BitConverter.GetBytes(daysOfWeek));
+                var flightSearchResponse = _repository.Search(departureStation, arrivalStation, beginDate, endDate, paxCount, bitArray, maxPrice);
+
+                return Ok(flightSearchResponse);
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex);
+                return InternalServerError(ex);
+            }
         }
     }
 }
