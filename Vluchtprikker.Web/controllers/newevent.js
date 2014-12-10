@@ -30,7 +30,7 @@
                 $scope.routes = data.routes;
             })
             .error(function (error) {
-                $modal({ title: "Ooops!", content: JSON.stringify(error), show: true });
+                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
             });
     };
 
@@ -63,7 +63,7 @@
                $location.path("/event/" + $scope.event.id);
            })
            .error(function (error) {
-               $modal({ title: error.message, content: error.exceptionMessage, show: true });
+               $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
            });
     };
 
@@ -106,7 +106,7 @@
                .error(function (error) {
                    $scope.iswaitingfornewevent = false;
                    $scope.currentstepindex = 1; // back to step 1
-                   $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                   $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                });
         }
 
@@ -130,13 +130,10 @@
 
             participantService.post(participant)
                 .success(function (data) {
-                    //$log.log("Participant: " + JSON.stringify(data));
-                    //$scope.event = data;
                     $scope.event.participants.push(data);
                 })
                 .error(function (error) {
-                    //$rootScope.errorMessage = error.message + " " + error.exceptionMessage;
-                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                 });
 
             clearParticipantInput();
@@ -155,7 +152,7 @@
                 $scope.event.participants.splice(index, 1);
             })
             .error(function (error) {
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
             });
     };
 

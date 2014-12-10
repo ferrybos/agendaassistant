@@ -33,7 +33,7 @@
                 refreshFlights();
             })
             .error(function(error) {
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                 $scope.event = null;
             });
     };
@@ -60,7 +60,7 @@
             .error(function (error) {
                 $scope.isRefreshingFlights = false;
                 if (error != null) {
-                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                 }
             });
     }
@@ -101,7 +101,7 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $root
                 }, 3000);
             })
             .error(function(error) {
-                $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
             });
     };
     

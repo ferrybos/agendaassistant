@@ -32,6 +32,13 @@ namespace Vluchtprikker.Web.api
         public string Pnr { get; set; }
     }
 
+    public class SelectFlightData
+    {
+        public string Id { get; set; }
+        public long FlightSearchId { get; set; }
+        public long FlightId { get; set; }
+    }
+
     public class RefreshFlightsResponse
     {
         public List<Flight> OutboundFlights { get; set; }
@@ -51,11 +58,18 @@ namespace Vluchtprikker.Web.api
         // GET api/<controller>/5
         [Route("{id}")]
         [HttpGet]
-        public Event Get(string id)
+        public IHttpActionResult Get(string id)
         {
-            var evn = _service.Get(id);
-
-            return evn;
+            try
+            {
+                var evn = _service.Get(id);
+                return Ok(evn);
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex);
+                return InternalServerError(ex);
+            }
         }
 
         // POST api/<controller>
@@ -76,7 +90,6 @@ namespace Vluchtprikker.Web.api
                 HandleServerError(ex);
                 return InternalServerError(ex);
             }
-            
         }
 
         [Route("confirm")]
@@ -121,11 +134,11 @@ namespace Vluchtprikker.Web.api
 
         [Route("selectflight")]
         [HttpPost]
-        public IHttpActionResult SelectFlight(string id, long flightSearchId, long flightId)
+        public IHttpActionResult SelectFlight([FromBody] SelectFlightData data)
         {
             try
             {
-                _service.SelectFlight(id, flightSearchId, flightId);
+                _service.SelectFlight(data.Id, data.FlightSearchId, data.FlightId);
                 return Ok();
             }
             catch (Exception ex)

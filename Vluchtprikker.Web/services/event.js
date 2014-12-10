@@ -1,19 +1,10 @@
-﻿app.factory("eventFactory", function ($resource) {
-    return $resource(
-        "/api/events/:id",
-        {id: "@id"},
-        {
-            save: { method: 'POST', isArray: false },
-            update: { method: "PUT" },
-            confirm: { method: "POST", url: 'api/events/confirm', isArray: false },
-            selectflight: { method: "POST", url: 'api/events/selectflight', isArray: false }
-        }
-    );
-});
-
-app.service('eventService', ['$http', '$log', function ($http, $log) {
+﻿app.service('eventService', ['$http', function ($http) {
     var urlBase = '/api/events';
 
+    this.get = function (id) {
+        return $http.get(urlBase + '/' + id, event);
+    };
+    
     this.new = function (title, description, organizerName, organizerEmail, addParticipant) {
         var data = { title: title, description: description, organizerName: organizerName, organizerEmail: organizerEmail, addParticipant: addParticipant };
         return $http.post(urlBase, data);
@@ -29,6 +20,10 @@ app.service('eventService', ['$http', '$log', function ($http, $log) {
     
     this.refreshFlights = function (id) {
         return $http.post(urlBase + '/refreshflights', { id: id });
+    };
+
+    this.selectflight = function (eventId, flightSearchId, flightId) {
+        return $http.post(urlBase + '/selectflight', { id: eventId, flightSearchId: flightSearchId, flightId: flightId });
     };
 
     this.sendReminder = function (id) {

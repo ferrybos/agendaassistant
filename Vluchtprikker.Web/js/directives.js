@@ -174,7 +174,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                         $log.log("Flights = " + JSON.stringify(data));
                     })
                     .error(function (error) {
-                        $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                         $scope.isloading = false;
                         $scope.outboundFlights = null;
                         $scope.inboundFlights = null;
@@ -206,7 +206,7 @@ app.directive('flightlist', function ($log) {
     };
 });
 
-app.directive('flightSearchAvailability', function ($log) {
+app.directive('flightSearchAvailability', function (eventService, $modal, $log) {
     return {
         restrict: 'E',
         scope: {
@@ -216,11 +216,15 @@ app.directive('flightSearchAvailability', function ($log) {
         },
         controller: function ($scope) {
             $scope.SelectFlight = function (flightSearch, flight) {
-                flightSearch.selectedFlight = flight;
                 var selectedFlightId = flight != null ? flight.id : 0;
 
-                $scope.event.$selectflight({ flightSearchId: flightSearch.id, flightId: selectedFlightId }, function () {
-                });
+                eventService.selectflight($scope.event.id, flightSearch.id, selectedFlightId)
+                    .success(function (data) {
+                        flightSearch.selectedFlight = flight;
+                    })
+                    .error(function (error) {
+                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                    });
             };
         },
         templateUrl: '../partials/flightsearchavailability.html'
@@ -319,7 +323,7 @@ app.directive('participantdata', function ($log, $filter, participantService, $t
                     })
                     .error(function (error) {
                         $scope.isConfirming = false;
-                        $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                     });
             };
         },
@@ -397,7 +401,7 @@ app.directive('eventActions', function () {
                         $modal({ title: $scope.event.title, content: "Er is een email verstuurd naar alle deelnemers die hun beschikbaarheid en/of boekingsgegevens nog niet hebben bevestigd.", show: true });
                     })
                     .error(function (error) {
-                        $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                     });
             };
 

@@ -1,4 +1,4 @@
-﻿var app = angular.module('app', ['ngRoute', 'ngResource', 'ngAnimate', 'uiSlider', 'mgcrea.ngStrap', 'angular.filter', 'angular-appinsights']);
+﻿var app = angular.module('app', ['ngRoute', 'ngAnimate', 'mgcrea.ngStrap', 'angular.filter', 'angular-appinsights']);
 
 app.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {

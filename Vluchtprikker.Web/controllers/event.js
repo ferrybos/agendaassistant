@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, Constants, eventFactory, eventService, bagageService) {
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, Constants, eventService, bagageService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.isConfirming = false;
@@ -12,14 +12,15 @@
     getEvent();
 
     function getEvent() {
-        //$log.log('getEvent: ' + $routeParams.id);
-        eventFactory.get({ id: $routeParams.id }, function (data) {
-            $scope.event = data;
-
-            //$log.log("Event: " + JSON.stringify($scope.event));
-
-            refreshFlights();
-        });
+        eventService.get($routeParams.id)
+            .success(function(data) {
+                $scope.event = data;
+                refreshFlights();
+            })
+            .error(function (error) {
+                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                $scope.event = null;
+            });
     };
 
     function refreshFlights() {
@@ -43,7 +44,7 @@
             .error(function (error) {
                 $scope.isRefreshingFlights = false;
                 if (error != null) {
-                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                 }
             });
     }
@@ -89,7 +90,7 @@
             })
             .error(function (error) {
                 if (error != null) {
-                    $modal({ title: error.message, content: error.exceptionMessage, show: true });
+                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
                 }
             });
     };
