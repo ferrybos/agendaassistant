@@ -1,0 +1,88 @@
+﻿<form name="flightsForm" novalidate>
+    <div class="row" id="outboundOriginDestination">
+        <div class="col-sm-6 leftcol">
+            <label class="control-label" for="departurestation">Vertrek van</label>
+            <select id="departurestation" class="form-control" ng-model="event.origin" ng-required="true">
+                <option ng-repeat="station in departurestations" value="{{station.code}}">{{station.name}}</option>
+            </select>
+        </div>
+        <div class="col-sm-6 rightcol">
+            <label class="control-label" for="arrivalstation">Bestemming</label>
+            <select id="arrivalstation" class="form-control" ng-model="event.destination" ng-required="true">
+                <option ng-repeat="station in arrivalstations" value="{{station.code}}">{{station.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-6 leftcol">
+            <label class="control-label" for="begindate">Eerste optie</label>
+            <input type="text" id="begindate" class="form-control" ng-model="event.beginDate" data-min-date="today" name="begindate" bs-datepicker ng-required="true">
+        </div>
+        <div class="col-sm-6 rightcol">
+            <label class="control-label" for="enddate">Laatste optie (max 30 dagen later)</label>
+            <input type="text" id="enddate" class="form-control" ng-model="event.endDate" data-min-date="{{event.beginDate}}" name="enddate" bs-datepicker ng-required="true">
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 10px">
+        <div class="col-sm-6 leftcol">
+            <label class="control-label">Weekdagen</label>
+            <div class="btn-group btn-group-justified" style="cursor: pointer">
+                <div class="input-group" style="height: 34px">
+                    <span class="input-group-addon" ng-repeat="weekday in weekdays" ng-click="weekday.value == 0 ? weekday.value = 1 : weekday.value = 0" style="padding: 6px">
+                        <span class="glyphicon " ng-class="weekday.value === 1 ? 'glyphicon-check' : 'glyphicon-unchecked'" style="font-size: large; padding-top: 2px; margin-right: 4px"></span>
+                        {{weekday.day}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 rightcol">
+            <label class="control-label" for="maxprice" title="Per persoon per enkele reis">Maximum prijs (per persoon per enkele reis)</label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <input type="checkbox" ng-model="maxpriceChecked">
+                </span>
+                <input type="range" id="maxprice" class="form-control" ng-model="maxprice" ng-disabled="!maxpriceChecked" min="0" max="500" step="25" style="margin-top: 0" />
+                <span class="input-group-addon" ng-hide="!maxpriceChecked">{{maxprice}} EUR</span>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-lg btn-primary flightsearchbutton" ng-disabled="isLoading === true" ng-click="SearchFlights()" style="margin-top: 20px">
+        <span class="glyphicon glyphicon-search"></span>Zoek vluchten
+    </button>
+</form>
+
+<loader ng-if="isloading == true">
+    Vlucht informatie wordt opgehaald...
+</loader>
+
+<div ng-if="outboundFlights == null && isloading !== true" style="margin-bottom: 50px">
+    <p class="help-block">Druk op bovenstaande knop "Zoek vluchten" om vluchten op te halen.</p>
+</div>
+
+<div ng-if="outboundFlights !== null && isloading !== true" style="margin-top: 20px">
+    <div ng-show="outboundFlights.length == 0 && inboundFlights.length == 0">
+        <div class="alert alert-danger" role="alert">Geen vluchten gevonden</div>
+    </div>
+    <div ng-show="outboundFlights.length > 0 || inboundFlights.length > 0">
+        <info>
+            <p>Druk op de prijsbalk om een vlucht te (de)selecteren.</p>
+            <p>
+                Prijzen zijn vanaf-prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
+            </p>
+        </info>
+
+        <div class="row">
+            <div class="col-md-6 leftcol">
+                <h4>Heen vlucht ({{event.origin}} - {{event.destination}})</h4>
+                <flightlist flights="outboundFlights"></flightlist>
+            </div>
+            <div class="col-md-6 rightcol">
+                <h4>Terug vlucht ({{event.destination}} - {{event.origin}})</h4>
+                <flightlist flights="inboundFlights"></flightlist>
+            </div>
+        </div>
+    </div>
+</div>

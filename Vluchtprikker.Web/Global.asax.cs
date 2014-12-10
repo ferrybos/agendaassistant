@@ -13,7 +13,7 @@ using Vluchtprikker.Web.Startup;
 
 namespace Vluchtprikker.Web
 {
-    public class Global : System.Web.HttpApplication
+    public class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {

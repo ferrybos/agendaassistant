@@ -112,7 +112,6 @@
     <Content Include="controllers\newevent.js" />
     <Content Include="css\app.css" />
     <Content Include="css\extra.css" />
-    <Content Include="directives\flightSearch.js" />
     <Content Include="Global.asax" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\bg.jpg" />
@@ -156,17 +155,17 @@
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />
     <Content Include="partials\flightlist.html" />
+    <Content Include="partials\flightsearch.html" />
     <Content Include="partials\participants.html" />
     <Content Include="partials\flightFromApi.html" />
-    <Content Include="partials\flightsearch.html" />
     <Content Include="partials\flightsearchavailability.html" />
     <Content Include="partials\legenda.html" />
     <Content Include="partials\participantdata.html" />
-    <Content Include="services\constants.js" />
     <Content Include="services\availability.js" />
+    <Content Include="services\constants.js" />
+    <Content Include="services\error.js" />
     <Content Include="services\flight.js" />
     <Content Include="services\event.js" />
-    <Content Include="services\error.js" />
     <Content Include="services\participant.js" />
     <Content Include="test.html" />
     <Content Include="views\availability.html" />
@@ -249,6 +248,9 @@
       <Project>{9fbf6799-25e8-461a-80b4-940e8730607c}</Project>
       <Name>Vluchtprikker.Shared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="directives\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, Constants, eventFactory, eventService) {
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, Constants, eventFactory, eventService, bagageService) {
     $scope.constants = Constants;
     $scope.event = null;
     $scope.isConfirming = false;
@@ -7,16 +7,17 @@
     $scope.isBookingWebsiteOpened = false;
     $scope.pnr = "";
     $scope.isRefreshingFlights = false;
+    $scope.bagages = bagageService.get();
     
     getEvent();
-    
+
     function getEvent() {
         //$log.log('getEvent: ' + $routeParams.id);
         eventFactory.get({ id: $routeParams.id }, function (data) {
             $scope.event = data;
-            
+
             //$log.log("Event: " + JSON.stringify($scope.event));
-            
+
             refreshFlights();
         });
     };
@@ -26,10 +27,10 @@
             //$log.log("No refresh");
             return;
         }
-        
+
         $scope.isRefreshingFlights = true;
         eventService.refreshFlights($scope.event.id)
-            .success(function(data) {
+            .success(function (data) {
                 //$log.log("Updated event: " + JSON.stringify(data));
                 $scope.isRefreshingFlights = false;
                 for (i = 0; i < $scope.event.outboundFlightSearch.flights.length; i++) {
@@ -80,7 +81,7 @@
         $scope.$broadcast('focusPnr');
     };
 
-    $scope.ConfirmBookingCreated = function() {
+    $scope.ConfirmBookingCreated = function () {
         eventService.setpnr($scope.event.id, $scope.pnr)
             .success(function (data) {
                 $scope.event.pnr = $scope.pnr;
@@ -92,17 +93,17 @@
                 }
             });
     };
-    
+
     $scope.areFlightsSelected = function () {
         return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
     };
-    
+
     $scope.areSelectedFlightsValid = function () {
         return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
             $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
     };
-    
-    $scope.areSelectedFlightsInvalid = function() {
+
+    $scope.areSelectedFlightsInvalid = function () {
         return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
             $scope.event.outboundFlightSearch.selectedFlight.std > $scope.event.inboundFlightSearch.selectedFlight.std;
     };
@@ -112,8 +113,8 @@
             return $filter('filter')($scope.event.participants, { bdConfirmed: true }, true);
         else return [];
     };
-    
-    $scope.genderDisplayName = function(gender) {
+
+    $scope.genderDisplayName = function (gender) {
         if (gender == 0)
             return "M";
         else if (gender == 1)
@@ -121,18 +122,15 @@
         else
             return "?";
     };
-    
+
     $scope.bagageDisplayName = function (participant) {
-        if (!participant.bdConfirmed)
+        if (participant == null || !participant.bdConfirmed)
             return "";
-        if (participant.bagage == "B15")
-            return "15 kg";
-        else if (participant.bagage == "B20")
-            return "20 kg";
-        else
-            return "Geen";
+
+        var bagage = $filter('filter')($scope.bagages, { code: participant.bagage }, true);
+        return bagage.length == 1 ? bagage[0].name : "Geen"; 
     };
-    
+
     $scope.participantStatus = function (participant) {
         if (participant.bdConfirmed == true)
             return "Boekingsgegevens bevestigd";

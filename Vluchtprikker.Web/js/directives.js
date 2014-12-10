@@ -1,6 +1,4 @@
-﻿//html: focus-on="focusParticipantName"
-//js: $scope.$broadcast('focusParticipantName');
-app.directive('focusOn', function ($timeout) {
+﻿app.directive('focusOn', function ($timeout) {
     return function (scope, elem, attr) {
         scope.$on(attr.focusOn, function (e) {
             $timeout(function () {
@@ -70,8 +68,7 @@ app.directive('showErrors', function ($timeout, showErrorsConfig) {
             return linkFn;
         }
     };
-}
-  );
+});
 
 app.provider('showErrorsConfig', function () {
     var _showSuccess;
@@ -270,7 +267,7 @@ app.directive('availabilitybar', function ($log) {
     };
 });
 
-app.directive('participantdata', function ($log, $filter, participantService, $timeout, $modal) {
+app.directive('participantdata', function ($log, $filter, participantService, $timeout, $modal, bagageService) {
     return {
         restrict: 'E',
         scope: {
@@ -284,6 +281,7 @@ app.directive('participantdata', function ($log, $filter, participantService, $t
             $scope.days = [];
             $scope.months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
             $scope.years = [];
+            $scope.bagages = bagageService.get();
 
             $scope.$watch('participant', function (value, key) {
                 if ($scope.participant != undefined) {
