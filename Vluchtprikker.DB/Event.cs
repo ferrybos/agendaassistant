@@ -26,7 +26,6 @@ namespace Vluchtprikker.DB
         public string Description { get; set; }
         public Nullable<long> OutboundFlightSearchID { get; set; }
         public Nullable<long> InboundFlightSearchID { get; set; }
-        public System.Guid OrganizerPersonID { get; set; }
         public Nullable<short> StatusID { get; set; }
         public string PNR { get; set; }
         public string OrganizerName { get; set; }

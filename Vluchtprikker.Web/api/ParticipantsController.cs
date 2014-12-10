@@ -19,7 +19,7 @@ namespace Vluchtprikker.Web.api
     }
 
     [RoutePrefix("api/participants")]
-    public class ParticipantsController : ApiController
+    public class ParticipantsController : ApiBaseController
     {
         private readonly IParticipantService _service;
 
@@ -41,6 +41,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -61,6 +62,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -80,6 +82,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -99,6 +102,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }

@@ -134,7 +134,6 @@
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
           <Property Name="OutboundFlightSearchID" Type="bigint" />
           <Property Name="InboundFlightSearchID" Type="bigint" />
-          <Property Name="OrganizerPersonID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StatusID" Type="smallint" />
           <Property Name="PNR" Type="char" MaxLength="6" />
           <Property Name="OrganizerName" Type="nvarchar" Nullable="false" MaxLength="50" />
@@ -659,7 +658,6 @@
           <Property Type="String" Name="Description" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Type="Int64" Name="OutboundFlightSearchID" />
           <Property Type="Int64" Name="InboundFlightSearchID" />
-          <Property Type="Guid" Name="OrganizerPersonID" Nullable="false" />
           <Property Type="Int16" Name="StatusID" />
           <NavigationProperty Name="Emails" Relationship="VluchtprikkerModel.FK_Email_Event" FromRole="Event" ToRole="Email" />
           <NavigationProperty Name="InboundFlightSearch" Relationship="VluchtprikkerModel.FK_Event_InboundFlightSearch" FromRole="Event" ToRole="FlightSearch" />
@@ -884,7 +882,6 @@
                 <ScalarProperty Name="OrganizerName" ColumnName="OrganizerName" />
                 <ScalarProperty Name="PNR" ColumnName="PNR" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="OrganizerPersonID" ColumnName="OrganizerPersonID" />
                 <ScalarProperty Name="InboundFlightSearchID" ColumnName="InboundFlightSearchID" />
                 <ScalarProperty Name="OutboundFlightSearchID" ColumnName="OutboundFlightSearchID" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

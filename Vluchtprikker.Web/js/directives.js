@@ -371,7 +371,7 @@ app.directive('eventActions', function () {
         },
         controller: function ($scope, $filter, $window, $modal, eventService) {
             $scope.showParticipantActions = function() {
-                return $scope.event.pnr === null && getOrganizer() != null;
+                return $scope.event != null && $scope.event.pnr === null && getOrganizer() != null;
             };
 
             $scope.organizerId = function() {

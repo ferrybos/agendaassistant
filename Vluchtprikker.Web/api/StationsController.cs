@@ -18,7 +18,7 @@ namespace Vluchtprikker.Web.api
     }
 
     [RoutePrefix("api/stations")]
-    public class StationsController : ApiController
+    public class StationsController : ApiBaseController
     {
         private readonly IStationService _service;
 
@@ -33,20 +33,28 @@ namespace Vluchtprikker.Web.api
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var stations = _service.GetStations();
-            var routes = _service.GetRoutes();
+            try
+            {
+                var stations = _service.GetStations();
+                var routes = _service.GetRoutes();
 
-            var originCodes = routes.Select(r => r.Origin).Distinct().ToList();
-            var destinationCodes = routes.Select(r => r.Destination).Distinct().ToList();
+                var originCodes = routes.Select(r => r.Origin).Distinct().ToList();
+                var destinationCodes = routes.Select(r => r.Destination).Distinct().ToList();
 
-            var data = new StationsAndRoutesData
+                var data = new StationsAndRoutesData
                 {
                     Origins = stations.Where(s => originCodes.Contains(s.Code)).OrderBy(s => s.Name).ToList(),
                     Destinations = stations.Where(s => destinationCodes.Contains(s.Code)).OrderBy(s => s.Name).ToList(),
                     Routes = routes
                 };
 
-            return Ok(data);
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex);
+                return InternalServerError(ex);
+            }
         }
     }
 }

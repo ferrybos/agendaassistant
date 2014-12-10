@@ -17,7 +17,7 @@ namespace Vluchtprikker.Web.api
     }
 
     [RoutePrefix("api/availabilities")]
-    public class AvailabilitiesController : ApiController
+    public class AvailabilitiesController : ApiBaseController
     {
         private readonly IAvailabilityService _service;
 
@@ -30,19 +30,32 @@ namespace Vluchtprikker.Web.api
         [HttpGet]
         public IHttpActionResult Get(string participantId)
         {
-            var evn = _service.Get(participantId);
-
-            // fetch existing event
-            return Ok(evn);
+            try
+            {
+                var evn = _service.Get(participantId);
+                return Ok(evn);
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex);
+                return InternalServerError(ex);
+            }
         }
 
         [Route("")]
         [HttpPost]
         public IHttpActionResult Post([FromBody] Availability availability)
         {
-            // update av
-            _service.Update(availability);
-            return Ok();
+            try
+            {
+                _service.Update(availability);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex);
+                return InternalServerError(ex);
+            }
         }
 
         /// <summary>
@@ -61,6 +74,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }

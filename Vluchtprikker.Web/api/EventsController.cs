@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Http;
+using Vluchtprikker.DB.Repositories;
 using Vluchtprikker.Entities;
+using Vluchtprikker.Repositories;
 using Vluchtprikker.Services;
 using Vluchtprikker.Shared;
 
@@ -36,7 +38,7 @@ namespace Vluchtprikker.Web.api
     }
 
     [RoutePrefix("api/events")]
-    public class EventsController : ApiController
+    public class EventsController : ApiBaseController
     {
         private readonly IEventService _service;
 
@@ -72,6 +74,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
             
@@ -89,6 +92,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -111,6 +115,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -126,6 +131,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -143,6 +149,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -159,6 +166,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }
@@ -175,6 +183,7 @@ namespace Vluchtprikker.Web.api
             }
             catch (Exception ex)
             {
+                HandleServerError(ex);
                 return InternalServerError(ex);
             }
         }

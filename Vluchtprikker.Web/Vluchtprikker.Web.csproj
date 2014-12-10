@@ -173,10 +173,13 @@
     <Content Include="views\event.html" />
     <Content Include="views\home.html" />
     <Content Include="views\newevent.html" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="api\AvailabilitiesController.cs" />
+    <Compile Include="api\ApiBaseController.cs" />
     <Compile Include="api\StationsController.cs" />
     <Compile Include="api\HelloWorldController.cs" />
     <Compile Include="api\ErrorsController.cs" />
@@ -220,11 +223,17 @@
     <None Include="Properties\PublishProfiles\vluchtprikker - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikkertest - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikkertest - Web Deploy.pubxml" />
+    <None Include="Web.Acceptance.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -255,6 +264,15 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Acceptance|AnyCPU' ">
+    <OutputPath>bin\Acceptance\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
