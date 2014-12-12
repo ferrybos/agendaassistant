@@ -1,29 +1,37 @@
-﻿<div style="margin-bottom: 10px">
-    <button type="button" class="btn btn-primary btn-sm" ng-click="selectAllFlights(true)">
-        <span class="glyphicon glyphicon-check" style="color: white"></span>
-        Alles selecteren
-    </button>
-    <button type="button" class="btn btn-primary btn-sm" ng-click="selectAllFlights(false)">
-        <span class="glyphicon glyphicon-unchecked" style="color: white"></span>
-        Alles deselecteren
-    </button>
+﻿<div ng-show="flights.length == 0">
+    <div class="alert alert-danger" role="alert">
+        <p>Geen vluchten gevonden.</p>
+        <p>Probeer opnieuw met een andere periode of pas de weekdagen of maximum prijs aan.</p>
+    </div>
 </div>
 
-<div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in flights | groupBy: 'departureDate'">
-    <div class="panel-heading departureDateHeader">{{ key | date : 'EEE dd-MMM' }}</div>
-    <div class="panel-body" style="padding: 0">
-        <table id="flights-table" class="table table-condensed table-hover">
-            <tbody>
-                <tr ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
-                    <td>
-                        <div style="float: left; padding-left: 15px" ng-show="flight.IsSelected === true"><span class="glyphicon glyphicon-check" style="font-size: large; padding-top: 2px"></span></div>
-                        <div style="float: left; padding-left: 15px" ng-show="flight.IsSelected !== true"><span class="glyphicon glyphicon-unchecked" style="font-size: large; padding-top: 2px"></span></div>
-                        <div style="float: left; margin-left: 20px"><span class="flighttime">{{flight.std | date : 'HH:mm'}}</span></div>
-                        <div style="float: left; margin-left: 20px"><span>Aankomst: {{flight.sta | date : 'HH:mm'}}</span></div>
-                        <div style="float: right; margin-left: 20px"><span class="badge price" style="line-height: 18px; margin-left: 5px">{{flight.price}} EUR</span></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<div ng-show="flights.length > 0">
+    <div style="margin-bottom: 10px">
+        <button type="button" class="btn btn-primary btn-sm" ng-click="selectAllFlights(true)">
+            <span class="glyphicon glyphicon-check" style="color: white"></span>
+            Alles selecteren
+        </button>
+        <button type="button" class="btn btn-primary btn-sm" ng-click="selectAllFlights(false)">
+            <span class="glyphicon glyphicon-unchecked" style="color: white"></span>
+            Alles deselecteren
+        </button>
+    </div>
+
+    <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in flights | groupBy: 'departureDate'">
+        <div class="panel-heading departureDateHeader">{{ key | date : 'EEE dd-MMM' }}</div>
+        <div class="panel-body" style="padding: 0">
+            <table id="flights-table" class="table table-condensed table-hover">
+                <tbody>
+                    <tr ng-repeat="flight in value" ng-click="toggleIsSelected(flight);" ng-class="{success: flight.IsSelected === true }" style="cursor: pointer">
+                        <td>
+                            <div style="float: left; padding-left: 15px" ng-show="flight.IsSelected === true"><span class="glyphicon glyphicon-check" style="font-size: large; padding-top: 2px"></span></div>
+                            <div style="float: left; padding-left: 15px" ng-show="flight.IsSelected !== true"><span class="glyphicon glyphicon-unchecked" style="font-size: large; padding-top: 2px"></span></div>
+                            <div style="float: left; margin-left: 20px"><span>Vertrek: {{flight.std | date : 'HH:mm'}}</span><span style="margin-left: 20px">Aankomst: {{flight.sta | date : 'HH:mm'}}</span></div>
+                            <div style="float: right; margin-left: 20px"><span class="price" style="margin-left: 5px">{{flight.price}} EUR</span></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

@@ -1,11 +1,30 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, $location, Constants, availabilityService, eventService) {
-    $scope.constants = Constants;
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
     $scope.event = null;
     $scope.activeTabIndex = 0;
     $rootScope.infoMessage = "";
     $scope.participant = null;
     $scope.isConfirming = false;
+    $scope.showBookingDetails = false;
     
+    // participant
+    $scope.selectedDate = { day: null, month: null, year: null };
+    $scope.days = [];
+    $scope.months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+    $scope.years = [];
+    $scope.bagages = bagageService.get();
+
+    initcalendar();
+
+    function initcalendar() {
+        for (var d = 1; d <= 31 ; d++) {
+            $scope.days.push(d);
+        };
+
+        for (var y = new Date().getFullYear() ; y >= 1900; y--) {
+            $scope.years.push(y);
+        };
+    };
+
     getData();
 
     function getData() {
@@ -13,9 +32,17 @@
             .success(function(data) {
                 $log.log("event = " + JSON.stringify(data));
                 $scope.event = data;
+                $scope.participant = $filter('filter')($scope.event.participants, { id: $routeParams.participantid }, true)[0];
                 
-                //$scope.participant = $filter('filter')($scope.event.participants, { id: $routeParams.participantid }, true);
-                $scope.participant = $scope.event.participants[0];
+                if ($scope.participant.person.dateOfBirth != null) {
+                    var date = new Date($scope.participant.person.dateOfBirth);
+                    $log.log("dateOfBirth: " + $filter('date')(date));
+                    $scope.selectedDate.day = date.getDate();
+                    $scope.selectedDate.month = date.getMonth();
+                    $scope.selectedDate.year = date.getFullYear();
+                }
+                
+                $scope.showBookingDetails = $scope.participant.person.email != $scope.event.organizerEmail;
 
                 var view = $location.search().view;
                 if (view != undefined) {
@@ -33,12 +60,12 @@
                 refreshFlights();
             })
             .error(function(error) {
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
                 $scope.event = null;
             });
     };
     
-    // todo: refactor to reusable code (is also in event controller!)
+    // todo: refactor to reusable code (is also in event controller!) -> service?
     function refreshFlights() {
         if (!$scope.event.isConfirmed || $scope.event.pnr != null) {
            // $log.log("No refresh");
@@ -59,37 +86,36 @@
             })
             .error(function (error) {
                 $scope.isRefreshingFlights = false;
-                if (error != null) {
-                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
-                }
+                errorService.show(error);
             });
     }
 
     $scope.Confirm = function () {
         $scope.isConfirming = true;
 
-        // check if all availability is set
+        var selectedDob = new Date().setFullYear($scope.selectedDate.year, $scope.selectedDate.month, $scope.selectedDate.day);
+        $log.log($filter('date')(selectedDob, "yyyy-MM-dd"));
+        $scope.participant.person.dateOfBirth = $filter('date')(selectedDob, "yyyy-MM-dd");
         
-        
-        availabilityService.confirm($scope.participant.id)
+        participantService.update($scope.participant)
             .success(function (data) {
                 $scope.isConfirming = false;
                 $scope.participant.avConfirmed = true;
-
+                
                 var msgContent = "Bedankt voor het invullen van uw beschikbaarheid. ";
                 if ($scope.participant.person.email != $scope.event.organizerEmail)
                     msgContent += "Er is een email verstuurd naar de organisator.";
-                
+
                 $modal({ title: "Beschikbaarheid", content: msgContent, show: true });
             })
             .error(function (error) {
                 $scope.isConfirming = false;
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
             });
     };
 });
 
-angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $modal, $timeout, $filter, $routeParams, Constants, availabilityService) {
+angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $modal, $timeout, $filter, $routeParams, availabilityService, errorService) {
     var timeout = null;
     
     var saveUpdates = function () {
@@ -101,7 +127,7 @@ angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $root
                 }, 3000);
             })
             .error(function(error) {
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
             });
     };
     

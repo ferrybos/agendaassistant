@@ -181,10 +181,8 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="PersonID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Bagage" Type="varchar" MaxLength="4" />
           <Property Name="AvailabilityConfirmed" Type="bit" Nullable="false" />
-          <Property Name="BookingDetailsConfirmed" Type="bit" Nullable="false" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="FirstNameInPassport" Type="nvarchar" MaxLength="50" />
@@ -512,14 +510,12 @@
           </Key>
           <Property Type="Guid" Name="ID" Nullable="false" />
           <Property Type="Guid" Name="EventID" Nullable="false" />
-          <Property Type="Guid" Name="PersonID" Nullable="false" />
           <Property Type="String" Name="Bagage" MaxLength="4" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Availabilities" Relationship="VluchtprikkerModel.FK_Availability_Participant" FromRole="Participant" ToRole="Availability" />
           <NavigationProperty Name="Comments" Relationship="VluchtprikkerModel.FK_Comment_Participant" FromRole="Participant" ToRole="Comment" />
           <NavigationProperty Name="Emails" Relationship="VluchtprikkerModel.Recipient" FromRole="Participant" ToRole="Email" />
           <NavigationProperty Name="Event" Relationship="VluchtprikkerModel.FK_Participant_Event" FromRole="Participant" ToRole="Event" />
           <Property Type="Boolean" Name="AvailabilityConfirmed" Nullable="false" />
-          <Property Type="Boolean" Name="BookingDetailsConfirmed" Nullable="false" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Email" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="FirstNameInPassport" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -813,10 +809,8 @@
                 <ScalarProperty Name="FirstNameInPassport" ColumnName="FirstNameInPassport" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="BookingDetailsConfirmed" ColumnName="BookingDetailsConfirmed" />
                 <ScalarProperty Name="AvailabilityConfirmed" ColumnName="AvailabilityConfirmed" />
                 <ScalarProperty Name="Bagage" ColumnName="Bagage" />
-                <ScalarProperty Name="PersonID" ColumnName="PersonID" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>

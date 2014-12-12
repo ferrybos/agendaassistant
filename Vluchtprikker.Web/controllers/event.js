@@ -1,5 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, Constants, eventService, bagageService) {
-    $scope.constants = Constants;
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, eventService, bagageService, errorService) {
     $scope.event = null;
     $scope.isConfirming = false;
     $scope.availabilityUrl = "#/availability/";
@@ -18,7 +17,7 @@
                 refreshFlights();
             })
             .error(function (error) {
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
                 $scope.event = null;
             });
     };
@@ -43,9 +42,7 @@
             })
             .error(function (error) {
                 $scope.isRefreshingFlights = false;
-                if (error != null) {
-                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
-                }
+                errorService.show(error);
             });
     }
 
@@ -89,9 +86,7 @@
                 $modal({ title: $scope.event.title, content: "Er is een email verstuurd naar alle deelnemers met de geboekte vlucht informatie.", show: true });
             })
             .error(function (error) {
-                if (error != null) {
-                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
-                }
+                errorService.show(error);
             });
     };
 
@@ -109,33 +104,37 @@
             $scope.event.outboundFlightSearch.selectedFlight.std > $scope.event.inboundFlightSearch.selectedFlight.std;
     };
 
-    $scope.bdConfirmedParticipants = function () {
-        if ($scope.event != null)
-            return $filter('filter')($scope.event.participants, { bdConfirmed: true }, true);
-        else return [];
-    };
+    $scope.personDetails = function (participant) {
+        if (participant == null || participant.isOrganizer)
+            return "";
 
-    $scope.genderDisplayName = function (gender) {
-        if (gender == 0)
-            return "M";
-        else if (gender == 1)
-            return "V";
-        else
-            return "?";
+        if (!participant.avConfirmed)
+            return "-";
+
+        var genderText = participant.person.gender == 0 ? "(M)" : "(V)";
+
+        return participant.person.firstNameInPassport + " " +
+            participant.person.lastNameInPassport + " " +
+            genderText + " " +
+            $filter('date')(participant.person.dateOfBirth, "dd-MMM-yyyy");
     };
 
     $scope.bagageDisplayName = function (participant) {
-        if (participant == null || !participant.bdConfirmed)
+        if (participant == null || participant.isOrganizer)
             return "";
+
+        if (!participant.avConfirmed)
+            return "-";
 
         var bagage = $filter('filter')($scope.bagages, { code: participant.bagage }, true);
         return bagage.length == 1 ? bagage[0].name : "Geen"; 
     };
 
     $scope.participantStatus = function (participant) {
-        if (participant.bdConfirmed == true)
-            return "Boekingsgegevens bevestigd";
-        else if (participant.avConfirmed == true)
+        if (participant == null || participant.isOrganizer)
+            return "";
+        
+        if (participant.avConfirmed == true)
             return "Beschikbaarheid bevestigd";
         else
             return "Nog niet bevestigd";

@@ -118,10 +118,9 @@ body {
 }
 
 .price {
-    width: 80px;
-    min-width: 80px;
-    background-color: green;
+    color: #84b70b;
     font-size: 14px;
+    font-weight: bold;
 }
 
 a.disabled {
@@ -145,6 +144,10 @@ ul {
 h1, h4 {
     color: #84b70b;
     border-bottom: 0;
+}
+
+h4.originDestination {
+    border-bottom: 1px solid #84b70b;
 }
 
 h1 {

@@ -55,9 +55,25 @@ namespace Vluchtprikker.Services
                                                    participant.Person.LastNameInPassport, participant.Person.DateOfBirth,
                                                    gender);
 
-            //_mailService.SendBookingDetails(dbParticipant);
+            if (!dbParticipant.Gender.HasValue || string.IsNullOrWhiteSpace(dbParticipant.FirstNameInPassport) ||
+                string.IsNullOrWhiteSpace(dbParticipant.LastNameInPassport) || dbParticipant.Bagage == null || !dbParticipant.DateOfBirth.HasValue)
+            {
+                throw new ApplicationException("U heeft nog niet alle boekingsgegevens ingevuld.");
+            }
 
-            dbParticipant.BookingDetailsConfirmed = true;
+            var isComplete = dbParticipant.Availabilities.All(a => a.Value.HasValue);
+            if (!isComplete)
+            {
+                throw new ApplicationException("U heeft nog niet alle beschikbaarheid ingevuld.");
+            }
+
+            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
+
+            // dont send to myself if the organizer is a participant also
+            if (!dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
+                _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
+
+            dbParticipant.AvailabilityConfirmed = true;
             _dbContext.Current.SaveChanges();
         }
 

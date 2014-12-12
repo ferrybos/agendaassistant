@@ -52,6 +52,7 @@ namespace Vluchtprikker.Services
             var eventIsActive = dbEvent.PNR == null;
 
             var evn = EntityMapper.Map(dbEvent, includeAvailability: eventIsActive);
+            new FlightSearchService(_dbContext).AddStationNames(evn);
 
             return evn;
         }

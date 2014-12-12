@@ -16,11 +16,11 @@
 
     <div class="row" style="margin-top: 10px">
         <div class="col-sm-6 leftcol">
-            <label class="control-label" for="begindate">Eerste optie</label>
+            <label class="control-label" for="begindate">Heen vanaf</label>
             <input type="text" id="begindate" class="form-control" ng-model="event.beginDate" data-min-date="today" name="begindate" bs-datepicker ng-required="true">
         </div>
         <div class="col-sm-6 rightcol">
-            <label class="control-label" for="enddate">Laatste optie (max 30 dagen later)</label>
+            <label class="control-label" for="enddate">Uiterlijk terug op (max 30 dagen later)</label>
             <input type="text" id="enddate" class="form-control" ng-model="event.endDate" data-min-date="{{event.beginDate}}" name="enddate" bs-datepicker ng-required="true">
         </div>
     </div>
@@ -63,9 +63,6 @@
 </div>
 
 <div ng-if="outboundFlights !== null && isloading !== true" style="margin-top: 20px">
-    <div ng-show="outboundFlights.length == 0 && inboundFlights.length == 0">
-        <div class="alert alert-danger" role="alert">Geen vluchten gevonden</div>
-    </div>
     <div ng-show="outboundFlights.length > 0 || inboundFlights.length > 0">
         <info>
             <p>Druk op de prijsbalk om een vlucht te (de)selecteren.</p>
@@ -73,16 +70,16 @@
                 Prijzen zijn vanaf-prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
             </p>
         </info>
-
-        <div class="row">
-            <div class="col-md-6 leftcol">
-                <h4>Heen vlucht ({{event.origin}} - {{event.destination}})</h4>
-                <flightlist flights="outboundFlights"></flightlist>
-            </div>
-            <div class="col-md-6 rightcol">
-                <h4>Terug vlucht ({{event.destination}} - {{event.origin}})</h4>
-                <flightlist flights="inboundFlights"></flightlist>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 leftcol">
+            <h4>Heen ({{event.origin}} - {{event.destination}})</h4>
+            <flightlist flights="outboundFlights"></flightlist>
+        </div>
+        <div class="col-md-6 rightcol">
+            <h4>Terug ({{event.destination}} - {{event.origin}})</h4>
+            <flightlist flights="inboundFlights"></flightlist>
         </div>
     </div>
+
 </div>

@@ -4,50 +4,106 @@
 <div id="wrapper" ng-show="event != null">
     <h1>{{::event.title}}</h1>
     <event-sub-title event="event"></event-sub-title>
-    <event-description event="event"></event-description>
     <h4>Deelnemer {{participant.person.name}}</h4>
-    
-    <div ng-if="event.pnr == null">
-        <div class="btn-group btn-group-justified" style="margin-bottom: 20px">
-            <a role="button" class="btn" ng-class="activeTabIndex == 0 ? 'btn-primary' : 'btn-default'" ng-click="activeTabIndex = 0">Beschikbaarheid</a>
-            <a role="button" class="btn" ng-class="activeTabIndex == 1 ? 'btn-primary' : 'btn-default'" ng-click="activeTabIndex = 1">Boekingsgegevens</a>
-        </div>
 
-        <div ng-show="activeTabIndex == 0">
-            <div ng-show="participant.avConfirmed === true">
-                <div class="alert alert-success" role="alert">U heeft uw beschikbaarheid al bevestigd.</div>
-                <a ng-click="participant.avConfirmed = false" style="cursor: pointer">Beschikbaarheid wijzigen</a>
-            </div>
-            <div ng-show="participant.avConfirmed !== true">
-                <info>
-                    Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.
+    <div ng-if="event.pnr == null">
+        <div ng-show="participant.avConfirmed === true">
+            <div class="alert alert-success" role="alert">U heeft uw beschikbaarheid al bevestigd.</div>
+            <a ng-click="participant.avConfirmed = false" style="cursor: pointer">Beschikbaarheid wijzigen</a>
+        </div>
+        <div ng-show="participant.avConfirmed !== true">
+            <info>
+                    <p>Vul hier uw beschikbaarheid in en druk onderaan op de Bevestigen knop om de beschikbaarheid door te geven aan de organisator.</p>
                     <p>
-                Prijzen zijn vanaf-prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
+                Prijzen zijn actuele prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
             </p>
                 </info>
 
-                <div class="row">
-                    <div class="col-md-6 leftcol">
-                        <h4>Heen vluchten ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
-                        <availabilitylist flightsearch="event.outboundFlightSearch"></availabilitylist>
-                    </div>
-                    <div class="col-md-6 rightcol">
-                        <h4>Terug vluchten ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
-                        <availabilitylist flightsearch="event.inboundFlightSearch"></availabilitylist>
-                    </div>
+            <div class="row">
+                <div class="col-md-6 leftcol">
+                    <h4 class="originDestination">Heen: {{event.outboundFlightSearch.departureStationName}} - {{event.outboundFlightSearch.arrivalStationName}}</h4>
+                    <availabilitylist flightsearch="event.outboundFlightSearch"></availabilitylist>
                 </div>
+                <div class="col-md-6 rightcol">
+                    <h4 class="originDestination">Terug: {{event.inboundFlightSearch.departureStationName}} - {{event.inboundFlightSearch.arrivalStationName}}</h4>
+                    <availabilitylist flightsearch="event.inboundFlightSearch"></availabilitylist>
+                </div>
+            </div>
 
+            <div ng-show="showBookingDetails === true" style="margin-top:20px">
+                <info>Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</info>
+
+                <form name="bookingDetailsForm" novalidate>
+                    <h4>Ruim bagage</h4>
+
+                    <div class="row">
+                        <div class="col-sm-6 leftcol">
+                            <!--Bagage-->
+                            <label class="control-label" for="gender">Hoeveel ruim bagage wilt u bij boeken?</label><br />
+                            <select id="Select1" class="form-control" ng-model="participant.bagage">
+                                <option value="">Geen</option>
+                                <option ng-repeat="b in bagages" value="{{b.code}}">{{b.name}} ({{b.price}} EUR)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h4>Paspoort</h4>
+
+                    <div class="row">
+                        <div class="col-sm-6 leftcol">
+                            <!--FirstNameInPassport-->
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <label class="control-label" for="firstNameInPassport">Voornaam *</label><br />
+                                <input type="text" class="form-control" name="firstNameInPassport" ng-model="participant.person.firstNameInPassport" focus-on="focusFirstNameInPassport" placeholder="Voornaam in paspoort" maxlength="100" autocomplete="off" required />
+                            </div>
+                        </div>
+                        <!--LastNameInPassport-->
+                        <div class="col-sm-6 rightcol">
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <label class="control-label" for="lastNameInPassport">Achternaam *</label><br />
+                                <input type="text" class="form-control" name="lastNameInPassport" ng-model="participant.person.lastNameInPassport" placeholder="Achternaam in paspoort" maxlength="100" autocomplete="off" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6 leftcol">
+                            <!--Gender-->
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <label class="control-label" for="gender">Geslacht *</label><br />
+                                <select id="gender" class="form-control" name="gender" ng-model="participant.person.gender" required>
+                                    <option value="0">Man</option>
+                                    <option value="1">Vrouw</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--DateOfBirth-->
+                        <div class="col-sm-6 rightcol">
+                            <div class="form-group" show-errors='{showSuccess: true}'>
+                                <label class="control-label" for="dateOfBirth">Geboortedatum *</label>
+                                <div>
+                                    <div style="float: left; margin-right: 2px">
+                                        <select name="day" class="form-control" ng-model="selectedDate.day" style="display: table-cell" required>
+                                            <option ng-repeat="d in days" value="{{d}}">{{d}}</option>
+                                        </select>
+                                    </div>
+                                    <div style="float: left; margin-right: 2px">
+                                        <select name="month" class="form-control" ng-model="selectedDate.month" style="display: table-cell" required>
+                                            <option ng-repeat="m in months" value="{{$index}}">{{m}}</option>
+                                        </select>
+                                    </div>
+                                    <div style="float: left; margin-right: 2px">
+                                        <select name="year" class="form-control" ng-model="selectedDate.year" style="display: table-cell" required>
+                                            <option ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <br />
-                <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()" ng-disabled="isConfirming === true">Bevestigen</button>
-            </div>
-        </div>
-        <div ng-show="activeTabIndex == 1">
-            <div ng-show="participant.bdConfirmed === true">
-                <div class="alert alert-success" role="alert">U heeft uw boekingsgegevens al bevestigd.</div>
-                <a ng-click="participant.bdConfirmed = false" style="cursor: pointer">Boekingsgegevens wijzigen</a>
-            </div>
-            <div ng-show="participant.bdConfirmed !== true">
-                <participantdata participant="participant"></participantdata>
+                <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="Confirm()" ng-disabled="bookingDetailsForm.$invalid || isConfirming === true">Bevestigen</button>
             </div>
         </div>
     </div>

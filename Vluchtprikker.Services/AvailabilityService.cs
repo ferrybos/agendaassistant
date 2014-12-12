@@ -14,7 +14,6 @@ namespace Vluchtprikker.Services
         Event Get(string participantId);
         //List<Availability> GetByEvent(string eventId);
         void Update(Availability availability);
-        void Confirm(string participantId);
     }
 
     /// <summary>
@@ -24,13 +23,11 @@ namespace Vluchtprikker.Services
     {
         private readonly AvailabilityRepository _repository;
         private readonly IDbContext _dbContext;
-        private readonly IMailService _mailService;
 
         public AvailabilityService(IDbContext dbContext, IMailService mailService)
         {
             _dbContext = dbContext;
             _repository = new AvailabilityRepository(_dbContext);
-            _mailService = mailService;
         }
 
         public Event Get(string participantId)
@@ -46,6 +43,7 @@ namespace Vluchtprikker.Services
 
             var evn = EntityMapper.Map(dbEvent, includeParticipants: false, includeFlights: eventIsActive,
                                        includeAvailability: eventIsActive);
+            new FlightSearchService(_dbContext).AddStationNames(evn);
 
             // don't add other participant data
             evn.Participants.Add(EntityMapper.Map(dbParticipant)); 
@@ -96,26 +94,6 @@ namespace Vluchtprikker.Services
             var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(availability.ParticipantId));
 
             _repository.Update(dbParticipant.ID, availability.FlightId, availability.Value, availability.CommentText);
-        }
-
-        public void Confirm(string participantId)
-        {
-            var dbParticipant = new ParticipantRepository(_dbContext).Single(GuidUtil.ToGuid(participantId));
-
-            var isNotComplete = dbParticipant.Availabilities.Any(a => !a.Value.HasValue);
-            if (isNotComplete)
-            {
-                throw new ApplicationException("U heeft nog niet alle beschikbaarheid ingevuld.");
-            }
-
-            var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
-
-            // dont send to myself if the organizer is a participant also
-            if (!dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
-                _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
-
-            dbParticipant.AvailabilityConfirmed = true;
-            _dbContext.Current.SaveChanges();
         }
     }
 }

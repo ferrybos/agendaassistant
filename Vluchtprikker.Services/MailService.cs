@@ -120,19 +120,8 @@ namespace Vluchtprikker.Services
             if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
                 return;
 
-            if (dbParticipant.AvailabilityConfirmed && dbParticipant.BookingDetailsConfirmed)
-                return;
-
-            string confirmedText = "";
-            if (!dbParticipant.AvailabilityConfirmed && !dbParticipant.BookingDetailsConfirmed)
-                confirmedText = "beschikbaarheid en boekingsgegevens";
-            else if (!dbParticipant.AvailabilityConfirmed && dbParticipant.BookingDetailsConfirmed)
-                confirmedText = "beschikbaarheid";
-            else if (dbParticipant.AvailabilityConfirmed && !dbParticipant.BookingDetailsConfirmed)
-                confirmedText = "boekingsgegevens";
-
-            string announcement = string.Format("U heeft uw {0} nog niet bevestigd voor de afspraak '{1}'.",
-                                                confirmedText, dbEvent.Title);
+            string announcement = string.Format("U heeft uw beschikbaarheid nog niet bevestigd voor de afspraak '{0}'.",
+                                                dbEvent.Title);
 
             SendToParticipant(
                 dbParticipant,

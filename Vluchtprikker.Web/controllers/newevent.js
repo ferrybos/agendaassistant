@@ -1,8 +1,7 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, $modal, $exceptionHandler, Constants, stationService, eventService, participantService, insights) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, $modal, $exceptionHandler, stationService, eventService, participantService, insights, errorService) {
     console.log($exceptionHandler);
     insights.logEvent('NewEventCtrl Activated');
 
-    $scope.constants = Constants;
     $scope.CurrentStepIndex = 1;
     $scope.isLoading = false;
     $scope.isWaitingForNewEvent = false;
@@ -14,7 +13,7 @@
     // Flights default
     $scope.outboundFlights = null;
     $scope.inboundFlights = null;
-    $scope.event = {id:"", title: "", description: "", organizerName: "", organizerEmail: ""};
+    $scope.event = {id:"", title: "", description: "", organizerName: "", organizerEmail: "", participants: []};
     
     // Get route information async
     $scope.origins = null;
@@ -30,7 +29,7 @@
                 $scope.routes = data.routes;
             })
             .error(function (error) {
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
             });
     };
 
@@ -58,12 +57,10 @@
         
         eventService.complete($scope.event)
            .success(function (data) {
-               //$log.log("Event: " + JSON.stringify(data));
-               //$scope.CurrentStepIndex = 2;
                $location.path("/event/" + $scope.event.id);
            })
            .error(function (error) {
-               $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+               errorService.show(error);
            });
     };
 
@@ -90,12 +87,11 @@
         insights.logEvent('User selects participants step');
 
         if ($scope.event.id == "") {
-            $scope.iswaitingfornewevent = true;
+            $scope.event.participants.push({ id: null, person: { name: $scope.event.organizerName, email: $scope.event.organizerEmail } });
+            $log.log("addParticipant: " + $scope.event.participants[0]);
 
-            $log.log("addParticipant: " + $scope.addParticipant);
             eventService.new($scope.event.title, $scope.event.description, $scope.event.organizerName, $scope.event.organizerEmail, $scope.addParticipant)
                .success(function (data) {
-                   $scope.iswaitingfornewevent = false;
                    $scope.event = data;
                    
                    // set defaults on first hit
@@ -104,9 +100,9 @@
                    $scope.event.endDate = myDate.setDate(myDate.getDate() + 6);
                })
                .error(function (error) {
-                   $scope.iswaitingfornewevent = false;
-                   $scope.currentstepindex = 1; // back to step 1
-                   $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                   $scope.event.participants = [];
+                   $scope.CurrentStepIndex = 1; // back to step 1
+                   errorService.show(error);
                });
         }
 
@@ -133,7 +129,7 @@
                     $scope.event.participants.push(data);
                 })
                 .error(function (error) {
-                    $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                    errorService.show(error);
                 });
 
             clearParticipantInput();
@@ -152,7 +148,7 @@
                 $scope.event.participants.splice(index, 1);
             })
             .error(function (error) {
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
             });
     };
 

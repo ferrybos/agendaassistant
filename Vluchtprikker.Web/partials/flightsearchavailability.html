@@ -22,7 +22,7 @@
                         <td>
                             <table class="table" ng-class="{disabled: flight.enabled === false }">
                                 <tr>
-                                    <td style="padding-right: 20px; border-top: 0;" ng-show="event.isPushpinActive === true">
+                                    <td style="padding-right: 20px; border-top: 0;">
                                         <button type="button" class="btn" ng-show="flight.enabled === true" ng-click="SelectFlight(flightsearch, flight)" ng-class="flightsearch.selectedFlight != null && flight.id == flightsearch.selectedFlight.id  ? 'btn-success' : 'btn-default'" title="Prik deze vlucht">
                                             <span class="glyphicon glyphicon-pushpin"></span>
                                         </button>

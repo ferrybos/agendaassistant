@@ -20,5 +20,9 @@ namespace Vluchtprikker.Entities
 
         public List<Flight> Flights { get; set; }
         public Flight SelectedFlight { get; set; }
+
+        // Extra properties for UI
+        public string DepartureStationName { get; set; }
+        public string ArrivalStationName { get; set; }
     }
 }

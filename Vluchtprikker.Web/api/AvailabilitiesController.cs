@@ -57,26 +57,5 @@ namespace Vluchtprikker.Web.api
                 return InternalServerError(ex);
             }
         }
-
-        /// <summary>
-        /// Called to add new participants
-        /// </summary>
-        [Route("confirm")]
-        [HttpPost]
-        public IHttpActionResult Confirm([FromBody] ParticipantId data)
-        {
-            // new participant
-            try
-            {
-                _service.Confirm(data.Id);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                HandleServerError(ex);
-                return InternalServerError(ex);
-            }
-        }
     }
 }

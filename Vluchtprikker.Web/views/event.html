@@ -7,7 +7,6 @@
     <ng-include src="'partials/eventNotConfirmed.html'"></ng-include>
     <div ng-show="event.isConfirmed">
         <event-sub-title event="event"></event-sub-title>
-        <event-description event="event"></event-description>
         <event-actions event="event"></event-actions>
 
         <div class="row">
@@ -28,7 +27,7 @@
                         <td>{{$index+1}}</td>
                         <td><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
                         <td>{{::participant.person.email}}</td>
-                        <td>{{::participant.person.firstNameInPassport}} {{::participant.person.lastNameInPassport}} ({{::genderDisplayName(participant.person.gender)}}) {{::participant.person.dateOfBirth | date : 'dd-MMM-yyyy'}}</td>
+                        <td>{{::personDetails(participant)}}</td>
                         <td>{{::bagageDisplayName(participant)}}</td>
                         <td ng-class="{unconfirmed: participant.avConfirmed == false}">{{::participantStatus(participant)}}</td>
                     </tr>
@@ -42,11 +41,11 @@
 
         <div class="row">
             <div class="col-md-6 leftcol">
-                <h4>Heen vlucht ({{event.outboundFlightSearch.departureStation}} - {{event.outboundFlightSearch.arrivalStation}})</h4>
+                <h4 class="originDestination">Heen: {{event.outboundFlightSearch.departureStationName}} - {{event.outboundFlightSearch.arrivalStationName}}</h4>
                 <flight-search-availability event="event" flightsearch="event.outboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
             </div>
             <div class="col-md-6 rightcol">
-                <h4>Terug vlucht ({{event.inboundFlightSearch.departureStation}} - {{event.inboundFlightSearch.arrivalStation}})</h4>
+                <h4 class="originDestination">Terug: {{event.inboundFlightSearch.departureStationName}} - {{event.inboundFlightSearch.arrivalStationName}}</h4>
                 <flight-search-availability event="event" flightsearch="event.inboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
             </div>
         </div>

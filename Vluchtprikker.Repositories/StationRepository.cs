@@ -17,6 +17,11 @@ namespace Vluchtprikker.Repositories
         {
         }
 
+        public Station Single(string iataCode)
+        {
+            return DbContext.Stations.Single(s => s.Code.Equals(iataCode));
+        }
+
         public List<Station> GetStations()
         {
             return DbContext.Stations.ToList();

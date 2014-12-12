@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $modal, $routeParams, eventService) {
+﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $modal, $routeParams, eventService, errorService) {
     $scope.event = null;
     $scope.isConfirming = true;
     $scope.isConfirmSucceeded = false;
@@ -23,12 +23,12 @@
                         .error(function (error) {
                             $scope.isConfirming = false;
                             $scope.isConfirmSucceeded = false;
-                            $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                            errorService.show(error);
                         });
                 }
             })
             .error(function (error) {
-                $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                errorService.show(error);
                 $scope.event = null;
             });
     };

@@ -21,9 +21,6 @@ namespace Vluchtprikker.Entities
         [JsonProperty(PropertyName = "AvConfirmed")]
         public bool AvailabilityConfirmed { get; set; }
 
-        [JsonProperty(PropertyName = "BdConfirmed")]
-        public bool BookingDetailsConfirmed { get; set; }
-
-
+        public bool IsOrganizer { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace Vluchtprikker.Entities
 
         public string DepartureStation { get; set; }
         public string ArrivalStation { get; set; }
+
         public DateTime DepartureDate { get; set; }
         public DateTime STD { get; set; }
         public DateTime STA { get; set; }
@@ -20,7 +21,7 @@ namespace Vluchtprikker.Entities
         public short FlightNumber { get; set; }
         public decimal Price { get; set; }
         public bool Enabled { get; set; }
-        
+
         [JsonProperty(PropertyName = "av")]
         public List<Availability> Availabilities = new List<Availability>();
 

@@ -206,7 +206,7 @@ app.directive('flightlist', function ($log) {
     };
 });
 
-app.directive('flightSearchAvailability', function (eventService, $modal, $log) {
+app.directive('flightSearchAvailability', function (eventService, $modal, $log, errorService) {
     return {
         restrict: 'E',
         scope: {
@@ -218,12 +218,17 @@ app.directive('flightSearchAvailability', function (eventService, $modal, $log) 
             $scope.SelectFlight = function (flightSearch, flight) {
                 var selectedFlightId = flight != null ? flight.id : 0;
 
+                // already apply in UI and rollback in case of error. This gives better performance!
+                var originalSelectedFlight = flightSearch.selectedFlight;
+                flightSearch.selectedFlight = flight;
+                
                 eventService.selectflight($scope.event.id, flightSearch.id, selectedFlightId)
                     .success(function (data) {
-                        flightSearch.selectedFlight = flight;
+                        // already applied in UI
                     })
                     .error(function (error) {
-                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                        flightSearch.selectedFlight = originalSelectedFlight;
+                        errorService.show(error);
                     });
             };
         },
@@ -289,7 +294,7 @@ app.directive('participantdata', function ($log, $filter, participantService, $t
 
             $scope.$watch('participant', function (value, key) {
                 if ($scope.participant != undefined) {
-                    $log.log($scope.participant.person.dateOfBirth);
+                    //$log.log($scope.participant.person.dateOfBirth);
 
                     if ($scope.participant.person.dateOfBirth != null) {
                         var date = new Date($scope.participant.person.dateOfBirth);
@@ -300,6 +305,13 @@ app.directive('participantdata', function ($log, $filter, participantService, $t
                 }
             });
 
+            $scope.$watchCollection('[year, month, day]', function () {
+                if ($scope.year != undefined && $scope.month != undefined && $scope.day != null) {
+                    var selectedDob = new Date().setFullYear($scope.year, $scope.month, $scope.day);
+                    $scope.participant.person.dateOfBirth = $filter('date')(selectedDob, "yyyy-MM-dd");
+                }
+            });
+
             for (var d = 1; d <= 31 ; d++) {
                 $scope.days.push(d);
             }
@@ -307,25 +319,6 @@ app.directive('participantdata', function ($log, $filter, participantService, $t
             for (var y = new Date().getFullYear(); y >= 1900; y--) {
                 $scope.years.push(y);
             }
-
-            $scope.Confirm = function () {
-                $scope.isConfirming = true;
-
-                var selectedDob = new Date().setFullYear($scope.year, $scope.month, $scope.day);
-                $scope.participant.person.dateOfBirth = $filter('date')(selectedDob, "yyyy-MM-dd");
-                $log.log($scope.participant.person.dateOfBirth);
-                
-                participantService.update($scope.participant)
-                    .success(function (data) {
-                        $scope.isConfirming = false;
-                        $scope.participant.bdConfirmed = true;
-                        $modal({ title: "Boekingsgegevens", content: "Bedankt voor het wijzigen van uw boekingsgegevens.", show: true });
-                    })
-                    .error(function (error) {
-                        $scope.isConfirming = false;
-                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
-                    });
-            };
         },
         templateUrl: '../partials/participantdata.html'
     };
@@ -354,16 +347,6 @@ app.directive('eventSubTitle', function() {
             event: '='
         },
         template: '<p class="subtitle">Georganiseerd door {{event.organizerName}}</p>'
-    };
-});
-
-app.directive('eventDescription', function () {
-    return {
-        restrict: 'E',
-        scope: {
-            event: '='
-        },
-        template: '<p class="description">{{event.description}}</p>'
     };
 });
 
@@ -428,7 +411,7 @@ app.directive('eventActions', function () {
 
             $scope.showSendReminder = function() {
                 if ($scope.event !== null && $scope.event.pnr === null) {
-                    var unconfirmedParticipants = $filter('filter')($scope.event.participants, { bdConfirmed: false }, true);
+                    var unconfirmedParticipants = $filter('filter')($scope.event.participants, { avConfirmed: false }, true);
                     return unconfirmedParticipants.length > 0;
                 }
 
@@ -439,29 +422,3 @@ app.directive('eventActions', function () {
     };
 });
 
-app.directive('eventUnconfirmedParticipants', function () {
-    return {
-        restrict: 'E',
-        scope: {
-            event: '='
-        },
-        controller: function ($scope, $filter) {
-            $scope.isReminderSectionExpanded = false;
-            $scope.isAvailabilityConfirmedSectionExpanded = false;
-            $scope.isBookingDetailsConfirmedSectionExpanded = false;
-                       
-            $scope.avUnconfirmedParticipants = function () {
-                if ($scope.event != null)
-                    return $filter('filter')($scope.event.participants, { avConfirmed: false }, true);
-                else return [];
-            };
-            
-            $scope.bdUnconfirmedParticipants = function () {
-                if ($scope.event != null)
-                    return $filter('filter')($scope.event.participants, { avConfirmed: true, bdConfirmed: false }, true);
-                else return [];
-            };
-        },
-        templateUrl: '../partials/eventUnconfirmedParticipants.html'
-    };
-});
