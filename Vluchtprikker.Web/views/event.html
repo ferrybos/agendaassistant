@@ -41,11 +41,11 @@
 
         <div class="row">
             <div class="col-md-6 leftcol">
-                <h4 class="originDestination">Heen: {{event.outboundFlightSearch.departureStationName}} - {{event.outboundFlightSearch.arrivalStationName}}</h4>
+                <h4>Heen: {{event.outboundFlightSearch.departureStationName}} - {{event.outboundFlightSearch.arrivalStationName}}</h4>
                 <flight-search-availability event="event" flightsearch="event.outboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
             </div>
             <div class="col-md-6 rightcol">
-                <h4 class="originDestination">Terug: {{event.inboundFlightSearch.departureStationName}} - {{event.inboundFlightSearch.arrivalStationName}}</h4>
+                <h4>Terug: {{event.inboundFlightSearch.departureStationName}} - {{event.inboundFlightSearch.arrivalStationName}}</h4>
                 <flight-search-availability event="event" flightsearch="event.inboundFlightSearch" availabilityurl="availabilityUrl"></flight-search-availability>
             </div>
         </div>
