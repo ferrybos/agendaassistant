@@ -1,4 +1,4 @@
-﻿var app = angular.module('app', ['ngRoute', 'ngAnimate', 'mgcrea.ngStrap', 'angular.filter', 'angular-appinsights']);
+﻿var app = angular.module('app', ['ngRoute', 'ngAnimate', 'mgcrea.ngStrap', 'angular.filter', 'angular-appinsights', 'ui.bootstrap.modal', 'ui.bootstrap.tpls']);
 
 app.config(function($datepickerProvider) {
     angular.extend($datepickerProvider.defaults, {
@@ -31,9 +31,9 @@ app.config(function ($provide) {
         return function (exception, cause) {
             $delegate(exception, cause);
             
-            var modal = $injector.get('$modal');
-            modal({ title: "Ooops!", content: exception.toString(), show: true });
-
+            var modal = $injector.get('modalService');
+            modal.show("Ooops!", exception.toString());
+            
             // call exceptionservice to store exception server side
             try {
                 var location = $injector.get('$location'); // avoid circular reference

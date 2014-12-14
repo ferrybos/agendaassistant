@@ -1,0 +1,26 @@
+﻿<!-- Modal dialog -->
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" ng-show="title">
+                <button type="button" class="close" ng-click="$hide()">&times;</button>
+                <h4 class="modal-title" ng-bind="title"></h4>
+            </div>
+            <div class="modal-body" ng-bind="content">
+                <div class="form-group">
+                    <label class="control-label" for="participant_name">Naam</label><br />
+                    <input ng-model="participant.name" focus-on="focusParticipantName" type="text" name="participant_name" id="Text1" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
+                    <label class="control-label" for="participant_email">Email</label><br />
+                    <input ng-model="newParticipantEmail" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" ng-model="sendInvitation" style="margin-right: 10px">Uitnodiging versturen                        
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Opslaan</button>
+            </div>
+        </div>
+    </div>
+</div>

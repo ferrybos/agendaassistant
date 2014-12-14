@@ -15,6 +15,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th></th>
                         <th>Naam</th>
                         <th>Email</th>
                         <th>Paspoortgegevens</th>
@@ -25,11 +26,13 @@
                 <tbody>
                     <tr ng-repeat="participant in event.participants | orderBy : 'person.name'">
                         <td>{{$index+1}}</td>
-                        <td><a href="#/availability/{{::participant.id}}">{{::participant.person.name}}</a></td>
-                        <td>{{::participant.person.email}}</td>
+                        <td><a ng-show="!participant.isOrganizer" ng-click="editparticipant(participant)" style="cursor:pointer">Wijzigen</a></td>
+                        <td><a href="#/availability/{{::participant.id}}">{{participant.person.name}}</a></td>
+                        <td>{{participant.person.email}}</td>
                         <td>{{::personDetails(participant)}}</td>
                         <td>{{::bagageDisplayName(participant)}}</td>
-                        <td ng-class="{unconfirmed: participant.avConfirmed == false}">{{::participantStatus(participant)}}</td>
+                        <td ng-class="{unconfirmed: participant.avConfirmed == false}">{{::participantStatus(participant)}}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -82,3 +85,25 @@
         </div>
     </div>
 </div>
+
+<!-- Edit participant dialog -->
+<script type="text/ng-template" id="editParticipantContent.html">
+    <div class="modal-header">
+        <h4 class="modal-title">Deelnemer wijzigen</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="control-label" for="participant_name">Naam</label><br />
+            <input ng-model="data.name" focus-on="focusParticipantName" type="text" name="participant_name" id="Text1" maxlength="50" autocomplete="off" class="form-control" placeholder="Naam" style="width: 100%" required />
+            <label class="control-label" for="participant_email">Email</label><br />
+            <input ng-model="data.email" type="email" name="participant_email" maxlength="100" autocomplete="off" class="form-control" placeholder="Emailadres" style="width: 100%" required />
+        </div>
+        <div class="form-group">
+            <input type="checkbox" ng-model="sendInvitation" style="margin-right: 10px">Uitnodiging versturen                        
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Opslaan</button>
+        <button class="btn btn-warning" ng-click="cancel()">Annuleren</button>
+    </div>
+</script>

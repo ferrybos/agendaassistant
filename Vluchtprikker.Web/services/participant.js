@@ -13,6 +13,10 @@
         return $http.put(urlBase, participant);
     };
     
+    this.updatePerson = function (participant) {
+        return $http.put(urlBase + "/updatePerson", participant);
+    };
+    
     this.delete = function (participant) {
         $log.log("Delete: " + participant.id);
         return $http.delete(urlBase + "/" + participant.id);

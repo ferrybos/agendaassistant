@@ -14,6 +14,7 @@ namespace Vluchtprikker.Services
         Participant Get(string id);
         Participant Add(string eventId, string name, string email);
         void Update(Participant participant);
+        void UpdatePerson(Participant participant);
         void Delete(string id);
     }
 
@@ -74,6 +75,16 @@ namespace Vluchtprikker.Services
                 _mailService.SendAvailabilityUpdate(dbEvent, dbParticipant);
 
             dbParticipant.AvailabilityConfirmed = true;
+            _dbContext.Current.SaveChanges();
+        }
+
+        public void UpdatePerson(Participant participant)
+        {
+            var dbParticipant = _repository.Single(GuidUtil.ToGuid(participant.Id));
+
+            dbParticipant.Name = participant.Person.Name;
+            dbParticipant.Email = participant.Person.Email;
+
             _dbContext.Current.SaveChanges();
         }
 

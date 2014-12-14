@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, $modal, $exceptionHandler, stationService, eventService, participantService, insights, errorService) {
+﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, modalService, $exceptionHandler, stationService, eventService, participantService, insights, errorService) {
     console.log($exceptionHandler);
     insights.logEvent('NewEventCtrl Activated');
 
@@ -120,7 +120,7 @@
         insights.logEvent('User Creates participant');
 
         if ($scope.newParticipantName.length == 0 || $scope.newParticipantEmail == undefined || $scope.newParticipantEmail.length == 0) {
-            $modal({ title: "Deelnemer toevoegen", content: "Vul naam en geldig email in", show: true });
+            modalService.show("Deelnemer toevoegen", "Vul naam en geldig email in");
         } else {
             var participant = { eventId: $scope.event.id, person: { name: $scope.newParticipantName, email: $scope.newParticipantEmail } };
 

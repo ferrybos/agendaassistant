@@ -81,7 +81,7 @@ app.provider('showErrorsConfig', function () {
     };
 });
 
-app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
+app.directive('flightSearch', function ($log, modalService, errorService, $filter, flightService) {
     return {
         restrict: 'E',
         scope: {
@@ -118,7 +118,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                         $log.log("matchedRoute: " + JSON.stringify(matchedRoute));
                         
                         if (matchedRoute.length == 0) {
-                            $modal({ title: "Vlucht zoeken", content: "Route is niet beschikbaar.", show: true });
+                            modalService.show("Vlucht zoeken", "Route is niet beschikbaar.");
                         }
                     }
                 }
@@ -159,7 +159,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                 };
                 
                 if (errors.length > 0) {
-                    $modal({ title: "Vlucht zoeken", content: errors, show: true });
+                    modalService.show("Vlucht zoeken", errors);
                     return;
                 }
 
@@ -174,7 +174,7 @@ app.directive('flightSearch', function ($log, $modal, $filter, flightService) {
                         $log.log("Flights = " + JSON.stringify(data));
                     })
                     .error(function (error) {
-                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                        errorService.show(error);
                         $scope.isloading = false;
                         $scope.outboundFlights = null;
                         $scope.inboundFlights = null;
@@ -206,7 +206,7 @@ app.directive('flightlist', function ($log) {
     };
 });
 
-app.directive('flightSearchAvailability', function (eventService, $modal, $log, errorService) {
+app.directive('flightSearchAvailability', function (eventService, $log, errorService) {
     return {
         restrict: 'E',
         scope: {
@@ -276,7 +276,7 @@ app.directive('availabilitybar', function ($log) {
     };
 });
 
-app.directive('participantdata', function ($log, $filter, participantService, $timeout, $modal, bagageService) {
+app.directive('participantdata', function ($log, $filter, participantService, $timeout, bagageService) {
     return {
         restrict: 'E',
         scope: {
@@ -356,7 +356,7 @@ app.directive('eventActions', function () {
         scope: {
             event: '='
         },
-        controller: function ($scope, $filter, $window, $modal, eventService) {
+        controller: function ($scope, $filter, $window, eventService, errorService, modalService) {
             $scope.showParticipantActions = function() {
                 return $scope.event != null && $scope.event.pnr === null && getOrganizer() != null;
             };
@@ -381,10 +381,10 @@ app.directive('eventActions', function () {
             $scope.sendReminder = function () {
                 eventService.sendReminder($scope.event.id)
                     .success(function (data) {
-                        $modal({ title: $scope.event.title, content: "Er is een email verstuurd naar alle deelnemers die hun beschikbaarheid en/of boekingsgegevens nog niet hebben bevestigd.", show: true });
+                        modalService.show($scope.event.title, "Er is een email verstuurd naar alle deelnemers die hun beschikbaarheid en/of boekingsgegevens nog niet hebben bevestigd.");
                     })
                     .error(function (error) {
-                        $modal({ title: "Ooops!", content: error.exceptionMessage, show: true });
+                        errorService.show(error);
                     });
             };
 

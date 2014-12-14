@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, $modal, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, modalService, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
     $scope.event = null;
     $scope.activeTabIndex = 0;
     $rootScope.infoMessage = "";
@@ -106,7 +106,7 @@
                 if ($scope.participant.person.email != $scope.event.organizerEmail)
                     msgContent += "Er is een email verstuurd naar de organisator.";
 
-                $modal({ title: "Beschikbaarheid", content: msgContent, show: true });
+                modalService.show("Beschikbaarheid", msgContent);
             })
             .error(function (error) {
                 $scope.isConfirming = false;
@@ -115,7 +115,7 @@
     };
 });
 
-angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $modal, $timeout, $filter, $routeParams, availabilityService, errorService) {
+angular.module('app').controller('AvailabilityItemCtrl', function ($scope, $rootScope, $log, $timeout, $filter, $routeParams, availabilityService, errorService) {
     var timeout = null;
     
     var saveUpdates = function () {

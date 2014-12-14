@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $modal, $routeParams, eventService, errorService) {
+﻿angular.module('app').controller('ConfirmCtrl', function ($scope, $log, $location, $routeParams, eventService, errorService) {
     $scope.event = null;
     $scope.isConfirming = true;
     $scope.isConfirmSucceeded = false;

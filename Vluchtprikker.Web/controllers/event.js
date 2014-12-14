@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, eventService, bagageService, errorService) {
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $modal, modalService, eventService, participantService, bagageService, errorService) {
     $scope.event = null;
     $scope.isConfirming = false;
     $scope.availabilityUrl = "#/availability/";
@@ -83,7 +83,7 @@
         eventService.setpnr($scope.event.id, $scope.pnr)
             .success(function (data) {
                 $scope.event.pnr = $scope.pnr;
-                $modal({ title: $scope.event.title, content: "Er is een email verstuurd naar alle deelnemers met de geboekte vlucht informatie.", show: true });
+                modalService.show($scope.event.title, "Er is een email verstuurd naar alle deelnemers met de geboekte vlucht informatie.");
             })
             .error(function (error) {
                 errorService.show(error);
@@ -138,5 +138,56 @@
             return "Beschikbaarheid bevestigd";
         else
             return "Nog niet bevestigd";
+    };
+    
+    $scope.editparticipant = function (participant) {
+        $log.log("Edit p: " + JSON.stringify(participant));
+        
+        var modalInstance = $modal.open({
+            templateUrl: 'editParticipantContent.html',
+            controller: 'EditParticipantModalCtrl',
+            //size: size,
+            resolve: {
+                data: function () {
+                    return { name: participant.person.name, email: participant.person.email };
+                }
+            }
+        });
+
+        modalInstance.result.then(function (data) {
+            // update participant
+            var origName = participant.person.name;
+            var origEmail = participant.person.email;
+            participant.person.name = data.name;
+            participant.person.email = data.email;
+
+            participantService.updatePerson(participant)
+                .success(function () {
+                    //
+                })
+                .error(function (error) {
+                    errorService.show(error);
+
+                    //rollback
+                    participant.person.name = origName;
+                    participant.person.email = origEmail;
+                });
+        }, function () {
+            //$log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+});
+
+angular.module('app').controller('EditParticipantModalCtrl', function ($scope, $modalInstance, data) {
+
+    $scope.data = data;
+    $scope.sendInvitation = true;
+
+    $scope.ok = function () {
+        $modalInstance.close($scope.data);
+    };
+
+    $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
     };
 });

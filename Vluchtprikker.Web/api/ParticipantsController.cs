@@ -88,6 +88,25 @@ namespace Vluchtprikker.Web.api
         }
 
         /// <summary>
+        /// Called to update booking data
+        /// </summary>
+        [Route("updatePerson")]
+        [HttpPut]
+        public IHttpActionResult UpdatePerson([FromBody] Participant participant)
+        {
+            // update participant
+            try
+            {
+                _service.UpdatePerson(participant);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                HandleServerError(ex);
+                return InternalServerError(ex);
+            }
+        }
+        /// <summary>
         /// Called to delete participants
         /// </summary>
         [Route("{id}")]

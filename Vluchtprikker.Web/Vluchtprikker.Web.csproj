@@ -150,8 +150,13 @@
     <Content Include="lib\slider\angular-slider.js" />
     <Content Include="lib\slider\angular-slider.min.css" />
     <Content Include="lib\slider\angular-slider.min.js" />
+    <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-0.12.0.js" />
+    <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-0.12.0.min.js" />
+    <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-tpls-0.12.0.js" />
+    <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-tpls-0.12.0.min.js" />
     <Content Include="partials\availabilitybar.html" />
     <Content Include="partials\availabilityList.html" />
+    <Content Include="partials\editparticipant.html" />
     <Content Include="partials\eventActions.html" />
     <Content Include="partials\eventNotConfirmed.html" />
     <Content Include="partials\flightlist.html" />
