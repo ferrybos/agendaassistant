@@ -63,7 +63,7 @@
                 <h4>Deelnemers ({{event.participants.length}})</h4>
                 <div class="list-group">
                     <div ng-repeat="participant in event.participants" class="repeat-animation">
-                        <a class="list-group-item" style="cursor: pointer">
+                        <a class="list-group-item" style="cursor: pointer;margin-bottom:1px">
                             <button ng-click="DeleteParticipant($index)" class="btn btn-danger btn-sm" style="float: right; margin-top: 5px" title="Deelnemer verwijderen"><span class="glyphicon glyphicon-minus"></span></button>
                             <h4 class="list-group-item-heading">{{participant.person.name}}</h4>
                             <p class="list-group-item-text">{{participant.person.email}}</p>

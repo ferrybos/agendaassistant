@@ -146,10 +146,6 @@
     <Content Include="lib\bootstrap-3.2.0\js\bootstrap.min.js" />
     <Content Include="lib\jquery\jquery-1.11.1.js" />
     <Content Include="lib\jquery\jquery-1.11.1.min.js" />
-    <Content Include="lib\slider\angular-slider.css" />
-    <Content Include="lib\slider\angular-slider.js" />
-    <Content Include="lib\slider\angular-slider.min.css" />
-    <Content Include="lib\slider\angular-slider.min.js" />
     <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-0.12.0.js" />
     <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-0.12.0.min.js" />
     <Content Include="lib\ui.bootstrap\ui-bootstrap-custom-tpls-0.12.0.js" />
