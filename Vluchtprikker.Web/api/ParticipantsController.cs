@@ -18,6 +18,14 @@ namespace Vluchtprikker.Web.api
         public string Email { get; set; }
     }
 
+    public class UpdatePersonData
+    {
+        public string ParticipantId { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public bool SendInvitation { get; set; }
+    }
+
     [RoutePrefix("api/participants")]
     public class ParticipantsController : ApiBaseController
     {
@@ -91,13 +99,13 @@ namespace Vluchtprikker.Web.api
         /// Called to update booking data
         /// </summary>
         [Route("updatePerson")]
-        [HttpPut]
-        public IHttpActionResult UpdatePerson([FromBody] Participant participant)
+        [HttpPost]
+        public IHttpActionResult UpdatePerson([FromBody] UpdatePersonData data)
         {
             // update participant
             try
             {
-                _service.UpdatePerson(participant);
+                _service.UpdatePerson(data.ParticipantId, data.Name, data.Email, data.SendInvitation);
                 return Ok();
             }
             catch (Exception ex)

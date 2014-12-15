@@ -1,4 +1,4 @@
-﻿app.service('errorService', ['$http', '$log', '$modal', 'modalService', function ($http, $log, $modal, modalService) {
+﻿app.service('errorService', ['$http', '$log', '$rootScope', '$modal', 'modalService', function ($http, $log, $rootScope, $modal, modalService) {
     var urlBase = '/api/errors';
     
     this.post = function (msg) {

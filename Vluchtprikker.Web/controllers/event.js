@@ -149,7 +149,7 @@
             //size: size,
             resolve: {
                 data: function () {
-                    return { name: participant.person.name, email: participant.person.email };
+                    return { name: participant.person.name, email: participant.person.email, sendInvitation: true };
                 }
             }
         });
@@ -161,7 +161,7 @@
             participant.person.name = data.name;
             participant.person.email = data.email;
 
-            participantService.updatePerson(participant)
+            participantService.updatePerson(participant.id, data.name, data.email, data.sendInvitation)
                 .success(function () {
                     //
                 })
@@ -173,7 +173,7 @@
                     participant.person.email = origEmail;
                 });
         }, function () {
-            //$log.info('Modal dismissed at: ' + new Date());
+            // user selected cancel button
         });
     };
 });
@@ -181,7 +181,6 @@
 angular.module('app').controller('EditParticipantModalCtrl', function ($scope, $modalInstance, data) {
 
     $scope.data = data;
-    $scope.sendInvitation = true;
 
     $scope.ok = function () {
         $modalInstance.close($scope.data);

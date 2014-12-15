@@ -14,7 +14,7 @@ namespace Vluchtprikker.Services
         Participant Get(string id);
         Participant Add(string eventId, string name, string email);
         void Update(Participant participant);
-        void UpdatePerson(Participant participant);
+        void UpdatePerson(string id, string name, string email, bool sendInvitation);
         void Delete(string id);
     }
 
@@ -78,14 +78,19 @@ namespace Vluchtprikker.Services
             _dbContext.Current.SaveChanges();
         }
 
-        public void UpdatePerson(Participant participant)
+        public void UpdatePerson(string id, string name, string email, bool sendInvitation)
         {
-            var dbParticipant = _repository.Single(GuidUtil.ToGuid(participant.Id));
+            var dbParticipant = _repository.Single(GuidUtil.ToGuid(id));
 
-            dbParticipant.Name = participant.Person.Name;
-            dbParticipant.Email = participant.Person.Email;
-
+            dbParticipant.Name = name;
+            dbParticipant.Email = email;
             _dbContext.Current.SaveChanges();
+
+            if (sendInvitation)
+            {
+                var dbEvent = new EventRepository(_dbContext).Single(dbParticipant.EventID);
+                _mailService.SendInvitation(dbEvent, dbParticipant);
+            }
         }
 
         public void Delete(string id)

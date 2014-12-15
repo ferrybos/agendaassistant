@@ -13,8 +13,9 @@
         return $http.put(urlBase, participant);
     };
     
-    this.updatePerson = function (participant) {
-        return $http.put(urlBase + "/updatePerson", participant);
+    this.updatePerson = function (id, name, email, sendInvitation) {
+        var data = { participantId: id, name: name, email: email, sendInvitation: sendInvitation };
+        return $http.post(urlBase + "/updatePerson", data);
     };
     
     this.delete = function (participant) {
