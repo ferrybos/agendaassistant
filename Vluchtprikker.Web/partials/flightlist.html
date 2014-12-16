@@ -18,7 +18,7 @@
     </div>
 
     <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in flights | groupBy: 'departureDate'">
-        <div class="panel-heading departureDateHeader">{{ key | date : 'EEE dd-MMM' }}</div>
+        <div class="panel-heading departureDateHeader">{{ key | translateddate }}</div>
         <div class="panel-body" style="padding: 0">
             <table id="flights-table" class="table table-condensed table-hover">
                 <tbody>

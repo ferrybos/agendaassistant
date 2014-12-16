@@ -81,7 +81,7 @@ app.provider('showErrorsConfig', function () {
     };
 });
 
-app.directive('flightSearch', function ($log, modalService, errorService, $filter, flightService) {
+app.directive('flightSearch', function ($log, modalService, errorService, constants, $filter, flightService) {
     return {
         restrict: 'E',
         scope: {
@@ -206,7 +206,7 @@ app.directive('flightlist', function ($log) {
     };
 });
 
-app.directive('flightSearchAvailability', function (eventService, $log, errorService) {
+app.directive('flightSearchAvailability', function (eventService, $log, $filter, constants, errorService) {
     return {
         restrict: 'E',
         scope: {
@@ -215,6 +215,8 @@ app.directive('flightSearchAvailability', function (eventService, $log, errorSer
             availabilityurl: '='
         },
         controller: function ($scope) {
+            $scope.weekdays = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'];
+            
             $scope.SelectFlight = function (flightSearch, flight) {
                 var selectedFlightId = flight != null ? flight.id : 0;
 
@@ -230,6 +232,17 @@ app.directive('flightSearchAvailability', function (eventService, $log, errorSer
                         flightSearch.selectedFlight = originalSelectedFlight;
                         errorService.show(error);
                     });
+            };
+            
+            $scope.formatDepartureDate = function (date) {
+                if (date == undefined)
+                    return "";
+
+                var msec = Date.parse(date);
+                var depDate = new Date(msec);
+                
+                var part2 = $filter('date')(depDate, "dd-MMM-yyyy");
+                return $scope.weekdays[depDate.getDay()] + " " + part2;
             };
         },
         templateUrl: '../partials/flightsearchavailability.html'
@@ -273,54 +286,6 @@ app.directive('availabilitybar', function ($log) {
             //
         },
         templateUrl: '../partials/availabilitybar.html'
-    };
-});
-
-app.directive('participantdata', function ($log, $filter, participantService, $timeout, bagageService) {
-    return {
-        restrict: 'E',
-        scope: {
-            participant: '='
-        },
-        controller: function ($scope) {
-            $scope.isConfirming = false;
-            $scope.day = null;
-            $scope.month = null;
-            $scope.year = null;
-            $scope.days = [];
-            $scope.months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
-            $scope.years = [];
-            $scope.bagages = bagageService.get();
-
-            $scope.$watch('participant', function (value, key) {
-                if ($scope.participant != undefined) {
-                    //$log.log($scope.participant.person.dateOfBirth);
-
-                    if ($scope.participant.person.dateOfBirth != null) {
-                        var date = new Date($scope.participant.person.dateOfBirth);
-                        $scope.day = date.getDate();
-                        $scope.month = date.getMonth();
-                        $scope.year = date.getFullYear();
-                    }
-                }
-            });
-
-            $scope.$watchCollection('[year, month, day]', function () {
-                if ($scope.year != undefined && $scope.month != undefined && $scope.day != null) {
-                    var selectedDob = new Date().setFullYear($scope.year, $scope.month, $scope.day);
-                    $scope.participant.person.dateOfBirth = $filter('date')(selectedDob, "yyyy-MM-dd");
-                }
-            });
-
-            for (var d = 1; d <= 31 ; d++) {
-                $scope.days.push(d);
-            }
-            
-            for (var y = new Date().getFullYear(); y >= 1900; y--) {
-                $scope.years.push(y);
-            }
-        },
-        templateUrl: '../partials/participantdata.html'
     };
 });
 

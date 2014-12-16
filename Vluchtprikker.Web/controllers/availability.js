@@ -1,7 +1,7 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, modalService, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, constants, modalService, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
     $scope.event = null;
-    $scope.activeTabIndex = 0;
-    $rootScope.infoMessage = "";
+    //$scope.activeTabIndex = 0;
+    //$rootScope.infoMessage = "";
     $scope.participant = null;
     $scope.isConfirming = false;
     $scope.showBookingDetails = false;
@@ -9,7 +9,7 @@
     // participant
     $scope.selectedDate = { day: null, month: null, year: null };
     $scope.days = [];
-    $scope.months = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+    $scope.months = constants.months;
     $scope.years = [];
     $scope.bagages = bagageService.get();
 
@@ -44,18 +44,18 @@
                 
                 $scope.showBookingDetails = $scope.participant.person.email != $scope.event.organizerEmail;
 
-                var view = $location.search().view;
-                if (view != undefined) {
-                    if (view == "av") {
-                        $scope.activeTabIndex = 0;
-                    } else if (view == "bd") {
-                        $scope.activeTabIndex = 1;
-                    }
-                } else {
-                    if ($scope.participant.avConfirmed) {
-                        $scope.activeTabIndex = 1;
-                    }
-                }
+                //var view = $location.search().view;
+                //if (view != undefined) {
+                //    if (view == "av") {
+                //        $scope.activeTabIndex = 0;
+                //    } else if (view == "bd") {
+                //        $scope.activeTabIndex = 1;
+                //    }
+                //} else {
+                //    if ($scope.participant.avConfirmed) {
+                //        $scope.activeTabIndex = 1;
+                //    }
+                //}
 
                 refreshFlights();
             })

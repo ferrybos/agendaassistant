@@ -59,3 +59,27 @@ app.run(function ($window, $rootScope) {
         });
     }, false);
 });
+
+app.filter('translateddate', function ($filter) {
+    return function (input) {
+        if (input == undefined)
+            return "";
+
+        debugger;
+        try {
+            //var inputParts = input.split("T");
+            //var dateParts = inputParts[0].split("-");
+            //var depDate = new Date(dateParts[0], dateParts[1]-1, dateParts[2]);
+
+            var msec = Date.parse(input);
+            var depDate = new Date(msec);
+
+            var part2 = $filter('date')(depDate, "dd-MMM-yyyy");
+
+            var weekdays = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'];
+            return weekdays[depDate.getDay()] + " " + part2;
+        } catch(e) {
+            return "Error!";
+        } 
+    };
+});

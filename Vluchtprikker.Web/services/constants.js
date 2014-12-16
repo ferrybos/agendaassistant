@@ -1,5 +1,10 @@
-﻿app.factory('Constants', function () {
-    return { title: "Vluchtprikker", newEventTitle: "Nieuwe afspraak" };
+﻿app.factory('constants', function () {
+    return {
+        title: "Vluchtprikker",
+        newEventTitle: "Nieuwe afspraak",
+        months: ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'],
+        weekdays: ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
+    };
 });
 
 app.service('bagageService', function () {

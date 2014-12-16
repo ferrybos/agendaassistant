@@ -7,7 +7,7 @@
 
 <div class="list-group">
     <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in ::flightsearch.flights | groupBy: 'departureDate'">
-        <div class="panel-heading departureDateHeader">{{ key | date : 'EEE dd-MMM' }}</div>
+        <div class="panel-heading departureDateHeader">{{ key | translateddate }}</div>
         <div class="panel-body" style="padding: 0">
             <table id="outboundflights-table" class="table table-condensed">
                 <tbody>
