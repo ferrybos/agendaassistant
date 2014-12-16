@@ -29,10 +29,14 @@
                     <!--Email-->
                     <div class="form-group" show-errors='{showSuccess: true}'>
                         <input type="text" class="form-control" name="email" ng-model="event.organizerEmail" required autofocus placeholder="Uw emailadres" style="width: 100%" maxlength="100" autocomplete="off" />
-                        <p class="help-block" ng-if="eventForm.email.$error.required">De organisator's email adres is verplicht</p>
-                        <p class="help-block" ng-if="eventForm.email.$error.email">De organisator's email adres is onjuist</p>
+                        <p class="help-block" ng-if="eventForm.email.$error.required">Email adres is verplicht</p>
+                        <p class="help-block" ng-if="eventForm.email.$error.email">Email email adres is onjuist</p>
                     </div>
-
+                    <div class="form-group" show-errors='{showSuccess: true}'>
+                        <input type="text" class="form-control" name="organizerEmailConfirm" ng-model="organizerEmailConfirm" required autofocus placeholder="Uw emailadres (controle)" style="width: 100%" maxlength="100" autocomplete="off" />
+                        <p class="help-block" ng-if="eventForm.organizerEmailConfirm.$error.required">Controle email adres is verplicht</p>
+                        <p class="help-block" ng-if="eventForm.organizerEmailConfirm.$error.email">Controle email adres is onjuist</p>
+                    </div>
                     <div class="form-group" ng-show="event.id == ''">
                         <input type="checkbox" ng-model="addParticipant" style="margin-right: 10px">Ik ga zelf mee
                     </div>

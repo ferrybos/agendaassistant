@@ -6,6 +6,7 @@
     $scope.isLoading = false;
     $scope.isWaitingForNewEvent = false;
     $scope.addParticipant = true;
+    $scope.organizerEmailConfirm = "";
     
     // Participants default
     clearParticipantInput();
@@ -86,28 +87,33 @@
     $scope.SelectStepParticipants = function () {
         insights.logEvent('User selects participants step');
 
-        if ($scope.event.id == "") {
-            $scope.event.participants.push({ id: null, person: { name: $scope.event.organizerName, email: $scope.event.organizerEmail } });
-            $log.log("addParticipant: " + $scope.event.participants[0]);
-
-            eventService.new($scope.event.title, $scope.event.description, $scope.event.organizerName, $scope.event.organizerEmail, $scope.addParticipant)
-               .success(function (data) {
-                   $scope.event = data;
-                   
-                   // set defaults on first hit
-                   var myDate = new Date();
-                   $scope.event.beginDate = myDate.setDate(myDate.getDate() + 1);
-                   $scope.event.endDate = myDate.setDate(myDate.getDate() + 6);
-               })
-               .error(function (error) {
-                   $scope.event.participants = [];
-                   $scope.CurrentStepIndex = 1; // back to step 1
-                   errorService.show(error);
-               });
-        }
-
         $scope.CurrentStepIndex = 2;
         $scope.$broadcast('focusParticipantName');
+        
+        if ($scope.event.id == "") {
+            if ($scope.event.organizerEmail == $scope.organizerEmailConfirm) {
+                $scope.event.participants.push({ id: null, person: { name: $scope.event.organizerName, email: $scope.event.organizerEmail } });
+                $log.log("addParticipant: " + $scope.event.participants[0]);
+
+                eventService.new($scope.event.title, $scope.event.description, $scope.event.organizerName, $scope.event.organizerEmail, $scope.addParticipant)
+                    .success(function (data) {
+                        $scope.event = data;
+
+                        // set defaults on first hit
+                        var myDate = new Date();
+                        $scope.event.beginDate = myDate.setDate(myDate.getDate() + 1);
+                        $scope.event.endDate = myDate.setDate(myDate.getDate() + 6);
+                    })
+                    .error(function (error) {
+                        $scope.event.participants = [];
+                        $scope.CurrentStepIndex = 1; // back to step 1
+                        errorService.show(error);
+                    });
+            } else {
+                $scope.CurrentStepIndex = 1; // back to step 1
+                modalService.show("Vluchtprikker", "Het email adres is niet gelijk aan het controle email adres.");
+            };
+        }
     };
     
     $scope.SelectStepOutbound = function () {
