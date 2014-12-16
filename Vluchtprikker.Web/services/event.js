@@ -2,7 +2,7 @@
     var urlBase = '/api/events';
 
     this.get = function (id) {
-        return $http.get(urlBase + '/' + id, event);
+        return $http.get(urlBase + '/' + id);
     };
     
     this.new = function (title, description, organizerName, organizerEmail, addParticipant) {

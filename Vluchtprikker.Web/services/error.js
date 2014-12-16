@@ -7,8 +7,8 @@
 
     this.show = function(error) {
         $log.log(JSON.stringify(error));
-
-        var content = $rootScope.online ? error.exceptionMessage : "Kan geen verbinding maken met internet.";
+        //$rootScope.online
+        var content = navigator.onLine ? error.exceptionMessage : "Kan geen verbinding maken met internet.";
         modalService.show("Ooops!", content);
     };
 }]);
