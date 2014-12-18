@@ -27,7 +27,7 @@
                     <tr ng-repeat="participant in event.participants | orderBy : 'person.name'">
                         <td>{{$index+1}}</td>
                         <td><a ng-show="!participant.isOrganizer" ng-click="editparticipant(participant)" style="cursor:pointer">Wijzigen</a></td>
-                        <td><a href="#/availability/{{::participant.id}}">{{participant.person.name}}</a></td>
+                        <td><a href="#/availability/{{::participant.id}}?eventid={{event.id}}">{{participant.person.name}}</a></td>
                         <td>{{participant.person.email}}</td>
                         <td>{{::personDetails(participant)}}</td>
                         <td>{{::bagageDisplayName(participant)}}</td>

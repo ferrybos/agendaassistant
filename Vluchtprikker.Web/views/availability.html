@@ -6,10 +6,21 @@
     <event-sub-title event="event"></event-sub-title>
     <h4>Deelnemer {{participant.person.name}}</h4>
 
+    <h4>Opties</h4>
+
+    <div style="margin-bottom: 20px">
+        <div class="row" ng-show="event.pnr == null" style="margin-bottom:10px">
+            <a ng-click="participant.avConfirmed = false" style="font-weight: bold; cursor: pointer"><span class="glyphicon glyphicon-ok" style="margin-right: 4px"></span>Beschikbaarheid wijzigen</a>
+        </div>
+        <div class="row" ng-show="eventid != null">
+            <a href="" ng-click="GoToOrganizerScreen()" style="font-weight: bold; cursor: pointer"><span class="glyphicon glyphicon-step-backward" style="margin-right: 4px"></span>Terug naar organisator scherm</a>
+        </div>
+    </div>
+
     <div ng-if="event.pnr == null">
         <div ng-show="participant.avConfirmed === true">
             <div class="alert alert-success" role="alert">U heeft uw beschikbaarheid al bevestigd.</div>
-            <a ng-click="participant.avConfirmed = false" style="cursor: pointer">Beschikbaarheid wijzigen</a>
+
         </div>
         <div ng-show="participant.avConfirmed !== true">
             <info>
@@ -30,7 +41,12 @@
                 </div>
             </div>
 
-            <div ng-show="showBookingDetails === true" style="margin-top:20px">
+            <div ng-show="eventid != null" style="margin-top: 20px">
+                <br />
+                <button type="button" class="btn btn-lg btn-primary" style="width: 100%" ng-click="GoToOrganizerScreen()">Bevestigen</button>
+            </div>
+
+            <div ng-show="showBookingDetails === true" style="margin-top: 20px">
                 <info>Vul hier uw persoonsgegevens in en of u ruim bagage nodig heeft. De gegevens worden niet gebruikt voor externe doeleinden en worden alleen gebruikt door de organisator om de vluchten te boeken.</info>
 
                 <form name="bookingDetailsForm" novalidate>

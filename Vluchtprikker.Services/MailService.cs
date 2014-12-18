@@ -117,6 +117,9 @@ namespace Vluchtprikker.Services
 
         public void SendReminder(Event dbEvent, Participant dbParticipant)
         {
+            if (dbParticipant.AvailabilityConfirmed)
+                return;
+
             if (dbParticipant.Email.Equals(dbEvent.OrganizerEmail))
                 return;
 

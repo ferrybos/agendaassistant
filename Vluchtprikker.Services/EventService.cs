@@ -194,9 +194,6 @@ namespace Vluchtprikker.Services
             {
                 _mailService.SendReminder(dbEvent, dbParticipant);
             }
-
-            //dbEvent.StatusID = EventStatusEnum.PushpinCompleted;
-            //_dbContext.Current.SaveChanges();
         }
 
         public void SetPnr(string id, string pnr)

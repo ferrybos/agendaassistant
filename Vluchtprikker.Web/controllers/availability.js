@@ -1,11 +1,10 @@
 ﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, constants, modalService, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
     $scope.event = null;
-    //$scope.activeTabIndex = 0;
-    //$rootScope.infoMessage = "";
     $scope.participant = null;
     $scope.isConfirming = false;
     $scope.showBookingDetails = false;
-    
+    $scope.eventid = $location.search().eventid;
+
     // participant
     $scope.selectedDate = { day: null, month: null, year: null };
     $scope.days = [];
@@ -44,19 +43,6 @@
                 
                 $scope.showBookingDetails = $scope.participant.person.email != $scope.event.organizerEmail;
 
-                //var view = $location.search().view;
-                //if (view != undefined) {
-                //    if (view == "av") {
-                //        $scope.activeTabIndex = 0;
-                //    } else if (view == "bd") {
-                //        $scope.activeTabIndex = 1;
-                //    }
-                //} else {
-                //    if ($scope.participant.avConfirmed) {
-                //        $scope.activeTabIndex = 1;
-                //    }
-                //}
-
                 refreshFlights();
             })
             .error(function(error) {
@@ -89,6 +75,11 @@
                 errorService.show(error);
             });
     }
+
+    $scope.GoToOrganizerScreen = function() {
+        $location.$$search = {};
+        $location.path("/event/" + $scope.eventid);
+    };
 
     $scope.Confirm = function () {
         $scope.isConfirming = true;
