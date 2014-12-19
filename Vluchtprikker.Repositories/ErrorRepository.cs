@@ -27,13 +27,29 @@ namespace Vluchtprikker.Repositories
             DbContext.SaveChanges();
         }
 
-        public void PostServerError(Exception ex)
+        public void PostServerError(Exception ex, string requestUrl, string requestDump, string ipAddress)
         {
+            var msg = new StringBuilder();
+            msg.AppendLine(ex.Message);
+
+            var innerException = ex.InnerException;
+            while (innerException != null)
+            {
+                msg.AppendLine(innerException.Message);
+                innerException = innerException.InnerException;
+            }
+
+            if (!string.IsNullOrWhiteSpace(requestDump))
+            {
+                msg.AppendLine("Request:");
+                msg.AppendLine(requestDump);
+            }
+
             var dbError = CreateDbError("Server");
-            dbError.Message = ex.Message;
-            if (ex.InnerException != null)
-                dbError.Message += ". " + ex.InnerException.Message;
+            dbError.Message = msg.ToString();
             dbError.StackTrace = ex.StackTrace;
+            dbError.RequestUrl = requestDump;
+            dbError.IPAddress = ipAddress;
 
             DbContext.SaveChanges();
         }
