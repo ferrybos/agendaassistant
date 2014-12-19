@@ -16,6 +16,7 @@ namespace Vluchtprikker.Web
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             StructureMapConfig.Register();
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always; 
         }
 
         protected void Session_Start(object sender, EventArgs e)

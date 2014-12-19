@@ -50,7 +50,7 @@ namespace Vluchtprikker.Web.api
             catch (Exception ex)
             {
                 HandleServerError(ex);
-                return InternalServerError(ex);
+                return InternalServerError();
             }
         }
 
@@ -71,7 +71,7 @@ namespace Vluchtprikker.Web.api
             catch (Exception ex)
             {
                 HandleServerError(ex);
-                return InternalServerError(ex);
+                return InternalServerError();
             }
         }
 
@@ -91,7 +91,7 @@ namespace Vluchtprikker.Web.api
             catch (Exception ex)
             {
                 HandleServerError(ex);
-                return InternalServerError(ex);
+                return InternalServerError(ex); // return error details
             }
         }
 
@@ -111,7 +111,7 @@ namespace Vluchtprikker.Web.api
             catch (Exception ex)
             {
                 HandleServerError(ex);
-                return InternalServerError(ex);
+                return InternalServerError();
             }
         }
         /// <summary>
@@ -130,7 +130,7 @@ namespace Vluchtprikker.Web.api
             catch (Exception ex)
             {
                 HandleServerError(ex);
-                return InternalServerError(ex);
+                return InternalServerError();
             }
         }
     }

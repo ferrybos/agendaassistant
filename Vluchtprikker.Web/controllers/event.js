@@ -57,6 +57,7 @@
     $scope.OpenDeepLink = function () {
         var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
 
+
         var deeplinkUrl = urlTemplate
             .replace('{from}', $scope.event.outboundFlightSearch.departureStation.trim())
             .replace('{fromMonth}', $filter('date')($scope.event.outboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
@@ -71,6 +72,8 @@
             .replace('{flightNrDown1}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "yyyy-MM"))
             .replace('{flightNrDown2}', $filter('date')($scope.event.inboundFlightSearch.selectedFlight.departureDate, "dd"))
             .replace('{flightNrDown3}', $scope.event.inboundFlightSearch.selectedFlight.flightNumber);
+
+        deeplinkUrl = deeplinkUrl + "&&utm_source=NLvluchtprikkertest&utm_medium=e-mail&utm_campaign=deeplink";
 
         $window.open(deeplinkUrl);
 
