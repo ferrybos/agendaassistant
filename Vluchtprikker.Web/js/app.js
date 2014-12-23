@@ -19,7 +19,7 @@ app.config(['$routeProvider', '$locationProvider', 'insightsProvider', function 
         when('/event/:id', { templateUrl: 'views/event.html', controller: 'EventCtrl' }).
         when('/confirm/:id', { templateUrl: 'views/confirm.html', controller: 'ConfirmCtrl' }).
         when('/availability/:participantid', { templateUrl: 'views/availability.html', controller: 'AvailabilityCtrl' }).
-        //when('/participant/:participantid', { templateUrl: 'views/participant.html', controller: 'ParticipantCtrl' }).
+        when('/event/sendmsg/:id', { templateUrl: 'views/sendmsg.html', controller: 'SendMsgCtrl' }).
         otherwise({ redirectTo: '/' });
     
     // Add application insights id here
@@ -65,12 +65,7 @@ app.filter('translateddate', function ($filter) {
         if (input == undefined)
             return "";
 
-        debugger;
         try {
-            //var inputParts = input.split("T");
-            //var dateParts = inputParts[0].split("-");
-            //var depDate = new Date(dateParts[0], dateParts[1]-1, dateParts[2]);
-
             var msec = Date.parse(input);
             var depDate = new Date(msec);
 

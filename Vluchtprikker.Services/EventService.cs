@@ -22,7 +22,7 @@ namespace Vluchtprikker.Services
 
         void SelectFlight(string eventId, long flightSearchId, long flightId);
         Event RefreshFlights(string eventId);
-        void SendReminder(string eventId);
+        void SendReminder(string eventId, string[] participantIds);
         void SetPnr(string id, string pnr);
     }
 
@@ -186,11 +186,13 @@ namespace Vluchtprikker.Services
             return EntityMapper.Map(dbEvent, includeFlights: true, includeParticipants:false, includeAvailability: false);
         }
 
-        public void SendReminder(string eventId)
+        public void SendReminder(string eventId, string[] participantIds)
         {
             var dbEvent = _repository.Single(GuidUtil.ToGuid(eventId));
 
-            foreach (var dbParticipant in dbEvent.Participants)
+            var participants = dbEvent.Participants.Where(p => participantIds.Contains(GuidUtil.ToString(p.ID)));
+
+            foreach (var dbParticipant in participants)
             {
                 _mailService.SendReminder(dbEvent, dbParticipant);
             }

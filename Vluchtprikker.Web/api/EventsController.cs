@@ -27,6 +27,12 @@ namespace Vluchtprikker.Web.api
         public string Id { get; set; }
     }
 
+    public class SendMessageData
+    {
+        public string Id { get; set; }
+        public string[] ParticipantIds { get; set; }
+    }
+
     public class PnrData
     {
         public string Id { get; set; }
@@ -167,13 +173,13 @@ namespace Vluchtprikker.Web.api
             }
         }
 
-        [Route("sendreminder")]
+        [Route("sendmessage")]
         [HttpPost]
-        public IHttpActionResult SendReminder([FromBody]InputData data)
+        public IHttpActionResult SendMessage([FromBody]SendMessageData data)
         {
             try
             {
-                _service.SendReminder(data.Id);
+                _service.SendReminder(data.Id, data.ParticipantIds);
 
                 return Ok();
             }

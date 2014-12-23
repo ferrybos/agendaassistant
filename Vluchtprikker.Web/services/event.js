@@ -26,8 +26,8 @@
         return $http.post(urlBase + '/selectflight', { id: eventId, flightSearchId: flightSearchId, flightId: flightId });
     };
 
-    this.sendReminder = function (id) {
-        return $http.post(urlBase + '/sendReminder', { id: id });
+    this.sendMessage = function (id, participantIds) {
+        return $http.post(urlBase + '/sendMessage', { id: id, participantIds: participantIds });
     };
 
     this.setpnr = function(id, pnr) {

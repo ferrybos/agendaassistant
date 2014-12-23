@@ -110,6 +110,7 @@
     <Content Include="controllers\event.js" />
     <Content Include="controllers\home.js" />
     <Content Include="controllers\newevent.js" />
+    <Content Include="controllers\sendmsg.js" />
     <Content Include="css\app.css" />
     <Content Include="css\extra.css" />
     <Content Include="Global.asax" />
@@ -180,6 +181,7 @@
     <Content Include="views\event.html" />
     <Content Include="views\home.html" />
     <Content Include="views\newevent.html" />
+    <Content Include="views\sendmsg.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

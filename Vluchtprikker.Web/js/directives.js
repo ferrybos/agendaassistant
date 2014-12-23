@@ -322,66 +322,7 @@ app.directive('eventActions', function () {
             event: '='
         },
         controller: function ($scope, $filter, $window, eventService, errorService, modalService) {
-            $scope.showParticipantActions = function() {
-                return $scope.event != null && $scope.event.pnr === null && getOrganizer() != null;
-            };
-
-            $scope.organizerId = function() {
-                var organizer = getOrganizer();
-                return organizer != null ? organizer.id : null;
-            };
-
-            function getOrganizer() {
-                if ($scope.event != null) {
-                    for (var i = 0; i < $scope.event.participants.length; i++) {
-                        var participant = $scope.event.participants[i];
-                        if (participant.person.email == $scope.event.organizerEmail)
-                            return participant;
-                    }
-                }
-
-                return null;
-            }
-
-            $scope.sendReminder = function () {
-                eventService.sendReminder($scope.event.id)
-                    .success(function (data) {
-                        modalService.show($scope.event.title, "Er is een email verstuurd naar alle deelnemers die hun beschikbaarheid en/of boekingsgegevens nog niet hebben bevestigd.");
-                    })
-                    .error(function (error) {
-                        errorService.show(error);
-                    });
-            };
-
-            $scope.areFlightsSelected = function () {
-                return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null;
-            };
-
-            $scope.areSelectedFlightsValid = function () {
-                return $scope.event != null && $scope.event.outboundFlightSearch.selectedFlight != null && $scope.event.inboundFlightSearch.selectedFlight != null &&
-                    $scope.event.outboundFlightSearch.selectedFlight.std < $scope.event.inboundFlightSearch.selectedFlight.std;
-            };
-
-            $scope.hilightSelectFlight = function () {
-                // all participants have confirmed their availability and no flights are selected
-                if ($scope.event != null) {
-                    if ($scope.event.outboundFlightSearch.selectedFlight == null && $scope.event.inboundFlightSearch.selectedFlight == null) {
-                        var unconfirmedParticipants = $filter('filter')($scope.event.participants, { avConfirmed: false }, true);
-                        return unconfirmedParticipants.length == 0;
-                    }
-                } 
-
-                return false;
-            };
-
-            $scope.showSendReminder = function() {
-                if ($scope.event !== null && $scope.event.pnr === null) {
-                    var unconfirmedParticipants = $filter('filter')($scope.event.participants, { avConfirmed: false }, true);
-                    return unconfirmedParticipants.length > 0;
-                }
-
-                return false;
-            };
+            
         },
         templateUrl: '../partials/eventActions.html'
     };

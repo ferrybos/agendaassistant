@@ -58,7 +58,7 @@
                             </div>
                             <div class="row">
                                 <textarea class="form-control" name="comment" rows="4" ng-model="flight.paav.commentText" ng-show="flight.isCommentExpanded === true" placeholder="Opmerking" style="width: 100%" onkeypress="if (this.value.length > 100) { return false; }"></textarea>
-                                <p class="comment" ng-show="!flight.isCommentExpanded && flight.av[0].commentText != ''" style="padding-left: 8px">{{flight.paav.commentText}}</p>
+                                <p class="comment" ng-show="!flight.isCommentExpanded && flight.paav.commentText != ''" style="padding-left: 8px">{{flight.paav.commentText}}</p>
                             </div>
 
                             <participants flight="flight" showparticipantlink="false"></participants>
