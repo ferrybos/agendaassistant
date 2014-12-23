@@ -116,10 +116,13 @@
     <Content Include="Global.asax" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\bg.jpg" />
+    <Content Include="img\bullseye.svg" />
     <Content Include="img\delete.png" />
     <Content Include="img\hvlogo.png" />
     <Content Include="img\logo.png" />
     <Content Include="img\sky.jpg" />
+    <Content Include="img\vluchtprikker.png" />
+    <Content Include="img\woordmerk.svg" />
     <Content Include="js\angular-insights.js" />
     <Content Include="js\angular-insights.min.js">
       <DependentUpon>angular-insights.js</DependentUpon>
