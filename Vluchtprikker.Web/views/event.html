@@ -118,33 +118,3 @@
         <button class="btn btn-primary" ng-click="ok()">Opslaan</button>
     </div>
 </script>
-
-<!-- Edit participant dialog -->
-<script type="text/ng-template" id="sendMessage.html">
-    <div class="modal-header">
-        <h4 class="modal-title">{{title}}</h4>
-    </div>
-    <div class="modal-body" ng-show="hasSent == false">
-        <p>Hier kunt u een e-mail versturen aan deelnemers om hen te informeren over deze reis.</p>
-        <h4>Filter</h4>
-        <div>
-            <p><input type="radio" ng-checked="filterIndex == 0" ng-click="select(0)" style="margin-right: 10px">Alle deelnemers</p>
-            <p><input type="radio" ng-checked="filterIndex == 1" ng-click="select(1)" style="margin-right: 10px">Alle deelnemers die hun beschikbaarheid hebben bevestigd</p>
-            <p><input type="radio" ng-checked="filterIndex == 2" ng-click="select(2)" style="margin-right: 10px">Alle deelnemers die hun beschikbaarheid nog niet hebben bevestigd</p>
-        </div>
-        <h4>Deelnemers</h4>
-        <div class="form-group">
-            <p ng-repeat="p in participants"><input type="checkbox" ng-model="p.checked" style="margin-right: 10px">{{p.person.name}}</p>
-        </div>
-    </div>
-    <div class="modal-footer" ng-show="hasSent == false">
-        <a href="" ng-show="hasSent == false" ng-click="cancel()">Annuleren</button>
-        <button class="btn btn-primary" ng-show="hasSent == false" ng-click="send()">Versturen</button>
-    </div>
-    <div class="modal-body" ng-show="hasSent == true">
-        <p>De herinneringen zijn verstuurd naar de geselecteerde deelnemers!</p>
-    </div>
-    <div class="modal-footer" ng-show="hasSent == true">
-        <button class="btn btn-primary" ng-show="hasSent == true" ng-click="close()">Sluiten</button>
-    </div>
-</script>

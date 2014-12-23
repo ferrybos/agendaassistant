@@ -165,16 +165,6 @@
         return null;
     }
 
-    $scope.sendReminder = function () {
-        eventService.sendReminder($scope.event.id)
-            .success(function (data) {
-                modalService.show($scope.event.title, "Er is een email verstuurd naar alle deelnemers die hun beschikbaarheid en/of boekingsgegevens nog niet hebben bevestigd.");
-            })
-            .error(function (error) {
-                errorService.show(error);
-            });
-    };
-
     $scope.hilightSelectFlight = function () {
         // all participants have confirmed their availability and no flights are selected
         if ($scope.event != null) {
@@ -236,40 +226,6 @@
     $scope.sendMsg = function() {
         $location.path("/event/sendmsg/" + $scope.event.id);
     };
-
-    $scope.sendMessage = function () {
-        //$log.log("Participants: " + JSON.stringify());
-
-        var modalInstance = $modal.open({
-            templateUrl: 'sendMessage.html',
-            controller: 'SendMessageModalCtrl',
-            //size: 'lg',
-            resolve: {
-                data: function () {
-                    return { title: "Herinnering sturen", participants: $scope.event.participants };
-                }
-            }
-        });
-
-        modalInstance.result.then(function (data) {
-            // ok selected: send message to selected participants
-            $log.log("Send message to: " + JSON.stringify(data));
-
-            //participantService.updatePerson(participant.id, data.name, data.email, data.sendInvitation)
-            //    .success(function () {
-            //        //
-            //    })
-            //    .error(function (error) {
-            //        errorService.show(error);
-
-            //        //rollback
-            //        participant.person.name = origName;
-            //        participant.person.email = origEmail;
-            //    });
-        }, function () {
-            // user selected cancel button
-        });
-    };
 });
 
 angular.module('app').controller('EditParticipantModalCtrl', function ($scope, $modalInstance, data) {
@@ -282,50 +238,5 @@ angular.module('app').controller('EditParticipantModalCtrl', function ($scope, $
 
     $scope.cancel = function () {
         $modalInstance.dismiss('cancel');
-    };
-});
-
-angular.module('app').controller('SendMessageModalCtrl', function ($scope, $modalInstance, $filter, $log, data) {
-
-    $scope.title = data.title;
-    $scope.participants = data.participants;
-
-    $scope.hasSent = false;
-    $scope.filterIndex = 0;
-    checkParticipants();
-
-    function checkParticipants() {
-        for (var i = 0; i < $scope.participants.length; i++) {
-            var participant = $scope.participants[i];
-            if ($scope.filterIndex == 0)
-                participant.checked = true;
-            else if ($scope.filterIndex == 1)
-                participant.checked = participant.avConfirmed;
-            else if ($scope.filterIndex == 2)
-                participant.checked = !participant.avConfirmed;
-        }
-    };
-
-    $scope.select = function(value) {
-        $scope.filterIndex = value;
-
-        checkParticipants();
-    };
-
-    $scope.send = function () {
-        var checkedParticipants = $filter('filter')($scope.participants, { checked: true }, true);
-
-        $log.log("Send email...");
-        $scope.hasSent = true;
-    };
-
-    $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-    };
-    
-    $scope.close = function () {
-        var checkedParticipants = $filter('filter')($scope.participants, { checked: true }, true);
-        var result = { checked: checkedParticipants };
-        $modalInstance.close(result);
     };
 });

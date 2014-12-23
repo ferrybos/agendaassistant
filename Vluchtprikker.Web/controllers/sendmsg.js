@@ -1,7 +1,7 @@
 ﻿angular.module('app').controller('SendMsgCtrl', function ($scope, $log, $location, $routeParams, $filter, eventService, errorService) {
     $scope.title = "Herinnering versturen";
     $scope.hasSent = false;
-    $scope.filterIndex = 0;
+    $scope.filterIndex = 2;
     $scope.event = null;
 
     getEvent();
