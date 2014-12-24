@@ -64,12 +64,7 @@
 
 <div ng-if="outboundFlights !== null && isloading !== true" style="margin-top: 20px">
     <div ng-show="outboundFlights.length > 0 || inboundFlights.length > 0">
-        <info>
-            <p>Druk op de prijsbalk om een vlucht te (de)selecteren.</p>
-            <p>
-                Prijzen zijn vanaf-prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
-            </p>
-        </info>
+        <info>Druk op de prijsbalk om een vlucht te (de)selecteren.</info>
     </div>
     <div class="row">
         <div class="col-md-6 leftcol">
@@ -81,5 +76,7 @@
             <flightlist flights="inboundFlights"></flightlist>
         </div>
     </div>
-
 </div>
+<p ng-show="outboundFlights.length > 0 || inboundFlights.length > 0" style="font-size:small;color:darkblue;margin-top:20px">
+    Prijzen zijn vanaf-prijzen per persoon op basis van enkele reis excl. €5 boekingskosten (excl. eventuele creditcardtoeslag). Bij het boeken kunnen de prijzen anders zijn.
+</p>

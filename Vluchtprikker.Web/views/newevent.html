@@ -51,7 +51,10 @@
 
             <!--Step 2: Participants-->
             <div ng-show="CurrentStepIndex == 2">
-                <info>Vul naam en Email adres in om deelnemers uit te nodigen. Bevestig met de knop +Toevoegen. U max maximaal 9 deelnemers toevoegen.</info>
+                <info>
+                    <p>Vul naam en email adres in om deelnemers uit te nodigen. Bevestig met de knop +Toevoegen.</p>
+                    <p>U mag maximaal 9 deelnemers toevoegen.</p>
+                </info>
                 <loader ng-if="isWaitingForNewEvent == true">Even geduld aub...</loader>
                 <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
                     <div class="row" style="padding-left:0;padding-right:0">
@@ -82,13 +85,15 @@
 
             <!--Step 3: Vluchten-->
             <div ng-show="CurrentStepIndex == 3">
-                <info>Kies op dit scherm de luchthaven van vertrek en de bestemming. Geef aan in welke periode je de reis wilt maken. Je kunt aangeven als je alleen op bepaalde dagen wilt reizen en wat je maximale ticketprijs is waarbinnen de Vluchtprikker mag zoeken.
+                <info>
+                    <p>Kies op dit scherm de luchthaven van vertrek en de bestemming. Geef aan in welke periode je de reis wilt maken.</p>
+                    <p>Je kunt aangeven als je alleen op bepaalde dagen wilt reizen en wat je maximale ticketprijs is waarbinnen de Vluchtprikker mag zoeken.</p>
                 </info>
                 
                 <flight-search event="event" outbound-flights="outboundFlights" inbound-flights="inboundFlights" departurestations="origins" arrivalstations="destinations" routes="routes"></flight-search>
                 <div class="tab_navigation">
                     <button type="button" class="btn btn-lg btn-primary" style="float: left" ng-click="SelectStepParticipants()"><span class="glyphicon glyphicon-arrow-left"></span>Vorige</button>
-                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CompleteEvent()" ng-disabled="!IsOutboundStepValid() || !IsInboundStepValid()">Opslaan <span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" class="btn btn-lg btn-success" style="float: right" ng-click="CompleteEvent()" ng-disabled="!IsOutboundStepValid() || !IsInboundStepValid()">Voltooien <span class="glyphicon glyphicon-ok"></span></button>
                 </div>
             </div>
 

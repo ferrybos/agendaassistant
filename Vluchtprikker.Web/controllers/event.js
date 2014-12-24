@@ -143,11 +143,6 @@
             return "Nog niet bevestigd";
     };
     
-    // Actions
-    $scope.showParticipantActions = function () {
-        return $scope.event != null && $scope.event.pnr === null && getOrganizer() != null;
-    };
-
     $scope.organizerId = function () {
         var organizer = getOrganizer();
         return organizer != null ? organizer.id : null;

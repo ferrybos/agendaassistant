@@ -1,7 +1,7 @@
 ﻿<div class="repeat-animation" ng-if="flightsearch.selectedFlight != null">
     <div class="list-group" style="margin-bottom: 4px">
         <div class="list-group-item list-group-item-success">
-            <p>Geprikte vlucht: <b>{{flightsearch.selectedFlight.carrierCode}} {{flightsearch.selectedFlight.flightNumber}}</b> op <b>{{flightsearch.selectedFlight.departureDate | date : 'EEE dd-MMM'}}</b></p>
+            <p>Geprikte vlucht: <b>{{flightsearch.selectedFlight.carrierCode}} {{flightsearch.selectedFlight.flightNumber}}</b> op <b>{{flightsearch.selectedFlight.departureDate | translateddate}}</b></p>
             <div class="row">
                 <div class="col-xs-4">Vertrek: {{flightsearch.selectedFlight.std | date : 'HH:mm'}}</div>
                 <div class="col-xs-4">Aankomst: {{flightsearch.selectedFlight.sta | date : 'HH:mm'}}</div>
