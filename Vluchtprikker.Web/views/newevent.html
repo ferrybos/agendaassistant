@@ -51,7 +51,7 @@
 
             <!--Step 2: Participants-->
             <div ng-show="CurrentStepIndex == 2">
-                <info>Vul naam en email adres in en druk op Toevoegen om deelnemers toe te voegen. Maximaal 9 deelnemers is toegestaan.</info>
+                <info>Vul naam en Email adres in om deelnemers uit te nodigen. Bevestig met de knop +Toevoegen. U max maximaal 9 deelnemers toevoegen.</info>
                 <loader ng-if="isWaitingForNewEvent == true">Even geduld aub...</loader>
                 <form ng-submit="AddParticipant()" ng-show="event.participants.length < 9" name="participantsForm" novalidate>
                     <div class="row" style="padding-left:0;padding-right:0">
@@ -82,9 +82,7 @@
 
             <!--Step 3: Vluchten-->
             <div ng-show="CurrentStepIndex == 3">
-                <info>Kies op dit scherm je luchthaven van vertrek en de bestemming. Geef daarna aan in welke periode je vluchten wilt zoeken naar je gekozen bestemming.
-Je kunt ook aangeven als je alleen op specifieke weekdagen wilt vliegen. Bijvoorbeeld alleen in het weekend. Zet voorkeurs vertrekdagen naar keus, aan of uit door ze groen te maken.
-                    Als laatste kun je de maximale prijs per persoon aangeven. De vluchtprikker gaat zoeken naar alle beschikbare vluchten binnen de opgeven data, op de aangeven dagen tot de opgegeven maximale prijs.
+                <info>Kies op dit scherm de luchthaven van vertrek en de bestemming. Geef aan in welke periode je de reis wilt maken. Je kunt aangeven als je alleen op bepaalde dagen wilt reizen en wat je maximale ticketprijs is waarbinnen de Vluchtprikker mag zoeken.
                 </info>
                 
                 <flight-search event="event" outbound-flights="outboundFlights" inbound-flights="inboundFlights" departurestations="origins" arrivalstations="destinations" routes="routes"></flight-search>
