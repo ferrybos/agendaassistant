@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $location, $modal, modalService, eventService, participantService, bagageService, errorService) {
+﻿angular.module('app').controller('EventCtrl', function ($scope, $log, $filter, $routeParams, $window, $location, $modal, modalService, eventService, participantService, bagageService, errorService, userActionService) {
     $scope.event = null;
     $scope.isConfirming = false;
     $scope.availabilityUrl = "#/availability/";
@@ -55,8 +55,9 @@
     };
 
     $scope.OpenDeepLink = function () {
-        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
+        userActionService.post('DeepLink', $scope.event.organizerEmail);
 
+        var urlTemplate = "http://www.transavia.com/hv/main/nav/processflightqry?trip=retour&from={from}&fromMonth={fromMonth}&fromDay={fromDay}&to={to}&toMonth={toMonth}&toDay={toDay}&adults={adults}&flightNrUp={flightNrUp1}-{flightNrUp2}|{flightNrUp3}&flightNrDown={flightNrDown1}-{flightNrDown2}|{flightNrDown3}&infants=0&children=0";
 
         var deeplinkUrl = urlTemplate
             .replace('{from}', $scope.event.outboundFlightSearch.departureStation.trim())

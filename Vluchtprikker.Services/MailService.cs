@@ -183,7 +183,7 @@ namespace Vluchtprikker.Services
                 string.Format("Uitnodiging van {0}: {1}", dbEvent.OrganizerName, dbEvent.Title),
                 announcement,
                 "Klik op de onderstaande link om de afspraak te bekijken en uw beschikbaarheid en boekingsgegevens op te geven. Bewaar deze email om later nog uw beschikbaarheid en boekingsgegevens te kunnen wijzigen.",
-                AvailabilityUrl(dbParticipant),
+                AvailabilityUrl(dbParticipant) + "?mailLink=1",
                 "Beschikbaarheid invullen of wijzigen"
                 );
         }

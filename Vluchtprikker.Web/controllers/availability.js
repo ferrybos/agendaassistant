@@ -1,4 +1,4 @@
-﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, constants, modalService, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService) {
+﻿angular.module('app').controller('AvailabilityCtrl', function ($scope, $rootScope, $log, constants, modalService, $filter, $routeParams, $location, bagageService, errorService, availabilityService, eventService, participantService, userActionService) {
     $scope.event = null;
     $scope.participant = null;
     $scope.isConfirming = false;
@@ -49,6 +49,11 @@
                 errorService.show(error);
                 $scope.event = null;
             });
+
+        $log.log('MailLink: ' + $location.search().mailLink);
+        if ($location.search().mailLink == "1") {
+            userActionService.post('Participant.MailLink', $routeParams.participantid);
+        };
     };
     
     // todo: refactor to reusable code (is also in event controller!) -> service?
