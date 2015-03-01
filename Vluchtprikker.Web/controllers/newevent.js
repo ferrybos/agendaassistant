@@ -1,5 +1,5 @@
 ﻿angular.module('app').controller('NewEventCtrl', function ($scope, $log, $location, $timeout, $rootScope, $filter, modalService, $exceptionHandler, stationService, eventService, participantService, insights, errorService) {
-    console.log($exceptionHandler);
+    //console.log($exceptionHandler);
     insights.logEvent('NewEventCtrl Activated');
 
     $scope.CurrentStepIndex = 1;

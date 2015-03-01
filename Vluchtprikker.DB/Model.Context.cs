@@ -37,5 +37,6 @@ namespace Vluchtprikker.DB
         public DbSet<EventStatus> EventStatus { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Error> Errors { get; set; }
+        public DbSet<UserAction> UserActions { get; set; }
     }
 }

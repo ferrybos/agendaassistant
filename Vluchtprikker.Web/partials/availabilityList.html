@@ -1,71 +1,73 @@
-﻿<div class="row" style="text-align: left; margin-bottom: 4px">
-    <span class="glyphicon glyphicon-ok" style="margin-right: 4px; color: green"></span>Ja
+﻿<div ng-show="flightsearch">
+    <div class="row" style="text-align: left; margin-bottom: 4px">
+        <span class="glyphicon glyphicon-ok" style="margin-right: 4px; color: green"></span>Ja
     <span class="glyphicon glyphicon-ok" style="color: orange; margin-left: 20px"></span><span class="glyphicon glyphicon-minus" style="color: orange; margin-left: -8px; margin-right: 4px; font-size: xx-small"></span>Liever niet
     <span class="glyphicon glyphicon-remove" style="color: darkred; margin-left: 20px; margin-right: 4px"></span>Nee
     <span class="glyphicon glyphicon-comment" style="margin-left: 20px; margin-right: 4px"></span>Opmerking
-</div>
+    </div>
 
-<div class="list-group">
-    <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in ::flightsearch.flights | groupBy: 'departureDate'">
-        <div class="panel-heading departureDateHeader">{{ key | translateddate }}</div>
-        <div class="panel-body" style="padding: 0">
-            <table id="outboundflights-table" class="table table-condensed">
-                <tbody>
-                    <tr ng-repeat="flight in value" ng-controller="AvailabilityItemCtrl">
-                        <td class="animated">
-                            <div class="row">
-                                <div class="btn-toolbar" ng-show="flight.enabled === true" role="toolbar" style="float: right; margin-bottom: 4px">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn" ng-class="flight.paav.value === 100 ? 'btn-success' : 'btn-default'" ng-click="flight.paav.value = 100" title="Ja"><span class="glyphicon glyphicon-ok"></span></button>
-                                        <button type="button" class="btn" ng-class="flight.paav.value === 50 ? 'btn-warning' : 'btn-default'" ng-click="flight.paav.value = 50" title="Liever niet"><span class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-minus" style="margin-left: -8px; font-size: xx-small"></span></button>
-                                        <button type="button" class="btn" ng-class="flight.paav.value === 0 ? 'btn-danger' : 'btn-default'" ng-click="flight.paav.value = 0" title="Nee"><span class="glyphicon glyphicon-remove"></span></button>
-                                    </div>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default" ng-click="toggleComment(flight)" title="Opmerking toevoegen">
-                                            <span class="glyphicon glyphicon-comment"></span>
-                                        </button>
-                                    </div>
-                                    <br />
-                                    <div style="margin-top: 10px; float: right; width: 100%">
-                                        <div style="float: right; text-align: right">
-                                            <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true" style="font-size: x-small; cursor: pointer">Toon deelnemers</a>
-                                            <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false" style="font-size: x-small; cursor: pointer">Verberg deelnemers</a>
+    <div class="list-group">
+        <div class="panel panel-default departureDayDiv" ng-repeat="(key, value) in ::flightsearch.flights | groupBy: 'departureDate'">
+            <div class="panel-heading departureDateHeader">{{ key | translateddate }}</div>
+            <div class="panel-body" style="padding: 0">
+                <table id="outboundflights-table" class="table table-condensed">
+                    <tbody>
+                        <tr ng-repeat="flight in value" ng-controller="AvailabilityItemCtrl">
+                            <td class="animated">
+                                <div class="row">
+                                    <div class="btn-toolbar" ng-show="flight.enabled === true" role="toolbar" style="float: right; margin-bottom: 4px">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn" ng-class="flight.paav.value === 100 ? 'btn-success' : 'btn-default'" ng-click="flight.paav.value = 100" title="Ja"><span class="glyphicon glyphicon-ok"></span></button>
+                                            <button type="button" class="btn" ng-class="flight.paav.value === 50 ? 'btn-warning' : 'btn-default'" ng-click="flight.paav.value = 50" title="Liever niet"><span class="glyphicon glyphicon-ok"></span><span class="glyphicon glyphicon-minus" style="margin-left: -8px; font-size: xx-small"></span></button>
+                                            <button type="button" class="btn" ng-class="flight.paav.value === 0 ? 'btn-danger' : 'btn-default'" ng-click="flight.paav.value = 0" title="Nee"><span class="glyphicon glyphicon-remove"></span></button>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default" ng-click="toggleComment(flight)" title="Opmerking toevoegen">
+                                                <span class="glyphicon glyphicon-comment"></span>
+                                            </button>
+                                        </div>
+                                        <br />
+                                        <div style="margin-top: 10px; float: right; width: 100%">
+                                            <div style="float: right; text-align: right">
+                                                <a ng-if="flight.participantsVisible !== true" ng-click="flight.participantsVisible = true" style="font-size: x-small; cursor: pointer">Toon deelnemers</a>
+                                                <a ng-if="flight.participantsVisible === true" ng-click="flight.participantsVisible = false" style="font-size: x-small; cursor: pointer">Verberg deelnemers</a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div ng-show="flight.enabled === false" style="float: right; text-align: right; padding-top: 10px;">
+                                        <span style="color: red">Niet meer beschikbaar</span>
+                                    </div>
+                                    <div style="float: left">
+                                        <table class="table" style="width: 230px;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Vertrek</th>
+                                                    <th>Aankomst</th>
+                                                    <th>Prijs</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{flight.std | date : 'HH:mm'}}</td>
+                                                    <td>{{flight.sta | date : 'HH:mm'}}</td>
+                                                    <td>{{flight.price}} EUR</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                                 </div>
-                                <div ng-show="flight.enabled === false" style="float: right; text-align: right; padding-top: 10px;">
-                                    <span style="color: red">Niet meer beschikbaar</span>
-                                </div>
-                                <div style="float: left">
-                                    <table class="table" style="width: 230px;">
-                                        <thead>
-                                            <tr>
-                                                <th>Vertrek</th>
-                                                <th>Aankomst</th>
-                                                <th>Prijs</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{flight.std | date : 'HH:mm'}}</td>
-                                                <td>{{flight.sta | date : 'HH:mm'}}</td>
-                                                <td>{{flight.price}} EUR</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="row">
+                                    <textarea class="form-control" name="comment" rows="4" ng-model="flight.paav.commentText" ng-show="flight.isCommentExpanded === true" placeholder="Opmerking" style="width: 100%" onkeypress="if (this.value.length > 100) { return false; }"></textarea>
+                                    <p class="comment" ng-show="!flight.isCommentExpanded && flight.paav.commentText != ''" style="padding-left: 8px">{{flight.paav.commentText}}</p>
                                 </div>
 
-                            </div>
-                            <div class="row">
-                                <textarea class="form-control" name="comment" rows="4" ng-model="flight.paav.commentText" ng-show="flight.isCommentExpanded === true" placeholder="Opmerking" style="width: 100%" onkeypress="if (this.value.length > 100) { return false; }"></textarea>
-                                <p class="comment" ng-show="!flight.isCommentExpanded && flight.paav.commentText != ''" style="padding-left: 8px">{{flight.paav.commentText}}</p>
-                            </div>
-
-                            <participants flight="flight" showparticipantlink="false"></participants>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                <participants flight="flight" showparticipantlink="false"></participants>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

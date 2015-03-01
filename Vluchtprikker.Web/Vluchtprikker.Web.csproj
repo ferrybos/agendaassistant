@@ -192,6 +192,7 @@
   <ItemGroup>
     <Compile Include="api\AvailabilitiesController.cs" />
     <Compile Include="api\ApiBaseController.cs" />
+    <Compile Include="api\UserActionsController.cs" />
     <Compile Include="api\StationsController.cs" />
     <Compile Include="api\HelloWorldController.cs" />
     <Compile Include="api\ErrorsController.cs" />

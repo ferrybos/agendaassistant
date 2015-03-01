@@ -74,10 +74,10 @@
   <ItemGroup>
     <Compile Include="CodeString.cs" />
     <Compile Include="AvailabilityRepository.cs" />
+    <Compile Include="UserActionRepository.cs" />
     <Compile Include="ErrorRepository.cs" />
     <Compile Include="EventStatus.cs" />
     <Compile Include="FlightSearchRepository.cs" />
-    <Compile Include="PersonRepository.cs" />
     <Compile Include="EmailRepository.cs" />
     <Compile Include="EntityMapper.cs" />
     <Compile Include="EventRepository.cs" />

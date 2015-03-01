@@ -4,74 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AgendaAssistantModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="AgendaAssistantModelStoreContainer">
-          <EntitySet Name="Availability" EntityType="AgendaAssistantModel.Store.Availability" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Comment" EntityType="AgendaAssistantModel.Store.Comment" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Email" EntityType="AgendaAssistantModel.Store.Email" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EmailType" EntityType="AgendaAssistantModel.Store.EmailType" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Error" EntityType="AgendaAssistantModel.Store.Error" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Event" EntityType="AgendaAssistantModel.Store.Event" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="EventStatus" EntityType="AgendaAssistantModel.Store.EventStatus" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Flight" EntityType="AgendaAssistantModel.Store.Flight" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="FlightSearch" EntityType="AgendaAssistantModel.Store.FlightSearch" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Participant" EntityType="AgendaAssistantModel.Store.Participant" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Recipient" EntityType="AgendaAssistantModel.Store.Recipient" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Route" EntityType="AgendaAssistantModel.Store.Route" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Station" EntityType="AgendaAssistantModel.Store.Station" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK_Availability_Flight" Association="AgendaAssistantModel.Store.FK_Availability_Flight">
-            <End Role="Flight" EntitySet="Flight" />
-            <End Role="Availability" EntitySet="Availability" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Availability_Participant" Association="AgendaAssistantModel.Store.FK_Availability_Participant">
-            <End Role="Participant" EntitySet="Participant" />
-            <End Role="Availability" EntitySet="Availability" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Comment_Participant" Association="AgendaAssistantModel.Store.FK_Comment_Participant">
-            <End Role="Participant" EntitySet="Participant" />
-            <End Role="Comment" EntitySet="Comment" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Email_EmailType" Association="AgendaAssistantModel.Store.FK_Email_EmailType">
-            <End Role="EmailType" EntitySet="EmailType" />
-            <End Role="Email" EntitySet="Email" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Email_Event" Association="AgendaAssistantModel.Store.FK_Email_Event">
-            <End Role="Event" EntitySet="Event" />
-            <End Role="Email" EntitySet="Email" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Event_InboundFlightSearch" Association="AgendaAssistantModel.Store.FK_Event_InboundFlightSearch">
-            <End Role="FlightSearch" EntitySet="FlightSearch" />
-            <End Role="Event" EntitySet="Event" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Event_OutboundFlightSearch" Association="AgendaAssistantModel.Store.FK_Event_OutboundFlightSearch">
-            <End Role="FlightSearch" EntitySet="FlightSearch" />
-            <End Role="Event" EntitySet="Event" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Event_Status" Association="AgendaAssistantModel.Store.FK_Event_Status">
-            <End Role="EventStatus" EntitySet="EventStatus" />
-            <End Role="Event" EntitySet="Event" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Flight_FlightSearch" Association="AgendaAssistantModel.Store.FK_Flight_FlightSearch">
-            <End Role="FlightSearch" EntitySet="FlightSearch" />
-            <End Role="Flight" EntitySet="Flight" />
-          </AssociationSet>
-          <AssociationSet Name="FK_FlightSearch_SelectedFlight" Association="AgendaAssistantModel.Store.FK_FlightSearch_SelectedFlight">
-            <End Role="Flight" EntitySet="Flight" />
-            <End Role="FlightSearch" EntitySet="FlightSearch" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Participant_Event" Association="AgendaAssistantModel.Store.FK_Participant_Event">
-            <End Role="Event" EntitySet="Event" />
-            <End Role="Participant" EntitySet="Participant" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Recipient_Email" Association="AgendaAssistantModel.Store.FK_Recipient_Email">
-            <End Role="Email" EntitySet="Email" />
-            <End Role="Recipient" EntitySet="Recipient" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Recipient_Particpant" Association="AgendaAssistantModel.Store.FK_Recipient_Particpant">
-            <End Role="Participant" EntitySet="Participant" />
-            <End Role="Recipient" EntitySet="Recipient" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="AgendaAssistantModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Availability">
           <Key>
             <PropertyRef Name="ParticipantID" />
@@ -89,7 +22,7 @@
           </Key>
           <Property Name="ParticipantID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
-          <Property Name="Comment" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Email">
           <Key>
@@ -99,17 +32,17 @@
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
           <Property Name="SendUtc" Type="datetime" />
           <Property Name="EmailTypeID" Type="smallint" Nullable="false" />
-          <Property Name="Subject" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="BodyHtml" Type="varchar" Nullable="false" MaxLength="1000" />
-          <Property Name="BodyPlain" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Subject" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BodyHtml" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="BodyPlain" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="ID" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="EmailType">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="ID" Type="smallint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Error">
           <Key>
@@ -117,7 +50,7 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
-          <Property Name="Source" Type="varchar" Nullable="false" MaxLength="8" />
+          <Property Name="Source" Type="varchar" MaxLength="8" Nullable="false" />
           <Property Name="Message" Type="varchar(max)" />
           <Property Name="StackTrace" Type="varchar(max)" />
           <Property Name="EventID" Type="uniqueidentifier" />
@@ -130,14 +63,14 @@
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
-          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="250" />
           <Property Name="OutboundFlightSearchID" Type="bigint" />
           <Property Name="InboundFlightSearchID" Type="bigint" />
           <Property Name="StatusID" Type="smallint" />
           <Property Name="PNR" Type="char" MaxLength="6" />
-          <Property Name="OrganizerName" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="OrganizerEmail" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="OrganizerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OrganizerEmail" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="LastModifiedPricesUtc" Type="datetime" />
         </EntityType>
         <EntityType Name="EventStatus">
@@ -145,8 +78,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="smallint" Nullable="false" />
-          <Property Name="Code" Type="varchar" Nullable="false" MaxLength="50" />
-          <Property Name="Description" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Flight">
           <Key>
@@ -155,22 +88,22 @@
           <Property Name="DepartureDate" Type="date" Nullable="false" />
           <Property Name="STD" Type="datetime" Nullable="false" />
           <Property Name="STA" Type="datetime" Nullable="false" />
-          <Property Name="CarrierCode" Type="char" Nullable="false" MaxLength="2" />
+          <Property Name="CarrierCode" Type="char" MaxLength="2" Nullable="false" />
           <Property Name="FlightNumber" Type="int" Nullable="false" />
           <Property Name="FlightSearchID" Type="bigint" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
-          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="FlightSearch">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="DepartureStation" Type="char" Nullable="false" MaxLength="50" />
-          <Property Name="ArrivalStation" Type="char" Nullable="false" MaxLength="50" />
+          <Property Name="DepartureStation" Type="char" MaxLength="50" Nullable="false" />
+          <Property Name="ArrivalStation" Type="char" MaxLength="50" Nullable="false" />
           <Property Name="StartDate" Type="date" Nullable="false" />
           <Property Name="EndDate" Type="date" Nullable="false" />
-          <Property Name="ID" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DaysOfWeek" Type="int" Nullable="false" />
           <Property Name="MaxPrice" Type="int" />
           <Property Name="SelectedFlightID" Type="bigint" />
@@ -183,8 +116,8 @@
           <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Bagage" Type="varchar" MaxLength="4" />
           <Property Name="AvailabilityConfirmed" Type="bit" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
-          <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="FirstNameInPassport" Type="nvarchar" MaxLength="50" />
           <Property Name="LastNameInPassport" Type="nvarchar" MaxLength="50" />
           <Property Name="Gender" Type="int" />
@@ -203,24 +136,32 @@
             <PropertyRef Name="Origin" />
             <PropertyRef Name="Destination" />
           </Key>
-          <Property Name="Origin" Type="char" Nullable="false" MaxLength="3" />
-          <Property Name="Destination" Type="char" Nullable="false" MaxLength="3" />
+          <Property Name="Origin" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Destination" Type="char" MaxLength="3" Nullable="false" />
         </EntityType>
         <EntityType Name="Station">
           <Key>
             <PropertyRef Name="Code" />
           </Key>
-          <Property Name="Code" Type="char" Nullable="false" MaxLength="3" />
-          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="64" />
-          <Property Name="TimeZoneCode" Type="varchar" Nullable="false" MaxLength="4" />
-          <Property Name="Latitude" Type="varchar" Nullable="false" MaxLength="10" />
-          <Property Name="Longitude" Type="varchar" Nullable="false" MaxLength="11" />
-          <Property Name="CultureCode" Type="varchar" Nullable="false" MaxLength="17" />
-          <Property Name="CountryCode" Type="char" Nullable="false" MaxLength="2" />
+          <Property Name="Code" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="TimeZoneCode" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Latitude" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Longitude" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="CultureCode" Type="varchar" MaxLength="17" Nullable="false" />
+          <Property Name="CountryCode" Type="char" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAction">
+          <Key>
+            <PropertyRef Name="CreatedUtc" />
+          </Key>
+          <Property Name="CreatedUtc" Type="datetime" Nullable="false" />
+          <Property Name="Action" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="User" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK_Availability_Flight">
-          <End Role="Flight" Type="AgendaAssistantModel.Store.Flight" Multiplicity="1" />
-          <End Role="Availability" Type="AgendaAssistantModel.Store.Availability" Multiplicity="*" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="1" />
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Flight">
               <PropertyRef Name="ID" />
@@ -231,8 +172,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Availability_Participant">
-          <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="1" />
-          <End Role="Availability" Type="AgendaAssistantModel.Store.Availability" Multiplicity="*" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="1" />
+          <End Role="Availability" Type="Self.Availability" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Participant">
               <PropertyRef Name="ID" />
@@ -243,8 +184,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Comment_Participant">
-          <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="1" />
-          <End Role="Comment" Type="AgendaAssistantModel.Store.Comment" Multiplicity="*" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Participant">
               <PropertyRef Name="ID" />
@@ -255,8 +196,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Email_EmailType">
-          <End Role="EmailType" Type="AgendaAssistantModel.Store.EmailType" Multiplicity="1" />
-          <End Role="Email" Type="AgendaAssistantModel.Store.Email" Multiplicity="*" />
+          <End Role="EmailType" Type="Self.EmailType" Multiplicity="1" />
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EmailType">
               <PropertyRef Name="ID" />
@@ -267,8 +208,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Email_Event">
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="1" />
-          <End Role="Email" Type="AgendaAssistantModel.Store.Email" Multiplicity="*" />
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Email" Type="Self.Email" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Event">
               <PropertyRef Name="ID" />
@@ -279,8 +220,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Event_InboundFlightSearch">
-          <End Role="FlightSearch" Type="AgendaAssistantModel.Store.FlightSearch" Multiplicity="0..1" />
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="*" />
+          <End Role="FlightSearch" Type="Self.FlightSearch" Multiplicity="0..1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FlightSearch">
               <PropertyRef Name="ID" />
@@ -291,8 +232,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Event_OutboundFlightSearch">
-          <End Role="FlightSearch" Type="AgendaAssistantModel.Store.FlightSearch" Multiplicity="0..1" />
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="*" />
+          <End Role="FlightSearch" Type="Self.FlightSearch" Multiplicity="0..1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FlightSearch">
               <PropertyRef Name="ID" />
@@ -303,8 +244,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Event_Status">
-          <End Role="EventStatus" Type="AgendaAssistantModel.Store.EventStatus" Multiplicity="0..1" />
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="*" />
+          <End Role="EventStatus" Type="Self.EventStatus" Multiplicity="0..1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="EventStatus">
               <PropertyRef Name="ID" />
@@ -315,8 +256,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Flight_FlightSearch">
-          <End Role="FlightSearch" Type="AgendaAssistantModel.Store.FlightSearch" Multiplicity="1" />
-          <End Role="Flight" Type="AgendaAssistantModel.Store.Flight" Multiplicity="*" />
+          <End Role="FlightSearch" Type="Self.FlightSearch" Multiplicity="1" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="FlightSearch">
               <PropertyRef Name="ID" />
@@ -327,8 +268,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_FlightSearch_SelectedFlight">
-          <End Role="Flight" Type="AgendaAssistantModel.Store.Flight" Multiplicity="0..1" />
-          <End Role="FlightSearch" Type="AgendaAssistantModel.Store.FlightSearch" Multiplicity="*" />
+          <End Role="Flight" Type="Self.Flight" Multiplicity="0..1" />
+          <End Role="FlightSearch" Type="Self.FlightSearch" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Flight">
               <PropertyRef Name="ID" />
@@ -339,8 +280,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Participant_Event">
-          <End Role="Event" Type="AgendaAssistantModel.Store.Event" Multiplicity="1" />
-          <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="*" />
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Event">
               <PropertyRef Name="ID" />
@@ -351,8 +292,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Recipient_Email">
-          <End Role="Email" Type="AgendaAssistantModel.Store.Email" Multiplicity="1" />
-          <End Role="Recipient" Type="AgendaAssistantModel.Store.Recipient" Multiplicity="*" />
+          <End Role="Email" Type="Self.Email" Multiplicity="1" />
+          <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Email">
               <PropertyRef Name="ID" />
@@ -363,8 +304,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Recipient_Particpant">
-          <End Role="Participant" Type="AgendaAssistantModel.Store.Participant" Multiplicity="1" />
-          <End Role="Recipient" Type="AgendaAssistantModel.Store.Recipient" Multiplicity="*" />
+          <End Role="Participant" Type="Self.Participant" Multiplicity="1" />
+          <End Role="Recipient" Type="Self.Recipient" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Participant">
               <PropertyRef Name="ID" />
@@ -374,6 +315,74 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="AgendaAssistantModelStoreContainer">
+          <EntitySet Name="Availability" EntityType="Self.Availability" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Email" EntityType="Self.Email" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailType" EntityType="Self.EmailType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Error" EntityType="Self.Error" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventStatus" EntityType="Self.EventStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flight" EntityType="Self.Flight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlightSearch" EntityType="Self.FlightSearch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participant" EntityType="Self.Participant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Recipient" EntityType="Self.Recipient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Route" EntityType="Self.Route" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Station" EntityType="Self.Station" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAction" EntityType="Self.UserAction" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Availability_Flight" Association="Self.FK_Availability_Flight">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Availability_Participant" Association="Self.FK_Availability_Participant">
+            <End Role="Participant" EntitySet="Participant" />
+            <End Role="Availability" EntitySet="Availability" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Participant" Association="Self.FK_Comment_Participant">
+            <End Role="Participant" EntitySet="Participant" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_EmailType" Association="Self.FK_Email_EmailType">
+            <End Role="EmailType" EntitySet="EmailType" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Email_Event" Association="Self.FK_Email_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Email" EntitySet="Email" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_InboundFlightSearch" Association="Self.FK_Event_InboundFlightSearch">
+            <End Role="FlightSearch" EntitySet="FlightSearch" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_OutboundFlightSearch" Association="Self.FK_Event_OutboundFlightSearch">
+            <End Role="FlightSearch" EntitySet="FlightSearch" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Status" Association="Self.FK_Event_Status">
+            <End Role="EventStatus" EntitySet="EventStatus" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Flight_FlightSearch" Association="Self.FK_Flight_FlightSearch">
+            <End Role="FlightSearch" EntitySet="FlightSearch" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FlightSearch_SelectedFlight" Association="Self.FK_FlightSearch_SelectedFlight">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="FlightSearch" EntitySet="FlightSearch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Participant_Event" Association="Self.FK_Participant_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Participant" EntitySet="Participant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipient_Email" Association="Self.FK_Recipient_Email">
+            <End Role="Email" EntitySet="Email" />
+            <End Role="Recipient" EntitySet="Recipient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Recipient_Particpant" Association="Self.FK_Recipient_Particpant">
+            <End Role="Participant" EntitySet="Participant" />
+            <End Role="Recipient" EntitySet="Recipient" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -439,6 +448,7 @@
             <End Role="Participant" EntitySet="Participants" />
           </AssociationSet>
           <EntitySet Name="Errors" EntityType="VluchtprikkerModel.Error" />
+          <EntitySet Name="UserActions" EntityType="VluchtprikkerModel.UserAction" />
           </EntityContainer>
         <EntityType Name="Availability">
           <Key>
@@ -738,6 +748,14 @@
           <Property Type="String" Name="RequestUrl" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="IPAddress" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="UserAction">
+          <Key>
+            <PropertyRef Name="CreatedUtc" />
+          </Key>
+          <Property Name="CreatedUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Action" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -899,6 +917,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserActions">
+            <EntityTypeMapping TypeName="VluchtprikkerModel.UserAction">
+              <MappingFragment StoreEntitySet="UserAction">
+                <ScalarProperty Name="User" ColumnName="User" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="CreatedUtc" ColumnName="CreatedUtc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -916,6 +943,7 @@
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->

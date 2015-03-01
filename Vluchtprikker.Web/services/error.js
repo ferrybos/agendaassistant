@@ -1,4 +1,13 @@
-﻿app.service('errorService', ['$http', '$log', '$rootScope', '$modal', 'modalService', function ($http, $log, $rootScope, $modal, modalService) {
+﻿app.service('userActionService', ['$http', '$log', function ($http, $log) {
+    var urlBase = '/api/useractions';
+    
+    this.post = function (action, user) {
+        //$log.log('Post: ' + action);
+        return $http.post(urlBase, {action: action, user: user});
+    };
+}]);
+
+app.service('errorService', ['$http', '$log', '$rootScope', '$modal', 'modalService', function ($http, $log, $rootScope, $modal, modalService) {
     var urlBase = '/api/errors';
     
     this.post = function (msg) {
