@@ -243,6 +243,7 @@
     <None Include="Properties\PublishProfiles\ferrybos - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikker - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\vluchtprikker.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikkertest - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\vluchtprikkertest - Web Deploy.pubxml" />
     <None Include="Web.Acceptance.config">
